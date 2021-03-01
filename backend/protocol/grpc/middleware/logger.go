@@ -17,6 +17,14 @@ func codeToLevel(code codes.Code) zapcore.Level {
 		// It is DEBUG
 		return zap.DebugLevel
 	}
+
+	if code == codes.PermissionDenied {
+		return zap.WarnLevel
+	}
+
+	if code == codes.AlreadyExists {
+		return zap.InfoLevel
+	}
 	return grpc_zap.DefaultCodeToLevel(code)
 }
 

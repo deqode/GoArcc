@@ -7,13 +7,16 @@ import (
 )
 
 type UserServer struct {
+
 }
 
 func NewUserServer() pb.UserProfileServiceServer {
-	return &UserServer{}
+	return &UserServer{
+	}
 }
 
 func (u *UserServer) CreateUserProfile(ctx context.Context, request *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
+
 	return &pb.UserProfile{
 		Name:   "Atul",
 		Id:     "jkwdjnksndkd",
