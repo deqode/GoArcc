@@ -9,12 +9,11 @@ import (
 
 func main() {
 	fx.New(
-		 config.Module,
+		 config.ConfigProvider,
 		 fx.Invoke(
 		 	 logger.InitLogger,
              cmd.RunServer,
 		 	),
 		).Run()
-
 
 }

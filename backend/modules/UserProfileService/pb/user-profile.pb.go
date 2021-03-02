@@ -315,7 +315,7 @@ func (x *UserProfile) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserProfile.ProtoReflect.Descriptor instead.
+// Deprecated: Use UserProfileService.ProtoReflect.Descriptor instead.
 func (*UserProfile) Descriptor() ([]byte, []int) {
 	return file_pb_user_profile_proto_rawDescGZIP(), []int{4}
 }
@@ -498,24 +498,24 @@ var file_pb_user_profile_proto_goTypes = []interface{}{
 	(*DeleteUserProfileRequest)(nil), // 2: pb.DeleteUserProfileRequest
 	(*UpdateUserProfileRequest)(nil), // 3: pb.UpdateUserProfileRequest
 	(*GetUserProfileRequest)(nil),    // 4: pb.GetUserProfileRequest
-	(*UserProfile)(nil),              // 5: pb.UserProfile
+	(*UserProfile)(nil),              // 5: pb.UserProfileService
 	(*timestamp.Timestamp)(nil),      // 6: google.protobuf.Timestamp
 	(*empty.Empty)(nil),              // 7: google.protobuf.Empty
 }
 var file_pb_user_profile_proto_depIdxs = []int32{
-	5,  // 0: pb.CreateUserProfileRequest.user_profile:type_name -> pb.UserProfile
-	5,  // 1: pb.UpdateUserProfileRequest.user_profile:type_name -> pb.UserProfile
-	0,  // 2: pb.UserProfile.source:type_name -> pb.SOURCE
-	6,  // 3: pb.UserProfile.created_on:type_name -> google.protobuf.Timestamp
-	6,  // 4: pb.UserProfile.updated_on:type_name -> google.protobuf.Timestamp
-	6,  // 5: pb.UserProfile.deleted_on:type_name -> google.protobuf.Timestamp
+	5,  // 0: pb.CreateUserProfileRequest.user_profile:type_name -> pb.UserProfileService
+	5,  // 1: pb.UpdateUserProfileRequest.user_profile:type_name -> pb.UserProfileService
+	0,  // 2: pb.UserProfileService.source:type_name -> pb.SOURCE
+	6,  // 3: pb.UserProfileService.created_on:type_name -> google.protobuf.Timestamp
+	6,  // 4: pb.UserProfileService.updated_on:type_name -> google.protobuf.Timestamp
+	6,  // 5: pb.UserProfileService.deleted_on:type_name -> google.protobuf.Timestamp
 	1,  // 6: pb.UserProfileService.CreateUserProfile:input_type -> pb.CreateUserProfileRequest
 	3,  // 7: pb.UserProfileService.UpdateUserProfile:input_type -> pb.UpdateUserProfileRequest
 	4,  // 8: pb.UserProfileService.GetUserProfile:input_type -> pb.GetUserProfileRequest
 	2,  // 9: pb.UserProfileService.DeleteUserProfile:input_type -> pb.DeleteUserProfileRequest
-	5,  // 10: pb.UserProfileService.CreateUserProfile:output_type -> pb.UserProfile
-	5,  // 11: pb.UserProfileService.UpdateUserProfile:output_type -> pb.UserProfile
-	5,  // 12: pb.UserProfileService.GetUserProfile:output_type -> pb.UserProfile
+	5,  // 10: pb.UserProfileService.CreateUserProfile:output_type -> pb.UserProfileService
+	5,  // 11: pb.UserProfileService.UpdateUserProfile:output_type -> pb.UserProfileService
+	5,  // 12: pb.UserProfileService.GetUserProfile:output_type -> pb.UserProfileService
 	7,  // 13: pb.UserProfileService.DeleteUserProfile:output_type -> google.protobuf.Empty
 	10, // [10:14] is the sub-list for method output_type
 	6,  // [6:10] is the sub-list for method input_type

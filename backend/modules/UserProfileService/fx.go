@@ -1,4 +1,4 @@
-package UserProfile
+package UserProfileService
 
 import (
 	"go.uber.org/fx"

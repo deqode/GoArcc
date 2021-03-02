@@ -2,7 +2,7 @@ package logger
 
 import "go.uber.org/fx"
 
-var Module = fx.Options(
+var LoggerProvider = fx.Options(
 	  fx.Invoke(
 	  	 InitLogger,
 	  	),

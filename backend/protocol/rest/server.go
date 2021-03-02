@@ -4,7 +4,6 @@ import (
 	"alfred/logger"
 	"alfred/protocol/rest/middleware"
 	"context"
-	//"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"net/http"
 	"os"

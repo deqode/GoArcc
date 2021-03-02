@@ -2,7 +2,7 @@ package rest
 
 import (
 	"alfred/logger"
-	userProfilePb "alfred/modules/UserProfile/pb"
+	userProfilePb "alfred/modules/UserProfileService/pb"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/zap"
