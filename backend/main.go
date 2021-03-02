@@ -16,7 +16,7 @@ func main() {
 		 	 logger.InitLogger,
              cmd.RunServer,
              grpc.RunGRPCServer,
-            grpc.RegisterGrpcModules,
+             grpc.RegisterGrpcModules,
 		 	),
 		).Run()
 

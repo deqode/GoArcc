@@ -34,7 +34,6 @@ func RunGraphqlServer(ctx context.Context, graphqlPort string) error {
 		for range c {
 			// sig is a ^C, handle it
 		}
-
 		_, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()
 
