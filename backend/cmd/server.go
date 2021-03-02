@@ -3,7 +3,6 @@ package cmd
 import (
 	"alfred/config"
 	grpql "alfred/protocol/graphql"
-	"alfred/protocol/grpc"
 	"alfred/protocol/rest"
 	"context"
 	"go.uber.org/fx"
@@ -58,24 +57,17 @@ func RunServer(lc fx.Lifecycle , cfg *config.Config)  {
 		// default, hooks have a total of 15 seconds to complete. Timeouts are
 		// passed via Go's usual context.Context.
 		OnStart: func(context.Context) error {
-
 			// In production, we'd want to separate the Listen and Serve phases for
 			// better error-handling.
 			// run HTTP gateway
 			go func() {
 				_ = rest.RunRESTServer(ctx, cfg.GRPCPort, cfg.HTTPPort)
 			}()
-
 			//run graphql gateway
 			go func() {
 				_ = grpql.RunGraphqlServer(ctx , cfg.GraphqlPort)
 			}()
 
-
-			go func() {
-				_ =   grpc.RunGRPCServer(ctx, cfg.GRPCPort)
-
-			}()
 			return nil
 		},
 	})

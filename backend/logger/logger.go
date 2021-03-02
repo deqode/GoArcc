@@ -20,6 +20,7 @@ var (
 	onceInit sync.Once
 )
 
+
 // customTimeEncoder encode Time to our custom format
 // This example how we can customize zap default functionality
 func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
@@ -74,7 +75,6 @@ func InitLogger(config *config.Config)  {
 			Log.Warn("time format for logger is not provided - use zap default")
 		}
 	})
-
 
 }
 

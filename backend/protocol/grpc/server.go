@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"alfred/config"
 	"alfred/logger"
 	"alfred/protocol/grpc/middleware"
 	"context"
@@ -8,13 +9,24 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"sync"
 )
 
-// RunServer runs gRPC service to publish ToDo service
-func RunGRPCServer(ctx context.Context ,port string) error {
-	listen, err := net.Listen("tcp", ":"+port)
+var (
+	server *grpc.Server
+	// onceInit guarantee initialize logger only once
+	onceInit sync.Once
+)
+
+func InitGrpcServer(srv *grpc.Server) {
+	return
+
+}
+
+func InitGrpcBeforeServing( config *config.Config) (*grpc.Server , net.Listener , error) {
+	listen, err := net.Listen("tcp", ":"+ config.GRPCPort)
 	if err != nil {
-		return err
+		return nil , nil , err
 	}
 
 	// gRPC server statup options
@@ -25,9 +37,13 @@ func RunGRPCServer(ctx context.Context ,port string) error {
 
 	// register service
 	server := grpc.NewServer(opts...)
-	//Register grpc modules
-	RegisterGrpcModules(server)
+	InitGrpcServer(server)
+   return server , listen , nil
+}
 
+// RunServer runs gRPC service to publish ToDo service
+func RunGRPCServer(server *grpc.Server , listener net.Listener ) error {
+	ctx := context.Background()
 	// graceful shutdown
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
@@ -44,6 +60,6 @@ func RunGRPCServer(ctx context.Context ,port string) error {
 
 	// start gRPC server
 	logger.Log.Info("starting gRPC server...")
-	return server.Serve(listen)
+	return server.Serve(listener)
 }
 
