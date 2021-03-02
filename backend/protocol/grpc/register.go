@@ -1,8 +1,8 @@
 package grpc
 
 import (
-	userProfile "alfred/modules/UserProfile/implementation"
-	userProfilepb "alfred/modules/UserProfile/pb"
+	userProfile "alfred/UserProfile"
+	userProfilepb "alfred/UserProfile/pb"
 	"google.golang.org/grpc"
 )
 
