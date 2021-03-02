@@ -10,13 +10,14 @@ import (
 
 func main() {
 	fx.New(
-		 config.Module,
+		 config.ConfigProvider,
 		 grpc.Module,
 		 fx.Invoke(
 		 	 logger.InitLogger,
              cmd.RunServer,
              grpc.RunGRPCServer,
-             grpc.RegisterGrpcModules,
+            grpc.RegisterGrpcModules,
 		 	),
 		).Run()
+
 }
