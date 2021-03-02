@@ -1,54 +1,24 @@
 package cmd
 
 import (
-	"alfred/logger"
+	"alfred/config"
 	grpql "alfred/protocol/graphql"
 	"alfred/protocol/grpc"
 	"alfred/protocol/rest"
 	"context"
+	"go.uber.org/fx"
 	"go.uber.org/zap"
-
-	//"database/sql"
-	//"flag"
-	"fmt"
 )
 
-// Config is configuration for Server
-type Config struct {
-	// gRPC server start parameters section
-	// GRPCPort is TCP port to listen by gRPC server
-	GRPCPort string
 
-	// HTTP/REST gateway start parameters section
-	// HTTPPort is TCP port to listen by HTTP/REST gateway
-	HTTPPort string
-
-	//Graphql Port
-	GraphqlPort string
-
-	// DB Datastore parameters section
-	// DatastoreDBHost is host of database
-	DatastoreDBHost string
-	// DatastoreDBUser is username to connect to database
-	DatastoreDBUser string
-	// DatastoreDBPassword password to connect to database
-	DatastoreDBPassword string
-	// DatastoreDBSchema is schema of database
-	DatastoreDBSchema string
-
-	// Log parameters section
-	// LogLevel is global log level: Debug(-1), Info(0), Warn(1), Error(2), DPanic(3), Panic(4), Fatal(5)
-	LogLevel int
-	// LogTimeFormat is print time format for logger e.g. 2006-01-02T15:04:05Z07:00
-	LogTimeFormat string
-}
 
 // RunServer runs gRPC server and HTTP gateway
-func RunServer() error {
-	ctx := context.Background()
+func RunServer(lc fx.Lifecycle , cfg *config.Config)  {
 
+
+	ctx := context.Background()
 	// get configuration
-	var cfg Config
+
 	/*flag.StringVar(&cfg.GRPCPort, "grpc-port", "", "gRPC port to bind")
 	flag.StringVar(&cfg.HTTPPort, "http-port", "", "HTTP port to bind")
 	flag.StringVar(&cfg.DatastoreDBHost, "db-host", "", "Database host")
@@ -65,22 +35,6 @@ func RunServer() error {
 	cfg.GraphqlPort = "8082"
 	cfg.LogLevel = int(zap.DebugLevel)
 
-	if len(cfg.GRPCPort) == 0 {
-		return fmt.Errorf("invalid TCP port for gRPC server: '%s'", cfg.GRPCPort)
-	}
-
-	if len(cfg.GraphqlPort) == 0 {
-		return fmt.Errorf("invalid TCP port for graphql server: '%s'", cfg.GraphqlPort)
-	}
-
-	if len(cfg.HTTPPort) == 0 {
-		return fmt.Errorf("invalid TCP port for HTTP gateway: '%s'", cfg.HTTPPort)
-	}
-
-	// initialize logger
-	if err := logger.Init(cfg.LogLevel, cfg.LogTimeFormat); err != nil {
-		return fmt.Errorf("failed to initialize logger: %v", err)
-	}
 /*
 	// add MySQL driver specific parameter to parse date/time
 	// Drop it for another database
@@ -98,18 +52,33 @@ func RunServer() error {
 	}
 	defer db.Close()*/
 
+	lc.Append(fx.Hook{
+		// To mitigate the impact of deadlocks in application startup and
+		// shutdown, Fx imposes a time limit on OnStart and OnStop hooks. By
+		// default, hooks have a total of 15 seconds to complete. Timeouts are
+		// passed via Go's usual context.Context.
+		OnStart: func(context.Context) error {
 
-	// run HTTP gateway
-	go func() {
-		_ = rest.RunRESTServer(ctx, cfg.GRPCPort, cfg.HTTPPort)
-	}()
+			// In production, we'd want to separate the Listen and Serve phases for
+			// better error-handling.
+			// run HTTP gateway
+			go func() {
+				_ = rest.RunRESTServer(ctx, cfg.GRPCPort, cfg.HTTPPort)
+			}()
 
-    //run graphql gateway
-	go func() {
-		_ = grpql.RunGraphqlServer(ctx , cfg.GraphqlPort)
-	}()
+			//run graphql gateway
+			go func() {
+				_ = grpql.RunGraphqlServer(ctx , cfg.GraphqlPort)
+			}()
 
-	//serve grpc methods
-	return grpc.RunGRPCServer(ctx, cfg.GRPCPort)
+
+			go func() {
+				_ =   grpc.RunGRPCServer(ctx, cfg.GRPCPort)
+
+			}()
+			return nil
+		},
+	})
+
 }
 

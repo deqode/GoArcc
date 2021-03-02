@@ -1,8 +1,8 @@
 package graphql
 
 import (
-	userProfilePb "alfred/UserProfile/pb"
 	"alfred/logger"
+	userProfilePb "alfred/modules/UserProfile/pb"
 	"context"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/zap"
