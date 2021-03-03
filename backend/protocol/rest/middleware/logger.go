@@ -38,8 +38,8 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 		uri := strings.Join([]string{scheme, "://", r.Host, r.RequestURI}, "")
 
 		var request interface{}
-		if err := json.NewDecoder(r.Body).Decode(&request) ; err != nil {
-			zap.Error( err)
+		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+			zap.Error(err)
 		}
 		// Log HTTP request
 		logger.Info("request started",
@@ -57,7 +57,6 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 
 		h.ServeHTTP(w, r)
 
-
 		// Log HTTP response
 		logger.Debug("request completed",
 			zap.String("request-id", id),
@@ -71,4 +70,3 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 		)
 	})
 }
-

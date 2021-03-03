@@ -17,7 +17,7 @@ func RunRESTServer(ctx context.Context, grpcPort, httpPort string) error {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterRESTModules(ctx , mux , grpcPort) ; err != nil {
+	if err := RegisterRESTModules(ctx, mux, grpcPort); err != nil {
 		panic(err)
 	}
 	srv := &http.Server{
@@ -44,4 +44,3 @@ func RunRESTServer(ctx context.Context, grpcPort, httpPort string) error {
 	logger.Log.Info("starting HTTP/REST gateway...")
 	return srv.ListenAndServe()
 }
-

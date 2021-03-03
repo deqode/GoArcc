@@ -9,11 +9,8 @@ import (
 	"go.uber.org/zap"
 )
 
-
-
 // RunServer runs gRPC server and HTTP gateway
-func RunServer(lc fx.Lifecycle , cfg *config.Config)  {
-
+func RunServer(lc fx.Lifecycle, cfg *config.Config) {
 
 	ctx := context.Background()
 	// get configuration
@@ -34,22 +31,22 @@ func RunServer(lc fx.Lifecycle , cfg *config.Config)  {
 	cfg.GraphqlPort = "8082"
 	cfg.LogLevel = int(zap.DebugLevel)
 
-/*
-	// add MySQL driver specific parameter to parse date/time
-	// Drop it for another database
-	param := "parseTime=true"
+	/*
+		// add MySQL driver specific parameter to parse date/time
+		// Drop it for another database
+		param := "parseTime=true"
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
-		cfg.DatastoreDBUser,
-		cfg.DatastoreDBPassword,
-		cfg.DatastoreDBHost,
-		cfg.DatastoreDBSchema,
-		param)
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		return fmt.Errorf("failed to open database: %v", err)
-	}
-	defer db.Close()*/
+		dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
+			cfg.DatastoreDBUser,
+			cfg.DatastoreDBPassword,
+			cfg.DatastoreDBHost,
+			cfg.DatastoreDBSchema,
+			param)
+		db, err := sql.Open("mysql", dsn)
+		if err != nil {
+			return fmt.Errorf("failed to open database: %v", err)
+		}
+		defer db.Close()*/
 
 	lc.Append(fx.Hook{
 		// To mitigate the impact of deadlocks in application startup and
@@ -65,7 +62,7 @@ func RunServer(lc fx.Lifecycle , cfg *config.Config)  {
 			}()
 			//run graphql gateway
 			go func() {
-				_ = grpql.RunGraphqlServer(ctx , cfg.GraphqlPort)
+				_ = grpql.RunGraphqlServer(ctx, cfg.GraphqlPort)
 			}()
 
 			return nil
@@ -73,4 +70,3 @@ func RunServer(lc fx.Lifecycle , cfg *config.Config)  {
 	})
 
 }
-

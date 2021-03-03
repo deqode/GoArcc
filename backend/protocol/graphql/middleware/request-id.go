@@ -69,5 +69,3 @@ func GetReqID(ctx context.Context) string {
 	}
 	return ""
 }
-
-

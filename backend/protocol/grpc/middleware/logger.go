@@ -51,4 +51,3 @@ func AddLogging(logger *zap.Logger, opts []grpc.ServerOption) []grpc.ServerOptio
 
 	return opts
 }
-

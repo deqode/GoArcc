@@ -17,7 +17,7 @@ func RunGraphqlServer(ctx context.Context, graphqlPort string) error {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterGraphqlModules(ctx,mux) ; err != nil {
+	if err := RegisterGraphqlModules(ctx, mux); err != nil {
 		panic(err)
 	}
 	http.Handle("/graphql", mux)
@@ -42,5 +42,3 @@ func RunGraphqlServer(ctx context.Context, graphqlPort string) error {
 	logger.Log.Info("starting HTTP/GRAPHQL  gateway...")
 	return srv.ListenAndServe()
 }
-
-

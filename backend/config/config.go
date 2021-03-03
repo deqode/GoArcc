@@ -30,12 +30,11 @@ type Config struct {
 	LogTimeFormat string
 }
 
-
 func GetConfig() *Config {
 	return &Config{
 		GraphqlPort: "8082",
-		HTTPPort: "8081",
-		GRPCPort: "8080",
-		LogLevel: -1,
+		HTTPPort:    "8081",
+		GRPCPort:    "8080",
+		LogLevel:    -1,
 	}
 }

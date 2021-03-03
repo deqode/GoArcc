@@ -1,4 +1,4 @@
-package  main
+package main
 
 import (
 	"alfred/cmd"
@@ -10,14 +10,14 @@ import (
 
 func main() {
 	fx.New(
-		 config.ConfigProvider,
-		 grpc.Module,
-		 fx.Invoke(
-		 	 logger.InitLogger,
-             cmd.RunServer,
-             grpc.RunGRPCServer,
-             grpc.RegisterGrpcModules,
-		 	),
-		).Run()
+		config.ConfigProvider,
+		grpc.Module,
+		fx.Invoke(
+			logger.InitLogger,
+			cmd.RunServer,
+			grpc.RunGRPCServer,
+			grpc.RegisterGrpcModules,
+		),
+	).Run()
 
 }

@@ -63,5 +63,3 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 		)
 	})
 }
-
-

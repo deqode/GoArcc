@@ -20,7 +20,6 @@ var (
 	onceInit sync.Once
 )
 
-
 // customTimeEncoder encode Time to our custom format
 // This example how we can customize zap default functionality
 func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
@@ -30,7 +29,7 @@ func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 // Init initializes log by input parameters
 // lvl - global log level: Debug(-1), Info(0), Warn(1), Error(2), DPanic(3), Panic(4), Fatal(5)
 // timeFormat - custom time format for logger of empty string to use default
-func InitLogger(config *config.Config)  {
+func InitLogger(config *config.Config) {
 
 	onceInit.Do(func() {
 		// First, define our level-handling logic.
@@ -77,4 +76,3 @@ func InitLogger(config *config.Config)  {
 	})
 
 }
-

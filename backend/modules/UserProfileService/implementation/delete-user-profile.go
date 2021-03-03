@@ -7,6 +7,6 @@ import (
 )
 
 func (u *UserProfileService) DeleteUserProfile(ctx context.Context, request *pb.DeleteUserProfileRequest) (*empty.Empty, error) {
-	
+
 	panic("implement me")
 }
