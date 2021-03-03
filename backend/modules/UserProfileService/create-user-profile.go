@@ -1,4 +1,4 @@
-package implementation
+package UserProfileService
 
 import (
 	"alfred/modules/UserProfileService/pb"

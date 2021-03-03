@@ -77,7 +77,7 @@ type UserProfileServiceServer interface {
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
 	DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error)
-	//mustEmbedUnimplementedUserProfileServiceServer()
+	//	mustEmbedUnimplementedUserProfileServiceServer()
 }
 
 // UnimplementedUserProfileServiceServer must be embedded to have forward compatible implementations.
@@ -206,5 +206,5 @@ var UserProfileService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "pb/user-profile.proto",
+	Metadata: "user-profile-service.proto",
 }

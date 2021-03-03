@@ -5,6 +5,7 @@ import (
 	"alfred/protocol/graphql/middleware"
 	"context"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
+	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"os/signal"
@@ -18,7 +19,7 @@ func RunGraphqlServer(ctx context.Context, graphqlPort string) error {
 
 	mux := runtime.NewServeMux()
 	if err := RegisterGraphqlModules(ctx, mux); err != nil {
-		panic(err)
+		logger.Log.Fatal("not able to register graphql modules", zap.Error(err))
 	}
 	http.Handle("/graphql", mux)
 	srv := &http.Server{

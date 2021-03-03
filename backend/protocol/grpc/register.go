@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	userProfile "alfred/modules/UserProfileService/implementation"
+	"alfred/modules/UserProfileService"
 	userProfilepb "alfred/modules/UserProfileService/pb"
 	"google.golang.org/grpc"
 )
@@ -9,5 +9,5 @@ import (
 //Todo : Whenever any new modules will be in alfred : it must be registered in below method
 func RegisterGrpcModules(srv *grpc.Server) {
 	//register user modules
-	userProfilepb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService())
+	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService())
 }

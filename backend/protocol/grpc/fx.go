@@ -2,7 +2,7 @@ package grpc
 
 import "go.uber.org/fx"
 
-var Module = fx.Options(
+var InitGrpcBeforeServingFx = fx.Options(
 	fx.Provide(
 		InitGrpcBeforeServing,
 	),
