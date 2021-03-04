@@ -6,6 +6,7 @@ import (
 )
 
 var HelloServiceFx = fx.Options(
+
 	fx.Provide(
 		pb.NewHelloWorldServiceClient,
 	),

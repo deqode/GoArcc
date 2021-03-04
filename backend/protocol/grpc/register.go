@@ -23,5 +23,5 @@ func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config) {
 	//todo register new grpc modules here
 	//register user modules
 	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService(db, hellopb.NewHelloWorldServiceClient(conn)))
-	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
+	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService(userProfilepb.NewUserProfileServiceClient(conn)))
 }
