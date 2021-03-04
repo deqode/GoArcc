@@ -8,6 +8,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
 	github.com/lib/pq v1.9.0 // indirect
+	github.com/mgechev/revive v1.0.3 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
 	go.uber.org/fx v1.13.1
@@ -18,4 +19,5 @@ require (
 	google.golang.org/protobuf v1.25.0
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.20.12
+	k8s.io/klog v1.0.0 // indirect
 )

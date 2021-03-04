@@ -7,11 +7,11 @@ import (
 )
 
 type UserProfile struct {
-	Id          string
+	ID          string
 	Name        string
 	Email       string
 	PhoneNumber string
-	UserId      string
+	UserID      string
 	Source      string
 }
 

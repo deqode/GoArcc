@@ -9,6 +9,7 @@ type HelloService struct {
 	usrCli usrprofile.UserProfileServiceClient
 }
 
+//Service Implementation
 func NewHelloService(usrCli usrprofile.UserProfileServiceClient) pb.HelloWorldServiceServer {
 	return HelloService{
 		usrCli: usrCli,

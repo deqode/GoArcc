@@ -8,13 +8,6 @@ import (
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"net"
-	"sync"
-)
-
-var (
-	server *grpc.Server
-	// onceInit guarantee initialize logger only once
-	onceInit sync.Once
 )
 
 func InitGrpcBeforeServing(config *config.Config) (*grpc.Server, net.Listener, error) {
@@ -49,5 +42,6 @@ func RunGRPCServer(lc fx.Lifecycle, server *grpc.Server, listener net.Listener) 
 			},
 		},
 	)
+
 	return nil
 }

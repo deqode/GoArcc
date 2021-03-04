@@ -33,4 +33,5 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 		panic(err)
 	}
 	return &resp, nil
+
 }
