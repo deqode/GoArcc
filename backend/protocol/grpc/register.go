@@ -15,7 +15,7 @@ import (
 //Todo : Whenever any new modules will be in alfred : it must be registered in below method
 func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config) {
 	//making client : Note it will run under the same context
-	conn, err := grpc.Dial("localhost:"+config.GRPCPort, grpc.WithInsecure())
+	conn, err := grpc.Dial(config.DatastoreDBHost+":"+config.GRPCPort, grpc.WithInsecure())
 	if err != nil {
 		logger.Log.Fatal("did not connect", zap.Error(err))
 	}

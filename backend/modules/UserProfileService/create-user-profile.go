@@ -2,7 +2,6 @@ package UserProfileService
 
 import (
 	"alfred/logger"
-	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService/pb"
 	"context"
 	"fmt"
@@ -26,12 +25,7 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 	if t.Error != nil {
 		return nil, t.Error
 	}
-	_, err = server.helloCli.HelloWorld(ctx, &hellopb.Hello{
-		Message: "hello",
-	})
-	if err != nil {
-		panic(err)
-	}
+
 	return &resp, nil
 
 }

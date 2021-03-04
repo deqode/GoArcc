@@ -35,7 +35,7 @@ func RunRESTServer(ctx context.Context, grpcPort, httpPort string) error {
 			// sig is a ^C, handle it
 		}
 
-		_, cancel := context.WithTimeout(ctx, 5*time.Second)
+		_, cancel := context.WithTimeout(ctx, 15*time.Second)
 		defer cancel()
 
 		_ = srv.Shutdown(ctx)
