@@ -10,7 +10,7 @@ import (
 
 func (h HelloService) HelloWorld(ctx context.Context, hello *pb.Hello) (*empty.Empty, error) {
 	logger.Log.Info("Hello")
-	_, err := h.usrCli.CreateUserProfile(ctx, &usrprofilePb.CreateUserProfileRequest{UserProfile: &usrprofilePb.UserProfile{
+	_, err := h.userProfileServiceClient.CreateUserProfile(ctx, &usrprofilePb.CreateUserProfileRequest{UserProfile: &usrprofilePb.UserProfile{
 		Name: "Tanuj sir",
 	}})
 	if err != nil {

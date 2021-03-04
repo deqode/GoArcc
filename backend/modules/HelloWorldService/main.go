@@ -6,12 +6,12 @@ import (
 )
 
 type HelloService struct {
-	usrCli usrprofile.UserProfileServiceClient
+	userProfileServiceClient usrprofile.UserProfileServiceClient
 }
 
 //Service Implementation
-func NewHelloService(usrCli usrprofile.UserProfileServiceClient) pb.HelloWorldServiceServer {
+func NewHelloService(userProfileServiceClient usrprofile.UserProfileServiceClient) pb.HelloWorldServiceServer {
 	return HelloService{
-		usrCli: usrCli,
+		userProfileServiceClient: userProfileServiceClient,
 	}
 }
