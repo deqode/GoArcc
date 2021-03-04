@@ -7,6 +7,7 @@ require (
 	github.com/graphql-go/graphql v0.7.8
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
+	github.com/lib/pq v1.9.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
 	go.uber.org/fx v1.13.1
@@ -15,4 +16,6 @@ require (
 	google.golang.org/genproto v0.0.0-20210224155714-063164c882e6
 	google.golang.org/grpc v1.36.0
 	google.golang.org/protobuf v1.25.0
+	gorm.io/driver/postgres v1.0.8
+	gorm.io/gorm v1.20.12
 )

@@ -6,11 +6,9 @@ import (
 
 	"github.com/graphql-go/graphql"
 	"github.com/pkg/errors"
-	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
+	gql_ptypes_empty "github.com/ysugimoto/grpc-graphql-gateway/ptypes/empty"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"google.golang.org/grpc"
-
-	gql_ptypes_empty "github.com/ysugimoto/grpc-graphql-gateway/ptypes/empty"
 )
 
 var (
@@ -72,15 +70,6 @@ func Gql__type_UserProfile() *graphql.Object {
 				},
 				"source": &graphql.Field{
 					Type: Gql__enum_SOURCE(),
-				},
-				"created_on": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"updated_on": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"deleted_on": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
 				},
 				"user_id": &graphql.Field{
 					Type: graphql.String,
@@ -166,15 +155,6 @@ func Gql__input_UserProfile() *graphql.InputObject {
 				},
 				"source": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_SOURCE(),
-				},
-				"created_on": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"updated_on": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"deleted_on": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
 				},
 				"user_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,

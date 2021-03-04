@@ -3,7 +3,6 @@ package pb;
 
 option go_package = ".;pb";
 
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
@@ -78,9 +77,6 @@ message UserProfile {
     string email = 3;
     string phone_number = 4;
     SOURCE source = 5;
-    google.protobuf.Timestamp created_on = 6;
-    google.protobuf.Timestamp updated_on = 7;
-    google.protobuf.Timestamp deleted_on = 8;
     string user_id = 9;
 
 }

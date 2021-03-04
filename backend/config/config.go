@@ -13,6 +13,9 @@ type Config struct {
 	//Graphql Port
 	GraphqlPort string
 
+	//
+	DatastoreDBPort int
+
 	// DB Datastore parameters section
 	// DatastoreDBHost is host of database
 	DatastoreDBHost string
@@ -32,9 +35,14 @@ type Config struct {
 
 func GetConfig() *Config {
 	return &Config{
-		GraphqlPort: "8082",
-		HTTPPort:    "8081",
-		GRPCPort:    "8080",
-		LogLevel:    -1,
+		GraphqlPort:         "8082",
+		HTTPPort:            "8081",
+		GRPCPort:            "8080",
+		LogLevel:            -1,
+		DatastoreDBPort:     5432,
+		DatastoreDBUser:     "alfred",
+		DatastoreDBPassword: "alfred",
+		DatastoreDBSchema:   "alfred.v1",
+		DatastoreDBHost:     "localhost",
 	}
 }
