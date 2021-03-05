@@ -1,0 +1,10 @@
+# The file containing environment variables
+.env
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+
+#ignore build file
+alfred
+
