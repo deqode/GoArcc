@@ -9,6 +9,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
 	github.com/lib/pq v1.9.0 // indirect
+	github.com/mgechev/revive v1.0.3 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.9.0
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0

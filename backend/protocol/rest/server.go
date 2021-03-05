@@ -35,11 +35,11 @@ func RunRESTServer(ctx context.Context, config *config.Config) error {
 		for range c {
 			// sig is a ^C, handle it
 		}
-
 		_, cancel := context.WithTimeout(ctx, 15*time.Second)
 		defer cancel()
 
 		_ = srv.Shutdown(ctx)
+		logger.Log.Info("graceful shuttting down Rest Server")
 	}()
 
 	logger.Log.Info("starting HTTP/REST gateway...")

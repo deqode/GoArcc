@@ -28,6 +28,8 @@ func main() {
 			//all service got registered
 			grpc.RunGRPCServer,
 			grpc.RegisterGrpcModules,
+			//After Registering Grpc Modules then only we can use promthesus
+			promthesiusServer.PromthesiusRunner,
 		),
 	).Run()
 
