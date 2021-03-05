@@ -9,7 +9,11 @@ import (
 	"time"
 )
 
-func GetGrpcClientConnection(config *config.Config) *grpc.ClientConn {
+type ClientContext struct {
+	Ctx context.Context
+}
+
+func GetGrpcClientConnection(config *config.Config, clientContext *ClientContext) *grpc.ClientConn {
 	//context setup for inner client call
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	var conn *grpc.ClientConn
@@ -18,4 +22,12 @@ func GetGrpcClientConnection(config *config.Config) *grpc.ClientConn {
 		logger.Log.Fatal("did not connect", zap.Error(err))
 	}
 	return conn
+}
+
+//getting the client connection context
+func GetGrpcClientConnectionContext() *ClientContext {
+	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	return &ClientContext{
+		Ctx: ctx,
+	}
 }

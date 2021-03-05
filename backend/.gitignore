@@ -7,4 +7,6 @@
 
 #ignore build file
 alfred
+go_build_alfred
+go_build_platform
 
