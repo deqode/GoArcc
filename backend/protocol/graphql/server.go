@@ -1,6 +1,7 @@
 package graphql
 
 import (
+	"alfred/config"
 	"alfred/logger"
 	"alfred/protocol/graphql/middleware"
 	"context"
@@ -13,7 +14,7 @@ import (
 )
 
 // RunServer runs HTTP/REST gateway
-func RunGraphqlServer(ctx context.Context, graphqlPort string) error {
+func RunGraphqlServer(ctx context.Context, config *config.Config) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
@@ -23,7 +24,7 @@ func RunGraphqlServer(ctx context.Context, graphqlPort string) error {
 	}
 	http.Handle("/graphql", mux)
 	srv := &http.Server{
-		Addr: ":" + graphqlPort,
+		Addr: config.ServerHost + ":" + config.GraphqlPort,
 		// add handler with middleware
 		Handler: middleware.AddRequestID(
 			middleware.AddLogger(logger.Log, mux)),

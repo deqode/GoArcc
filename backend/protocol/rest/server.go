@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"alfred/config"
 	"alfred/logger"
 	"alfred/protocol/rest/middleware"
 	"context"
@@ -12,16 +13,16 @@ import (
 )
 
 // RunServer runs HTTP/REST gateway
-func RunRESTServer(ctx context.Context, grpcPort, httpPort string) error {
+func RunRESTServer(ctx context.Context, config *config.Config) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterRESTModules(ctx, mux, grpcPort); err != nil {
+	if err := RegisterRESTModules(ctx, mux, config.GRPCPort); err != nil {
 		panic(err)
 	}
 	srv := &http.Server{
-		Addr: ":" + httpPort,
+		Addr: config.ServerHost + ":" + config.HTTPPort,
 		// add handler with middleware
 		Handler: middleware.AddRequestID(
 			middleware.AddLogger(logger.Log, mux)),

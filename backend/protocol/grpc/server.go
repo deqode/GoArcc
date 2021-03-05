@@ -17,8 +17,8 @@ func InitGrpcBeforeServing(config *config.Config) (*grpc.Server, net.Listener, e
 	}
 	// gRPC server statup options
 	opts := []grpc.ServerOption{}
-	// add middleware
-	opts = middleware.AddLogging(logger.Log, opts)
+	// add logging middleware
+	opts = middleware.AddInterceptors(logger.Log, opts)
 	// register service
 	server := grpc.NewServer(opts...)
 	return server, listen, nil

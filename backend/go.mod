@@ -6,12 +6,11 @@ require (
 	github.com/golang/protobuf v1.4.3
 	github.com/graphql-go/graphql v0.7.8
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
+	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
 	github.com/lib/pq v1.9.0 // indirect
-	github.com/mgechev/revive v1.0.3 // indirect
-	github.com/mitchellh/mapstructure v1.4.1
 	github.com/pkg/errors v0.9.1
-	github.com/spf13/viper v1.7.1
+	github.com/prometheus/client_golang v1.9.0
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
 	go.uber.org/fx v1.13.1
 	go.uber.org/multierr v1.6.0 // indirect

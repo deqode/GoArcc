@@ -2,15 +2,20 @@ package cmd
 
 import (
 	"alfred/config"
+	"alfred/promthesiusServer"
 	grpql "alfred/protocol/graphql"
 	"alfred/protocol/rest"
 	"context"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
 )
 
+
+
+
 // RunServer runs gRPC server and HTTP gateway
-func RunServer(lc fx.Lifecycle, cfg *config.Config) {
+func RunServer(lc fx.Lifecycle, cfg *config.Config ,grpcServer *grpc.Server) {
 
 	ctx := context.Background()
 	cfg.GRPCPort = "8080"
@@ -28,11 +33,15 @@ func RunServer(lc fx.Lifecycle, cfg *config.Config) {
 			// better error-handling.
 			// run HTTP gateway
 			go func() {
-				_ = rest.RunRESTServer(ctx, cfg.GRPCPort, cfg.HTTPPort)
+				_ = rest.RunRESTServer(ctx, cfg)
 			}()
 			//run graphql gateway
 			go func() {
-				_ = grpql.RunGraphqlServer(ctx, cfg.GraphqlPort)
+				_ = grpql.RunGraphqlServer(ctx, cfg)
+			}()
+			//run promthesius server
+			go func() {
+				_ = promthesiusServer.RunPromthesiusServer(ctx, cfg , grpcServer)
 			}()
 
 			return nil

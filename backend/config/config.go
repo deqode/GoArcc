@@ -13,6 +13,10 @@ type Config struct {
 	//Graphql Port
 	GraphqlPort string
 
+	//Promthesius Port
+	PromthesiusPort string
+
+	ServerHost string
 	//
 	DatastoreDBPort int
 
@@ -38,11 +42,13 @@ func GetConfig() *Config {
 		GraphqlPort:         "8082",
 		HTTPPort:            "8081",
 		GRPCPort:            "8080",
+		ServerHost:          "localhost",
 		LogLevel:            -1,
 		DatastoreDBPort:     5432,
 		DatastoreDBUser:     "alfred",
 		DatastoreDBPassword: "alfred",
 		DatastoreDBSchema:   "alfred.v1",
 		DatastoreDBHost:     "localhost",
+		PromthesiusPort:     "8084",
 	}
 }
