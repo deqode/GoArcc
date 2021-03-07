@@ -8,6 +8,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"net/http"
 	"os"
 	"os/signal"
@@ -49,9 +50,13 @@ func RunPromthesiusServer(ctx context.Context, config *config.Config, grpcServer
 		Addr:    config.ServerHost + ":" + config.PromthesiusPort,
 		Handler: promhttp.HandlerFor(promthesusConfig.Registry, promhttp.HandlerOpts{}),
 	}
+
+	reflection.Register(grpcServer)
 	//initializing metrics
 	promthesusConfig.ServerMetrics.InitializeMetrics(grpcServer)
 	grpc_prometheus.Register(grpcServer)
+	grpc_prometheus.EnableHandlingTimeHistogram()
+	http.Handle("/metrics", promhttp.Handler())
 	// graceful shutdown
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
