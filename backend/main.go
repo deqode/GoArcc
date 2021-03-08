@@ -8,7 +8,7 @@ import (
 	"alfred/modules/HelloWorldService"
 	"alfred/modules/UserProfileService"
 	"alfred/promthesiusServer"
-	"alfred/protocol/grpc"
+	"alfred/servers/grpc"
 	"go.uber.org/fx"
 )
 
