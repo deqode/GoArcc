@@ -3,7 +3,7 @@ package grpc
 import (
 	"alfred/config"
 	"alfred/logger"
-	"alfred/protocol/grpc/middleware"
+	"alfred/servers/grpc/middleware"
 	"context"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"

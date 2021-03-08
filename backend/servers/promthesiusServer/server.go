@@ -15,45 +15,45 @@ import (
 	"time"
 )
 
-type PromthesiusConfig struct {
+type PrometheusConfig struct {
 	Registry      *prometheus.Registry
 	ServerMetrics *grpc_prometheus.ServerMetrics
 }
 
-func InitPromthesiusServer() *PromthesiusConfig {
+func InitPromthesiusServer() *PrometheusConfig {
 	// Create a metrics registry.
 	registry := prometheus.NewRegistry()
 	// Create some standard server metrics.
 	grpcServerMetrics := grpc_prometheus.NewServerMetrics()
 	registry.MustRegister(grpcServerMetrics)
 	//CreateMetrics()
-	return &PromthesiusConfig{
+	return &PrometheusConfig{
 		Registry:      registry,
 		ServerMetrics: grpcServerMetrics,
 	}
 }
 
-//Note: Promthesius will only work when all service will be registered with grpc already
-func PromthesiusRunner(config *config.Config, grpcServer *grpc.Server, promthesusConfig *PromthesiusConfig) error {
+//Note: Prometheus will only work when all service will be registered with grpc already
+func PrometheusRunner(config *config.Config, grpcServer *grpc.Server, prometheusConfig *PrometheusConfig) error {
 	go func() {
-		_ = RunPromthesiusServer(context.Background(), config, grpcServer, promthesusConfig)
+		_ = RunPrometheusServer(context.Background(), config, grpcServer, prometheusConfig)
 	}()
 	return nil
 }
 
-// Started the promthesius server
-func RunPromthesiusServer(ctx context.Context, config *config.Config, grpcServer *grpc.Server, promthesusConfig *PromthesiusConfig) error {
+// Started the prometheus server
+func RunPrometheusServer(ctx context.Context, config *config.Config, grpcServer *grpc.Server, prometheusConfig *PrometheusConfig) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	srv := &http.Server{
 		Addr:    config.ServerHost + ":" + config.PromthesiusPort,
-		Handler: promhttp.HandlerFor(promthesusConfig.Registry, promhttp.HandlerOpts{}),
+		Handler: promhttp.HandlerFor(prometheusConfig.Registry, promhttp.HandlerOpts{}),
 	}
 
 	reflection.Register(grpcServer)
 	//initializing metrics
-	promthesusConfig.ServerMetrics.InitializeMetrics(grpcServer)
+	prometheusConfig.ServerMetrics.InitializeMetrics(grpcServer)
 	grpc_prometheus.Register(grpcServer)
 	grpc_prometheus.EnableHandlingTimeHistogram()
 	http.Handle("/metrics", promhttp.Handler())
@@ -70,7 +70,7 @@ func RunPromthesiusServer(ctx context.Context, config *config.Config, grpcServer
 		_ = srv.Shutdown(ctx)
 	}()
 
-	logger.Log.Info("starting promthesius server...")
+	logger.Log.Info("starting prometheus server...")
 	return srv.ListenAndServe()
 }
 

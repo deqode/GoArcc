@@ -5,6 +5,7 @@ import (
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
+	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"go.uber.org/zap"
@@ -23,22 +24,32 @@ func AddInterceptors(logger *zap.Logger, opts []grpc.ServerOption) []grpc.Server
 	}
 	// Add unary interceptor
 	opts = append(opts, grpc_middleware.WithUnaryServerChain(
+		//for context tags
 		grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
-		grpc_zap.UnaryServerInterceptor(logger),
+		//for open tracing
+		grpc_opentracing.UnaryServerInterceptor(),
 		//Adding prothesis monitoring
 		grpc_prometheus.UnaryServerInterceptor,
+		//zap logger implementation
+		grpc_zap.UnaryServerInterceptor(logger),
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.UnaryServerInterceptor(),
 		//turns grpc panics into unknown error
 		grpc_recovery.UnaryServerInterceptor(recoveryOptions...),
+
 	))
 
 	// Add stream interceptor (added as an example here)
 	opts = append(opts, grpc_middleware.WithStreamServerChain(
+		//context tag implementation
 		grpc_ctxtags.StreamServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
-		grpc_zap.StreamServerInterceptor(logger),
+		//open tracing implementation
+		grpc_opentracing.StreamServerInterceptor(),
+		//prom implemenation
 		grpc_prometheus.StreamServerInterceptor,
+        //zap implementation
+		grpc_zap.StreamServerInterceptor(logger),
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.StreamServerInterceptor(),

@@ -7,8 +7,8 @@ import (
 	"alfred/logger"
 	"alfred/modules/HelloWorldService"
 	"alfred/modules/UserProfileService"
-	"alfred/promthesiusServer"
-	"alfred/protocol/grpc"
+	"alfred/servers/grpc"
+	"alfred/servers/promthesiusServer"
 	"go.uber.org/fx"
 )
 
@@ -23,13 +23,13 @@ func main() {
 		promthesiusServer.InitPromthesiusServerFx,
 		fx.Invoke(
 			logger.InitLogger,
-			//run server will run Rest , Graphql , Promthesius server
+			//run server will run Rest , Graphql , prometheus server
 			cmd.RunServer,
 			//all service got registered
 			grpc.RunGRPCServer,
 			grpc.RegisterGrpcModules,
-			//After Registering Grpc Modules then only we can use promthesus
-			promthesiusServer.PromthesiusRunner,
+			//After Registering Grpc Modules then only we can use prometheus
+			promthesiusServer.PrometheusRunner,
 		),
 	).Run()
 

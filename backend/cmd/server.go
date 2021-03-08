@@ -3,9 +3,9 @@ package cmd
 import (
 	"alfred/config"
 	"alfred/logger"
-	"alfred/promthesiusServer"
-	grpql "alfred/protocol/graphql"
-	"alfred/protocol/rest"
+	grpql "alfred/servers/graphql"
+	"alfred/servers/promthesiusServer"
+	"alfred/servers/rest"
 	"context"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -13,7 +13,7 @@ import (
 )
 
 // RunServer runs gRPC server and HTTP gateway
-func RunServer(lc fx.Lifecycle, cfg *config.Config, grpcServer *grpc.Server, promthesiusConfig *promthesiusServer.PromthesiusConfig) {
+func RunServer(lc fx.Lifecycle, cfg *config.Config, grpcServer *grpc.Server, promthesiusConfig *promthesiusServer.PrometheusConfig) {
 	cfg.GRPCPort = "8080"
 	cfg.HTTPPort = "8081"
 	cfg.GraphqlPort = "8082"

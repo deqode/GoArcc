@@ -3,7 +3,7 @@ package rest
 import (
 	"alfred/config"
 	"alfred/logger"
-	"alfred/protocol/rest/middleware"
+	"alfred/servers/rest/middleware"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"net/http"
