@@ -1,12 +1,14 @@
 package main
 
 import (
+	"alfred/client/grpcClient"
 	"alfred/cmd"
 	"alfred/config"
 	"alfred/db"
 	"alfred/logger"
 	"alfred/modules/HelloWorldService"
 	"alfred/modules/UserProfileService"
+	"alfred/servers/cleanup"
 	"alfred/servers/grpc"
 	"alfred/servers/promthesiusServer"
 	"go.uber.org/fx"
@@ -21,6 +23,8 @@ func main() {
 		db.DatabaseConnectionFx,
 		HelloWorldService.HelloServiceFx,
 		promthesiusServer.InitPromthesiusServerFx,
+		grpcClient.GrpcClientFx,
+		cleanup.CleanupFx,
 		fx.Invoke(
 			logger.InitLogger,
 			//run server will run Rest , Graphql , prometheus server
@@ -30,6 +34,8 @@ func main() {
 			grpc.RegisterGrpcModules,
 			//After Registering Grpc Modules then only we can use prometheus
 			promthesiusServer.PrometheusRunner,
+			//run cleanup code after closing the server
+			cleanup.Cleanup,
 		),
 	).Run()
 

@@ -2,6 +2,7 @@ package UserProfileService
 
 import (
 	"alfred/logger"
+	hello "alfred/modules/HelloWorldService"
 	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService/pb"
 	"context"
@@ -11,12 +12,18 @@ import (
 
 func (server *UserProfileService) CreateUserProfile(ctx context.Context, request *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	var resp pb.UserProfile
-
+    _ , err := hello.LocalHelloWorld().HelloWorld(ctx , &hellopb.Hello{
+   	Message: "Hii",
+   })
+    if err != nil {
+    	panic(err)
+	}
 	//creating uuid
 	out, err := exec.Command("uuidgen").Output()
 	if err != nil {
 		logger.Log.Debug("unable to generate uuid")
 	}
+
 	resp.Id = fmt.Sprintf("%s", out)
 	resp.Name = request.UserProfile.Name
 	resp.Email = request.UserProfile.Email
@@ -27,9 +34,6 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 		return nil, t.Error
 	}
 
-	server.helloCli.HelloWorld(ctx, &hellopb.Hello{
-		Message: "hello",
-	})
 
 	return &resp, nil
 
