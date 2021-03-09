@@ -20,6 +20,7 @@ type Config struct {
 	//
 	DatastoreDBPort int
 
+	HealthCheckPort string
 	// DB Datastore parameters section
 	// DatastoreDBHost is host of database
 	DatastoreDBHost string
@@ -49,6 +50,7 @@ func GetConfig() *Config {
 		DatastoreDBPassword: "alfred",
 		DatastoreDBSchema:   "alfred.v1",
 		DatastoreDBHost:     "localhost",
-		PromthesiusPort:     "8084",
+		PromthesiusPort:     "8083",
+		HealthCheckPort:     "8084",
 	}
 }

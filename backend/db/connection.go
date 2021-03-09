@@ -24,7 +24,6 @@ func NewConnection(config *config.Config) *gorm.DB {
 	if err != nil {
 		logger.Log.Fatal("connection failed in db", zap.Error(err))
 	}
-	defer
-	logger.Log.Info("connection established with the database")
+	defer logger.Log.Info("connection established with the database")
 	return db
 }

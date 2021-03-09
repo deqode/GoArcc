@@ -37,7 +37,6 @@ func AddInterceptors(logger *zap.Logger, opts []grpc.ServerOption) []grpc.Server
 		grpc_validator.UnaryServerInterceptor(),
 		//turns grpc panics into unknown error
 		grpc_recovery.UnaryServerInterceptor(recoveryOptions...),
-
 	))
 
 	// Add stream interceptor (added as an example here)
@@ -48,7 +47,7 @@ func AddInterceptors(logger *zap.Logger, opts []grpc.ServerOption) []grpc.Server
 		grpc_opentracing.StreamServerInterceptor(),
 		//prom implemenation
 		grpc_prometheus.StreamServerInterceptor,
-        //zap implementation
+		//zap implementation
 		grpc_zap.StreamServerInterceptor(logger),
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client

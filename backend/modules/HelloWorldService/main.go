@@ -17,6 +17,5 @@ func NewHelloService(userProfileServiceClient usrprofile.UserProfileServiceClien
 }
 
 func LocalHelloWorld() pb.HelloWorldServiceServer {
-	return HelloService{
-	}
+	return HelloService{}
 }

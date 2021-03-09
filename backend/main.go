@@ -10,6 +10,7 @@ import (
 	"alfred/modules/UserProfileService"
 	"alfred/servers/cleanup"
 	"alfred/servers/grpc"
+	"alfred/servers/healthcheck"
 	"alfred/servers/promthesiusServer"
 	"go.uber.org/fx"
 )
@@ -26,6 +27,7 @@ func main() {
 		grpcClient.GrpcClientFx,
 		cleanup.CleanupFx,
 		fx.Invoke(
+			//health check : if everything ok then only start the server
 			logger.InitLogger,
 			//run server will run Rest , Graphql , prometheus server
 			cmd.RunServer,
@@ -35,6 +37,8 @@ func main() {
 			//After Registering Grpc Modules then only we can use prometheus
 			promthesiusServer.PrometheusRunner,
 			//run cleanup code after closing the server
+			//Add Health check
+			healthcheck.HealthCheckRunner,
 			cleanup.Cleanup,
 		),
 	).Run()

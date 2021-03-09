@@ -12,11 +12,11 @@ import (
 
 func (server *UserProfileService) CreateUserProfile(ctx context.Context, request *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	var resp pb.UserProfile
-    _ , err := hello.LocalHelloWorld().HelloWorld(ctx , &hellopb.Hello{
-   	Message: "Hii",
-   })
-    if err != nil {
-    	panic(err)
+	_, err := hello.LocalHelloWorld().HelloWorld(ctx, &hellopb.Hello{
+		Message: "Hii",
+	})
+	if err != nil {
+		panic(err)
 	}
 	//creating uuid
 	out, err := exec.Command("uuidgen").Output()
@@ -33,7 +33,6 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 	if t.Error != nil {
 		return nil, t.Error
 	}
-
 
 	return &resp, nil
 

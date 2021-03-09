@@ -8,29 +8,27 @@ import (
 )
 
 //more cleanup type will be added here
-type CleanupConfig  struct {
+type CleanupConfig struct {
 	//Db *gorm.DB
-	ClientConnection *grpc.ClientConn
+	ClientConnection     *grpc.ClientConn
 	GrpcServerConnection *grpc.Server
 }
 
-
-func GetCleanupConfig (
-	ClientConnection *grpc.ClientConn ,
-	GrpcServerConnection *grpc.Server) *CleanupConfig{
+func GetCleanupConfig(
+	ClientConnection *grpc.ClientConn,
+	GrpcServerConnection *grpc.Server) *CleanupConfig {
 	return &CleanupConfig{
-		ClientConnection: ClientConnection,
+		ClientConnection:     ClientConnection,
 		GrpcServerConnection: GrpcServerConnection,
 	}
 }
 
-
-func Cleanup(lc fx.Lifecycle , config *CleanupConfig) {
+func Cleanup(lc fx.Lifecycle, config *CleanupConfig) {
 	lc.Append(fx.Hook{
 		OnStop: func(ctx context.Context) error {
 			logger.Log.Info(".......Starting Cleanup code ......")
 			//closing db connection
-			if err := config.ClientConnection.Close() ; err != nil {
+			if err := config.ClientConnection.Close(); err != nil {
 				logger.Log.Info("not able to close the grpc client connection")
 			}
 			//Closing grpc server connection
@@ -43,4 +41,3 @@ func Cleanup(lc fx.Lifecycle , config *CleanupConfig) {
 	})
 
 }
-

@@ -3,12 +3,14 @@ module alfred
 go 1.12
 
 require (
+	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc // indirect
 	github.com/golang/protobuf v1.4.3
 	github.com/graphql-go/graphql v0.7.8
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
 	github.com/lib/pq v1.9.0 // indirect
+	github.com/mgechev/revive v1.0.3 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
 	github.com/openzipkin/zipkin-go v0.2.2
 	github.com/pkg/errors v0.9.1
