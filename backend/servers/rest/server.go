@@ -3,7 +3,6 @@ package rest
 import (
 	"alfred/config"
 	"alfred/logger"
-	"alfred/servers/rest/middleware"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"net/http"
@@ -24,8 +23,8 @@ func RunRESTServer(ctx context.Context, config *config.Config) error {
 	srv := &http.Server{
 		Addr: config.ServerHost + ":" + config.HTTPPort,
 		// add handler with middleware
-		Handler: middleware.AddRequestID(
-			middleware.AddLogger(logger.Log, mux)),
+		Handler:/* middleware.AddRequestID(
+		middleware.AddLogger(logger.Log, mux))*/mux,
 	}
 
 	// graceful shutdown

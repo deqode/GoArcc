@@ -42,7 +42,7 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 			zap.Error(err)
 		}
 		// Log HTTP request
-		logger.Info("request started",
+		logger.Debug("request started",
 			zap.String("request-id", id),
 			zap.String("http-scheme", scheme),
 			zap.String("http-proto", proto),

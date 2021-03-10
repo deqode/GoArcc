@@ -16,9 +16,13 @@ type Config struct {
 	//Promthesius Port
 	PromthesiusPort string
 
+	ZipkinUrl string
+
 	ServerHost string
 	//
 	DatastoreDBPort int
+
+	ZipkinServiceName string
 
 	HealthCheckPort string
 	// DB Datastore parameters section
@@ -52,5 +56,7 @@ func GetConfig() *Config {
 		DatastoreDBHost:     "localhost",
 		PromthesiusPort:     "8083",
 		HealthCheckPort:     "8084",
+		ZipkinUrl:           "http://localhost:9411/api/v1/spans",
+		ZipkinServiceName:   "AlfredTracing",
 	}
 }

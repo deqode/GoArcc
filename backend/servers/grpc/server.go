@@ -5,23 +5,26 @@ import (
 	"alfred/logger"
 	"alfred/servers/grpc/middleware"
 	"context"
+	"github.com/opentracing/opentracing-go"
 	"go.uber.org/fx"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"net"
 )
 
-func InitGrpcBeforeServing(config *config.Config) (*grpc.Server, net.Listener, error) {
+func InitGrpcBeforeServing(config *config.Config, tracer opentracing.Tracer) (*grpc.Server, net.Listener) {
 	listen, err := net.Listen("tcp", ":"+config.GRPCPort)
 	if err != nil {
-		return nil, nil, err
+		logger.Log.Fatal("not able to initialize grpc server", zap.Error(err))
+		return nil, nil
 	}
 	// gRPC server statup options
 	opts := []grpc.ServerOption{}
 	// add logging middleware
-	opts = middleware.AddInterceptors(logger.Log, opts)
+	opts = middleware.AddInterceptors(logger.Log, tracer, opts)
 	// register service
 	server := grpc.NewServer(opts...)
-	return server, listen, nil
+	return server, listen
 }
 
 // RunServer runs gRPC service to publish ToDo service
@@ -30,7 +33,6 @@ func RunGRPCServer(lc fx.Lifecycle, server *grpc.Server, listener net.Listener) 
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
 				// start gRPC server
-				logger.Log.Info("starting gRPC server...")
 				go server.Serve(listener)
 				return nil
 			},

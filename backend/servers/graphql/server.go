@@ -3,7 +3,6 @@ package graphql
 import (
 	"alfred/config"
 	"alfred/logger"
-	"alfred/servers/graphql/middleware"
 	"context"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/zap"
@@ -26,8 +25,8 @@ func RunGraphqlServer(ctx context.Context, config *config.Config) error {
 	srv := &http.Server{
 		Addr: config.ServerHost + ":" + config.GraphqlPort,
 		// add handler with middleware
-		Handler: middleware.AddRequestID(
-			middleware.AddLogger(logger.Log, mux)),
+		Handler:/*middleware.AddRequestID(
+		middleware.AddLogger(logger.Log, mux))*/mux,
 	}
 	// graceful shutdown
 	c := make(chan os.Signal, 1)

@@ -11,12 +11,15 @@ import (
 	"alfred/servers/cleanup"
 	"alfred/servers/grpc"
 	"alfred/servers/healthcheck"
+	"alfred/servers/openTracing/tracer/jaeger"
 	"alfred/servers/promthesiusServer"
 	"go.uber.org/fx"
 )
 
 //todo : Alarm !!!!!! Do not touch the invocation sequence, either you might go through sleepless nights
 func main() {
+	//logger initialize before app starts because in provider we need logger
+	logger.InitLogger()
 	fx.New(
 		config.ConfigProviderFx,
 		grpc.InitGrpcBeforeServingFx,
@@ -26,9 +29,9 @@ func main() {
 		promthesiusServer.InitPromthesiusServerFx,
 		grpcClient.GrpcClientFx,
 		cleanup.CleanupFx,
+		jaeger.JaegerTracerFx,
+
 		fx.Invoke(
-			//health check : if everything ok then only start the server
-			logger.InitLogger,
 			//run server will run Rest , Graphql , prometheus server
 			cmd.RunServer,
 			//all service got registered

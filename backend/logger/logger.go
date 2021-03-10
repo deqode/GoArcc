@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"alfred/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
@@ -29,12 +28,12 @@ func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 // Init initializes log by input parameters
 // lvl - global log level: Debug(-1), Info(0), Warn(1), Error(2), DPanic(3), Panic(4), Fatal(5)
 // timeFormat - custom time format for logger of empty string to use default
-func InitLogger(config *config.Config) {
+func InitLogger() {
 
 	onceInit.Do(func() {
 		// First, define our level-handling logic.
-		globalLevel := zapcore.Level(config.LogLevel)
-
+		globalLevel := zap.DebugLevel
+		logetimeFormat := ""
 		// High-priority output should also go to standard error, and low-priority
 		// output should also go to standard out.
 		// It is useful for Kubernetes deployment.
@@ -52,8 +51,8 @@ func InitLogger(config *config.Config) {
 		// Configure console output.
 		var useCustomTimeFormat bool
 		ecfg := zap.NewProductionEncoderConfig()
-		if len(config.LogTimeFormat) > 0 {
-			customTimeFormat = config.LogTimeFormat
+		if len(logetimeFormat) > 0 {
+			customTimeFormat = logetimeFormat
 			ecfg.EncodeTime = customTimeEncoder
 			useCustomTimeFormat = true
 		}

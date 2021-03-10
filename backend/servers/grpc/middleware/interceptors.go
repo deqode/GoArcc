@@ -8,6 +8,7 @@ import (
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
+	"github.com/opentracing/opentracing-go"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -15,19 +16,19 @@ import (
 )
 
 // AddLogging returns grpc.Server config option that turn on logging.
-func AddInterceptors(logger *zap.Logger, opts []grpc.ServerOption) []grpc.ServerOption {
+func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.ServerOption) []grpc.ServerOption {
 	// Make sure that log statements internal to gRPC library are logged using the zapLogger as well.
 	grpc_zap.ReplaceGrpcLoggerV2(logger)
 	//grpc recovery options
 	recoveryOptions := []grpc_recovery.Option{
 		grpc_recovery.WithRecoveryHandler(grpcPanicsRecovery),
 	}
+
 	// Add unary interceptor
 	opts = append(opts, grpc_middleware.WithUnaryServerChain(
 		//for context tags
 		grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
-		//for open tracing
-		grpc_opentracing.UnaryServerInterceptor(),
+		grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
 		//Adding prothesis monitoring
 		grpc_prometheus.UnaryServerInterceptor,
 		//zap logger implementation
@@ -37,7 +38,8 @@ func AddInterceptors(logger *zap.Logger, opts []grpc.ServerOption) []grpc.Server
 		grpc_validator.UnaryServerInterceptor(),
 		//turns grpc panics into unknown error
 		grpc_recovery.UnaryServerInterceptor(recoveryOptions...),
-	))
+	),
+	)
 
 	// Add stream interceptor (added as an example here)
 	opts = append(opts, grpc_middleware.WithStreamServerChain(
@@ -45,7 +47,7 @@ func AddInterceptors(logger *zap.Logger, opts []grpc.ServerOption) []grpc.Server
 		grpc_ctxtags.StreamServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 		//open tracing implementation
 		grpc_opentracing.StreamServerInterceptor(),
-		//prom implemenation
+		//prom implementation
 		grpc_prometheus.StreamServerInterceptor,
 		//zap implementation
 		grpc_zap.StreamServerInterceptor(logger),

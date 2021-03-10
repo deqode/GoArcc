@@ -7,10 +7,19 @@ import (
 	"alfred/modules/UserProfileService/pb"
 	"context"
 	"fmt"
+
 	"os/exec"
 )
 
 func (server *UserProfileService) CreateUserProfile(ctx context.Context, request *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
+
+	/*	span, ctx := opentracing.StartSpanFromContext(ctx, "............checking tracing.............")
+		defer span.Finish()*/
+	/*	span.LogFields(
+		log.String("event", "soft error"),
+		log.String("type", "cache timeout"),
+		log.Int("waited.millis", 1500))
+	*/
 	var resp pb.UserProfile
 	_, err := hello.LocalHelloWorld().HelloWorld(ctx, &hellopb.Hello{
 		Message: "Hii",

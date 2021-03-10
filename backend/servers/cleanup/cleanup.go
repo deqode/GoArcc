@@ -5,6 +5,7 @@ import (
 	"context"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
+	"io"
 )
 
 //more cleanup type will be added here
@@ -12,14 +13,17 @@ type CleanupConfig struct {
 	//Db *gorm.DB
 	ClientConnection     *grpc.ClientConn
 	GrpcServerConnection *grpc.Server
+	JaegerCloser         io.Closer
 }
 
 func GetCleanupConfig(
 	ClientConnection *grpc.ClientConn,
-	GrpcServerConnection *grpc.Server) *CleanupConfig {
+	GrpcServerConnection *grpc.Server,
+	JaegerCloser io.Closer) *CleanupConfig {
 	return &CleanupConfig{
 		ClientConnection:     ClientConnection,
 		GrpcServerConnection: GrpcServerConnection,
+		JaegerCloser:         JaegerCloser,
 	}
 }
 
@@ -35,6 +39,7 @@ func Cleanup(lc fx.Lifecycle, config *CleanupConfig) {
 			config.GrpcServerConnection.GracefulStop()
 			logger.Log.Info("successfully closed grpc server connection")
 			//todo more cleanup code will be added
+			defer config.JaegerCloser.Close()
 			logger.Log.Info("cleanup code successfully executed")
 			return nil
 		},

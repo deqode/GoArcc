@@ -16,6 +16,7 @@ type UserProfileService struct {
 
 //todo : AlWays add migration code for best practices
 func NewUserProfileService(db *gorm.DB, helloCli hellopb.HelloWorldServiceClient) pb.UserProfileServiceServer {
+
 	//initial migration of databases: schema migration
 	models.InitialMigrationUserProfile(db)
 	return &UserProfileService{
