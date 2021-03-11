@@ -13,7 +13,7 @@ import (
 )
 
 func InitGrpcBeforeServing(config *config.Config, tracer opentracing.Tracer) (*grpc.Server, net.Listener) {
-	listen, err := net.Listen("tcp", ":"+config.GRPCPort)
+	listen, err := net.Listen("tcp", ":"+config.Grpc.Port)
 	if err != nil {
 		logger.Log.Fatal("not able to initialize grpc server", zap.Error(err))
 		return nil, nil

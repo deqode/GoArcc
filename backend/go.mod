@@ -12,11 +12,12 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
-	github.com/opentracing/opentracing-go v1.2.0 // indirect
+	github.com/opentracing/opentracing-go v1.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.9.0
-	github.com/uber/jaeger-client-go v2.25.0+incompatible // indirect
-	github.com/uber/jaeger-lib v2.4.0+incompatible // indirect
+	github.com/spf13/viper v1.7.1
+	github.com/uber/jaeger-client-go v2.25.0+incompatible
+	github.com/uber/jaeger-lib v2.4.0+incompatible
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
 	go.uber.org/fx v1.13.1
 	go.uber.org/multierr v1.6.0 // indirect

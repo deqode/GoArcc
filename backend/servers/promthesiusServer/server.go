@@ -47,7 +47,7 @@ func RunPrometheusServer(ctx context.Context, config *config.Config, grpcServer 
 	defer cancel()
 
 	srv := &http.Server{
-		Addr:    config.ServerHost + ":" + config.PromthesiusPort,
+		Addr:    config.Promthesius.Host + ":" + config.Promthesius.Port,
 		Handler: promhttp.HandlerFor(prometheusConfig.Registry, promhttp.HandlerOpts{}),
 	}
 

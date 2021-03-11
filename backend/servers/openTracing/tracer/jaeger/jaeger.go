@@ -25,7 +25,7 @@ var (
 //todo close the connection
 func InitJaeger() (io.Closer, opentracing.Tracer) {
 	jaegerCfgInstance := jaegerconfig.Configuration{
-		ServiceName: "Demo check",
+		ServiceName: "Alfred Tracing",
 		Sampler: &jaegerconfig.SamplerConfig{
 			Type:  jaeger.SamplerTypeConst,
 			Param: 1,

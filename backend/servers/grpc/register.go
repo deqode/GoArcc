@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"alfred/config"
+	"alfred/modules/HelloWorldService"
 	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService"
 	userProfilepb "alfred/modules/UserProfileService/pb"
@@ -10,10 +11,10 @@ import (
 )
 
 //Todo : Whenever any new modules will be in alfred : it must be registered in below method
-func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, conn *grpc.ClientConn) {
+func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config) {
 	//todo register new grpc modules here
 	//register user modules
-	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService(db, hellopb.NewHelloWorldServiceClient(conn)))
+	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService(db, config))
 
-	//hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService(userProfilepb.NewUserProfileServiceClient(conn)))
+	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
 }

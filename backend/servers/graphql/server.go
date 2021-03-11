@@ -23,7 +23,7 @@ func RunGraphqlServer(ctx context.Context, config *config.Config) error {
 	}
 	http.Handle("/graphql", mux)
 	srv := &http.Server{
-		Addr: config.ServerHost + ":" + config.GraphqlPort,
+		Addr: config.Graphql.Host + ":" + config.Graphql.Port,
 		// add handler with middleware
 		Handler:/*middleware.AddRequestID(
 		middleware.AddLogger(logger.Log, mux))*/mux,

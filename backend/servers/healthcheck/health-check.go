@@ -16,7 +16,7 @@ func RunHealthCheckServer(config *config.Config, db *gorm.DB) error {
 	postgresql.Check()
 	handler.AddChecker("Postgres", postgresql)
 	http.Handle("/health/", handler)
-	return http.ListenAndServe(config.ServerHost+":"+config.HealthCheckPort, nil)
+	return http.ListenAndServe(config.HealthCheck.Host+":"+config.HealthCheck.Port, nil)
 }
 
 func HealthCheckRunner(config *config.Config, db *gorm.DB) error {

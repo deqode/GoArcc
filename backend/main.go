@@ -1,7 +1,6 @@
 package main
 
 import (
-	"alfred/client/grpcClient"
 	"alfred/cmd"
 	"alfred/config"
 	"alfred/db"
@@ -27,7 +26,6 @@ func main() {
 		db.DatabaseConnectionFx,
 		HelloWorldService.HelloServiceFx,
 		promthesiusServer.InitPromthesiusServerFx,
-		grpcClient.GrpcClientFx,
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,
 

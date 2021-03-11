@@ -1,6 +1,14 @@
 package config
 
-// Config is configuration for Server
+import (
+	"alfred/logger"
+	"github.com/pkg/errors"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"os"
+)
+
+/*// Config is configuration for Server
 type Config struct {
 	// gRPC server start parameters section
 	// GRPCPort is TCP port to listen by gRPC server
@@ -42,7 +50,71 @@ type Config struct {
 	LogTimeFormat string
 }
 
-func GetConfig() *Config {
+*/
+
+type Config struct {
+	Grpc        GraphqlServerConfig
+	Graphql     GraphqlServerConfig
+	Rest        RestServerConfig
+	HealthCheck HealthCheckServerConfig
+	Promthesius PromthesiusServerConfig
+	Logger      LoggerConfig
+	Postgres    PostgresConfig
+	Metrics     MetricsConfig
+	Jaeger      JaegerServerConfig
+}
+
+type GrpcServerConfig struct {
+	Port string
+	Host string
+}
+
+type GraphqlServerConfig struct {
+	Port string
+	Host string
+}
+
+type RestServerConfig struct {
+	Port string
+	Host string
+}
+
+type HealthCheckServerConfig struct {
+	Port string
+	Host string
+}
+
+type PromthesiusServerConfig struct {
+	Port string
+	Host string
+}
+
+type LoggerConfig struct {
+	LogLevel string
+}
+
+type PostgresConfig struct {
+	PostgresqlHost     string
+	PostgresqlPort     string
+	PostgresqlUser     string
+	PostgresqlPassword string
+	PostgresqlDbname   string
+	PostgresqlSslmode  string
+	PgDriver           string
+}
+
+type MetricsConfig struct {
+	Url         string
+	ServiceName string
+}
+type JaegerServerConfig struct {
+	Host        string
+	Port        string
+	ServiceName string
+	LogSpans    string
+}
+
+/*func GetConfig() *Config {
 	return &Config{
 		GraphqlPort:         "8082",
 		HTTPPort:            "8081",
@@ -59,4 +131,57 @@ func GetConfig() *Config {
 		ZipkinUrl:           "http://localhost:9411/api/v1/spans",
 		ZipkinServiceName:   "AlfredTracing",
 	}
+}
+
+*/
+
+// Load config file from given path
+func LoadConfig(filename string) (*viper.Viper, error) {
+	v := viper.New()
+	v.SetConfigName(filename)
+	v.AddConfigPath(".")
+	v.AutomaticEnv()
+	if err := v.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			return nil, errors.New("config file not found")
+		}
+		return nil, err
+	}
+
+	return v, nil
+}
+
+// Parse config file
+func ParseConfig(v *viper.Viper) (*Config, error) {
+	var c Config
+	err := v.Unmarshal(&c)
+	if err != nil {
+		logger.Log.Fatal("unable to decode into struct", zap.Error(err))
+		return nil, err
+	}
+	return &c, nil
+}
+
+// Get config path for local or docker
+func GetConfigPath(configPath string) string {
+	if configPath == "docker" {
+		return "config-docker"
+	}
+	return "config_local"
+}
+
+// Get config
+func GetConfig() *Config {
+	configPath := GetConfigPath(os.Getenv("config"))
+	cfgFile, err := LoadConfig(configPath)
+	if err != nil {
+		logger.Log.Fatal("unable to get config", zap.Error(err))
+		return nil
+	}
+	cfg, err := ParseConfig(cfgFile)
+	if err != nil {
+		logger.Log.Fatal("unable to get config", zap.Error(err))
+		return nil
+	}
+	return cfg
 }

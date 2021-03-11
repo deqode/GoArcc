@@ -12,9 +12,9 @@ import (
 //New Connection will open the connection with the database information
 // that is passed as an argument.
 func NewConnection(config *config.Config) *gorm.DB {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable Timezone=Asia/Shanghai",
-		config.DatastoreDBHost, config.DatastoreDBPort, config.DatastoreDBUser, config.DatastoreDBPassword, config.DatastoreDBSchema)
+		config.Postgres.PostgresqlHost, config.Postgres.PostgresqlPort, config.Postgres.PostgresqlUser, config.Postgres.PostgresqlPassword, config.Postgres.PostgresqlDbname)
 
 	// https://github.com/go-gorm/postgres
 	db, err := gorm.Open(postgres.New(postgres.Config{
