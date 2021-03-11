@@ -1,5 +1,6 @@
 package promthesiusServer
 
+/*
 import (
 	"alfred/config"
 	"alfred/logger"
@@ -47,7 +48,7 @@ func RunPrometheusServer(ctx context.Context, config *config.Config, grpcServer 
 	defer cancel()
 
 	srv := &http.Server{
-		Addr:    config.ServerHost + ":" + config.PromthesiusPort,
+		Addr:    config.Promthesius.Host + ":" + config.Promthesius.Port,
 		Handler: promhttp.HandlerFor(prometheusConfig.Registry, promhttp.HandlerOpts{}),
 	}
 
@@ -111,3 +112,4 @@ func CreateMetrics() (*PrometheusMetrics, error) {
 	}
 	return &metr, nil
 }
+*/

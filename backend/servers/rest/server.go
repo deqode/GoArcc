@@ -17,11 +17,11 @@ func RunRESTServer(ctx context.Context, config *config.Config) error {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterRESTModules(ctx, mux, config.GRPCPort); err != nil {
+	if err := RegisterRESTModules(ctx, mux, config.Grpc.Port); err != nil {
 		panic(err)
 	}
 	srv := &http.Server{
-		Addr: config.ServerHost + ":" + config.HTTPPort,
+		Addr: config.Rest.Host + ":" + config.Rest.Port,
 		// add handler with middleware
 		Handler:/* middleware.AddRequestID(
 		middleware.AddLogger(logger.Log, mux))*/mux,

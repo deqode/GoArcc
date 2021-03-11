@@ -11,7 +11,6 @@ import (
 func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-
 		// We do not want to be spammed by Kubernetes health check.
 		// Do not log Kubernetes health check.
 		// You can change this behavior as you wish.

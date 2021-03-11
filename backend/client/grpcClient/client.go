@@ -3,27 +3,36 @@ package grpcClient
 import (
 	"alfred/config"
 	"alfred/logger"
+	"alfred/servers/openTracing/tracer/jaeger"
 	"context"
+	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
+//ClientContext to store context
 type ClientContext struct {
 	Ctx context.Context
 }
 
-func GetGrpcClientConnection(config *config.Config) *grpc.ClientConn {
-	/*	var opts []grpc.DialOption
-		opts = append(
-			opts, grpc.WithStreamInterceptor(
-				otgrpc.OpenTracingStreamClientInterceptor(tracer, otgrpc.LogPayloads())))
+//GetGrpcClientConnection is used to get the client connection
+func GetGrpcClientConnection(ctx context.Context, config *config.Config) *grpc.ClientConn {
+	var opts []grpc.DialOption
+	opts = append(opts,
+		grpc.WithUnaryInterceptor(
+			//tracing for unary interceptors
+			grpc_opentracing.UnaryClientInterceptor(grpc_opentracing.WithTracer(jaeger.Tracer)),
+		),
+		//tracing for stream interceptors
+		grpc.WithStreamInterceptor(grpc_opentracing.StreamClientInterceptor(grpc_opentracing.WithTracer(jaeger.Tracer))),
+	)
 
-		opts = append(opts, grpc.WithUnaryInterceptor(
-			otgrpc.OpenTracingClientInterceptor(tracer, otgrpc.LogPayloads())))
-
-		opts = append(opts, grpc.WithInsecure())*/
+	//append grpc insecure
+	opts = append(opts,
+		grpc.WithInsecure(),
+	)
 	// You must have some sort of OpenTracing Tracer instance on hand.
-	conn, err := grpc.Dial(config.DatastoreDBHost+":"+config.GRPCPort, grpc.WithInsecure())
+	conn, err := grpc.DialContext(ctx, config.Grpc.Host+":"+config.Grpc.Port, opts...)
 	if err != nil {
 		logger.Log.Fatal("did not connect", zap.Error(err))
 	}

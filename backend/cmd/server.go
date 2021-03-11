@@ -4,20 +4,13 @@ import (
 	"alfred/config"
 	"alfred/logger"
 	grpql "alfred/servers/graphql"
-	"alfred/servers/promthesiusServer"
 	"alfred/servers/rest"
 	"context"
 	"go.uber.org/fx"
-	"go.uber.org/zap"
-	"google.golang.org/grpc"
 )
 
 // RunServer runs gRPC server and HTTP gateway
-func RunServer(lc fx.Lifecycle, cfg *config.Config, grpcServer *grpc.Server, promthesiusConfig *promthesiusServer.PrometheusConfig) {
-	cfg.GRPCPort = "8080"
-	cfg.HTTPPort = "8081"
-	cfg.GraphqlPort = "8082"
-	cfg.LogLevel = int(zap.DebugLevel)
+func RunServer(lc fx.Lifecycle, cfg *config.Config) {
 
 	lc.Append(fx.Hook{
 		// To mitigate the impact of deadlocks in application startup and

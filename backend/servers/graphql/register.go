@@ -10,6 +10,9 @@ import (
 )
 
 //Todo : Whenever any new modules will be in alfred : it must be registered in below method
+/*
+  RegisterGraphqlModules: Mapping the services with the single graphql endpoint
+*/
 func RegisterGraphqlModules(ctx context.Context, mux *runtime.ServeMux) error {
 	if err := userProfilePb.RegisterUserProfileServiceGraphql(mux); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))

@@ -1,0 +1,41 @@
+grpc:
+    Port: 8080
+    Host: localhost
+
+graphql:
+    Port: 8081
+    Host: localhost
+
+rest:
+    Port: 8082
+    Host: localhost
+
+healthcheck:
+    Port: 8083
+    Host: localhost
+
+promthesius:
+    Port: 8084
+    Host: localhost
+
+logger:
+    LogLevel: -1
+
+postgres:
+    PostgresqlHost: localhost
+    PostgresqlPort: 5432
+    PostgresqlUser: alfred
+    PostgresqlPassword: alfred
+    PostgresqlDbname: alfred.v1
+    PostgresqlSslmode: false
+    PgDriver: pgx
+
+metrics:
+    Url: 0.0.0.0:7070
+    ServiceName: AlfredMetrics
+
+jaeger:
+    Host: localhost
+    Port: 6831
+    ServiceName: AlfredTracing
+    LogSpans: false

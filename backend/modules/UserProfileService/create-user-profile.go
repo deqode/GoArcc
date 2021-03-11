@@ -1,32 +1,17 @@
 package UserProfileService
 
 import (
+	"alfred/client/grpcClient"
 	"alfred/logger"
-	hello "alfred/modules/HelloWorldService"
 	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService/pb"
 	"context"
 	"fmt"
-
 	"os/exec"
 )
 
 func (server *UserProfileService) CreateUserProfile(ctx context.Context, request *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
-
-	/*	span, ctx := opentracing.StartSpanFromContext(ctx, "............checking tracing.............")
-		defer span.Finish()*/
-	/*	span.LogFields(
-		log.String("event", "soft error"),
-		log.String("type", "cache timeout"),
-		log.Int("waited.millis", 1500))
-	*/
 	var resp pb.UserProfile
-	_, err := hello.LocalHelloWorld().HelloWorld(ctx, &hellopb.Hello{
-		Message: "Hii",
-	})
-	if err != nil {
-		panic(err)
-	}
 	//creating uuid
 	out, err := exec.Command("uuidgen").Output()
 	if err != nil {
@@ -41,6 +26,15 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 	t := server.db.Create(&resp)
 	if t.Error != nil {
 		return nil, t.Error
+	}
+	//checking tracing
+	conn := grpcClient.GetGrpcClientConnection(ctx, server.config)
+	defer conn.Close()
+	helloWorldClient := hellopb.NewHelloWorldServiceClient(conn)
+
+	_, err = helloWorldClient.HelloWorld(ctx, &hellopb.Hello{Message: "hello"})
+	if err != nil {
+		return nil, err
 	}
 
 	return &resp, nil

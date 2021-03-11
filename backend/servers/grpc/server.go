@@ -5,15 +5,20 @@ import (
 	"alfred/logger"
 	"alfred/servers/grpc/middleware"
 	"context"
+	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/opentracing/opentracing-go"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"net"
+	"net/http"
 )
 
+//InitGrpcBeforeServing: give the instance of server and listener.
 func InitGrpcBeforeServing(config *config.Config, tracer opentracing.Tracer) (*grpc.Server, net.Listener) {
-	listen, err := net.Listen("tcp", ":"+config.GRPCPort)
+	listen, err := net.Listen("tcp", ":"+config.Grpc.Port)
 	if err != nil {
 		logger.Log.Fatal("not able to initialize grpc server", zap.Error(err))
 		return nil, nil
@@ -27,11 +32,15 @@ func InitGrpcBeforeServing(config *config.Config, tracer opentracing.Tracer) (*g
 	return server, listen
 }
 
-// RunServer runs gRPC service to publish ToDo service
+// RunGRPCServer runs gRPC service on the given port.
 func RunGRPCServer(lc fx.Lifecycle, server *grpc.Server, listener net.Listener) error {
 	lc.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
+				reflection.Register(server)
+				grpc_prometheus.EnableHandlingTimeHistogram()
+				grpc_prometheus.Register(server)
+				http.Handle("/metrics", promhttp.Handler())
 				// start gRPC server
 				go server.Serve(listener)
 				return nil
