@@ -1,5 +1,6 @@
 package promthesiusServer
 
+/*
 import (
 	"alfred/config"
 	"alfred/logger"
@@ -111,3 +112,4 @@ func CreateMetrics() (*PrometheusMetrics, error) {
 	}
 	return &metr, nil
 }
+*/

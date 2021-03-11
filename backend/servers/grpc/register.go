@@ -11,6 +11,9 @@ import (
 )
 
 //Todo : Whenever any new modules will be in alfred : it must be registered in below method
+/*
+  RegisterGrpcModules: will register the modules/services to the server.
+*/
 func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config) {
 	//todo register new grpc modules here
 	//register user modules

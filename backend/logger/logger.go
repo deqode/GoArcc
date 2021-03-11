@@ -25,7 +25,7 @@ func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 	enc.AppendString(t.Format(customTimeFormat))
 }
 
-// Init initializes log by input parameters
+// InitLogger initializes log by input parameters
 // lvl - global log level: Debug(-1), Info(0), Warn(1), Error(2), DPanic(3), Panic(4), Fatal(5)
 // timeFormat - custom time format for logger of empty string to use default
 func InitLogger() {
@@ -64,7 +64,6 @@ func InitLogger() {
 			zapcore.NewCore(consoleEncoder, consoleErrors, highPriority),
 			zapcore.NewCore(consoleEncoder, consoleInfos, lowPriority),
 		)
-
 		// From a zapcore.Core, it's easy to construct a Logger.
 		Log = zap.New(core)
 		zap.RedirectStdLog(Log)

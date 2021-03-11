@@ -10,18 +10,23 @@ import (
 	"google.golang.org/grpc"
 )
 
+//ClientContext to store context
 type ClientContext struct {
 	Ctx context.Context
 }
 
+//GetGrpcClientConnection is used to get the client connection
 func GetGrpcClientConnection(ctx context.Context, config *config.Config) *grpc.ClientConn {
 	var opts []grpc.DialOption
 	opts = append(opts,
 		grpc.WithUnaryInterceptor(
+			//tracing for unary interceptors
 			grpc_opentracing.UnaryClientInterceptor(grpc_opentracing.WithTracer(jaeger.Tracer)),
 		),
+		//tracing for stream interceptors
 		grpc.WithStreamInterceptor(grpc_opentracing.StreamClientInterceptor(grpc_opentracing.WithTracer(jaeger.Tracer))),
 	)
+
 	//append grpc insecure
 	opts = append(opts,
 		grpc.WithInsecure(),

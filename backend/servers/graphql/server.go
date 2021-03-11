@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-// RunServer runs HTTP/REST gateway
+// RunGraphqlServer runs HTTP/REST gateway
 func RunGraphqlServer(ctx context.Context, config *config.Config) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()

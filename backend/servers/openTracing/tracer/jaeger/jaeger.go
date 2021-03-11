@@ -1,6 +1,7 @@
 package jaeger
 
 import (
+	"alfred/config"
 	"alfred/logger"
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
@@ -9,9 +10,10 @@ import (
 	"github.com/uber/jaeger-lib/metrics"
 	"go.uber.org/zap"
 	"io"
+	"strconv"
 )
 
-// Jaeger
+// Jaeger struct for conversion
 type Jaeger struct {
 	Host        string
 	ServiceName string
@@ -23,19 +25,27 @@ var (
 )
 
 //todo close the connection
-func InitJaeger() (io.Closer, opentracing.Tracer) {
+//InitJaeger is responsible for initialising the jaeger tracing instance.
+func InitJaeger(config *config.Config) (io.Closer, opentracing.Tracer) {
+	//conversion string val to bool
+	logSpan, _ := strconv.ParseBool(config.Jaeger.LogSpans)
+	//Jaeger configuration setup
 	jaegerCfgInstance := jaegerconfig.Configuration{
-		ServiceName: "Alfred Tracing",
+		//Service name is the name of project for which tracing will be present
+		ServiceName: config.Jaeger.ServiceName,
 		Sampler: &jaegerconfig.SamplerConfig{
+			// SamplerTypeConst is the type of sampler that always makes the same decision.
 			Type:  jaeger.SamplerTypeConst,
 			Param: 1,
 		},
+		//Reporter configuration
 		Reporter: &jaegerconfig.ReporterConfig{
-			LogSpans:           false,
-			LocalAgentHostPort: "localhost:6831",
+			LogSpans: logSpan,
+			//Local Agent Host port
+			LocalAgentHostPort: config.Jaeger.Host + ":" + config.Jaeger.Port,
 		},
 	}
-
+	//New Tracer instance
 	tracer, closer, err := jaegerCfgInstance.NewTracer(
 		jaegerconfig.Logger(jaegerlog.StdLogger),
 		jaegerconfig.Metrics(metrics.NullFactory),
@@ -44,7 +54,7 @@ func InitJaeger() (io.Closer, opentracing.Tracer) {
 		logger.Log.Fatal("cannot create tracer", zap.Error(err))
 	}
 	logger.Log.Info("Jaeger Connected successfully")
-
+	//global tracer setup , opentracing
 	opentracing.SetGlobalTracer(tracer)
 	return closer, tracer
 }

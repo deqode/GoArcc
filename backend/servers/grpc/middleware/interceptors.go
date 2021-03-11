@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// AddLogging returns grpc.Server config option that turn on logging.
+// AddInterceptors: Add interceptors to the grpc server
 func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.ServerOption) []grpc.ServerOption {
 	// Make sure that log statements internal to gRPC library are logged using the zapLogger as well.
 	grpc_zap.ReplaceGrpcLoggerV2(logger)
@@ -60,7 +60,7 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 	return opts
 }
 
-//Unknown error will be sent to user if any panics will triggered
+//grpcPanicsRecovery: is responsible to convert panic to the custom message
 func grpcPanicsRecovery(in interface{}) error {
 	return status.Errorf(codes.Unknown, "panic triggered: %v", in)
 }

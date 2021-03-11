@@ -9,8 +9,10 @@ import (
 	"gorm.io/gorm"
 )
 
-//New Connection will open the connection with the database information
-// that is passed as an argument.
+/*
+NewConnection: will open the connection with the database information
+that is passed as an argument.
+*/
 func NewConnection(config *config.Config) *gorm.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable Timezone=Asia/Shanghai",
@@ -25,5 +27,6 @@ func NewConnection(config *config.Config) *gorm.DB {
 		logger.Log.Fatal("connection failed in db", zap.Error(err))
 	}
 	defer logger.Log.Info("connection established with the database")
+	//No need to close the connection because we have a single pool of connection
 	return db
 }
