@@ -11,7 +11,7 @@ import (
 
 // RunServer runs gRPC server and HTTP gateway
 func RunServer(lc fx.Lifecycle, cfg *config.Config) {
-
+	Ctx := context.Background()
 	lc.Append(fx.Hook{
 		// To mitigate the impact of deadlocks in application startup and
 		// shutdown, Fx imposes a time limit on OnStart and OnStop hooks. By
@@ -23,11 +23,11 @@ func RunServer(lc fx.Lifecycle, cfg *config.Config) {
 			// better error-handling.
 			// run HTTP gateway
 			go func() {
-				_ = rest.RunRESTServer(ctx, cfg)
+				_ = rest.RunRESTServer(Ctx, cfg)
 			}()
 			//run graphql gateway
 			go func() {
-				_ = grpql.RunGraphqlServer(ctx, cfg)
+				_ = grpql.RunGraphqlServer(Ctx, cfg)
 			}()
 
 			return nil

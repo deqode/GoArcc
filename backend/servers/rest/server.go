@@ -38,7 +38,7 @@ func RunRESTServer(ctx context.Context, config *config.Config) error {
 		defer cancel()
 
 		_ = srv.Shutdown(ctx)
-		logger.Log.Info("graceful shuttting down Rest Server")
+		logger.Log.Info("graceful shutting down Rest Server")
 	}()
 
 	logger.Log.Info("starting HTTP/REST gateway...")

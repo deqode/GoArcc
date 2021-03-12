@@ -37,7 +37,7 @@ func RunGraphqlServer(ctx context.Context, config *config.Config) error {
 		}
 		_, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()
-		logger.Log.Info("graceful shuttting down Graphql Server")
+		logger.Log.Info("graceful shutting down Graphql Server")
 		_ = srv.Shutdown(ctx)
 	}()
 	logger.Log.Info("starting HTTP/GRAPHQL  gateway...")
