@@ -16,7 +16,7 @@ type ClientContext struct {
 }
 
 //GetGrpcClientConnection is used to get the client connection
-func GetGrpcClientConnection(ctx context.Context, config *config.Config) *grpc.ClientConn {
+func GetGrpcClientConnection(config *config.Config) *grpc.ClientConn {
 	var opts []grpc.DialOption
 	opts = append(opts,
 		grpc.WithUnaryInterceptor(
@@ -32,7 +32,7 @@ func GetGrpcClientConnection(ctx context.Context, config *config.Config) *grpc.C
 		grpc.WithInsecure(),
 	)
 	// You must have some sort of OpenTracing Tracer instance on hand.
-	conn, err := grpc.DialContext(ctx, config.Grpc.Host+":"+config.Grpc.Port, opts...)
+	conn, err := grpc.DialContext(context.Background(), config.Grpc.Host+":"+config.Grpc.Port, opts...)
 	if err != nil {
 		logger.Log.Fatal("did not connect", zap.Error(err))
 	}

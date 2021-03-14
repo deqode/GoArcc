@@ -41,6 +41,7 @@ func RunGRPCServer(lc fx.Lifecycle, server *grpc.Server, listener net.Listener) 
 				grpc_prometheus.EnableHandlingTimeHistogram()
 				grpc_prometheus.Register(server)
 				http.Handle("/metrics", promhttp.Handler())
+				logger.Log.Info("starting HTTP2/gRPC server...")
 				// start gRPC server
 				go server.Serve(listener)
 				return nil

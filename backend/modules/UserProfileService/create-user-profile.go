@@ -1,7 +1,6 @@
 package UserProfileService
 
 import (
-	"alfred/client/grpcClient"
 	"alfred/logger"
 	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService/pb"
@@ -28,7 +27,7 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 		return nil, t.Error
 	}
 	//checking tracing
-	conn := grpcClient.GetGrpcClientConnection(ctx, server.config)
+	conn := server.grpcClient
 	defer conn.Close()
 	helloWorldClient := hellopb.NewHelloWorldServiceClient(conn)
 

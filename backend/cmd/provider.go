@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
 	"alfred/modules/HelloWorldService"
@@ -21,5 +22,6 @@ func GetProviderOptions() []fx.Option {
 		HelloWorldService.HelloServiceFx,
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,
+		grpcClient.GrpcClientConnectionFx,
 	}
 }
