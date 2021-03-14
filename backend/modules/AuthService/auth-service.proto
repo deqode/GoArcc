@@ -1,0 +1,23 @@
+syntax = "proto3";
+package pb;
+
+option go_package = ".;pb";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotation.proto";
+import "include/graphql.proto";
+
+service AuthService {
+    rpc GetAuth
+}
+
+
+//SOURCE is sent from the UI to get the third party
+// auth url - so that in client side it redirects.
+enum SOURCE {
+    GITHUB = 0;
+    GITLAB = 1;
+    BITBUCKET = 2;
+    GOOGLE = 3;
+    EMAIL_PASSWORD = 4;
+}

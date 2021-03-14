@@ -21,3 +21,5 @@ run-all-linter: get-linter get-fmt run-linter run-fmt tidy
 #Get the test coverage
 test:
 	go test -cover ./...
+
+

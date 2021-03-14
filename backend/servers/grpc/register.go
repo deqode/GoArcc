@@ -14,10 +14,9 @@ import (
 /*
   RegisterGrpcModules: will register the modules/services to the server.
 */
-func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config) {
+func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, grpcClientConnection *grpc.ClientConn) {
 	//todo register new grpc modules here
 	//register user modules
-	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService(db, config))
-
+	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService(db, config, grpcClientConnection))
 	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
 }

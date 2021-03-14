@@ -1,4 +1,4 @@
-package promthesiusServer
+package prometheusServer
 
 /*import "go.uber.org/fx"
 

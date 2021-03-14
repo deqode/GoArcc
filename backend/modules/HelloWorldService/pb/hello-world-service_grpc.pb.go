@@ -44,7 +44,7 @@ func (c *helloWorldServiceClient) HelloWorld(ctx context.Context, in *Hello, opt
 // for forward compatibility
 type HelloWorldServiceServer interface {
 	HelloWorld(context.Context, *Hello) (*empty.Empty, error)
-	//mustEmbedUnimplementedHelloWorldServiceServer()
+	//	mustEmbedUnimplementedHelloWorldServiceServer()
 }
 
 // UnimplementedHelloWorldServiceServer must be embedded to have forward compatible implementations.

@@ -5,19 +5,16 @@ import (
 	"alfred/logger"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"go.uber.org/fx"
 	"net/http"
-	"os"
-	"os/signal"
-	"time"
 )
 
-// RunServer runs HTTP/REST gateway
-func RunRESTServer(ctx context.Context, config *config.Config) error {
-	ctx, cancel := context.WithCancel(ctx)
+func RunRestServer(lc fx.Lifecycle, config *config.Config) {
+	Ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterRESTModules(ctx, mux, config.Grpc.Port); err != nil {
+	if err := RegisterRESTModules(Ctx, mux, config.Grpc.Port); err != nil {
 		panic(err)
 	}
 	srv := &http.Server{
@@ -27,20 +24,30 @@ func RunRESTServer(ctx context.Context, config *config.Config) error {
 		middleware.AddLogger(logger.Log, mux))*/mux,
 	}
 
-	// graceful shutdown
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	go func() {
-		for range c {
-			// sig is a ^C, handle it
-		}
-		_, cancel := context.WithTimeout(ctx, 15*time.Second)
-		defer cancel()
-
-		_ = srv.Shutdown(ctx)
-		logger.Log.Info("graceful shuttting down Rest Server")
-	}()
-
 	logger.Log.Info("starting HTTP/REST gateway...")
-	return srv.ListenAndServe()
+
+	lc.Append(fx.Hook{
+		// To mitigate the impact of deadlocks in application startup and
+		// shutdown, Fx imposes a time limit on OnStart and OnStop hooks. By
+		// default, hooks have a total of 15 seconds to complete. Timeouts are
+		// passed via Go's usual context.Context.
+		OnStart: func(ctx context.Context) error {
+
+			// In production, we'd want to separate the Listen and Serve phases for
+			// better error-handling.
+			// run HTTP gateway
+			logger.Log.Info("starting HTTP/REST gateway...")
+			go func() {
+				_ = srv.ListenAndServe()
+			}()
+
+			return nil
+		},
+
+		OnStop: func(ctx context.Context) error {
+			logger.Log.Info("Gracefully Shutting down REST server")
+			_ = srv.Shutdown(Ctx)
+			return nil
+		},
+	})
 }
