@@ -15,6 +15,7 @@ import (
 type CleanupConfig struct {
 	//Db *gorm.DB
 	GrpcServerConnection *grpc.Server
+	GrpcClientConnection *grpc.ClientConn
 	JaegerCloser         io.Closer
 }
 
@@ -24,10 +25,12 @@ type CleanupConfig struct {
 */
 func GetCleanupConfig(
 	GrpcServerConnection *grpc.Server,
+	GrpcClientConnection *grpc.ClientConn,
 	JaegerCloser io.Closer) *CleanupConfig {
 	return &CleanupConfig{
 		GrpcServerConnection: GrpcServerConnection,
 		JaegerCloser:         JaegerCloser,
+		GrpcClientConnection: GrpcClientConnection,
 	}
 }
 
@@ -40,6 +43,10 @@ func Cleanup(lc fx.Lifecycle, config *CleanupConfig) {
 	lc.Append(fx.Hook{
 		OnStop: func(ctx context.Context) error {
 			logger.Log.Info(".......Starting Cleanup code ......")
+
+			//Closing client connection
+			config.GrpcClientConnection.Close()
+			logger.Log.Info("successfully closed grpc client connection")
 			//Closing grpc server connection
 			config.GrpcServerConnection.GracefulStop()
 			logger.Log.Info("successfully closed grpc server connection")
