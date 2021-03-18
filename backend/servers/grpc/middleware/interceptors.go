@@ -3,7 +3,6 @@ package middleware
 import (
 	"context"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
@@ -14,6 +13,7 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -35,7 +35,7 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		grpc_prometheus.UnaryServerInterceptor,
 		//zap logger implementation
 		grpc_zap.UnaryServerInterceptor(logger),
-		grpc_auth.UnaryServerInterceptor(myAuthFunction),
+		//grpc_auth.UnaryServerInterceptor(myAuthFunction),
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.UnaryServerInterceptor(),
@@ -52,7 +52,7 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		grpc_opentracing.StreamServerInterceptor(),
 		//prom implementation
 		grpc_prometheus.StreamServerInterceptor,
-		grpc_auth.StreamServerInterceptor(myAuthFunction),
+		//	grpc_auth.StreamServerInterceptor(myAuthFunction),
 		//zap implementation
 		grpc_zap.StreamServerInterceptor(logger),
 		//validate the incoming request - inbound in proto file
@@ -71,5 +71,22 @@ func grpcPanicsRecovery(in interface{}) error {
 
 //
 func myAuthFunction(ctx context.Context) (context.Context, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, status.Errorf(codes.InvalidArgument, "Retrieving metadata is failed")
+	}
+
+	authHeader, ok := md["Authorization"]
+	if !ok {
+		return nil, status.Errorf(codes.Unauthenticated, "Authorization token is not supplied")
+	}
+
+	_ = authHeader[0]
+	// validateToken function validates the token
+	/*	err := validateToken(token)
+
+		if err != nil {
+			return nil , status.Errorf(codes.Unauthenticated, err.Error())
+		}*/
 	return ctx, nil
 }

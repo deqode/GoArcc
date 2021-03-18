@@ -28,7 +28,6 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 	}
 	//checking tracing
 	conn := server.grpcClient
-	defer conn.Close()
 	helloWorldClient := hellopb.NewHelloWorldServiceClient(conn)
 
 	_, err = helloWorldClient.HelloWorld(ctx, &hellopb.Hello{Message: "hello"})
