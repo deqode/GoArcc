@@ -239,11 +239,9 @@ type graphql__resolver_UserProfileService struct {
 // new_graphql_resolver_UserProfileService creates pointer of service struct
 func new_graphql_resolver_UserProfileService(conn *grpc.ClientConn) *graphql__resolver_UserProfileService {
 	return &graphql__resolver_UserProfileService{
-		conn: conn,
-		host: "localhost:8080",
-		dialOptions: []grpc.DialOption{
-			grpc.WithInsecure(),
-		},
+		conn:        conn,
+		host:        "localhost:50051",
+		dialOptions: []grpc.DialOption{},
 	}
 }
 

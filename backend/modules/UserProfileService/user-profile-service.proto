@@ -8,13 +8,6 @@ import "google/api/annotation.proto";
 import "include/graphql.proto";
 
 service UserProfileService {
-    // gRPC service information
-    // gRPC service information
-    option (graphql.service) = {
-       host: "localhost:8080"
-       insecure: true
-      };
-
     rpc CreateUserProfile(CreateUserProfileRequest) returns (UserProfile){
         option (google.api.http) = {
            post: "/v1/user-profile/create-user-profile"
