@@ -1,0 +1,98 @@
+syntax = "proto3";
+package pb;
+
+option go_package = ".;pb";
+
+
+message AwsDefaultData {
+    AwsContainerServices aws_container_services = 1;
+    EcsContainerService ecs_container_service = 2;
+    FragrateLaunchType fragrate_launch_type = 3;
+    Ec2LaunchType ec2_launch_type = 4;
+}
+
+
+//EKS , ECS
+message AwsContainerServices {
+    repeated string name = 3;
+    EcsContainerService ecs_container_service = 1;
+    EksContainerService eks_container_service = 2;
+}
+
+
+message EksContainerService {
+
+}
+message EcsContainerService {
+     repeated string name = 3;
+     Ec2LaunchType ec2_launch_type = 1;
+     FragrateLaunchType fragrate_launch_type = 2;
+}
+
+message FragrateLaunchType {
+    repeated  string name = 1;
+}
+
+
+message  Ec2LaunchType {
+    repeated string name = 3;
+    GeneralPurposeMachine general_purpose_machine = 1;
+    ComputeOptimizedMachine compute_optimized_machine = 2;
+    MemoryOptimizedMachine memory_optimized_machine = 5;
+    AcceleratedComputing  accelerate_computing = 4;
+}
+
+
+message GeneralPurposeMachine {
+    repeated string name = 3;
+    repeated MachineConfig machine_config = 4;
+}
+
+
+message  MachineConfig {
+    string parent = 1;
+    string instance_size = 2;
+    string v_cpu = 3;
+    string memory_in_gib = 4;
+    string instance_storage = 5;
+    string instance_storage_gib = 18;
+    string network_bandwidth_gbpc = 6;
+    string ebs_bandwidth_mbps = 7;
+    string baseline_performance = 8;
+    string cpu_credits_earned_hr = 9;
+    string network_burst_bandwidth_gbps = 10;
+    string ebs_burst_bandwidth_mbps = 11;
+    string mem = 12;
+    string mem_gib = 19;
+    string network_performance = 13;
+    string storage = 14;
+    string storage_gb = 23;
+    string network_performance_gib = 15;
+    string network_bandwidth = 16;
+    string ebs_bandwidth = 17;
+    string gpu_mem_gib = 20;
+    string gpu_mem = 21;
+    string gpu_p2p = 22;
+    string dedicated_ebs_bandwidth = 24;
+    string local_storage = 25;
+    string local_storage_gb = 26;
+
+}
+
+
+message ComputeOptimizedMachine {
+    repeated string name = 3;
+    repeated MachineConfig machine_config = 4;
+}
+
+message MemoryOptimizedMachine {
+    repeated string name = 3;
+    repeated MachineConfig machine_config = 4;
+}
+
+message AcceleratedComputing {
+    repeated string name = 3;
+    repeated MachineConfig machine_config = 4;
+}
+
+
