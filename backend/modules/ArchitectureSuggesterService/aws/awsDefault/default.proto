@@ -5,10 +5,8 @@ option go_package = ".;pb";
 
 
 message AwsDefaultData {
+    string name = 5;
     AwsContainerServices aws_container_services = 1;
-    EcsContainerService ecs_container_service = 2;
-    FragrateLaunchType fragrate_launch_type = 3;
-    Ec2LaunchType ec2_launch_type = 4;
 }
 
 
@@ -21,7 +19,7 @@ message AwsContainerServices {
 
 
 message EksContainerService {
-
+    repeated string name = 3;
 }
 message EcsContainerService {
      repeated string name = 3;

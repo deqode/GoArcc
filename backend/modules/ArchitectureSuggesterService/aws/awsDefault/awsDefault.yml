@@ -1,0 +1,283 @@
+name: awsDefaultData
+#aws container services
+aws_container_services:
+  #list of container services
+  name:
+    - ECS
+    - EKS
+  ecs_container_service:
+    #list of launch type supported by ecs
+    name:
+      - EC2
+      - FRAGRATE
+    ec2_launch_type:
+      #list of computer in ec2 launch type
+      name:
+        - GENERAL_PURPOSE
+        - COMPUTE_OPTIMIZED
+        - MEMORY_OPTIMIZED
+        - ACCELERATED_COMPUTING
+      general_purpose_machine:
+        #types of instances which comes under general purpose machine
+        name:
+          - Mac
+          - T4g
+          - T3
+          - T3a
+          - T2
+          - M6g
+          - M5
+          - M5a
+          - M5n
+          - M5zn
+          - M4
+          - A1
+          # Variations in machines
+        machine_config:
+          - parent: Mac
+            instance_size: mac1.metal
+            v_cpu: 12
+            memory_in_gib: 32
+            instance_storage: EBS-Only
+            network_bandwidth_gbpc: 10
+            ebs_bandwidth_mbps: 8000
+
+            # T4g instance variations
+          - parent: T4g
+            instance_size:  t4g.nano
+            v_cpu:  2
+            memory_in_gib:  0.5
+            baseline_performance: 5%
+            cpu_credits_earned_hr:  6
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2085
+
+          - parent: T4g
+            instance_size: t4g.micro
+            v_cpu: 2
+            memory_in_gib: 1
+            baseline_performance: 10%
+            cpu_credits_earned_hr: 12
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2085
+
+          - parent: T4g
+            instance_size: t4g.small
+            v_cpu: 2
+            memory_in_gib: 2
+            baseline_performance: 20%
+            cpu_credits_earned_hr: 24
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2085
+
+          - parent: T4g
+            instance_size: t4g.medium
+            v_cpu: 2
+            memory_in_gib: 4
+            baseline_performance: 20%
+            cpu_credits_earned_hr: 24
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2085
+
+          - parent: T4g
+            instance_size: t4g.large
+            v_cpu: 2
+            memory_in_gib: 8
+            baseline_performance: 30%
+            cpu_credits_earned_hr: 36
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2780
+
+          - parent: T4g
+            instance_size: t4g.xlarge
+            v_cpu: 4
+            memory_in_gib: 16
+            baseline_performance: 40%
+            cpu_credits_earned_hr: 96
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2780
+
+          - parent: T4g
+            instance_size: t4g.2xlarge
+            v_cpu: 8
+            memory_in_gib: 32
+            baseline_performance: 40%
+            cpu_credits_earned_hr: 192
+            network_burst_bandwidth_gbps: Up to 5
+            ebs_burst_bandwidth_mbps: Up to 2780
+
+          - parent: T3
+            instance_size: t3.nano
+            v_cpu: 2
+            memory_in_gib: 0.5
+            cpu_credits_earned_hr: 6
+            network_performance_gib:  Up to 5
+            storage:  EBS
+
+          - parent: T3
+            instance_size: t3.micro
+            v_cpu: 2
+            cpu_credits_earned_hr: 12
+            memory_in_gib: 1
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3
+            instance_size: t3.small
+            v_cpu: 2
+            cpu_credits_earned_hr: 24
+            memory_in_gib: 2
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3
+            instance_size: t3.medium
+            v_cpu: 2
+            cpu_credits_earned_hr: 24
+            memory_in_gib: 4
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3
+            instance_size: t3.large
+            v_cpu: 2
+            cpu_credits_earned_hr: 36
+            memory_in_gib: 8
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3
+            instance_size: t3.xlarge
+            v_cpu: 4
+            cpu_credits_earned_hr: 96
+            memory_in_gib: 16
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3
+            instance_size: t3.2xlarge
+            v_cpu: 8
+            cpu_credits_earned_hr: 192
+            memory_in_gib: 32
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3a
+            instance_size: t3a.nano
+            v_cpu: 2
+            cpu_credits_earned_hr: 6
+            memory_in_gib: 0.5
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3a
+            instance_size: t3a.micro
+            v_cpu: 2
+            cpu_credits_earned_hr: 12
+            memory_in_gib: 1
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3a
+            instance_size: t3a.small
+            v_cpu: 2
+            cpu_credits_earned_hr: 24
+            memory_in_gib: 2
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3a
+            instance_size: t3a.medium
+            v_cpu: 2
+            cpu_credits_earned_hr: 24
+            memory_in_gib: 4
+            storage: EBS
+            network_performance_gib: Up to 5
+
+          - parent: T3a
+            instance_size: t3a.large
+            v_cpu: 2
+            cpu_credits_earned_hr: 36
+            memory_in_gib: 8
+            storage: EBS
+            network_performance_gib: Up to 5
+
+
+          - parent: T3a
+            instance_size: t3a.xlarge
+            v_cpu: 2
+            cpu_credits_earned_hr: 96
+            memory_in_gib: 16
+            storage: EBS
+            network_performance_gib: Up to 5
+
+
+          - parent: T3a
+            instance_size: t3a.2xlarge
+            v_cpu: 8
+            cpu_credits_earned_hr: 192
+            memory_in_gib: 32
+            storage: EBS
+            network_performance_gib: Up to 5
+
+
+          - parent: T2
+            instance_size: t2.nano
+            v_cpu: 1
+            cpu_credits_earned_hr: 3
+            memory_in_gib: 0.5
+            storage: EBS
+            network_performance: Low
+
+
+          - parent: T2
+            instance_size: t2.micro
+            v_cpu: 1
+            cpu_credits_earned_hr: 6
+            memory_in_gib: 1
+            storage: EBS
+            network_performance: Low To Moderate
+
+          - parent: T2
+            instance_size: t2.small
+            v_cpu: 1
+            cpu_credits_earned_hr: 12
+            memory_in_gib: 2
+            storage: EBS
+            network_performance: Low To Moderate
+
+
+          - parent: T2
+            instance_size: t2.medium
+            v_cpu: 2
+            cpu_credits_earned_hr: 24
+            memory_in_gib: 4
+            storage: EBS
+            network_performance: Low To Moderate
+
+          - parent: T2
+            instance_size: t2.large
+            v_cpu: 2
+            cpu_credits_earned_hr: 36
+            memory_in_gib: 8
+            storage: EBS
+            network_performance: Low To Moderate
+
+          - parent: T2
+            instance_size: t2.xlarge
+            v_cpu: 4
+            cpu_credits_earned_hr: 54
+            memory_in_gib: 16
+            storage: EBS
+            network_performance: Moderate
+
+          - parent: T2
+            instance_size: t2.xlarge
+            v_cpu: 8
+            cpu_credits_earned_hr: 81
+            memory_in_gib: 32
+            storage: EBS
+            network_performance: Moderate
+
+
+
