@@ -1,24 +1,23 @@
-package ArchitectureSuggesterService
+package AwsArchitectureService
 
 import (
 	"alfred/logger"
 	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/ArchitecureConfiguration"
 	awsDefaultPb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/ArchitecureConfiguration/pb"
-	"alfred/modules/ArchitectureSuggesterService/pb"
+	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	"go.uber.org/zap"
 )
 
-type ArchitectureSuggesterService struct {
+type AwsArchitectureService struct {
 	awsDefaultData *awsDefaultPb.AwsDefaultData
 }
 
-//todo : AlWays add migration code for best practices
-func NewArchitectureSuggesterService() pb.ArchitectureSuggesterServiceServer {
+func NewAwsArchitectureService() pb.AwsServiceServer {
 	data, err := ArchitecureConfiguration.ParserData("awsConfig.yml")
 	if err != nil {
 		logger.Log.Fatal("not able to register", zap.Error(err))
 	}
-	return &ArchitectureSuggesterService{
+	return &AwsArchitectureService{
 		awsDefaultData: data,
 	}
 }

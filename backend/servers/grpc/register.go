@@ -2,6 +2,10 @@ package grpc
 
 import (
 	"alfred/config"
+	"alfred/modules/ArchitectureSuggesterService"
+	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService"
+	awsArchitecturePb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
+	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
 	"alfred/modules/HelloWorldService"
 	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService"
@@ -19,4 +23,6 @@ func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, g
 	//register user modules
 	userProfilepb.RegisterUserProfileServiceServer(srv, UserProfileService.NewUserProfileService(db, config, grpcClientConnection))
 	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
+	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService())
+	awsArchitecturePb.RegisterAwsServiceServer(srv, AwsArchitectureService.NewAwsArchitectureService())
 }

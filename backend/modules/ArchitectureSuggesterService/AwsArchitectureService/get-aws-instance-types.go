@@ -1,18 +1,18 @@
-package aws
+package AwsArchitectureService
 
 import (
-	awsDefaultDataPb "alfred/modules/ArchitectureSuggesterService/aws/awsDefault/pb"
-	"alfred/modules/ArchitectureSuggesterService/aws/pb"
+	awsDefaultDataPb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/ArchitecureConfiguration/pb"
+	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (a AwsService) GetAwsInstanceTypes(ctx context.Context, request *pb.GetAwsInstanceTypesRequest) (*pb.GetAwsInstanceTypesResponse, error) {
+func (a AwsArchitectureService) GetAwsInstanceTypes(ctx context.Context, request *pb.GetAwsInstanceTypesRequest) (*pb.GetAwsInstanceTypesResponse, error) {
 
 	if a.awsDefaultData == nil ||
 		a.awsDefaultData.AwsContainerServices == nil {
-		return nil, status.Error(codes.FailedPrecondition, "something went wrong while getting aws container service")
+		return nil, status.Error(codes.FailedPrecondition, "something went wrong while getting AwsArchitectureService container service")
 	}
 
 	instanceTypes := make([]string, 0)

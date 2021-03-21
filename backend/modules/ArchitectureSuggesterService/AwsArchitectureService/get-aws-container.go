@@ -1,13 +1,13 @@
-package aws
+package AwsArchitectureService
 
 import (
-	"alfred/modules/ArchitectureSuggesterService/aws/pb"
+	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (a AwsService) GetAwsContainerServices(ctx context.Context, request *pb.GetAwsContainerServicesRequest) (*pb.GetAwsContainerServicesResponse, error) {
+func (a AwsArchitectureService) GetAwsContainerServices(ctx context.Context, request *pb.GetAwsContainerServicesRequest) (*pb.GetAwsContainerServicesResponse, error) {
 
 	if a.awsDefaultData != nil {
 		return nil, status.Error(codes.FailedPrecondition, "Aws configuration not found")

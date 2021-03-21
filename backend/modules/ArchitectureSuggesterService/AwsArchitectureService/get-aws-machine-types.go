@@ -1,18 +1,18 @@
-package aws
+package AwsArchitectureService
 
 import (
-	awsdefaultPb "alfred/modules/ArchitectureSuggesterService/aws/awsDefault/pb"
-	"alfred/modules/ArchitectureSuggesterService/aws/pb"
+	awsdefaultPb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/ArchitecureConfiguration/pb"
+	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (a AwsService) GetAwsMachineTypes(ctx context.Context, request *pb.GetAwsMachineTypesRequest) (*pb.GetAwsMachineTypesResponse, error) {
+func (a AwsArchitectureService) GetAwsMachineTypes(ctx context.Context, request *pb.GetAwsMachineTypesRequest) (*pb.GetAwsMachineTypesResponse, error) {
 
 	if a.awsDefaultData == nil ||
 		a.awsDefaultData.AwsContainerServices == nil {
-		return nil, status.Error(codes.FailedPrecondition, "something went wrong while getting aws container service")
+		return nil, status.Error(codes.FailedPrecondition, "something went wrong while getting AwsArchitectureService container service")
 	}
 
 	machineTypes := make([]string, 0)
@@ -69,11 +69,6 @@ func (a AwsService) GetAwsMachineTypes(ctx context.Context, request *pb.GetAwsMa
 
 	return &pb.GetAwsMachineTypesResponse{MachineTypes: machineTypes, MachineConfig: machineConfig}, nil
 }
-
-
-
-
-
 
 func configTypeConverter(configs []*awsdefaultPb.MachineConfig) []*pb.MachineConfig {
 	machineConfig := make([]*pb.MachineConfig, 0)

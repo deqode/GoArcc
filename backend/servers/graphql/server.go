@@ -7,15 +7,16 @@ import (
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
 	"net/http"
 )
 
-func RunGraphqlServer(lc fx.Lifecycle, config *config.Config) {
+func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
 	Ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterGraphqlModules(Ctx, mux); err != nil {
+	if err := RegisterGraphqlModules(mux, conn); err != nil {
 		logger.Log.Fatal("not able to register graphql modules", zap.Error(err))
 	}
 	http.Handle("/graphql", mux)

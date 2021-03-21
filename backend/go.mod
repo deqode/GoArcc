@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
+	github.com/ghodss/yaml v1.0.0
 	github.com/go-redis/redis/v8 v8.7.1
 	github.com/golang/protobuf v1.4.3
 	github.com/graphql-go/graphql v0.7.8
@@ -26,7 +27,6 @@ require (
 	golang.org/x/tools v0.1.0 // indirect
 	google.golang.org/genproto v0.0.0-20210224155714-063164c882e6
 	google.golang.org/grpc v1.36.0
-	google.golang.org/grpc/examples v0.0.0-20210312231957-21976fa3e38a // indirect
 	google.golang.org/protobuf v1.25.0
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.20.12

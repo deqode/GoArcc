@@ -11,24 +11,24 @@ import (
 )
 
 var (
-	gql__type_MachineConfig                    *graphql.Object      // message MachineConfig in aws.proto
-	gql__type_GetAwsMachineTypesResponse       *graphql.Object      // message GetAwsMachineTypesResponse in aws.proto
-	gql__type_GetAwsMachineTypesRequest        *graphql.Object      // message GetAwsMachineTypesRequest in aws.proto
-	gql__type_GetAwsLaunchTypesResponse        *graphql.Object      // message GetAwsLaunchTypesResponse in aws.proto
-	gql__type_GetAwsLaunchTypesRequest         *graphql.Object      // message GetAwsLaunchTypesRequest in aws.proto
-	gql__type_GetAwsInstanceTypesResponse      *graphql.Object      // message GetAwsInstanceTypesResponse in aws.proto
-	gql__type_GetAwsInstanceTypesRequest       *graphql.Object      // message GetAwsInstanceTypesRequest in aws.proto
-	gql__type_GetAwsContainerServicesResponse  *graphql.Object      // message GetAwsContainerServicesResponse in aws.proto
-	gql__type_GetAwsContainerServicesRequest   *graphql.Object      // message GetAwsContainerServicesRequest in aws.proto
-	gql__input_MachineConfig                   *graphql.InputObject // message MachineConfig in aws.proto
-	gql__input_GetAwsMachineTypesResponse      *graphql.InputObject // message GetAwsMachineTypesResponse in aws.proto
-	gql__input_GetAwsMachineTypesRequest       *graphql.InputObject // message GetAwsMachineTypesRequest in aws.proto
-	gql__input_GetAwsLaunchTypesResponse       *graphql.InputObject // message GetAwsLaunchTypesResponse in aws.proto
-	gql__input_GetAwsLaunchTypesRequest        *graphql.InputObject // message GetAwsLaunchTypesRequest in aws.proto
-	gql__input_GetAwsInstanceTypesResponse     *graphql.InputObject // message GetAwsInstanceTypesResponse in aws.proto
-	gql__input_GetAwsInstanceTypesRequest      *graphql.InputObject // message GetAwsInstanceTypesRequest in aws.proto
-	gql__input_GetAwsContainerServicesResponse *graphql.InputObject // message GetAwsContainerServicesResponse in aws.proto
-	gql__input_GetAwsContainerServicesRequest  *graphql.InputObject // message GetAwsContainerServicesRequest in aws.proto
+	gql__type_MachineConfig                    *graphql.Object      // message MachineConfig in AwsArchitectureService.proto
+	gql__type_GetAwsMachineTypesResponse       *graphql.Object      // message GetAwsMachineTypesResponse in AwsArchitectureService.proto
+	gql__type_GetAwsMachineTypesRequest        *graphql.Object      // message GetAwsMachineTypesRequest in AwsArchitectureService.proto
+	gql__type_GetAwsLaunchTypesResponse        *graphql.Object      // message GetAwsLaunchTypesResponse in AwsArchitectureService.proto
+	gql__type_GetAwsLaunchTypesRequest         *graphql.Object      // message GetAwsLaunchTypesRequest in AwsArchitectureService.proto
+	gql__type_GetAwsInstanceTypesResponse      *graphql.Object      // message GetAwsInstanceTypesResponse in AwsArchitectureService.proto
+	gql__type_GetAwsInstanceTypesRequest       *graphql.Object      // message GetAwsInstanceTypesRequest in AwsArchitectureService.proto
+	gql__type_GetAwsContainerServicesResponse  *graphql.Object      // message GetAwsContainerServicesResponse in AwsArchitectureService.proto
+	gql__type_GetAwsContainerServicesRequest   *graphql.Object      // message GetAwsContainerServicesRequest in AwsArchitectureService.proto
+	gql__input_MachineConfig                   *graphql.InputObject // message MachineConfig in AwsArchitectureService.proto
+	gql__input_GetAwsMachineTypesResponse      *graphql.InputObject // message GetAwsMachineTypesResponse in AwsArchitectureService.proto
+	gql__input_GetAwsMachineTypesRequest       *graphql.InputObject // message GetAwsMachineTypesRequest in AwsArchitectureService.proto
+	gql__input_GetAwsLaunchTypesResponse       *graphql.InputObject // message GetAwsLaunchTypesResponse in AwsArchitectureService.proto
+	gql__input_GetAwsLaunchTypesRequest        *graphql.InputObject // message GetAwsLaunchTypesRequest in AwsArchitectureService.proto
+	gql__input_GetAwsInstanceTypesResponse     *graphql.InputObject // message GetAwsInstanceTypesResponse in AwsArchitectureService.proto
+	gql__input_GetAwsInstanceTypesRequest      *graphql.InputObject // message GetAwsInstanceTypesRequest in AwsArchitectureService.proto
+	gql__input_GetAwsContainerServicesResponse *graphql.InputObject // message GetAwsContainerServicesResponse in AwsArchitectureService.proto
+	gql__input_GetAwsContainerServicesRequest  *graphql.InputObject // message GetAwsContainerServicesRequest in AwsArchitectureService.proto
 )
 
 func Gql__type_MachineConfig() *graphql.Object {

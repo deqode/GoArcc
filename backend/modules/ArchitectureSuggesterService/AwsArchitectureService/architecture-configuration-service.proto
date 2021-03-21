@@ -11,7 +11,7 @@ import "include/graphql.proto";
 service AwsService {
     rpc GetAwsContainerServices(GetAwsContainerServicesRequest) returns (GetAwsContainerServicesResponse){
     option (google.api.http) = {
-             get: "/v1/aws/get-aws-container-services"
+             get: "/v1/AwsArchitectureService/get-AwsArchitectureService-container-services"
         };
     option (graphql.schema) = {
         type: QUERY  // declare as Query
@@ -20,7 +20,7 @@ service AwsService {
         };
     rpc GetAwsLaunchTypes(GetAwsLaunchTypesRequest) returns (GetAwsLaunchTypesResponse) {
         option (google.api.http) = {
-            get: "/v1/aws/get-aws-launch-types/{container_service}"
+            get: "/v1/AwsArchitectureService/get-AwsArchitectureService-launch-types/{container_service}"
         };
         option (graphql.schema) = {
             type: QUERY  // declare as Query
@@ -29,7 +29,7 @@ service AwsService {
     };
     rpc GetAwsInstanceTypes(GetAwsInstanceTypesRequest) returns (GetAwsInstanceTypesResponse){
         option (google.api.http) = {
-            get: "/v1/aws/get-aws-instance-types/{launch_type}"
+            get: "/v1/AwsArchitectureService/get-AwsArchitectureService-instance-types/{launch_type}"
         };
         option (graphql.schema) = {
             type: QUERY  // declare as Query
@@ -39,7 +39,7 @@ service AwsService {
 
     rpc GetAwsMachineTypes(GetAwsMachineTypesRequest) returns (GetAwsMachineTypesResponse){
         option (google.api.http) = {
-            get: "/v1/aws/get-aws-machine-types/{instance_type}"
+            get: "/v1/AwsArchitectureService/get-AwsArchitectureService-machine-types/{instance_type}"
         };
         option (graphql.schema) = {
             type: QUERY  // declare as Query

@@ -14,7 +14,7 @@ func RunRestServer(lc fx.Lifecycle, config *config.Config) {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterRESTModules(Ctx, mux, config.Grpc.Port); err != nil {
+	if err := RegisterRESTModules(Ctx, mux, config); err != nil {
 		panic(err)
 	}
 	srv := &http.Server{

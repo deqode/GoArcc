@@ -205,5 +205,5 @@ var AwsService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "aws.proto",
+	Metadata: "AwsArchitectureService.proto",
 }

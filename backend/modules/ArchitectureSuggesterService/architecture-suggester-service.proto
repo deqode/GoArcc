@@ -1,0 +1,44 @@
+syntax = "proto3";
+package pb;
+
+option go_package = ".;pb";
+
+import "google/api/annotation.proto";
+import "include/graphql.proto";
+
+
+
+// Get endpoint will give the list of architecture supported by alfred.
+service ArchitectureSuggesterService {
+    rpc GetArchitecture(GetArchitectureRequest) returns (GetArchitectureResponse){
+        option (google.api.http) = {
+            get: "/v1/architecture-suggester/get-architecture"
+        };
+        option (graphql.schema) = {
+            type: QUERY  // declare as Mutation
+            name: "getArchitecture" // query name
+        };
+    };
+}
+
+message GetArchitectureRequest {
+    //Empty object because graphql does not read empty in request
+    string nothing = 1;
+}
+
+
+//Architecture Response
+message GetArchitectureResponse {
+    repeated  ArchitectureType architecture_type = 1;
+}
+
+
+
+//todo when ever new provider will come we need to add here.
+enum ArchitectureType {
+    AWS = 0;
+    GCP = 1;
+    AZURE = 2;
+    DIGITAL_OCEAN = 3;
+}
+

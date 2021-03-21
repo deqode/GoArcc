@@ -1,17 +1,17 @@
-package aws
+package AwsArchitectureService
 
 import (
-	"alfred/modules/ArchitectureSuggesterService/aws/pb"
+	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (a AwsService) GetAwsLaunchTypes(ctx context.Context, request *pb.GetAwsLaunchTypesRequest) (*pb.GetAwsLaunchTypesResponse, error) {
+func (a AwsArchitectureService) GetAwsLaunchTypes(ctx context.Context, request *pb.GetAwsLaunchTypesRequest) (*pb.GetAwsLaunchTypesResponse, error) {
 
 	if a.awsDefaultData == nil ||
 		a.awsDefaultData.AwsContainerServices == nil {
-		return nil, status.Error(codes.FailedPrecondition, "something went wrong while getting aws container services")
+		return nil, status.Error(codes.FailedPrecondition, "something went wrong while getting AwsArchitectureService container services")
 	}
 
 	launchType := make([]string, 0)
