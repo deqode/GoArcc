@@ -4,6 +4,7 @@ import (
 	"alfred/logger"
 	awsArchitecturePb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
+	authPb "alfred/modules/AuthService/pb"
 	helloWorldPb "alfred/modules/HelloWorldService/pb"
 	userProfilePb "alfred/modules/UserProfileService/pb"
 	"context"
@@ -32,6 +33,11 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 	}
 
 	if err := awsArchitecturePb.RegisterAwsServiceHandler(ctx, mux, conn); err != nil {
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
+		return err
+	}
+
+	if err := authPb.RegisterUserLoginServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

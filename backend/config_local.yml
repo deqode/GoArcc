@@ -24,9 +24,9 @@ logger:
 postgres:
     PostgresqlHost: localhost
     PostgresqlPort: 5432
-    PostgresqlUser: atul
-    PostgresqlPassword: atul
-    PostgresqlDbname: alfred
+    PostgresqlUser: postgres
+    PostgresqlPassword: root
+    PostgresqlDbname: deqode
     PostgresqlSslmode: false
     PgDriver: pgx
 
@@ -39,3 +39,8 @@ jaeger:
     Port: 6831
     ServiceName: AlfredTracing
     LogSpans: false
+auth:
+  Auth0ClientId    : BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ
+  Auth0Domain      : alfred-sh.us.auth0.com
+  Auth0ClientSecret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
+  Auth0CallbackUrl : http://localhost:8082/v1/authentication/callback

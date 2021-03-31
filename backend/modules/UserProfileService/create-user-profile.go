@@ -21,7 +21,7 @@ func (server *UserProfileService) CreateUserProfile(ctx context.Context, request
 	resp.Name = request.UserProfile.Name
 	resp.Email = request.UserProfile.Email
 	resp.PhoneNumber = request.UserProfile.PhoneNumber
-	resp.UserId = request.UserProfile.UserId
+	resp.Sub = request.UserProfile.Sub
 	t := server.db.Create(&resp)
 	if t.Error != nil {
 		return nil, t.Error

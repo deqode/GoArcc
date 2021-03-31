@@ -18,6 +18,7 @@ type Config struct {
 	Postgres    PostgresConfig
 	Metrics     MetricsConfig
 	Jaeger      JaegerServerConfig
+	Auth        AuthConfig
 }
 
 // GrpcServerConfig: gRPC  server configuration
@@ -72,6 +73,13 @@ type JaegerServerConfig struct {
 	Port        string
 	ServiceName string
 	LogSpans    string
+}
+
+type AuthConfig struct {
+	Auth0ClientId     string
+	Auth0Domain       string
+	Auth0ClientSecret string
+	Auth0CallbackUrl  string
 }
 
 // LoadConfig config file from given path

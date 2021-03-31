@@ -12,7 +12,6 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // UserProfileServiceClient is the client API for UserProfileService service.
@@ -23,6 +22,7 @@ type UserProfileServiceClient interface {
 	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error)
 }
 
 type userProfileServiceClient struct {
@@ -69,6 +69,15 @@ func (c *userProfileServiceClient) DeleteUserProfile(ctx context.Context, in *De
 	return out, nil
 }
 
+func (c *userProfileServiceClient) GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error) {
+	out := new(UserProfile)
+	err := c.cc.Invoke(ctx, "/pb.UserProfileService/GetUserMe", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserProfileServiceServer is the server API for UserProfileService service.
 // All implementations must embed UnimplementedUserProfileServiceServer
 // for forward compatibility
@@ -77,6 +86,7 @@ type UserProfileServiceServer interface {
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
 	DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error)
+	GetUserMe(context.Context, *empty.Empty) (*UserProfile, error)
 	//mustEmbedUnimplementedUserProfileServiceServer()
 }
 
@@ -96,6 +106,9 @@ func (UnimplementedUserProfileServiceServer) GetUserProfile(context.Context, *Ge
 func (UnimplementedUserProfileServiceServer) DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserProfile not implemented")
 }
+func (UnimplementedUserProfileServiceServer) GetUserMe(context.Context, *empty.Empty) (*UserProfile, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserMe not implemented")
+}
 func (UnimplementedUserProfileServiceServer) mustEmbedUnimplementedUserProfileServiceServer() {}
 
 // UnsafeUserProfileServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -105,8 +118,8 @@ type UnsafeUserProfileServiceServer interface {
 	mustEmbedUnimplementedUserProfileServiceServer()
 }
 
-func RegisterUserProfileServiceServer(s grpc.ServiceRegistrar, srv UserProfileServiceServer) {
-	s.RegisterService(&UserProfileService_ServiceDesc, srv)
+func RegisterUserProfileServiceServer(s *grpc.Server, srv UserProfileServiceServer) {
+	s.RegisterService(&_UserProfileService_serviceDesc, srv)
 }
 
 func _UserProfileService_CreateUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -181,10 +194,25 @@ func _UserProfileService_DeleteUserProfile_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-// UserProfileService_ServiceDesc is the grpc.ServiceDesc for UserProfileService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var UserProfileService_ServiceDesc = grpc.ServiceDesc{
+func _UserProfileService_GetUserMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserProfileServiceServer).GetUserMe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.UserProfileService/GetUserMe",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserProfileServiceServer).GetUserMe(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _UserProfileService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.UserProfileService",
 	HandlerType: (*UserProfileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -203,6 +231,10 @@ var UserProfileService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUserProfile",
 			Handler:    _UserProfileService_DeleteUserProfile_Handler,
+		},
+		{
+			MethodName: "GetUserMe",
+			Handler:    _UserProfileService_GetUserMe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

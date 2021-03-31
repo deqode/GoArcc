@@ -11,7 +11,7 @@ type UserProfile struct {
 	Name        string
 	Email       string
 	PhoneNumber string
-	UserID      string
+	Sub         string
 	Source      string
 }
 
