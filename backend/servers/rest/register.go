@@ -1,7 +1,6 @@
 package rest
 
 import (
-	"alfred/config"
 	"alfred/logger"
 	awsArchitecturePb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
@@ -15,24 +14,24 @@ import (
 
 //Todo : Whenever any new modules will be in alfred : it must be registered in below method
 //Todo: Remove local host from here
-func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, config *config.Config) error {
-	opts := []grpc.DialOption{grpc.WithInsecure()}
-	if err := userProfilePb.RegisterUserProfileServiceHandlerFromEndpoint(ctx, mux, config.Grpc.Host+":"+config.Grpc.Port, opts); err != nil {
+func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	//opts := []grpc.DialOption{grpc.WithInsecure()}
+	if err := userProfilePb.RegisterUserProfileServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
 
-	if err := helloWorldPb.RegisterHelloWorldServiceHandlerFromEndpoint(ctx, mux, config.Grpc.Host+":"+config.Grpc.Port, opts); err != nil {
+	if err := helloWorldPb.RegisterHelloWorldServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
 
-	if err := architectureSuggesterPb.RegisterArchitectureSuggesterServiceHandlerFromEndpoint(ctx, mux, config.Grpc.Host+":"+config.Grpc.Port, opts); err != nil {
+	if err := architectureSuggesterPb.RegisterArchitectureSuggesterServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
 
-	if err := awsArchitecturePb.RegisterAwsServiceHandlerFromEndpoint(ctx, mux, config.Grpc.Host+":"+config.Grpc.Port, opts); err != nil {
+	if err := awsArchitecturePb.RegisterAwsServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

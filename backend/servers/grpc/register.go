@@ -25,4 +25,5 @@ func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, g
 	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
 	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService())
 	awsArchitecturePb.RegisterAwsServiceServer(srv, AwsArchitectureService.NewAwsArchitectureService())
+
 }

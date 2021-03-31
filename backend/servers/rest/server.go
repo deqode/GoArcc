@@ -6,15 +6,16 @@ import (
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/fx"
+	"google.golang.org/grpc"
 	"net/http"
 )
 
-func RunRestServer(lc fx.Lifecycle, config *config.Config) {
+func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
 	Ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	if err := RegisterRESTModules(Ctx, mux, config); err != nil {
+	if err := RegisterRESTModules(Ctx, mux, conn); err != nil {
 		panic(err)
 	}
 	srv := &http.Server{

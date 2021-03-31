@@ -14,7 +14,7 @@ import (
 func TestCreateUserProfile(t *testing.T) {
 	clientContext := grpcClient.GetGrpcClientConnectionContext()
 	conn := grpcClient.GetGrpcClientConnection(config.GetConfig(), clientContext)
-	defer conn.Close()
+
 	client := userProfilePb.NewUserProfileServiceClient(conn)
 	resp, err := client.CreateUserProfile(clientContext.Ctx, &userProfilePb.CreateUserProfileRequest{UserProfile: &userProfilePb.UserProfile{
 		Name:        "Atul Anand",
