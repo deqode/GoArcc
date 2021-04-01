@@ -4,11 +4,16 @@ go 1.12
 
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
+	github.com/auth0/go-jwt-middleware v1.0.0
+	github.com/codegangsta/negroni v1.0.0
 	github.com/coreos/go-oidc v2.2.1+incompatible
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
+	github.com/form3tech-oss/jwt-go v3.2.2+incompatible
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-redis/redis/v8 v8.7.1
 	github.com/golang/protobuf v1.4.3
+	github.com/gorilla/mux v1.7.4
 	github.com/graphql-go/graphql v0.7.8
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0

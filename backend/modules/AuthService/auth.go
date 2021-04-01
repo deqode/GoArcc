@@ -3,13 +3,17 @@ package AuthService
 import (
 	"alfred/config"
 	"alfred/modules/AuthService/pb"
+	userProfilePb "alfred/modules/UserProfileService/pb"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"github.com/coreos/go-oidc"
 	empty "github.com/golang/protobuf/ptypes/empty"
-	"net/http"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"net/url"
+	//userProfilePb "alfred/modules/UserProfileService/pb"
 )
 
 func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserLoginResponse, error) {
@@ -19,18 +23,6 @@ func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserL
 		return nil, err
 	}
 	state := base64.StdEncoding.EncodeToString(b)
-
-	//session, err := Store.Get(r, "auth-session")
-	//if err != nil {
-	//	http.Error(w, err.Error(), http.StatusInternalServerError)
-	//	return
-	//}
-	//session.Values["state"] = state
-	//err = session.Save(r, w)
-	//if err != nil {
-	//	http.Error(w, err.Error(), http.StatusInternalServerError)
-	//	return
-	//}
 
 	authenticator, err := NewAuthenticator(config.GetConfig())
 	if err != nil {
@@ -42,16 +34,6 @@ func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserL
 	}, nil
 }
 func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*empty.Empty, error) {
-	//session, err := Store.Get(r, "auth-session")
-	//if err != nil {
-	//	http.Error(w, err.Error(), http.StatusInternalServerError)
-	//	return
-	//}
-
-	//if r.URL.Query().Get("state") != session.Values["state"] {
-	//	http.Error(w, "Invalid state parameter", http.StatusBadRequest)
-	//	return
-	//}
 
 	authenticator, err := NewAuthenticator(config.GetConfig())
 	if err != nil {
@@ -60,15 +42,12 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 
 	token, err := authenticator.Config.Exchange(context.TODO(), in.Code)
 	if err != nil {
-		//log.Printf("no token found: %v", err)
-		//w.WriteHeader(http.StatusUnauthorized)
-		return nil, err
+		return nil, status.Errorf(codes.Unauthenticated, err.Error())
 	}
 
 	rawIDToken, ok := token.Extra("id_token").(string)
 	if !ok {
-		//return err http.Error(w, "No id_token field in oauth2 token.", http.StatusInternalServerError)
-		return nil, http.ErrAbortHandler
+		return nil, status.Error(codes.Internal, "No id_token field in oauth2 token")
 	}
 
 	oidcConfig := &oidc.Config{
@@ -78,25 +57,30 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 	idToken, err := authenticator.Provider.Verifier(oidcConfig).Verify(context.TODO(), rawIDToken)
 
 	if err != nil {
-		//return http.Error(w, "Failed to verify ID Token: "+err.Error(), http.StatusInternalServerError)
-		return nil, err
+		return nil, status.Error(codes.Internal, "Failed to verify ID Token: "+err.Error())
 	}
 
 	// Getting now the userInfo
 	var profile map[string]interface{}
 	if err := idToken.Claims(&profile); err != nil {
-		return nil, err
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	//session.Values["id_token"] = rawIDToken
-	//session.Values["access_token"] = token.AccessToken
-	//session.Values["profile"] = profile
-	//err = session.Save(r, w)
-	//if err != nil {
-	//	http.Error(w, err.Error(), http.StatusInternalServerError)
-	//	return
-	//}
-
+	//store user details
+	_, err = s.userClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
+		UserProfile: &userProfilePb.UserProfile{
+			Id:             "",
+			Sub:            fmt.Sprintf("%s", profile["sub"]),
+			Name:           fmt.Sprintf("%s", profile["nickname"]),
+			Email:          fmt.Sprintf("%s", profile["name"]),
+			PhoneNumber:    "",
+			Source:         userProfilePb.SOURCE_GITHUB,
+			TokenValidTill: nil,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
 	// Redirect to logged in page
 	return &empty.Empty{}, nil
 }

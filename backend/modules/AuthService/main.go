@@ -3,19 +3,31 @@ package AuthService
 import (
 	"alfred/config"
 	"alfred/modules/AuthService/pb"
+	userProfilePb "alfred/modules/UserProfileService/pb"
 	"context"
-	"golang.org/x/oauth2"
-	"log"
-
 	oidc "github.com/coreos/go-oidc"
+	"golang.org/x/oauth2"
+	"google.golang.org/grpc"
+	"gorm.io/gorm"
+	"log"
 )
 
 type AuthService struct {
+	db         *gorm.DB
+	config     *config.Config
+	grpcClient *grpc.ClientConn
+	userClient userProfilePb.UserProfileServiceClient
 }
 
 //Service Implementation
-func NewAuthService() pb.UserLoginServiceServer {
-	return &AuthService{}
+func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserLoginServiceServer {
+	userProfileClient := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
+	return &AuthService{
+		db:         db,
+		config:     config,
+		grpcClient: grpcClientConn,
+		userClient: userProfileClient,
+	}
 }
 
 type Authenticator struct {
