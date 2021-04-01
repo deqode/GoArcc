@@ -71,7 +71,7 @@ message UserLoginResponse{
     string url=1;
 }
 message UserLoginCallbackRequest{
-    string state=1;
+    string state =1;
     string code = 2;
 }
 
