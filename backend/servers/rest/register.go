@@ -7,6 +7,7 @@ import (
 	authPb "alfred/modules/AuthService/pb"
 	helloWorldPb "alfred/modules/HelloWorldService/pb"
 	userProfilePb "alfred/modules/UserProfileService/pb"
+	vcsPb "alfred/modules/VCSConnectionService/pb"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/zap"
@@ -38,6 +39,11 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 	}
 
 	if err := authPb.RegisterUserLoginServiceHandler(ctx, mux, conn); err != nil {
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
+		return err
+	}
+
+	if err := vcsPb.RegisterVCSConnectionServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

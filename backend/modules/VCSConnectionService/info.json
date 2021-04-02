@@ -1,0 +1,9 @@
+{
+    "provider": "GITHUB",
+    "urlTemplate": "https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}",
+    "client_id": "34c9188e9de51cfd07aa",
+    "redirect_uri": "",
+    "scope": "https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar",
+    "response_type": "code",
+    "client_secret": "1069dcdbae399023baf4fa7eacf6ec4bbd652e2a"
+}

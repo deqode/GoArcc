@@ -9,6 +9,7 @@ import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
 
 service CloudConnectionService {
+
     rpc CreateCloudConnection(CreateCloudConnectionRequest) returns (CloudConnection){
         option (google.api.http) = {
             post: "/v1/cloud-connection/create-cloud-connection"

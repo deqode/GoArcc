@@ -11,7 +11,7 @@ type VCSConnection struct {
 	ClientId     string
 	ClientSecret string
 	AccountId    string
-	Scope        []string
+	Scope        string
 	Provider     string
 }
 

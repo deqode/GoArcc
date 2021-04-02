@@ -12,6 +12,8 @@ import (
 	hellopb "alfred/modules/HelloWorldService/pb"
 	"alfred/modules/UserProfileService"
 	userProfilepb "alfred/modules/UserProfileService/pb"
+	"alfred/modules/VCSConnectionService"
+	vcsPb "alfred/modules/VCSConnectionService/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -28,4 +30,5 @@ func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, g
 	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService())
 	awsArchitecturePb.RegisterAwsServiceServer(srv, AwsArchitectureService.NewAwsArchitectureService())
 	authPb.RegisterUserLoginServiceServer(srv, AuthService.NewAuthService(db, config, grpcClientConnection))
+	vcsPb.RegisterVCSConnectionServiceServer(srv, VCSConnectionService.NewVCSConnectionService(db, config, grpcClientConnection))
 }
