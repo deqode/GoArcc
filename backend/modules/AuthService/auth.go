@@ -3,6 +3,7 @@ package AuthService
 import (
 	"alfred/config"
 	"alfred/modules/AuthService/pb"
+	userProfilePb "alfred/modules/UserProfileService/pb"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
@@ -68,20 +69,20 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 	}
 
 	//store user details
-	//_, err = s.userClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
-	//	UserProfile: &userProfilePb.UserProfile{
-	//		Id:             "",
-	//		Sub:            fmt.Sprintf("%s", profile["sub"]),
-	//		Name:           fmt.Sprintf("%s", profile["nickname"]),
-	//		Email:          fmt.Sprintf("%s", profile["name"]),
-	//		PhoneNumber:    "",
-	//		Source:         userProfilePb.SOURCE_GITHUB,
-	//		TokenValidTill: nil,
-	//	},
-	//})
-	//if err != nil {
-	//	return nil, err
-	//}
+	_, err = s.userClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
+		UserProfile: &userProfilePb.UserProfile{
+			Id:             "",
+			Sub:            fmt.Sprintf("%s", profile["sub"]),
+			Name:           fmt.Sprintf("%s", profile["nickname"]),
+			Email:          fmt.Sprintf("%s", profile["name"]),
+			PhoneNumber:    "",
+			Source:         userProfilePb.SOURCE_GITHUB,
+			TokenValidTill: nil,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
 
 	resp := struct {
 		OAuth2Token   *oauth2.Token

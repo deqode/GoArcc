@@ -20,34 +20,52 @@ service VCSConnectionService {
             get: "/v1/vcs-connection/connected/{provider}"
         };
     };
+    rpc ListVCSConnection(ListVCSConnectionRequest) returns (ListVCSConnectionResponse){
+        option (google.api.http) = {
+            get: "/v1/vcs-connection/list-vcs-connections"
+        };
+    }
+    rpc GetVCSConnection(GetVCSConnectionRequest) returns (VCSConnection);
+    rpc listReposistory(ListReposistoryRequest) returns (ListReposistoryResponse){
+        option (google.api.http) = {
+            get: "/v1/vcs-connection/reposistory/{provider}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "reposistories"
+        };
+    }
 
-   rpc ListVCSConnection(ListVCSConnectionRequest) returns (ListVCSConnectionResponse){
-       option (google.api.http) = {
-           get: "/v1/vcs-connection/list-vcs-connections"
-       };
-   }
-
-   rpc RevokeVCSToken(RevokeVCSTokenRequest) returns (google.protobuf.Empty);
-   rpc RenewVCSToken(RenewVCSTokenRequest) returns (google.protobuf.Empty);
-
+    rpc GetReposistory(GetReposistoryRequest) returns (Reposistory){
+        option (google.api.http) = {
+            get: "/v1/vcs-connection/reposistory/{repo_name}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "reposistory"
+        };
+    }
+    rpc CreateVCSConnection(CreateVCSConnectionRequest) returns (VCSConnection);
+    rpc RevokeVCSToken(RevokeVCSTokenRequest) returns (google.protobuf.Empty);
+    rpc RenewVCSToken(RenewVCSTokenRequest) returns (google.protobuf.Empty);
 }
 
 message ListAlfredVCSConnectionResponse{
-    repeated string providers =1;
+    repeated string providers = 1;
 }
 message ConnectRequest{
     VCSConnectionProvider provider = 1;
 }
 message ConnectResponse{
     string uri = 1;
-    string account_id=2;
+    string account_id = 2;
     string user_id = 3;
     string temp_jwt_token = 4;
 }
 
 message ConnectedRequest{
     VCSConnectionProvider provider = 1;
-    string state =2;
+    string state = 2;
     string code = 3;
 }
 message ConnectedResponse{
@@ -82,6 +100,11 @@ enum VCSConnectionProvider{
 
 message ListVCSConnectionRequest{
     string account_id = 1;
+    VCSConnectionProvider provider = 2;
+}
+message GetVCSConnectionRequest{
+    string account_id = 1;
+    VCSConnectionProvider provider = 2;
 }
 message ListVCSConnectionResponse{
     repeated AccountVCSConnection vcs_connection = 1;
@@ -90,8 +113,42 @@ message ListVCSConnectionResponse{
 message RevokeVCSTokenRequest{
     VCSConnectionProvider provider = 2;
     string vcs_id = 1;
-
 }
 message RenewVCSTokenRequest{
     VCSConnectionProvider provider = 1;
+}
+
+message CreateVCSConnectionRequest{
+    VCSConnection vcs_connection = 1;
+}
+
+message Reposistory{
+    int64 id = 1;
+    string node_iD = 2;
+    string name = 3;
+    string full_name = 4;
+    string description = 5;
+    string default_branch = 6;
+    string master_branch = 7;
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp pushed_at = 9;
+    google.protobuf.Timestamp updated_at = 10;
+    string clone_URL = 11;
+    string git_URL = 12;
+    int32 size = 13;
+    bool private = 14;
+    repeated string branches = 15;
+}
+
+message ListReposistoryRequest{
+    VCSConnectionProvider provider = 1;
+}
+message ListReposistoryResponse{
+    repeated Reposistory reposistories = 1;
+}
+
+message GetReposistoryRequest{
+    VCSConnectionProvider provider = 1;
+    string repo_name = 2;
+    string account_id = 3;
 }

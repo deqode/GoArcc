@@ -2,17 +2,21 @@ package models
 
 import (
 	"alfred/logger"
+	"github.com/golang/protobuf/ptypes/timestamp"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
 type VCSConnection struct {
-	ID           string
-	ClientId     string
-	ClientSecret string
-	AccountId    string
-	Scope        string
-	Provider     string
+	ID                 string
+	Provider           int32
+	ConnectionId       string
+	AccessToken        string
+	RefreshToken       string
+	AccessTokenExpiry  *timestamp.Timestamp
+	RefreshTokenExpiry *timestamp.Timestamp
+	Revoked            bool
+	AccountId          string
 }
 
 func InitialMigrationVCSConnection(db *gorm.DB) {

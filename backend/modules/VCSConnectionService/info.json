@@ -1,9 +1,26 @@
 {
-    "provider": "GITHUB",
-    "urlTemplate": "https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}",
-    "client_id": "34c9188e9de51cfd07aa",
-    "redirect_uri": "",
-    "scope": "https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar",
-    "response_type": "code",
-    "client_secret": "1069dcdbae399023baf4fa7eacf6ec4bbd652e2a"
+    "data": [
+        {
+            "itype": 0,
+            "provider": "UNKNOWN_TYPE",
+            "urlTemplate": "http://localhost:8082/error",
+            "client_id": "",
+            "redirect_uri": "http://localhost:8080",
+            "scope": "",
+            "response_type": "",
+            "client_secret": "",
+            "state":""
+        },
+        {
+            "itype": "1",
+            "provider": "VCS_GITHUB",
+            "urlTemplate": "https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}",
+            "client_id": "34c9188e9de51cfd07aa",
+            "redirect_uri": "http://localhost:8082/v1/vcs-connection/connected/VCS_GITHUB",
+            "scope": "user%20gist%20repo%20repo_deployment%20repo_hook",
+            "response_type": "code",
+            "client_secret": "1069dcdbae399023baf4fa7eacf6ec4bbd652e2a",
+            "state": ""
+        }
+    ]
 }
