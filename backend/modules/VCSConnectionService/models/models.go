@@ -2,21 +2,24 @@ package models
 
 import (
 	"alfred/logger"
-	"github.com/golang/protobuf/ptypes/timestamp"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"time"
 )
 
 type VCSConnection struct {
 	ID                 string
-	Provider           int32
+	Provider           int
 	ConnectionId       string
 	AccessToken        string
 	RefreshToken       string
-	AccessTokenExpiry  *timestamp.Timestamp
-	RefreshTokenExpiry *timestamp.Timestamp
+	AccessTokenExpiry  *time.Time
+	RefreshTokenExpiry *time.Time
 	Revoked            bool
 	AccountId          string
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
+	DeletedAt          gorm.DeletedAt `gorm:"index"`
 }
 
 func InitialMigrationVCSConnection(db *gorm.DB) {
@@ -27,7 +30,7 @@ func InitialMigrationVCSConnection(db *gorm.DB) {
 	if !db.Migrator().HasTable(&VCSConnection{}) {
 		// if table not exist then create table
 		if err := db.Migrator().CreateTable(&VCSConnection{}); err != nil {
-			logger.Log.Debug("unable to create table")
+			logger.Log.Debug("unable to create VCSConnection table")
 		}
 	}
 }

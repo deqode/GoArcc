@@ -76,7 +76,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 			Name:           fmt.Sprintf("%s", profile["nickname"]),
 			Email:          fmt.Sprintf("%s", profile["name"]),
 			PhoneNumber:    "",
-			Source:         userProfilePb.SOURCE_GITHUB,
+			ExternalSource: userProfilePb.SOURCE_GITHUB,
 			TokenValidTill: nil,
 		},
 	})

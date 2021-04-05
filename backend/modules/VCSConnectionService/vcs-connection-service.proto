@@ -28,7 +28,7 @@ service VCSConnectionService {
     rpc GetVCSConnection(GetVCSConnectionRequest) returns (VCSConnection);
     rpc listReposistory(ListReposistoryRequest) returns (ListReposistoryResponse){
         option (google.api.http) = {
-            get: "/v1/vcs-connection/reposistory/{provider}"
+            get: "/v1/vcs-connection/reposistories/{provider}"
         };
         option (graphql.schema) = {
             type: QUERY

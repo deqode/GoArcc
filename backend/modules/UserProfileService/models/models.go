@@ -4,6 +4,7 @@ import (
 	"alfred/logger"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"time"
 )
 
 type UserProfile struct {
@@ -12,7 +13,10 @@ type UserProfile struct {
 	Email       string
 	PhoneNumber string
 	Sub         string
-	Source      string
+	Source      int
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   gorm.DeletedAt `gorm:"index"`
 }
 
 func InitialMigrationUserProfile(db *gorm.DB) {
@@ -23,7 +27,7 @@ func InitialMigrationUserProfile(db *gorm.DB) {
 	if !db.Migrator().HasTable(&UserProfile{}) {
 		// if table not exist then create table
 		if err := db.Migrator().CreateTable(&UserProfile{}); err != nil {
-			logger.Log.Debug("unable to create table")
+			logger.Log.Debug("unable to create UserProfile table")
 		}
 	}
 }

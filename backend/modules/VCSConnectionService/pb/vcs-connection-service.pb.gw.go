@@ -601,7 +601,7 @@ var (
 
 	pattern_VCSConnectionService_ListVCSConnection_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "vcs-connection", "list-vcs-connections"}, ""))
 
-	pattern_VCSConnectionService_ListReposistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vcs-connection", "reposistory", "provider"}, ""))
+	pattern_VCSConnectionService_ListReposistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vcs-connection", "reposistories", "provider"}, ""))
 
 	pattern_VCSConnectionService_GetReposistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vcs-connection", "reposistory", "repo_name"}, ""))
 )

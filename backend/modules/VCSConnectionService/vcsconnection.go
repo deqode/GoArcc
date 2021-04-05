@@ -176,6 +176,8 @@ func (s *VCSConnectionService) ListReposistory(ctx context.Context, in *pb.ListR
 	var accessToken string
 	if vcs.AccessToken != "" {
 		accessToken = vcs.AccessToken
+	} else {
+		return nil, status.Error(codes.NotFound, "Integration token not found")
 	}
 
 	ts := oauth2.StaticTokenSource(
@@ -193,13 +195,13 @@ func (s *VCSConnectionService) ListReposistory(ctx context.Context, in *pb.ListR
 	}
 	for _, repo := range repos {
 		reposistory := &pb.Reposistory{
-			Id:            *repo.ID,
-			NodeID:        *repo.NodeID,
-			Name:          *repo.Name,
-			FullName:      *repo.FullName,
-			Description:   *repo.Description,
+			Id:       *repo.ID,
+			NodeID:   *repo.NodeID,
+			Name:     *repo.Name,
+			FullName: *repo.FullName,
+			//Description:   *repo.Description,
 			DefaultBranch: *repo.DefaultBranch,
-			MasterBranch:  *repo.MasterBranch,
+			//MasterBranch:  *repo.MasterBranch,
 			//CreatedAt:     repo.CreatedAt,
 			//PushedAt:      *repo.PushedAt,
 			//UpdatedAt:     *repo.UpdatedAt,
@@ -224,14 +226,22 @@ func (s *VCSConnectionService) CreateVCSConnection(ctx context.Context, in *pb.C
 	if err != nil {
 		logger.Log.Debug("unable to generate uuid")
 	}
+	aTEP, err := ptypes.Timestamp(in.VcsConnection.AccessTokenExpiry)
+	if err != nil {
+		return nil, err
+	}
+	rTEP, err := ptypes.Timestamp(in.VcsConnection.RefreshTokenExpiry)
+	if err != nil {
+		return nil, err
+	}
 	VCSModel := &models.VCSConnection{
 		ID:                 fmt.Sprintf("%s", out),
 		Provider:           1,
 		ConnectionId:       in.VcsConnection.ConnectionId,
 		AccessToken:        in.VcsConnection.AccessToken,
 		RefreshToken:       in.VcsConnection.RefreshToken,
-		AccessTokenExpiry:  in.VcsConnection.AccessTokenExpiry,
-		RefreshTokenExpiry: in.VcsConnection.RefreshTokenExpiry,
+		AccessTokenExpiry:  &aTEP,
+		RefreshTokenExpiry: &rTEP,
 		Revoked:            false,
 		AccountId:          in.VcsConnection.AccountId,
 	}
@@ -244,5 +254,25 @@ func (s *VCSConnectionService) CreateVCSConnection(ctx context.Context, in *pb.C
 }
 
 func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.VCSConnection, error) {
-	return nil, nil
+	record := models.VCSConnection{}
+	result := s.db.Where("provider = ?", in.Provider).Find(&record)
+	if result.Error != nil {
+		return nil, status.Error(codes.Internal, result.Error.Error())
+	}
+	if result.RowsAffected == 0 {
+		return nil, status.Error(codes.NotFound, "No Record Found")
+	}
+
+	VCS := &pb.VCSConnection{
+		Id:                 record.ID,
+		Provider:           1,
+		ConnectionId:       record.ConnectionId,
+		AccessToken:        record.AccessToken,
+		RefreshToken:       record.RefreshToken,
+		AccessTokenExpiry:  nil,
+		RefreshTokenExpiry: nil,
+		Revoked:            false,
+		AccountId:          "",
+	}
+	return VCS, nil
 }

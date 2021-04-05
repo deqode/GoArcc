@@ -80,7 +80,7 @@ func Gql__type_UserProfile() *graphql.Object {
 					Type:        graphql.String,
 					Description: `phone of user`,
 				},
-				"source": &graphql.Field{
+				"external_source": &graphql.Field{
 					Type: Gql__enum_SOURCE(),
 				},
 				"profile": &graphql.Field{
@@ -193,7 +193,7 @@ func Gql__input_UserProfile() *graphql.InputObject {
 					Description: `phone of user`,
 					Type:        graphql.String,
 				},
-				"source": &graphql.InputObjectFieldConfig{
+				"external_source": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_SOURCE(),
 				},
 				"profile": &graphql.InputObjectFieldConfig{

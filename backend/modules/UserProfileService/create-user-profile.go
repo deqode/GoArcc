@@ -2,39 +2,39 @@ package UserProfileService
 
 import (
 	"alfred/logger"
-	hellopb "alfred/modules/HelloWorldService/pb"
+	"alfred/modules/UserProfileService/models"
 	"alfred/modules/UserProfileService/pb"
 	"context"
 	"fmt"
+	"gorm.io/gorm"
 	"os/exec"
+	"time"
 )
 
-func (server *UserProfileService) CreateUserProfile(ctx context.Context, request *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
-	var resp pb.UserProfile
+func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	//creating uuid
 	out, err := exec.Command("uuidgen").Output()
 	if err != nil {
 		logger.Log.Debug("unable to generate uuid")
 	}
 
-	resp.Id = fmt.Sprintf("%s", out)
-	resp.Name = request.UserProfile.Name
-	resp.Email = request.UserProfile.Email
-	resp.PhoneNumber = request.UserProfile.PhoneNumber
-	resp.Sub = request.UserProfile.Sub
-	t := server.db.Create(&resp)
+	VCSModel := &models.UserProfile{
+		ID:          fmt.Sprintf("%s", out),
+		Name:        in.UserProfile.Name,
+		Email:       in.UserProfile.Email,
+		PhoneNumber: in.UserProfile.PhoneNumber,
+		Sub:         in.UserProfile.Sub,
+		Source:      1,
+		CreatedAt:   time.Time{},
+		UpdatedAt:   time.Time{},
+		DeletedAt:   gorm.DeletedAt{},
+	}
+
+	t := s.db.Create(VCSModel)
 	if t.Error != nil {
 		return nil, t.Error
 	}
-	//checking tracing
-	conn := server.grpcClient
-	helloWorldClient := hellopb.NewHelloWorldServiceClient(conn)
 
-	_, err = helloWorldClient.HelloWorld(ctx, &hellopb.Hello{Message: "hello"})
-	if err != nil {
-		return nil, err
-	}
-
-	return &resp, nil
-
+	//todo - create a single account as well
+	return in.UserProfile, nil
 }

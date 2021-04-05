@@ -77,7 +77,7 @@ message UserProfile {
     string email = 4;
     // phone of user
     string phone_number = 5;
-    SOURCE source = 6;
+    SOURCE external_source = 6;
     ProfilePicture profile = 7;
     google.protobuf.Timestamp token_valid_till = 8;
 }
