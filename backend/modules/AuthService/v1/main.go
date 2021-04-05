@@ -1,0 +1,61 @@
+package v1
+
+import (
+	"alfred/config"
+	"alfred/modules/AuthService/v1/pb"
+	userProfilePb "alfred/modules/UserProfileService/v1/pb"
+	"context"
+	oidc "github.com/coreos/go-oidc"
+	"golang.org/x/oauth2"
+	"google.golang.org/grpc"
+	"gorm.io/gorm"
+	"log"
+)
+
+type AuthService struct {
+	db         *gorm.DB
+	config     *config.Config
+	grpcClient *grpc.ClientConn
+	userClient userProfilePb.UserProfileServiceClient
+}
+
+//Service Implementation
+func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserLoginServiceServer {
+	userProfileClient := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
+	return &AuthService{
+		db:         db,
+		config:     config,
+		grpcClient: grpcClientConn,
+		userClient: userProfileClient, // TODO: Please follow proper naming convention, avoid ambiguity, name variables more specific for downstream usage
+	}
+}
+
+type Authenticator struct {
+	Provider *oidc.Provider
+	Config   oauth2.Config
+	Ctx      context.Context
+}
+
+func NewAuthenticator(config *config.Config) (*Authenticator, error) {
+	ctx := context.Background()
+
+	provider, err := oidc.NewProvider(ctx, "https://"+config.Auth.Auth0Domain+"/")
+	if err != nil {
+		log.Printf("failed to get provider: %v", err)
+		return nil, err
+	}
+
+	conf := oauth2.Config{
+		ClientID:     config.Auth.Auth0ClientId,
+		ClientSecret: config.Auth.Auth0ClientSecret,
+		RedirectURL:  config.Auth.Auth0CallbackUrl,
+		Endpoint:     provider.Endpoint(),
+		Scopes:       []string{oidc.ScopeOpenID, "profile"},
+	}
+
+	return &Authenticator{
+		Provider: provider,
+		Config:   conf,
+		Ctx:      ctx,
+	}, nil
+}

@@ -1,7 +1,7 @@
-package ArchitectureSuggesterService
+package v1
 
 import (
-	"alfred/modules/ArchitectureSuggesterService/pb"
+	"alfred/modules/ArchitectureSuggesterService/v1/pb"
 	"context"
 )
 

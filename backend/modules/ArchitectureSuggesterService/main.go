@@ -1,10 +1,10 @@
-package ArchitectureSuggesterService
+package v1
 
 import (
 	"alfred/logger"
-	"alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/ArchitecureConfiguration"
-	awsDefaultPb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/ArchitecureConfiguration/pb"
-	"alfred/modules/ArchitectureSuggesterService/pb"
+	"alfred/modules/ArchitectureSuggesterService/v1/AwsArchitectureService/ArchitecureConfiguration"
+	awsDefaultPb "alfred/modules/ArchitectureSuggesterService/v1/AwsArchitectureService/ArchitecureConfiguration/pb"
+	"alfred/modules/ArchitectureSuggesterService/v1/pb"
 	"go.uber.org/zap"
 )
 
