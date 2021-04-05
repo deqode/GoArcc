@@ -9,23 +9,32 @@ import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
 
 service VCSConnectionService {
+    // TODO: ListAllSuppotedVCSProviders
     rpc ListAlfredVCSConnection(google.protobuf.Empty) returns (ListAlfredVCSConnectionResponse);
+
+    //
     rpc Connect(ConnectRequest) returns (ConnectResponse){
         option (google.api.http) = {
             get: "/v1/vcs-connection/connect/{provider}"
         };
     };
+
+    // TODO: Let it have callback in name
     rpc Connected(ConnectedRequest) returns (AccountVCSConnection){
         option (google.api.http) = {
+            // TODO: /v1/vcs-connection/{provider}/callback
             get: "/v1/vcs-connection/connected/{provider}"
         };
     };
+
     rpc ListVCSConnection(ListVCSConnectionRequest) returns (ListVCSConnectionResponse){
         option (google.api.http) = {
             get: "/v1/vcs-connection/list-vcs-connections"
         };
     }
+
     rpc GetVCSConnection(GetVCSConnectionRequest) returns (VCSConnection);
+
     rpc listReposistory(ListReposistoryRequest) returns (ListReposistoryResponse){
         option (google.api.http) = {
             get: "/v1/vcs-connection/reposistories/{provider}"
@@ -55,12 +64,13 @@ message ListAlfredVCSConnectionResponse{
 }
 message ConnectRequest{
     VCSConnectionProvider provider = 1;
+    string label = 2;
 }
 message ConnectResponse{
     string uri = 1;
-    string account_id = 2;
-    string user_id = 3;
-    string temp_jwt_token = 4;
+    string account_id = 2; // TODO: Remove
+    string user_id = 3; // TODO: Remove
+    string temp_jwt_token = 4; // TODO: Add label in this
 }
 
 message ConnectedRequest{
@@ -83,6 +93,7 @@ message VCSConnection {
     google.protobuf.Timestamp refreshTokenExpiry = 7;
     bool revoked = 8 ;
     string account_id = 9;
+    string label = 10;
 }
 
 message AccountVCSConnection{

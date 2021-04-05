@@ -48,36 +48,34 @@ service UserLoginService {
     };
 
     // GetUserLogin returns the specified user by its id.
-    rpc GetUserLogin (GetUserLoginRequest) returns (google.protobuf.Empty);
+    // rpc GetUserLogin (GetUserLoginRequest) returns (google.protobuf.Empty);
 
     // DeleteUserLogin is used to delete a user from the system, this will delete all
-    rpc DeleteUserLogin (DeleteUserLoginRequest) returns (google.protobuf.Empty);
+    // rpc DeleteUserLogin (DeleteUserLoginRequest) returns (google.protobuf.Empty);
 
 
-    rpc UpdateUserPassword (UpdateUserPasswordRequest) returns (google.protobuf.Empty);
+    // rpc UpdateUserPassword (UpdateUserPasswordRequest) returns (google.protobuf.Empty);
 
     // ResetUserPassword , if a user has forgot the password then
     // this method can be used to reset the password
-    rpc ResetUserPassword (ResetUserPasswordRequest) returns (google.protobuf.Empty);
+    // rpc ResetUserPassword (ResetUserPasswordRequest) returns (google.protobuf.Empty);
 
 }
 
-message UserLogin{
-    string id = 1;
-    string password = 2;
-    google.protobuf.Timestamp password_changed_on = 3;
-}
+//message UserLogin{
+//    string id = 1;
+//    string password = 2;
+//    google.protobuf.Timestamp password_changed_on = 3;
+//}
+
 message UserLoginResponse{
-    string url=1;
-}
-message UserLoginCallbackRequest{
-    string state =1;
-    string code = 2;
+    string url = 1;
 }
 
-message User {
-    // Id is the unique identifier of the user
-    string id = 1;
+message UserLoginCallbackRequest{
+    string state = 1;
+    string code = 2;
+//    string nonce = 3; TODO: Add nonce as well
 }
 
 message GetUserLoginRequest {

@@ -13,7 +13,7 @@ import (
 
 func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	//creating uuid
-	out, err := exec.Command("uuidgen").Output()
+	out, err := exec.Command("uuidgen").Output() //
 	if err != nil {
 		logger.Log.Debug("unable to generate uuid")
 	}
@@ -35,6 +35,6 @@ func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.Creat
 		return nil, t.Error
 	}
 
-	//todo - create a single account as well
+	//TODO - create a single account as well
 	return in.UserProfile, nil
 }

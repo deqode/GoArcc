@@ -9,7 +9,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/coreos/go-oidc"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc/codes"
@@ -26,7 +25,7 @@ func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserL
 	}
 	state := base64.StdEncoding.EncodeToString(b)
 
-	authenticator, err := NewAuthenticator(config.GetConfig())
+	authenticator, err := NewAuthenticator(config.GetConfig()) // TODO: Move this logic to main struct of this service
 	if err != nil {
 		return nil, err
 	}
@@ -35,14 +34,15 @@ func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserL
 		Url: authenticator.Config.AuthCodeURL(state),
 	}, nil
 }
+
 func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*empty.Empty, error) {
 
-	authenticator, err := NewAuthenticator(config.GetConfig())
+	authenticator, err := NewAuthenticator(config.GetConfig()) // TODO: Move this logic to main struct of this service
 	if err != nil {
 		return nil, err
 	}
 
-	token, err := authenticator.Config.Exchange(context.TODO(), in.Code)
+	token, err := authenticator.Config.Exchange(ctx, in.Code)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, err.Error())
 	}
@@ -52,11 +52,12 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		return nil, status.Error(codes.Internal, "No id_token field in oauth2 token")
 	}
 
+	// TODO: Move this out similar to Authenticator, as this does not needs to be initiated for each and every call of this endpoint
 	oidcConfig := &oidc.Config{
 		ClientID: config.GetConfig().Auth.Auth0ClientId,
 	}
 
-	idToken, err := authenticator.Provider.Verifier(oidcConfig).Verify(context.TODO(), rawIDToken)
+	idToken, err := authenticator.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, "Failed to verify ID Token: "+err.Error())
@@ -80,6 +81,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 			TokenValidTill: nil,
 		},
 	})
+
 	if err != nil {
 		return nil, err
 	}
@@ -102,6 +104,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 	// Redirect to logged in page
 	return &empty.Empty{}, nil
 }
+
 func (s *AuthService) UserLogout(context.Context, *empty.Empty) (*empty.Empty, error) {
 	domain := config.GetConfig().Auth.Auth0Domain
 
@@ -144,6 +147,7 @@ func (s *AuthService) GetUserLogin(context.Context, *pb.GetUserLoginRequest) (*e
 func (s *AuthService) DeleteUserLogin(context.Context, *pb.DeleteUserLoginRequest) (*empty.Empty, error) {
 	return nil, nil
 }
+
 func (s *AuthService) UpdateUserPassword(context.Context, *pb.UpdateUserPasswordRequest) (*empty.Empty, error) {
 	return nil, nil
 }

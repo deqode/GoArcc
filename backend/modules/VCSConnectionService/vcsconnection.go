@@ -77,16 +77,17 @@ func (s *VCSConnectionService) Connected(ctx context.Context, in *pb.ConnectedRe
 		return nil, status.Error(codes.InvalidArgument, "Connection code not provided")
 	}
 
-	var info *Info
-	for _, i := range s.info {
-		if i == nil {
-			continue
-		}
-		if i.Provider == in.Provider.String() {
-			info = i
-			break
-		}
-	}
+	//var info *Info
+	//for _, i := range s.info {
+	//	if i == nil {
+	//		continue
+	//	}
+	//	if i.Provider == in.Provider.String() {
+	//		info = i
+	//		break
+	//	}
+	//}
+
 	if info == nil {
 		return nil, status.Error(codes.InvalidArgument, "Incorrect VCS type")
 	}

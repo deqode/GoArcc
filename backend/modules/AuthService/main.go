@@ -26,7 +26,7 @@ func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.Cli
 		db:         db,
 		config:     config,
 		grpcClient: grpcClientConn,
-		userClient: userProfileClient,
+		userClient: userProfileClient, // TODO: Please follow proper naming convention, avoid ambiguity, name variables more specific for downstream usage
 	}
 }
 
