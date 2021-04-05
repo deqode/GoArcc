@@ -4,11 +4,16 @@ import (
 	"alfred/logger"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Account struct {
-	ID   string
-	Slug string
+	ID        string
+	Slug      string
+	UserId    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 func InitialMigrationAccount(db *gorm.DB) {
