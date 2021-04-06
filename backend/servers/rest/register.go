@@ -2,12 +2,11 @@ package rest
 
 import (
 	"alfred/logger"
-	awsArchitecturePb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
-	authPb "alfred/modules/AuthService/pb"
+	authPb "alfred/modules/AuthService/v1/pb"
 	helloWorldPb "alfred/modules/HelloWorldService/pb"
-	userProfilePb "alfred/modules/UserProfileService/pb"
-	vcsPb "alfred/modules/VCSConnectionService/pb"
+	userProfilePb "alfred/modules/UserProfileService/v1/pb"
+	vcsPb "alfred/modules/VCSConnectionService/v1/pb"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/zap"
@@ -29,11 +28,6 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 	}
 
 	if err := architectureSuggesterPb.RegisterArchitectureSuggesterServiceHandler(ctx, mux, conn); err != nil {
-		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
-		return err
-	}
-
-	if err := awsArchitecturePb.RegisterAwsServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

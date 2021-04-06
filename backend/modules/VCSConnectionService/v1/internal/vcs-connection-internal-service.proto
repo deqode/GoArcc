@@ -1,14 +1,12 @@
 syntax = "proto3";
-package pb;
+package alfred.vcs_connection.v1.internal;
 
-option go_package = "./pb";
+option go_package = "/pb";
 
 import "google/protobuf/empty.proto";
-import "google/api/annotation.proto";
-import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
 
-service VCSConnectionService {
+service VCSConnectionInternalService {
     //internal
     rpc GetVCSConnection(GetVCSConnectionRequest) returns (VCSConnection);
     rpc CreateVCSConnection(CreateVCSConnectionRequest) returns (VCSConnection);

@@ -2,10 +2,9 @@ package graphql
 
 import (
 	"alfred/logger"
-	awsArchitecturePb "alfred/modules/ArchitectureSuggesterService/AwsArchitectureService/pb"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
 	hellopb "alfred/modules/HelloWorldService/pb"
-	userProfilePb "alfred/modules/UserProfileService/pb"
+	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -25,11 +24,6 @@ func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error 
 		return err
 	}
 	if err := architectureSuggesterPb.RegisterArchitectureSuggesterServiceGraphqlHandler(mux, conn); err != nil {
-		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
-		return err
-	}
-
-	if err := awsArchitecturePb.RegisterAwsServiceGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

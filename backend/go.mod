@@ -7,7 +7,6 @@ require (
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
-	github.com/ghodss/yaml v1.0.0
 	github.com/go-redis/redis/v8 v8.7.1
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-github/v34 v34.0.0

@@ -5,7 +5,7 @@ import (
 	"alfred/config"
 	"alfred/db"
 	"alfred/modules/HelloWorldService"
-	"alfred/modules/UserProfileService"
+	user_profile "alfred/modules/UserProfileService/v1"
 	"alfred/servers/cleanup"
 	"alfred/servers/grpc"
 	"alfred/servers/openTracing/tracer/jaeger"
@@ -17,7 +17,7 @@ func GetProviderOptions() []fx.Option {
 	return []fx.Option{
 		config.ConfigProviderFx,
 		grpc.InitGrpcBeforeServingFx,
-		UserProfileService.Module,
+		user_profile.Module,
 		db.DatabaseConnectionFx,
 		HelloWorldService.HelloServiceFx,
 		cleanup.CleanupFx,

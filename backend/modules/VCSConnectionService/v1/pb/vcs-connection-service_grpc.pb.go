@@ -18,16 +18,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type VCSConnectionServiceClient interface {
-	ListAlfredVCSConnection(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListAlfredVCSConnectionResponse, error)
-	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectResponse, error)
-	Connected(ctx context.Context, in *ConnectedRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
+	//ListAllSupportedVCSProviders returns all external providers list supported by alfred
+	ListAllSupportedVCSProviders(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListAllSupportedVCSProvidersResponse, error)
+	//Authorize provide a URL of external OAuth application
+	Authorize(ctx context.Context, in *AuthorizeRequest, opts ...grpc.CallOption) (*AuthorizeResponse, error)
+	//Callback called by external OAuth application
+	Callback(ctx context.Context, in *CallbackRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
+	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(ctx context.Context, in *ListVCSConnectionRequest, opts ...grpc.CallOption) (*ListVCSConnectionResponse, error)
-	GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error)
-	ListReposistory(ctx context.Context, in *ListReposistoryRequest, opts ...grpc.CallOption) (*ListReposistoryResponse, error)
-	GetReposistory(ctx context.Context, in *GetReposistoryRequest, opts ...grpc.CallOption) (*Reposistory, error)
-	CreateVCSConnection(ctx context.Context, in *CreateVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error)
-	RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	RenewVCSToken(ctx context.Context, in *RenewVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type vCSConnectionServiceClient struct {
@@ -38,27 +36,27 @@ func NewVCSConnectionServiceClient(cc grpc.ClientConnInterface) VCSConnectionSer
 	return &vCSConnectionServiceClient{cc}
 }
 
-func (c *vCSConnectionServiceClient) ListAlfredVCSConnection(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListAlfredVCSConnectionResponse, error) {
-	out := new(ListAlfredVCSConnectionResponse)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/ListAlfredVCSConnection", in, out, opts...)
+func (c *vCSConnectionServiceClient) ListAllSupportedVCSProviders(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListAllSupportedVCSProvidersResponse, error) {
+	out := new(ListAllSupportedVCSProvidersResponse)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnectionService/ListAllSupportedVCSProviders", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *vCSConnectionServiceClient) Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectResponse, error) {
-	out := new(ConnectResponse)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/Connect", in, out, opts...)
+func (c *vCSConnectionServiceClient) Authorize(ctx context.Context, in *AuthorizeRequest, opts ...grpc.CallOption) (*AuthorizeResponse, error) {
+	out := new(AuthorizeResponse)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnectionService/Authorize", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *vCSConnectionServiceClient) Connected(ctx context.Context, in *ConnectedRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error) {
+func (c *vCSConnectionServiceClient) Callback(ctx context.Context, in *CallbackRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error) {
 	out := new(AccountVCSConnection)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/Connected", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnectionService/Callback", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,61 +65,7 @@ func (c *vCSConnectionServiceClient) Connected(ctx context.Context, in *Connecte
 
 func (c *vCSConnectionServiceClient) ListVCSConnection(ctx context.Context, in *ListVCSConnectionRequest, opts ...grpc.CallOption) (*ListVCSConnectionResponse, error) {
 	out := new(ListVCSConnectionResponse)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/ListVCSConnection", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vCSConnectionServiceClient) GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error) {
-	out := new(VCSConnection)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/GetVCSConnection", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vCSConnectionServiceClient) ListReposistory(ctx context.Context, in *ListReposistoryRequest, opts ...grpc.CallOption) (*ListReposistoryResponse, error) {
-	out := new(ListReposistoryResponse)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/listReposistory", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vCSConnectionServiceClient) GetReposistory(ctx context.Context, in *GetReposistoryRequest, opts ...grpc.CallOption) (*Reposistory, error) {
-	out := new(Reposistory)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/GetReposistory", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vCSConnectionServiceClient) CreateVCSConnection(ctx context.Context, in *CreateVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error) {
-	out := new(VCSConnection)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/CreateVCSConnection", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vCSConnectionServiceClient) RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/RevokeVCSToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vCSConnectionServiceClient) RenewVCSToken(ctx context.Context, in *RenewVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.VCSConnectionService/RenewVCSToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnectionService/ListVCSConnection", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -129,57 +73,35 @@ func (c *vCSConnectionServiceClient) RenewVCSToken(ctx context.Context, in *Rene
 }
 
 // VCSConnectionServiceServer is the server API for VCSConnectionService service.
-// All implementations must embed UnimplementedVCSConnectionServiceServer
+// All implementations should embed UnimplementedVCSConnectionServiceServer
 // for forward compatibility
 type VCSConnectionServiceServer interface {
-	ListAlfredVCSConnection(context.Context, *empty.Empty) (*ListAlfredVCSConnectionResponse, error)
-	Connect(context.Context, *ConnectRequest) (*ConnectResponse, error)
-	Connected(context.Context, *ConnectedRequest) (*AccountVCSConnection, error)
+	//ListAllSupportedVCSProviders returns all external providers list supported by alfred
+	ListAllSupportedVCSProviders(context.Context, *empty.Empty) (*ListAllSupportedVCSProvidersResponse, error)
+	//Authorize provide a URL of external OAuth application
+	Authorize(context.Context, *AuthorizeRequest) (*AuthorizeResponse, error)
+	//Callback called by external OAuth application
+	Callback(context.Context, *CallbackRequest) (*AccountVCSConnection, error)
+	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error)
-	GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*VCSConnection, error)
-	ListReposistory(context.Context, *ListReposistoryRequest) (*ListReposistoryResponse, error)
-	GetReposistory(context.Context, *GetReposistoryRequest) (*Reposistory, error)
-	CreateVCSConnection(context.Context, *CreateVCSConnectionRequest) (*VCSConnection, error)
-	RevokeVCSToken(context.Context, *RevokeVCSTokenRequest) (*empty.Empty, error)
-	RenewVCSToken(context.Context, *RenewVCSTokenRequest) (*empty.Empty, error)
-	//mustEmbedUnimplementedVCSConnectionServiceServer()
 }
 
-// UnimplementedVCSConnectionServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedVCSConnectionServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedVCSConnectionServiceServer struct {
 }
 
-func (UnimplementedVCSConnectionServiceServer) ListAlfredVCSConnection(context.Context, *empty.Empty) (*ListAlfredVCSConnectionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAlfredVCSConnection not implemented")
+func (UnimplementedVCSConnectionServiceServer) ListAllSupportedVCSProviders(context.Context, *empty.Empty) (*ListAllSupportedVCSProvidersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAllSupportedVCSProviders not implemented")
 }
-func (UnimplementedVCSConnectionServiceServer) Connect(context.Context, *ConnectRequest) (*ConnectResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
+func (UnimplementedVCSConnectionServiceServer) Authorize(context.Context, *AuthorizeRequest) (*AuthorizeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Authorize not implemented")
 }
-func (UnimplementedVCSConnectionServiceServer) Connected(context.Context, *ConnectedRequest) (*AccountVCSConnection, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Connected not implemented")
+func (UnimplementedVCSConnectionServiceServer) Callback(context.Context, *CallbackRequest) (*AccountVCSConnection, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Callback not implemented")
 }
 func (UnimplementedVCSConnectionServiceServer) ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListVCSConnection not implemented")
 }
-func (UnimplementedVCSConnectionServiceServer) GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*VCSConnection, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetVCSConnection not implemented")
-}
-func (UnimplementedVCSConnectionServiceServer) ListReposistory(context.Context, *ListReposistoryRequest) (*ListReposistoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListReposistory not implemented")
-}
-func (UnimplementedVCSConnectionServiceServer) GetReposistory(context.Context, *GetReposistoryRequest) (*Reposistory, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetReposistory not implemented")
-}
-func (UnimplementedVCSConnectionServiceServer) CreateVCSConnection(context.Context, *CreateVCSConnectionRequest) (*VCSConnection, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateVCSConnection not implemented")
-}
-func (UnimplementedVCSConnectionServiceServer) RevokeVCSToken(context.Context, *RevokeVCSTokenRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevokeVCSToken not implemented")
-}
-func (UnimplementedVCSConnectionServiceServer) RenewVCSToken(context.Context, *RenewVCSTokenRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RenewVCSToken not implemented")
-}
-func (UnimplementedVCSConnectionServiceServer) mustEmbedUnimplementedVCSConnectionServiceServer() {}
 
 // UnsafeVCSConnectionServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to VCSConnectionServiceServer will
@@ -192,56 +114,56 @@ func RegisterVCSConnectionServiceServer(s *grpc.Server, srv VCSConnectionService
 	s.RegisterService(&_VCSConnectionService_serviceDesc, srv)
 }
 
-func _VCSConnectionService_ListAlfredVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VCSConnectionService_ListAllSupportedVCSProviders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).ListAlfredVCSConnection(ctx, in)
+		return srv.(VCSConnectionServiceServer).ListAllSupportedVCSProviders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/ListAlfredVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnectionService/ListAllSupportedVCSProviders",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).ListAlfredVCSConnection(ctx, req.(*empty.Empty))
+		return srv.(VCSConnectionServiceServer).ListAllSupportedVCSProviders(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VCSConnectionService_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConnectRequest)
+func _VCSConnectionService_Authorize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AuthorizeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).Connect(ctx, in)
+		return srv.(VCSConnectionServiceServer).Authorize(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/Connect",
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnectionService/Authorize",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).Connect(ctx, req.(*ConnectRequest))
+		return srv.(VCSConnectionServiceServer).Authorize(ctx, req.(*AuthorizeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VCSConnectionService_Connected_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConnectedRequest)
+func _VCSConnectionService_Callback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CallbackRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).Connected(ctx, in)
+		return srv.(VCSConnectionServiceServer).Callback(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/Connected",
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnectionService/Callback",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).Connected(ctx, req.(*ConnectedRequest))
+		return srv.(VCSConnectionServiceServer).Callback(ctx, req.(*CallbackRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -256,7 +178,7 @@ func _VCSConnectionService_ListVCSConnection_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/ListVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnectionService/ListVCSConnection",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionServiceServer).ListVCSConnection(ctx, req.(*ListVCSConnectionRequest))
@@ -264,157 +186,25 @@ func _VCSConnectionService_ListVCSConnection_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VCSConnectionService_GetVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetVCSConnectionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).GetVCSConnection(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/GetVCSConnection",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).GetVCSConnection(ctx, req.(*GetVCSConnectionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _VCSConnectionService_ListReposistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListReposistoryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).ListReposistory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/ListReposistory",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).ListReposistory(ctx, req.(*ListReposistoryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _VCSConnectionService_GetReposistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetReposistoryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).GetReposistory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/GetReposistory",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).GetReposistory(ctx, req.(*GetReposistoryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _VCSConnectionService_CreateVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateVCSConnectionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).CreateVCSConnection(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/CreateVCSConnection",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).CreateVCSConnection(ctx, req.(*CreateVCSConnectionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _VCSConnectionService_RevokeVCSToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokeVCSTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).RevokeVCSToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/RevokeVCSToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).RevokeVCSToken(ctx, req.(*RevokeVCSTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _VCSConnectionService_RenewVCSToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RenewVCSTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(VCSConnectionServiceServer).RenewVCSToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.VCSConnectionService/RenewVCSToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionServiceServer).RenewVCSToken(ctx, req.(*RenewVCSTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _VCSConnectionService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.VCSConnectionService",
+	ServiceName: "alfred.vcs_connection.v1.VCSConnectionService",
 	HandlerType: (*VCSConnectionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListAlfredVCSConnection",
-			Handler:    _VCSConnectionService_ListAlfredVCSConnection_Handler,
+			MethodName: "ListAllSupportedVCSProviders",
+			Handler:    _VCSConnectionService_ListAllSupportedVCSProviders_Handler,
 		},
 		{
-			MethodName: "Connect",
-			Handler:    _VCSConnectionService_Connect_Handler,
+			MethodName: "Authorize",
+			Handler:    _VCSConnectionService_Authorize_Handler,
 		},
 		{
-			MethodName: "Connected",
-			Handler:    _VCSConnectionService_Connected_Handler,
+			MethodName: "Callback",
+			Handler:    _VCSConnectionService_Callback_Handler,
 		},
 		{
 			MethodName: "ListVCSConnection",
 			Handler:    _VCSConnectionService_ListVCSConnection_Handler,
-		},
-		{
-			MethodName: "GetVCSConnection",
-			Handler:    _VCSConnectionService_GetVCSConnection_Handler,
-		},
-		{
-			MethodName: "listReposistory",
-			Handler:    _VCSConnectionService_ListReposistory_Handler,
-		},
-		{
-			MethodName: "GetReposistory",
-			Handler:    _VCSConnectionService_GetReposistory_Handler,
-		},
-		{
-			MethodName: "CreateVCSConnection",
-			Handler:    _VCSConnectionService_CreateVCSConnection_Handler,
-		},
-		{
-			MethodName: "RevokeVCSToken",
-			Handler:    _VCSConnectionService_RevokeVCSToken_Handler,
-		},
-		{
-			MethodName: "RenewVCSToken",
-			Handler:    _VCSConnectionService_RenewVCSToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -9,6 +9,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/coreos/go-oidc"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc/codes"

@@ -1,9 +1,9 @@
-package AccountService
+package v1
 
 import (
 	"alfred/config"
-	"alfred/modules/AccountService/models"
-	"alfred/modules/AccountService/pb"
+	"alfred/modules/AccountService/v1/models"
+	"alfred/modules/AccountService/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )

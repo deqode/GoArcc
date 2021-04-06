@@ -19,6 +19,7 @@ type Config struct {
 	Metrics     MetricsConfig
 	Jaeger      JaegerServerConfig
 	Auth        AuthConfig
+	VCSConfig   map[string]VCSSConfig
 }
 
 // GrpcServerConfig: gRPC  server configuration
@@ -75,11 +76,24 @@ type JaegerServerConfig struct {
 	LogSpans    string
 }
 
+//Authentication config: details provided by Auth0
 type AuthConfig struct {
 	Auth0ClientId     string
 	Auth0Domain       string
 	Auth0ClientSecret string
 	Auth0CallbackUrl  string
+}
+
+type VCSSConfig struct {
+	IType        int
+	Provider     string
+	URLTemplate  string
+	ClientID     string
+	RedirectUri  string
+	State        string
+	Scope        string
+	ResponseType string
+	ClientSecret string
 }
 
 // LoadConfig config file from given path

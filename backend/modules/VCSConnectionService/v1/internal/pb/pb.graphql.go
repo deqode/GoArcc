@@ -7,19 +7,19 @@ import (
 )
 
 var (
-	gql__enum_VCSConnectionProvider       *graphql.Enum        // enum VCSConnectionProvider in vcs-connection-service.proto
-	gql__type_VCSConnection               *graphql.Object      // message VCSConnection in vcs-connection-service.proto
-	gql__type_RevokeVCSTokenRequest       *graphql.Object      // message RevokeVCSTokenRequest in vcs-connection-service.proto
-	gql__type_RenewVCSTokenRequest        *graphql.Object      // message RenewVCSTokenRequest in vcs-connection-service.proto
-	gql__type_GetVCSConnectionRequest     *graphql.Object      // message GetVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_CreateVCSConnectionRequest  *graphql.Object      // message CreateVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_AccountVCSConnection        *graphql.Object      // message AccountVCSConnection in vcs-connection-service.proto
-	gql__input_VCSConnection              *graphql.InputObject // message VCSConnection in vcs-connection-service.proto
-	gql__input_RevokeVCSTokenRequest      *graphql.InputObject // message RevokeVCSTokenRequest in vcs-connection-service.proto
-	gql__input_RenewVCSTokenRequest       *graphql.InputObject // message RenewVCSTokenRequest in vcs-connection-service.proto
-	gql__input_GetVCSConnectionRequest    *graphql.InputObject // message GetVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_CreateVCSConnectionRequest *graphql.InputObject // message CreateVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_AccountVCSConnection       *graphql.InputObject // message AccountVCSConnection in vcs-connection-service.proto
+	gql__enum_VCSConnectionProvider       *graphql.Enum        // enum VCSConnectionProvider in vcs-connection-internal-service.proto
+	gql__type_VCSConnection               *graphql.Object      // message VCSConnection in vcs-connection-internal-service.proto
+	gql__type_RevokeVCSTokenRequest       *graphql.Object      // message RevokeVCSTokenRequest in vcs-connection-internal-service.proto
+	gql__type_RenewVCSTokenRequest        *graphql.Object      // message RenewVCSTokenRequest in vcs-connection-internal-service.proto
+	gql__type_GetVCSConnectionRequest     *graphql.Object      // message GetVCSConnectionRequest in vcs-connection-internal-service.proto
+	gql__type_CreateVCSConnectionRequest  *graphql.Object      // message CreateVCSConnectionRequest in vcs-connection-internal-service.proto
+	gql__type_AccountVCSConnection        *graphql.Object      // message AccountVCSConnection in vcs-connection-internal-service.proto
+	gql__input_VCSConnection              *graphql.InputObject // message VCSConnection in vcs-connection-internal-service.proto
+	gql__input_RevokeVCSTokenRequest      *graphql.InputObject // message RevokeVCSTokenRequest in vcs-connection-internal-service.proto
+	gql__input_RenewVCSTokenRequest       *graphql.InputObject // message RenewVCSTokenRequest in vcs-connection-internal-service.proto
+	gql__input_GetVCSConnectionRequest    *graphql.InputObject // message GetVCSConnectionRequest in vcs-connection-internal-service.proto
+	gql__input_CreateVCSConnectionRequest *graphql.InputObject // message CreateVCSConnectionRequest in vcs-connection-internal-service.proto
+	gql__input_AccountVCSConnection       *graphql.InputObject // message AccountVCSConnection in vcs-connection-internal-service.proto
 )
 
 func Gql__enum_VCSConnectionProvider() *graphql.Enum {

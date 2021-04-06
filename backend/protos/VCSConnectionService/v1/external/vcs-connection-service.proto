@@ -36,26 +36,6 @@ service VCSConnectionService {
             get: "/v1/vcs-connection/list-vcs-connections"
         };
     }
-
-//    rpc listReposistory(ListReposistoryRequest) returns (ListReposistoryResponse){
-//        option (google.api.http) = {
-//            get: "/v1/vcs-connection/reposistories/{provider}"
-//        };
-//        option (graphql.schema) = {
-//            type: QUERY
-//            name: "reposistories"
-//        };
-//    }
-//
-//    rpc GetReposistory(GetReposistoryRequest) returns (Reposistory){
-//        option (google.api.http) = {
-//            get: "/v1/vcs-connection/reposistory/{repo_name}"
-//        };
-//        option (graphql.schema) = {
-//            type: QUERY
-//            name: "reposistory"
-//        };
-//    }
 }
 
 message ListAllSupportedVCSProvidersResponse{
@@ -114,34 +94,3 @@ message ListVCSConnectionRequest{
 message ListVCSConnectionResponse{
     repeated AccountVCSConnection vcs_connection = 1;
 }
-
-//message Reposistory{
-//    int64 id = 1;
-//    string node_iD = 2;
-//    string name = 3;
-//    string full_name = 4;
-//    string description = 5;
-//    string default_branch = 6;
-//    string master_branch = 7;
-//    google.protobuf.Timestamp created_at = 8;
-//    google.protobuf.Timestamp pushed_at = 9;
-//    google.protobuf.Timestamp updated_at = 10;
-//    string clone_URL = 11;
-//    string git_URL = 12;
-//    int32 size = 13;
-//    bool private = 14;
-//    repeated string branches = 15;
-//}
-//
-//message ListReposistoryRequest{
-//    VCSConnectionProvider provider = 1;
-//}
-//message ListReposistoryResponse{
-//    repeated Reposistory reposistories = 1;
-//}
-//
-//message GetReposistoryRequest{
-//    VCSConnectionProvider provider = 1;
-//    string repo_name = 2;
-//    string account_id = 3;
-//}

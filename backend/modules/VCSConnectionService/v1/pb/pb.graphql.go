@@ -2,49 +2,28 @@
 package pb
 
 import (
-	"context"
-
 	"github.com/graphql-go/graphql"
-	"github.com/pkg/errors"
 	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
-	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
-	"google.golang.org/grpc"
 )
 
 var (
-	gql__enum_VCSConnectionProvider            *graphql.Enum        // enum VCSConnectionProvider in vcs-connection-service.proto
-	gql__type_VCSConnection                    *graphql.Object      // message VCSConnection in vcs-connection-service.proto
-	gql__type_RevokeVCSTokenRequest            *graphql.Object      // message RevokeVCSTokenRequest in vcs-connection-service.proto
-	gql__type_Reposistory                      *graphql.Object      // message Reposistory in vcs-connection-service.proto
-	gql__type_RenewVCSTokenRequest             *graphql.Object      // message RenewVCSTokenRequest in vcs-connection-service.proto
-	gql__type_ListVCSConnectionResponse        *graphql.Object      // message ListVCSConnectionResponse in vcs-connection-service.proto
-	gql__type_ListVCSConnectionRequest         *graphql.Object      // message ListVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_ListReposistoryResponse          *graphql.Object      // message ListReposistoryResponse in vcs-connection-service.proto
-	gql__type_ListReposistoryRequest           *graphql.Object      // message ListReposistoryRequest in vcs-connection-service.proto
-	gql__type_ListAlfredVCSConnectionResponse  *graphql.Object      // message ListAlfredVCSConnectionResponse in vcs-connection-service.proto
-	gql__type_GetVCSConnectionRequest          *graphql.Object      // message GetVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_GetReposistoryRequest            *graphql.Object      // message GetReposistoryRequest in vcs-connection-service.proto
-	gql__type_CreateVCSConnectionRequest       *graphql.Object      // message CreateVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_ConnectedRequest                 *graphql.Object      // message ConnectedRequest in vcs-connection-service.proto
-	gql__type_ConnectResponse                  *graphql.Object      // message ConnectResponse in vcs-connection-service.proto
-	gql__type_ConnectRequest                   *graphql.Object      // message ConnectRequest in vcs-connection-service.proto
-	gql__type_AccountVCSConnection             *graphql.Object      // message AccountVCSConnection in vcs-connection-service.proto
-	gql__input_VCSConnection                   *graphql.InputObject // message VCSConnection in vcs-connection-service.proto
-	gql__input_RevokeVCSTokenRequest           *graphql.InputObject // message RevokeVCSTokenRequest in vcs-connection-service.proto
-	gql__input_Reposistory                     *graphql.InputObject // message Reposistory in vcs-connection-service.proto
-	gql__input_RenewVCSTokenRequest            *graphql.InputObject // message RenewVCSTokenRequest in vcs-connection-service.proto
-	gql__input_ListVCSConnectionResponse       *graphql.InputObject // message ListVCSConnectionResponse in vcs-connection-service.proto
-	gql__input_ListVCSConnectionRequest        *graphql.InputObject // message ListVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_ListReposistoryResponse         *graphql.InputObject // message ListReposistoryResponse in vcs-connection-service.proto
-	gql__input_ListReposistoryRequest          *graphql.InputObject // message ListReposistoryRequest in vcs-connection-service.proto
-	gql__input_ListAlfredVCSConnectionResponse *graphql.InputObject // message ListAlfredVCSConnectionResponse in vcs-connection-service.proto
-	gql__input_GetVCSConnectionRequest         *graphql.InputObject // message GetVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_GetReposistoryRequest           *graphql.InputObject // message GetReposistoryRequest in vcs-connection-service.proto
-	gql__input_CreateVCSConnectionRequest      *graphql.InputObject // message CreateVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_ConnectedRequest                *graphql.InputObject // message ConnectedRequest in vcs-connection-service.proto
-	gql__input_ConnectResponse                 *graphql.InputObject // message ConnectResponse in vcs-connection-service.proto
-	gql__input_ConnectRequest                  *graphql.InputObject // message ConnectRequest in vcs-connection-service.proto
-	gql__input_AccountVCSConnection            *graphql.InputObject // message AccountVCSConnection in vcs-connection-service.proto
+	gql__enum_VCSConnectionProvider                 *graphql.Enum        // enum VCSConnectionProvider in vcs-connection-service.proto
+	gql__type_VCSConnection                         *graphql.Object      // message VCSConnection in vcs-connection-service.proto
+	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in vcs-connection-service.proto
+	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in vcs-connection-service.proto
+	gql__type_ListAllSupportedVCSProvidersResponse  *graphql.Object      // message ListAllSupportedVCSProvidersResponse in vcs-connection-service.proto
+	gql__type_CallbackRequest                       *graphql.Object      // message CallbackRequest in vcs-connection-service.proto
+	gql__type_AuthorizeResponse                     *graphql.Object      // message AuthorizeResponse in vcs-connection-service.proto
+	gql__type_AuthorizeRequest                      *graphql.Object      // message AuthorizeRequest in vcs-connection-service.proto
+	gql__type_AccountVCSConnection                  *graphql.Object      // message AccountVCSConnection in vcs-connection-service.proto
+	gql__input_VCSConnection                        *graphql.InputObject // message VCSConnection in vcs-connection-service.proto
+	gql__input_ListVCSConnectionResponse            *graphql.InputObject // message ListVCSConnectionResponse in vcs-connection-service.proto
+	gql__input_ListVCSConnectionRequest             *graphql.InputObject // message ListVCSConnectionRequest in vcs-connection-service.proto
+	gql__input_ListAllSupportedVCSProvidersResponse *graphql.InputObject // message ListAllSupportedVCSProvidersResponse in vcs-connection-service.proto
+	gql__input_CallbackRequest                      *graphql.InputObject // message CallbackRequest in vcs-connection-service.proto
+	gql__input_AuthorizeResponse                    *graphql.InputObject // message AuthorizeResponse in vcs-connection-service.proto
+	gql__input_AuthorizeRequest                     *graphql.InputObject // message AuthorizeRequest in vcs-connection-service.proto
+	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in vcs-connection-service.proto
 )
 
 func Gql__enum_VCSConnectionProvider() *graphql.Enum {
@@ -79,6 +58,9 @@ func Gql__type_VCSConnection() *graphql.Object {
 					Type:        graphql.String,
 					Description: `id generated by uuid`,
 				},
+				"label": &graphql.Field{
+					Type: graphql.String,
+				},
 				"provider": &graphql.Field{
 					Type: Gql__enum_VCSConnectionProvider(),
 				},
@@ -107,93 +89,6 @@ func Gql__type_VCSConnection() *graphql.Object {
 		})
 	}
 	return gql__type_VCSConnection
-}
-
-func Gql__type_RevokeVCSTokenRequest() *graphql.Object {
-	if gql__type_RevokeVCSTokenRequest == nil {
-		gql__type_RevokeVCSTokenRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_RevokeVCSTokenRequest",
-			Fields: graphql.Fields{
-				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-				"vcs_id": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_RevokeVCSTokenRequest
-}
-
-func Gql__type_Reposistory() *graphql.Object {
-	if gql__type_Reposistory == nil {
-		gql__type_Reposistory = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_Reposistory",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"node_iD": &graphql.Field{
-					Type: graphql.String,
-				},
-				"name": &graphql.Field{
-					Type: graphql.String,
-				},
-				"full_name": &graphql.Field{
-					Type: graphql.String,
-				},
-				"description": &graphql.Field{
-					Type: graphql.String,
-				},
-				"default_branch": &graphql.Field{
-					Type: graphql.String,
-				},
-				"master_branch": &graphql.Field{
-					Type: graphql.String,
-				},
-				"created_at": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"pushed_at": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"updated_at": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"clone_URL": &graphql.Field{
-					Type: graphql.String,
-				},
-				"git_URL": &graphql.Field{
-					Type: graphql.String,
-				},
-				"size": &graphql.Field{
-					Type: graphql.Int,
-				},
-				"private": &graphql.Field{
-					Type: graphql.Boolean,
-				},
-				"branches": &graphql.Field{
-					Type: graphql.NewList(graphql.String),
-				},
-			},
-		})
-	}
-	return gql__type_Reposistory
-}
-
-func Gql__type_RenewVCSTokenRequest() *graphql.Object {
-	if gql__type_RenewVCSTokenRequest == nil {
-		gql__type_RenewVCSTokenRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_RenewVCSTokenRequest",
-			Fields: graphql.Fields{
-				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-		})
-	}
-	return gql__type_RenewVCSTokenRequest
 }
 
 func Gql__type_ListVCSConnectionResponse() *graphql.Object {
@@ -227,38 +122,10 @@ func Gql__type_ListVCSConnectionRequest() *graphql.Object {
 	return gql__type_ListVCSConnectionRequest
 }
 
-func Gql__type_ListReposistoryResponse() *graphql.Object {
-	if gql__type_ListReposistoryResponse == nil {
-		gql__type_ListReposistoryResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ListReposistoryResponse",
-			Fields: graphql.Fields{
-				"reposistories": &graphql.Field{
-					Type: graphql.NewList(Gql__type_Reposistory()),
-				},
-			},
-		})
-	}
-	return gql__type_ListReposistoryResponse
-}
-
-func Gql__type_ListReposistoryRequest() *graphql.Object {
-	if gql__type_ListReposistoryRequest == nil {
-		gql__type_ListReposistoryRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ListReposistoryRequest",
-			Fields: graphql.Fields{
-				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-		})
-	}
-	return gql__type_ListReposistoryRequest
-}
-
-func Gql__type_ListAlfredVCSConnectionResponse() *graphql.Object {
-	if gql__type_ListAlfredVCSConnectionResponse == nil {
-		gql__type_ListAlfredVCSConnectionResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ListAlfredVCSConnectionResponse",
+func Gql__type_ListAllSupportedVCSProvidersResponse() *graphql.Object {
+	if gql__type_ListAllSupportedVCSProvidersResponse == nil {
+		gql__type_ListAllSupportedVCSProvidersResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_ListAllSupportedVCSProvidersResponse",
 			Fields: graphql.Fields{
 				"providers": &graphql.Field{
 					Type: graphql.NewList(graphql.String),
@@ -266,64 +133,13 @@ func Gql__type_ListAlfredVCSConnectionResponse() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_ListAlfredVCSConnectionResponse
+	return gql__type_ListAllSupportedVCSProvidersResponse
 }
 
-func Gql__type_GetVCSConnectionRequest() *graphql.Object {
-	if gql__type_GetVCSConnectionRequest == nil {
-		gql__type_GetVCSConnectionRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetVCSConnectionRequest",
-			Fields: graphql.Fields{
-				"account_id": &graphql.Field{
-					Type: graphql.String,
-				},
-				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-		})
-	}
-	return gql__type_GetVCSConnectionRequest
-}
-
-func Gql__type_GetReposistoryRequest() *graphql.Object {
-	if gql__type_GetReposistoryRequest == nil {
-		gql__type_GetReposistoryRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetReposistoryRequest",
-			Fields: graphql.Fields{
-				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-				"repo_name": &graphql.Field{
-					Type: graphql.String,
-				},
-				"account_id": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_GetReposistoryRequest
-}
-
-func Gql__type_CreateVCSConnectionRequest() *graphql.Object {
-	if gql__type_CreateVCSConnectionRequest == nil {
-		gql__type_CreateVCSConnectionRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_CreateVCSConnectionRequest",
-			Fields: graphql.Fields{
-				"vcs_connection": &graphql.Field{
-					Type: Gql__type_VCSConnection(),
-				},
-			},
-		})
-	}
-	return gql__type_CreateVCSConnectionRequest
-}
-
-func Gql__type_ConnectedRequest() *graphql.Object {
-	if gql__type_ConnectedRequest == nil {
-		gql__type_ConnectedRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ConnectedRequest",
+func Gql__type_CallbackRequest() *graphql.Object {
+	if gql__type_CallbackRequest == nil {
+		gql__type_CallbackRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_CallbackRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
 					Type: Gql__enum_VCSConnectionProvider(),
@@ -337,21 +153,15 @@ func Gql__type_ConnectedRequest() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_ConnectedRequest
+	return gql__type_CallbackRequest
 }
 
-func Gql__type_ConnectResponse() *graphql.Object {
-	if gql__type_ConnectResponse == nil {
-		gql__type_ConnectResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ConnectResponse",
+func Gql__type_AuthorizeResponse() *graphql.Object {
+	if gql__type_AuthorizeResponse == nil {
+		gql__type_AuthorizeResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_AuthorizeResponse",
 			Fields: graphql.Fields{
-				"uri": &graphql.Field{
-					Type: graphql.String,
-				},
-				"account_id": &graphql.Field{
-					Type: graphql.String,
-				},
-				"user_id": &graphql.Field{
+				"redirect_url": &graphql.Field{
 					Type: graphql.String,
 				},
 				"temp_jwt_token": &graphql.Field{
@@ -360,21 +170,24 @@ func Gql__type_ConnectResponse() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_ConnectResponse
+	return gql__type_AuthorizeResponse
 }
 
-func Gql__type_ConnectRequest() *graphql.Object {
-	if gql__type_ConnectRequest == nil {
-		gql__type_ConnectRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ConnectRequest",
+func Gql__type_AuthorizeRequest() *graphql.Object {
+	if gql__type_AuthorizeRequest == nil {
+		gql__type_AuthorizeRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_AuthorizeRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
 					Type: Gql__enum_VCSConnectionProvider(),
 				},
+				"label": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
-	return gql__type_ConnectRequest
+	return gql__type_AuthorizeRequest
 }
 
 func Gql__type_AccountVCSConnection() *graphql.Object {
@@ -382,13 +195,13 @@ func Gql__type_AccountVCSConnection() *graphql.Object {
 		gql__type_AccountVCSConnection = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Pb_Type_AccountVCSConnection",
 			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type: graphql.String,
-				},
 				"provider": &graphql.Field{
 					Type: Gql__enum_VCSConnectionProvider(),
 				},
 				"account_id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"label": &graphql.Field{
 					Type: graphql.String,
 				},
 			},
@@ -405,6 +218,9 @@ func Gql__input_VCSConnection() *graphql.InputObject {
 				"id": &graphql.InputObjectFieldConfig{
 					Description: `id generated by uuid`,
 					Type:        graphql.String,
+				},
+				"label": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 				"provider": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_VCSConnectionProvider(),
@@ -434,93 +250,6 @@ func Gql__input_VCSConnection() *graphql.InputObject {
 		})
 	}
 	return gql__input_VCSConnection
-}
-
-func Gql__input_RevokeVCSTokenRequest() *graphql.InputObject {
-	if gql__input_RevokeVCSTokenRequest == nil {
-		gql__input_RevokeVCSTokenRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_RevokeVCSTokenRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-				"vcs_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_RevokeVCSTokenRequest
-}
-
-func Gql__input_Reposistory() *graphql.InputObject {
-	if gql__input_Reposistory == nil {
-		gql__input_Reposistory = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_Reposistory",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"node_iD": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"full_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"description": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"default_branch": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"master_branch": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"created_at": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"pushed_at": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"updated_at": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"clone_URL": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"git_URL": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"size": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
-				},
-				"private": &graphql.InputObjectFieldConfig{
-					Type: graphql.Boolean,
-				},
-				"branches": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(graphql.String),
-				},
-			},
-		})
-	}
-	return gql__input_Reposistory
-}
-
-func Gql__input_RenewVCSTokenRequest() *graphql.InputObject {
-	if gql__input_RenewVCSTokenRequest == nil {
-		gql__input_RenewVCSTokenRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_RenewVCSTokenRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-		})
-	}
-	return gql__input_RenewVCSTokenRequest
 }
 
 func Gql__input_ListVCSConnectionResponse() *graphql.InputObject {
@@ -554,38 +283,10 @@ func Gql__input_ListVCSConnectionRequest() *graphql.InputObject {
 	return gql__input_ListVCSConnectionRequest
 }
 
-func Gql__input_ListReposistoryResponse() *graphql.InputObject {
-	if gql__input_ListReposistoryResponse == nil {
-		gql__input_ListReposistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ListReposistoryResponse",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"reposistories": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_Reposistory()),
-				},
-			},
-		})
-	}
-	return gql__input_ListReposistoryResponse
-}
-
-func Gql__input_ListReposistoryRequest() *graphql.InputObject {
-	if gql__input_ListReposistoryRequest == nil {
-		gql__input_ListReposistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ListReposistoryRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-		})
-	}
-	return gql__input_ListReposistoryRequest
-}
-
-func Gql__input_ListAlfredVCSConnectionResponse() *graphql.InputObject {
-	if gql__input_ListAlfredVCSConnectionResponse == nil {
-		gql__input_ListAlfredVCSConnectionResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ListAlfredVCSConnectionResponse",
+func Gql__input_ListAllSupportedVCSProvidersResponse() *graphql.InputObject {
+	if gql__input_ListAllSupportedVCSProvidersResponse == nil {
+		gql__input_ListAllSupportedVCSProvidersResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_ListAllSupportedVCSProvidersResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"providers": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(graphql.String),
@@ -593,64 +294,13 @@ func Gql__input_ListAlfredVCSConnectionResponse() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_ListAlfredVCSConnectionResponse
+	return gql__input_ListAllSupportedVCSProvidersResponse
 }
 
-func Gql__input_GetVCSConnectionRequest() *graphql.InputObject {
-	if gql__input_GetVCSConnectionRequest == nil {
-		gql__input_GetVCSConnectionRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetVCSConnectionRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"account_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-		})
-	}
-	return gql__input_GetVCSConnectionRequest
-}
-
-func Gql__input_GetReposistoryRequest() *graphql.InputObject {
-	if gql__input_GetReposistoryRequest == nil {
-		gql__input_GetReposistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetReposistoryRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-				"repo_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"account_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_GetReposistoryRequest
-}
-
-func Gql__input_CreateVCSConnectionRequest() *graphql.InputObject {
-	if gql__input_CreateVCSConnectionRequest == nil {
-		gql__input_CreateVCSConnectionRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_CreateVCSConnectionRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"vcs_connection": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_VCSConnection(),
-				},
-			},
-		})
-	}
-	return gql__input_CreateVCSConnectionRequest
-}
-
-func Gql__input_ConnectedRequest() *graphql.InputObject {
-	if gql__input_ConnectedRequest == nil {
-		gql__input_ConnectedRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ConnectedRequest",
+func Gql__input_CallbackRequest() *graphql.InputObject {
+	if gql__input_CallbackRequest == nil {
+		gql__input_CallbackRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_CallbackRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_VCSConnectionProvider(),
@@ -664,21 +314,15 @@ func Gql__input_ConnectedRequest() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_ConnectedRequest
+	return gql__input_CallbackRequest
 }
 
-func Gql__input_ConnectResponse() *graphql.InputObject {
-	if gql__input_ConnectResponse == nil {
-		gql__input_ConnectResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ConnectResponse",
+func Gql__input_AuthorizeResponse() *graphql.InputObject {
+	if gql__input_AuthorizeResponse == nil {
+		gql__input_AuthorizeResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_AuthorizeResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"uri": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"account_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"user_id": &graphql.InputObjectFieldConfig{
+				"redirect_url": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 				"temp_jwt_token": &graphql.InputObjectFieldConfig{
@@ -687,21 +331,24 @@ func Gql__input_ConnectResponse() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_ConnectResponse
+	return gql__input_AuthorizeResponse
 }
 
-func Gql__input_ConnectRequest() *graphql.InputObject {
-	if gql__input_ConnectRequest == nil {
-		gql__input_ConnectRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ConnectRequest",
+func Gql__input_AuthorizeRequest() *graphql.InputObject {
+	if gql__input_AuthorizeRequest == nil {
+		gql__input_AuthorizeRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_AuthorizeRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_VCSConnectionProvider(),
 				},
+				"label": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
-	return gql__input_ConnectRequest
+	return gql__input_AuthorizeRequest
 }
 
 func Gql__input_AccountVCSConnection() *graphql.InputObject {
@@ -709,138 +356,17 @@ func Gql__input_AccountVCSConnection() *graphql.InputObject {
 		gql__input_AccountVCSConnection = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Pb_Input_AccountVCSConnection",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
 				"provider": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_VCSConnectionProvider(),
 				},
 				"account_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"label": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
 	return gql__input_AccountVCSConnection
-}
-
-// graphql__resolver_VCSConnectionService is a struct for making query, mutation and resolve fields.
-// This struct must be implemented runtime.SchemaBuilder interface.
-type graphql__resolver_VCSConnectionService struct {
-
-	// Automatic connection host
-	host string
-
-	// grpc dial options
-	dialOptions []grpc.DialOption
-
-	// grpc client connection.
-	// this connection may be provided by user
-	conn *grpc.ClientConn
-}
-
-// new_graphql_resolver_VCSConnectionService creates pointer of service struct
-func new_graphql_resolver_VCSConnectionService(conn *grpc.ClientConn) *graphql__resolver_VCSConnectionService {
-	return &graphql__resolver_VCSConnectionService{
-		conn:        conn,
-		host:        "localhost:50051",
-		dialOptions: []grpc.DialOption{},
-	}
-}
-
-// CreateConnection() returns grpc connection which user specified or newly connected and closing function
-func (x *graphql__resolver_VCSConnectionService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
-	// If x.conn is not nil, user injected their own connection
-	if x.conn != nil {
-		return x.conn, func() {}, nil
-	}
-
-	// Otherwise, this handler opens connection with specified host
-	conn, err := grpc.DialContext(ctx, x.host, x.dialOptions...)
-	if err != nil {
-		return nil, nil, err
-	}
-	return conn, func() { conn.Close() }, nil
-}
-
-// GetQueries returns acceptable graphql.Fields for Query.
-func (x *graphql__resolver_VCSConnectionService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
-	return graphql.Fields{
-		"reposistories": &graphql.Field{
-			Type: Gql__type_ListReposistoryResponse(),
-			Args: graphql.FieldConfigArgument{
-				"provider": &graphql.ArgumentConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req ListReposistoryRequest
-				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for reposistories")
-				}
-				client := NewVCSConnectionServiceClient(conn)
-				resp, err := client.ListReposistory(p.Context, &req)
-				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC listReposistory")
-				}
-				return resp, nil
-			},
-		},
-		"reposistory": &graphql.Field{
-			Type: Gql__type_Reposistory(),
-			Args: graphql.FieldConfigArgument{
-				"provider": &graphql.ArgumentConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
-				},
-				"repo_name": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-				"account_id": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-			},
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req GetReposistoryRequest
-				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for reposistory")
-				}
-				client := NewVCSConnectionServiceClient(conn)
-				resp, err := client.GetReposistory(p.Context, &req)
-				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetReposistory")
-				}
-				return resp, nil
-			},
-		},
-	}
-}
-
-// GetMutations returns acceptable graphql.Fields for Mutation.
-func (x *graphql__resolver_VCSConnectionService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
-	return graphql.Fields{}
-}
-
-// Register package divided graphql handler "without" *grpc.ClientConn,
-// therefore gRPC connection will be opened and closed automatically.
-// Occasionally you may worry about open/close performance for each handling graphql request,
-// then you can call RegisterVCSConnectionServiceGraphqlHandler with *grpc.ClientConn manually.
-func RegisterVCSConnectionServiceGraphql(mux *runtime.ServeMux) error {
-	return RegisterVCSConnectionServiceGraphqlHandler(mux, nil)
-}
-
-// Register package divided graphql handler "with" *grpc.ClientConn.
-// this function accepts your defined grpc connection, so that we reuse that and never close connection inside.
-// You need to close it maunally when application will terminate.
-// Otherwise, you can specify automatic opening connection with ServiceOption directive:
-//
-// service VCSConnectionService {
-//    option (graphql.service) = {
-//        host: "host:port"
-//        insecure: true or false
-//    };
-//
-//    ...with RPC definitions
-// }
-func RegisterVCSConnectionServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return mux.AddHandler(new_graphql_resolver_VCSConnectionService(conn))
 }

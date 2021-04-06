@@ -1,0 +1,1 @@
+protoc -I .  --proto_path=../../../protos  --grpc-gateway_out=../../../modules/VCSConnectionService/v1/pb  --grpc-gateway_opt logtostderr=true --go_out=../../../modules/VCSConnectionService/v1/pb  --go-grpc_out=../../../modules/VCSConnectionService/v1/pb --graphql_out=../../../modules/VCSConnectionService/v1/pb   ./external/*.proto
