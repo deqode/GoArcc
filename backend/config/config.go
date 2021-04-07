@@ -84,6 +84,7 @@ type AuthConfig struct {
 	Auth0CallbackUrl  string
 }
 
+//VCSSConfig like github,gitlab,bitbucket config
 type VCSSConfig struct {
 	IType        int
 	Provider     string

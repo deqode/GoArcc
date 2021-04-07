@@ -1,4 +1,4 @@
-package v1
+package AuthService
 
 import (
 	"alfred/config"
@@ -26,24 +26,14 @@ func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserL
 	}
 	state := base64.StdEncoding.EncodeToString(b)
 
-	authenticator, err := NewAuthenticator(config.GetConfig()) // TODO: Move this logic to main struct of this service
-	if err != nil {
-		return nil, err
-	}
-
 	return &pb.UserLoginResponse{
-		Url: authenticator.Config.AuthCodeURL(state),
+		Url: s.authenticator.Config.AuthCodeURL(state),
 	}, nil
 }
 
 func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*empty.Empty, error) {
 
-	authenticator, err := NewAuthenticator(config.GetConfig()) // TODO: Move this logic to main struct of this service
-	if err != nil {
-		return nil, err
-	}
-
-	token, err := authenticator.Config.Exchange(ctx, in.Code)
+	token, err := s.authenticator.Config.Exchange(ctx, in.Code)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, err.Error())
 	}
@@ -52,13 +42,11 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 	if !ok {
 		return nil, status.Error(codes.Internal, "No id_token field in oauth2 token")
 	}
-
-	// TODO: Move this out similar to Authenticator, as this does not needs to be initiated for each and every call of this endpoint
 	oidcConfig := &oidc.Config{
-		ClientID: config.GetConfig().Auth.Auth0ClientId,
+		ClientID: s.config.Auth.Auth0ClientId,
 	}
 
-	idToken, err := authenticator.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
+	idToken, err := s.authenticator.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, "Failed to verify ID Token: "+err.Error())
@@ -71,7 +59,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 	}
 
 	//store user details
-	_, err = s.userClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
+	_, err = s.userProfileClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
 		UserProfile: &userProfilePb.UserProfile{
 			Id:             "",
 			Sub:            fmt.Sprintf("%s", profile["sub"]),

@@ -215,7 +215,7 @@ func RegisterAccountServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.AccountService/CreateAccount")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.account.v1.AccountService/CreateAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -238,7 +238,7 @@ func RegisterAccountServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.AccountService/UpdateAccount")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.account.v1.AccountService/UpdateAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -261,7 +261,7 @@ func RegisterAccountServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.AccountService/GetAccount")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.account.v1.AccountService/GetAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -284,7 +284,7 @@ func RegisterAccountServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/pb.AccountService/DeleteAccount")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.account.v1.AccountService/DeleteAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -346,7 +346,7 @@ func RegisterAccountServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/pb.AccountService/CreateAccount")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.account.v1.AccountService/CreateAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -366,7 +366,7 @@ func RegisterAccountServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/pb.AccountService/UpdateAccount")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.account.v1.AccountService/UpdateAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -386,7 +386,7 @@ func RegisterAccountServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/pb.AccountService/GetAccount")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.account.v1.AccountService/GetAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -406,7 +406,7 @@ func RegisterAccountServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/pb.AccountService/DeleteAccount")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.account.v1.AccountService/DeleteAccount")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

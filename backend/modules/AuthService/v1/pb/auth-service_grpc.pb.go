@@ -39,21 +39,19 @@ func (c *validateLoginServiceClient) ValidateUserLogin(ctx context.Context, in *
 }
 
 // ValidateLoginServiceServer is the server API for ValidateLoginService service.
-// All implementations must embed UnimplementedValidateLoginServiceServer
+// All implementations should embed UnimplementedValidateLoginServiceServer
 // for forward compatibility
 type ValidateLoginServiceServer interface {
 	ValidateUserLogin(context.Context, *ValidateUserLoginRequest) (*ValidateUserLoginResponse, error)
-	mustEmbedUnimplementedValidateLoginServiceServer()
 }
 
-// UnimplementedValidateLoginServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedValidateLoginServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedValidateLoginServiceServer struct {
 }
 
 func (UnimplementedValidateLoginServiceServer) ValidateUserLogin(context.Context, *ValidateUserLoginRequest) (*ValidateUserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateUserLogin not implemented")
 }
-func (UnimplementedValidateLoginServiceServer) mustEmbedUnimplementedValidateLoginServiceServer() {}
 
 // UnsafeValidateLoginServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to ValidateLoginServiceServer will
@@ -106,14 +104,6 @@ type UserLoginServiceClient interface {
 	//callback endpoint
 	UserLoginCallback(ctx context.Context, in *UserLoginCallbackRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UserLogout(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
-	// GetUserLogin returns the specified user by its id.
-	GetUserLogin(ctx context.Context, in *GetUserLoginRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	// DeleteUserLogin is used to delete a user from the system, this will delete all
-	DeleteUserLogin(ctx context.Context, in *DeleteUserLoginRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	// ResetUserPassword , if a user has forgot the password then
-	// this method can be used to reset the password
-	ResetUserPassword(ctx context.Context, in *ResetUserPasswordRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type userLoginServiceClient struct {
@@ -151,44 +141,8 @@ func (c *userLoginServiceClient) UserLogout(ctx context.Context, in *empty.Empty
 	return out, nil
 }
 
-func (c *userLoginServiceClient) GetUserLogin(ctx context.Context, in *GetUserLoginRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/GetUserLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userLoginServiceClient) DeleteUserLogin(ctx context.Context, in *DeleteUserLoginRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/DeleteUserLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userLoginServiceClient) UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/UpdateUserPassword", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userLoginServiceClient) ResetUserPassword(ctx context.Context, in *ResetUserPasswordRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/ResetUserPassword", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UserLoginServiceServer is the server API for UserLoginService service.
-// All implementations must embed UnimplementedUserLoginServiceServer
+// All implementations should embed UnimplementedUserLoginServiceServer
 // for forward compatibility
 type UserLoginServiceServer interface {
 	// CreateUserLogin creates a new user
@@ -196,18 +150,9 @@ type UserLoginServiceServer interface {
 	//callback endpoint
 	UserLoginCallback(context.Context, *UserLoginCallbackRequest) (*empty.Empty, error)
 	UserLogout(context.Context, *empty.Empty) (*empty.Empty, error)
-	// GetUserLogin returns the specified user by its id.
-	GetUserLogin(context.Context, *GetUserLoginRequest) (*empty.Empty, error)
-	// DeleteUserLogin is used to delete a user from the system, this will delete all
-	DeleteUserLogin(context.Context, *DeleteUserLoginRequest) (*empty.Empty, error)
-	UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*empty.Empty, error)
-	// ResetUserPassword , if a user has forgot the password then
-	// this method can be used to reset the password
-	ResetUserPassword(context.Context, *ResetUserPasswordRequest) (*empty.Empty, error)
-	//mustEmbedUnimplementedUserLoginServiceServer()
 }
 
-// UnimplementedUserLoginServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedUserLoginServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedUserLoginServiceServer struct {
 }
 
@@ -220,19 +165,6 @@ func (UnimplementedUserLoginServiceServer) UserLoginCallback(context.Context, *U
 func (UnimplementedUserLoginServiceServer) UserLogout(context.Context, *empty.Empty) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogout not implemented")
 }
-func (UnimplementedUserLoginServiceServer) GetUserLogin(context.Context, *GetUserLoginRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserLogin not implemented")
-}
-func (UnimplementedUserLoginServiceServer) DeleteUserLogin(context.Context, *DeleteUserLoginRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserLogin not implemented")
-}
-func (UnimplementedUserLoginServiceServer) UpdateUserPassword(context.Context, *UpdateUserPasswordRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPassword not implemented")
-}
-func (UnimplementedUserLoginServiceServer) ResetUserPassword(context.Context, *ResetUserPasswordRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResetUserPassword not implemented")
-}
-func (UnimplementedUserLoginServiceServer) mustEmbedUnimplementedUserLoginServiceServer() {}
 
 // UnsafeUserLoginServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to UserLoginServiceServer will
@@ -299,78 +231,6 @@ func _UserLoginService_UserLogout_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserLoginService_GetUserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserLoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserLoginServiceServer).GetUserLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.UserLoginService/GetUserLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserLoginServiceServer).GetUserLogin(ctx, req.(*GetUserLoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserLoginService_DeleteUserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserLoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserLoginServiceServer).DeleteUserLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.UserLoginService/DeleteUserLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserLoginServiceServer).DeleteUserLogin(ctx, req.(*DeleteUserLoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserLoginService_UpdateUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserLoginServiceServer).UpdateUserPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.UserLoginService/UpdateUserPassword",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserLoginServiceServer).UpdateUserPassword(ctx, req.(*UpdateUserPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserLoginService_ResetUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResetUserPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserLoginServiceServer).ResetUserPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.UserLoginService/ResetUserPassword",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserLoginServiceServer).ResetUserPassword(ctx, req.(*ResetUserPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _UserLoginService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.UserLoginService",
 	HandlerType: (*UserLoginServiceServer)(nil),
@@ -386,22 +246,6 @@ var _UserLoginService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserLogout",
 			Handler:    _UserLoginService_UserLogout_Handler,
-		},
-		{
-			MethodName: "GetUserLogin",
-			Handler:    _UserLoginService_GetUserLogin_Handler,
-		},
-		{
-			MethodName: "DeleteUserLogin",
-			Handler:    _UserLoginService_DeleteUserLogin_Handler,
-		},
-		{
-			MethodName: "UpdateUserPassword",
-			Handler:    _UserLoginService_UpdateUserPassword_Handler,
-		},
-		{
-			MethodName: "ResetUserPassword",
-			Handler:    _UserLoginService_ResetUserPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

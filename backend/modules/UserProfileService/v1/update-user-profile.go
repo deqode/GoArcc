@@ -1,4 +1,4 @@
-package v1
+package UserProfileService
 
 import (
 	"alfred/modules/UserProfileService/v1/pb"

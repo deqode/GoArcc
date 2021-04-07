@@ -1,4 +1,4 @@
-package v1
+package VCSConnectionService
 
 import (
 	internal_pb "alfred/modules/VCSConnectionService/v1/internal/pb"
@@ -20,10 +20,17 @@ var (
 )
 
 func (s *VCSConnectionService) ListAllSupportedVCSProviders(context.Context, *empty.Empty) (*pb.ListAllSupportedVCSProvidersResponse, error) {
-	return nil, nil
+	conf := s.config.VCSConfig
+	var providers []string
+	for _, vcs := range conf {
+		providers = append(providers, vcs.Provider)
+	}
+	return &pb.ListAllSupportedVCSProvidersResponse{
+		Providers: providers,
+	}, nil
 }
 func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
-	var redirect_url string
+	var redirectUrl string
 	switch in.Provider {
 	case pb.VCSConnectionProvider_VCS_GITHUB:
 		conf := s.config.VCSConfig
@@ -44,12 +51,12 @@ func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRe
 				return nil, status.Error(codes.Internal, "Internal ERROR")
 			}
 		}
-		redirect_url = strings.Join(fields, "")
+		redirectUrl = strings.Join(fields, "")
 	}
 
 	// todo - find account id to identify user account
 	return &pb.AuthorizeResponse{
-		RedirectUrl:  redirect_url,
+		RedirectUrl:  redirectUrl,
 		TempJwtToken: "",
 	}, nil
 }

@@ -18,9 +18,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountServiceClient interface {
+	//CreateAccount create new account of a user
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	//UpdateAccount update existing account details
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	//GetAccount get account details by its unique id
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	//DeleteAccount delete the existing account from DB
+	//This will be soft delete in DB
 	DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -34,7 +39,7 @@ func NewAccountServiceClient(cc grpc.ClientConnInterface) AccountServiceClient {
 
 func (c *accountServiceClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/pb.AccountService/CreateAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.account.v1.AccountService/CreateAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +48,7 @@ func (c *accountServiceClient) CreateAccount(ctx context.Context, in *CreateAcco
 
 func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/pb.AccountService/UpdateAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.account.v1.AccountService/UpdateAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +57,7 @@ func (c *accountServiceClient) UpdateAccount(ctx context.Context, in *UpdateAcco
 
 func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error) {
 	out := new(Account)
-	err := c.cc.Invoke(ctx, "/pb.AccountService/GetAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.account.v1.AccountService/GetAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +66,7 @@ func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountReq
 
 func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.AccountService/DeleteAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.account.v1.AccountService/DeleteAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -69,17 +74,21 @@ func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DeleteAcco
 }
 
 // AccountServiceServer is the server API for AccountService service.
-// All implementations must embed UnimplementedAccountServiceServer
+// All implementations should embed UnimplementedAccountServiceServer
 // for forward compatibility
 type AccountServiceServer interface {
+	//CreateAccount create new account of a user
 	CreateAccount(context.Context, *CreateAccountRequest) (*Account, error)
+	//UpdateAccount update existing account details
 	UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error)
+	//GetAccount get account details by its unique id
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+	//DeleteAccount delete the existing account from DB
+	//This will be soft delete in DB
 	DeleteAccount(context.Context, *DeleteAccountRequest) (*empty.Empty, error)
-	//mustEmbedUnimplementedAccountServiceServer()
 }
 
-// UnimplementedAccountServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedAccountServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedAccountServiceServer struct {
 }
 
@@ -95,7 +104,6 @@ func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccount
 func (UnimplementedAccountServiceServer) DeleteAccount(context.Context, *DeleteAccountRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
 }
-func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
 // UnsafeAccountServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to AccountServiceServer will
@@ -118,7 +126,7 @@ func _AccountService_CreateAccount_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.AccountService/CreateAccount",
+		FullMethod: "/alfred.account.v1.AccountService/CreateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).CreateAccount(ctx, req.(*CreateAccountRequest))
@@ -136,7 +144,7 @@ func _AccountService_UpdateAccount_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.AccountService/UpdateAccount",
+		FullMethod: "/alfred.account.v1.AccountService/UpdateAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).UpdateAccount(ctx, req.(*UpdateAccountRequest))
@@ -154,7 +162,7 @@ func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.AccountService/GetAccount",
+		FullMethod: "/alfred.account.v1.AccountService/GetAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).GetAccount(ctx, req.(*GetAccountRequest))
@@ -172,7 +180,7 @@ func _AccountService_DeleteAccount_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.AccountService/DeleteAccount",
+		FullMethod: "/alfred.account.v1.AccountService/DeleteAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountServiceServer).DeleteAccount(ctx, req.(*DeleteAccountRequest))
@@ -181,7 +189,7 @@ func _AccountService_DeleteAccount_Handler(srv interface{}, ctx context.Context,
 }
 
 var _AccountService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.AccountService",
+	ServiceName: "alfred.account.v1.AccountService",
 	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -8,9 +8,9 @@ import (
 	authPb "alfred/modules/AuthService/v1/pb"
 	"alfred/modules/HelloWorldService"
 	hellopb "alfred/modules/HelloWorldService/pb"
-	v12 "alfred/modules/UserProfileService/v1"
-	userProfilepb "alfred/modules/UserProfileService/v1/pb"
-	"alfred/modules/VCSConnectionService/v1"
+	userProfile "alfred/modules/UserProfileService/v1"
+	userProfilePb "alfred/modules/UserProfileService/v1/pb"
+	vcs "alfred/modules/VCSConnectionService/v1"
 	vcsPb "alfred/modules/VCSConnectionService/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -23,9 +23,9 @@ import (
 func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, grpcClientConnection *grpc.ClientConn) {
 	//todo register new grpc modules here
 	//register user modules
-	userProfilepb.RegisterUserProfileServiceServer(srv, v12.NewUserProfileService(db, config, grpcClientConnection))
+	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection))
 	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
 	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService())
 	authPb.RegisterUserLoginServiceServer(srv, v13.NewAuthService(db, config, grpcClientConnection))
-	vcsPb.RegisterVCSConnectionServiceServer(srv, v1.NewVCSConnectionService(db, config, grpcClientConnection))
+	vcsPb.RegisterVCSConnectionServiceServer(srv, vcs.NewVCSConnectionService(db, config, grpcClientConnection))
 }

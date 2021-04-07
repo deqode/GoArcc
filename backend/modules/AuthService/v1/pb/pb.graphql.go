@@ -3,7 +3,6 @@ package pb
 
 import (
 	"github.com/graphql-go/graphql"
-	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
 )
 
 var (
@@ -11,8 +10,6 @@ var (
 	gql__type_ValidateUserLoginRequest   *graphql.Object      // message ValidateUserLoginRequest in auth-service.proto
 	gql__type_UserLoginResponse          *graphql.Object      // message UserLoginResponse in auth-service.proto
 	gql__type_UserLoginCallbackRequest   *graphql.Object      // message UserLoginCallbackRequest in auth-service.proto
-	gql__type_UserLogin                  *graphql.Object      // message UserLogin in auth-service.proto
-	gql__type_User                       *graphql.Object      // message User in auth-service.proto
 	gql__type_UpdateUserPasswordRequest  *graphql.Object      // message UpdateUserPasswordRequest in auth-service.proto
 	gql__type_ResetUserPasswordRequest   *graphql.Object      // message ResetUserPasswordRequest in auth-service.proto
 	gql__type_GetUserLoginRequest        *graphql.Object      // message GetUserLoginRequest in auth-service.proto
@@ -21,8 +18,6 @@ var (
 	gql__input_ValidateUserLoginRequest  *graphql.InputObject // message ValidateUserLoginRequest in auth-service.proto
 	gql__input_UserLoginResponse         *graphql.InputObject // message UserLoginResponse in auth-service.proto
 	gql__input_UserLoginCallbackRequest  *graphql.InputObject // message UserLoginCallbackRequest in auth-service.proto
-	gql__input_UserLogin                 *graphql.InputObject // message UserLogin in auth-service.proto
-	gql__input_User                      *graphql.InputObject // message User in auth-service.proto
 	gql__input_UpdateUserPasswordRequest *graphql.InputObject // message UpdateUserPasswordRequest in auth-service.proto
 	gql__input_ResetUserPasswordRequest  *graphql.InputObject // message ResetUserPasswordRequest in auth-service.proto
 	gql__input_GetUserLoginRequest       *graphql.InputObject // message GetUserLoginRequest in auth-service.proto
@@ -93,41 +88,6 @@ func Gql__type_UserLoginCallbackRequest() *graphql.Object {
 		})
 	}
 	return gql__type_UserLoginCallbackRequest
-}
-
-func Gql__type_UserLogin() *graphql.Object {
-	if gql__type_UserLogin == nil {
-		gql__type_UserLogin = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_UserLogin",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type: graphql.String,
-				},
-				"password": &graphql.Field{
-					Type: graphql.String,
-				},
-				"password_changed_on": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-			},
-		})
-	}
-	return gql__type_UserLogin
-}
-
-func Gql__type_User() *graphql.Object {
-	if gql__type_User == nil {
-		gql__type_User = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_User",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Id is the unique identifier of the user`,
-				},
-			},
-		})
-	}
-	return gql__type_User
 }
 
 func Gql__type_UpdateUserPasswordRequest() *graphql.Object {
@@ -264,41 +224,6 @@ func Gql__input_UserLoginCallbackRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_UserLoginCallbackRequest
-}
-
-func Gql__input_UserLogin() *graphql.InputObject {
-	if gql__input_UserLogin == nil {
-		gql__input_UserLogin = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_UserLogin",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"password": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"password_changed_on": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-			},
-		})
-	}
-	return gql__input_UserLogin
-}
-
-func Gql__input_User() *graphql.InputObject {
-	if gql__input_User == nil {
-		gql__input_User = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_User",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Description: `Id is the unique identifier of the user`,
-					Type:        graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_User
 }
 
 func Gql__input_UpdateUserPasswordRequest() *graphql.InputObject {

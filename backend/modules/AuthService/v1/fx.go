@@ -1,4 +1,4 @@
-package v1
+package AuthService
 
 import (
 	"alfred/modules/AuthService/v1/pb"

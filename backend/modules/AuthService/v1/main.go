@@ -1,4 +1,4 @@
-package v1
+package AuthService
 
 import (
 	"alfred/config"
@@ -13,20 +13,26 @@ import (
 )
 
 type AuthService struct {
-	db         *gorm.DB
-	config     *config.Config
-	grpcClient *grpc.ClientConn
-	userClient userProfilePb.UserProfileServiceClient
+	db                *gorm.DB
+	config            *config.Config
+	grpcClient        *grpc.ClientConn
+	userProfileClient userProfilePb.UserProfileServiceClient
+	authenticator     *Authenticator
 }
 
 //Service Implementation
 func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserLoginServiceServer {
-	userProfileClient := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
+	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
+	authenticatorCli, _ := NewAuthenticator(config)
+	//if err != nil{
+	//	return status.Error(code.Code_ABORTED,"Unable to initialize Authenticator")
+	//}
 	return &AuthService{
-		db:         db,
-		config:     config,
-		grpcClient: grpcClientConn,
-		userClient: userProfileClient, // TODO: Please follow proper naming convention, avoid ambiguity, name variables more specific for downstream usage
+		db:                db,
+		config:            config,
+		grpcClient:        grpcClientConn,
+		userProfileClient: userProfileCli,
+		authenticator:     authenticatorCli,
 	}
 }
 

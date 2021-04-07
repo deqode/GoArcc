@@ -80,7 +80,7 @@ type VCSConnectionServiceServer interface {
 	ListAllSupportedVCSProviders(context.Context, *empty.Empty) (*ListAllSupportedVCSProvidersResponse, error)
 	//Authorize provide a URL of external OAuth application
 	Authorize(context.Context, *AuthorizeRequest) (*AuthorizeResponse, error)
-	//Callback called by external OAuth application
+	//Callback called 	by external OAuth application
 	Callback(context.Context, *CallbackRequest) (*AccountVCSConnection, error)
 	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error)

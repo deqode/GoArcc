@@ -1,33 +1,27 @@
-package v1
+package UserProfileService
 
 import (
-	"alfred/logger"
+	accountPb "alfred/modules/AccountService/v1/pb"
 	"alfred/modules/UserProfileService/v1/models"
 	"alfred/modules/UserProfileService/v1/pb"
 	"context"
-	"fmt"
-	"gorm.io/gorm"
-	"os/exec"
-	"time"
+	"github.com/hashicorp/go-uuid"
 )
 
 func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	//creating uuid
-	out, err := exec.Command("uuidgen").Output() //
+	id, err := uuid.GenerateUUID()
 	if err != nil {
-		logger.Log.Debug("unable to generate uuid")
+		return nil, err
 	}
 
 	VCSModel := &models.UserProfile{
-		ID:          fmt.Sprintf("%s", out),
+		ID:          id,
 		Name:        in.UserProfile.Name,
 		Email:       in.UserProfile.Email,
 		PhoneNumber: in.UserProfile.PhoneNumber,
 		Sub:         in.UserProfile.Sub,
 		Source:      1,
-		CreatedAt:   time.Time{},
-		UpdatedAt:   time.Time{},
-		DeletedAt:   gorm.DeletedAt{},
 	}
 
 	t := s.db.Create(VCSModel)
@@ -35,6 +29,16 @@ func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.Creat
 		return nil, t.Error
 	}
 
-	//TODO - create a single account as well
+	// create a user account as well
+	_, err = s.accountClient.CreateAccount(ctx, &accountPb.CreateAccountRequest{
+		Account: &accountPb.Account{
+			Slug:   VCSModel.Name + "-" + in.UserProfile.ExternalSource.String(),
+			UserId: id,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+	in.UserProfile.Id = id
 	return in.UserProfile, nil
 }

@@ -7,6 +7,7 @@ require (
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
+	github.com/envoyproxy/protoc-gen-validate v0.1.0
 	github.com/go-redis/redis/v8 v8.7.1
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-github/v34 v34.0.0
@@ -15,6 +16,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
+	github.com/hashicorp/go-uuid v1.0.1
 	github.com/labstack/echo/v4 v4.2.1
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0

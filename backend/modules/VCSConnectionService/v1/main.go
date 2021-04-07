@@ -1,8 +1,9 @@
-package v1
+package VCSConnectionService
 
 import (
 	"alfred/config"
-	internal "alfred/modules/VCSConnectionService/v1/internal/pb"
+	"alfred/modules/VCSConnectionService/v1/internal"
+	internal_pb "alfred/modules/VCSConnectionService/v1/internal/pb"
 	"alfred/modules/VCSConnectionService/v1/models"
 	"alfred/modules/VCSConnectionService/v1/pb"
 	"google.golang.org/grpc"
@@ -13,7 +14,7 @@ type VCSConnectionService struct {
 	db                *gorm.DB
 	config            *config.Config
 	grpcClient        *grpc.ClientConn
-	internalVCSClient internal.VCSConnectionInternalServiceClient
+	internalVCSClient internal_pb.VCSConnectionInternalServiceServer
 }
 
 //todo : AlWays add migration code for best practices
@@ -21,7 +22,7 @@ func NewVCSConnectionService(db *gorm.DB, config *config.Config, grpcClientConn 
 
 	//initial migration of databases: schema migration
 	models.InitialMigrationVCSConnection(db)
-	internalVCSClient := internal.NewVCSConnectionInternalServiceClient(grpcClientConn)
+	internalVCSClient := internal.NewVCSConnectionInternalService(db, config, grpcClientConn)
 	return &VCSConnectionService{
 		db:                db,
 		config:            config,
