@@ -30,6 +30,7 @@ func (s *AccountService) CreateAccount(ctx context.Context, in *pb.CreateAccount
 	in.Account.Id = id
 	return in.Account, nil
 }
+
 func (s *AccountService) UpdateAccount(ctx context.Context, in *pb.UpdateAccountRequest) (*pb.Account, error) {
 	account := &models.Account{
 		Slug: in.GetAccount().GetSlug(),
@@ -40,6 +41,7 @@ func (s *AccountService) UpdateAccount(ctx context.Context, in *pb.UpdateAccount
 	}
 	return in.Account, nil
 }
+
 func (s *AccountService) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
 	account := pb.Account{}
 	result := s.db.First(&account, "id = ?", in.Id)
@@ -51,6 +53,7 @@ func (s *AccountService) GetAccount(ctx context.Context, in *pb.GetAccountReques
 	}
 	return &account, nil
 }
+
 func (s *AccountService) DeleteAccount(context.Context, *pb.DeleteAccountRequest) (*empty.Empty, error) {
 	return nil, nil
 }

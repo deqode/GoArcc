@@ -2,6 +2,7 @@ package models
 
 import (
 	"alfred/logger"
+	"alfred/protos/types"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"time"
@@ -9,7 +10,7 @@ import (
 
 type VCSConnection struct {
 	ID                 string
-	Provider           int
+	Provider           types.GitProviders
 	ConnectionId       string
 	AccessToken        string
 	RefreshToken       string

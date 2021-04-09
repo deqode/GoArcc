@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.26.0
 // 	protoc        v3.6.1
-// source: user-profile-service.proto
+// source: user-profile-git-service.proto
 
 package pb
 

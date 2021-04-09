@@ -9,7 +9,6 @@ import (
 )
 
 func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
-	//creating uuid
 	id, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, err
@@ -21,7 +20,7 @@ func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.Creat
 		Email:       in.UserProfile.Email,
 		PhoneNumber: in.UserProfile.PhoneNumber,
 		Sub:         in.UserProfile.Sub,
-		Source:      1,
+		Source:      in.UserProfile.ExternalSource,
 	}
 
 	t := s.db.Create(VCSModel)

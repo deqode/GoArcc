@@ -4,7 +4,6 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/HelloWorldService"
 	user_profile "alfred/modules/UserProfileService/v1"
 	"alfred/servers/cleanup"
 	"alfred/servers/grpc"
@@ -19,7 +18,6 @@ func GetProviderOptions() []fx.Option {
 		grpc.InitGrpcBeforeServingFx,
 		user_profile.Module,
 		db.DatabaseConnectionFx,
-		HelloWorldService.HelloServiceFx,
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,
 		grpcClient.GrpcClientConnectionFx,

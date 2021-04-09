@@ -11,11 +11,11 @@ import (
 )
 
 var (
-	gql__enum_ArchitectureType         *graphql.Enum        // enum ArchitectureType in architecture-suggester-service.proto
-	gql__type_GetArchitectureResponse  *graphql.Object      // message GetArchitectureResponse in architecture-suggester-service.proto
-	gql__type_GetArchitectureRequest   *graphql.Object      // message GetArchitectureRequest in architecture-suggester-service.proto
-	gql__input_GetArchitectureResponse *graphql.InputObject // message GetArchitectureResponse in architecture-suggester-service.proto
-	gql__input_GetArchitectureRequest  *graphql.InputObject // message GetArchitectureRequest in architecture-suggester-service.proto
+	gql__enum_ArchitectureType         *graphql.Enum        // enum ArchitectureType in architecture-suggester-git-service.proto
+	gql__type_GetArchitectureResponse  *graphql.Object      // message GetArchitectureResponse in architecture-suggester-git-service.proto
+	gql__type_GetArchitectureRequest   *graphql.Object      // message GetArchitectureRequest in architecture-suggester-git-service.proto
+	gql__input_GetArchitectureResponse *graphql.InputObject // message GetArchitectureResponse in architecture-suggester-git-service.proto
+	gql__input_GetArchitectureRequest  *graphql.InputObject // message GetArchitectureRequest in architecture-suggester-git-service.proto
 )
 
 func Gql__enum_ArchitectureType() *graphql.Enum {

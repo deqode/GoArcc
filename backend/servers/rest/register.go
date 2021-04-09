@@ -4,7 +4,6 @@ import (
 	"alfred/logger"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
 	authPb "alfred/modules/AuthService/v1/pb"
-	helloWorldPb "alfred/modules/HelloWorldService/pb"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	vcsPb "alfred/modules/VCSConnectionService/v1/pb"
 	"context"
@@ -18,11 +17,6 @@ import (
 func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	//opts := []grpc.DialOption{grpc.WithInsecure()}
 	if err := userProfilePb.RegisterUserProfileServiceHandler(ctx, mux, conn); err != nil {
-		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
-		return err
-	}
-
-	if err := helloWorldPb.RegisterHelloWorldServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

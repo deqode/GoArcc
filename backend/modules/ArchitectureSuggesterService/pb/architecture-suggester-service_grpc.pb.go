@@ -98,5 +98,5 @@ var ArchitectureSuggesterService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "architecture-suggester-service.proto",
+	Metadata: "architecture-suggester-git-service.proto",
 }

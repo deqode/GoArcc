@@ -9,6 +9,7 @@ It translates gRPC into RESTful JSON APIs.
 package pb
 
 import (
+	"alfred/protos/types"
 	"context"
 	"io"
 	"net/http"
@@ -71,12 +72,12 @@ func request_VCSConnectionService_Authorize_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, VCSConnectionProvider_value)
+	e, err = runtime.Enum(val, types.GitProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = VCSConnectionProvider(e)
+	protoReq.Provider = types.GitProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -107,12 +108,12 @@ func local_request_VCSConnectionService_Authorize_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, VCSConnectionProvider_value)
+	e, err = runtime.Enum(val, types.GitProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = VCSConnectionProvider(e)
+	protoReq.Provider = types.GitProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -147,12 +148,12 @@ func request_VCSConnectionService_Callback_0(ctx context.Context, marshaler runt
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, VCSConnectionProvider_value)
+	e, err = runtime.Enum(val, types.GitProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = VCSConnectionProvider(e)
+	protoReq.Provider = types.GitProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -183,12 +184,12 @@ func local_request_VCSConnectionService_Callback_0(ctx context.Context, marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, VCSConnectionProvider_value)
+	e, err = runtime.Enum(val, types.GitProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = VCSConnectionProvider(e)
+	protoReq.Provider = types.GitProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)

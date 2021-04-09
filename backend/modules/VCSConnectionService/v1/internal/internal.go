@@ -2,18 +2,16 @@ package internal
 
 import (
 	"alfred/config"
-	"alfred/logger"
 	"alfred/modules/VCSConnectionService/v1/internal/pb"
 	"alfred/modules/VCSConnectionService/v1/models"
 	"context"
-	"fmt"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/hashicorp/go-uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
-	"os/exec"
 )
 
 type VCSConnectionService struct {
@@ -22,11 +20,7 @@ type VCSConnectionService struct {
 	grpcClient *grpc.ClientConn
 }
 
-//todo : AlWays add migration code for best practices
 func NewVCSConnectionInternalService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.VCSConnectionInternalServiceServer {
-
-	//initial migration of databases: schema migration
-	models.InitialMigrationVCSConnection(db)
 	return &VCSConnectionService{
 		db:         db,
 		config:     config,
@@ -58,10 +52,9 @@ func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetV
 	return VCS, nil
 }
 func (s *VCSConnectionService) CreateVCSConnection(ctx context.Context, in *pb.CreateVCSConnectionRequest) (*pb.VCSConnection, error) {
-	//creating uuid
-	out, err := exec.Command("uuidgen").Output()
+	id, err := uuid.GenerateUUID()
 	if err != nil {
-		logger.Log.Debug("unable to generate uuid")
+		return nil, err
 	}
 	aTEP, err := ptypes.Timestamp(in.VcsConnection.AccessTokenExpiry)
 	if err != nil {
@@ -72,8 +65,8 @@ func (s *VCSConnectionService) CreateVCSConnection(ctx context.Context, in *pb.C
 		return nil, err
 	}
 	VCSModel := &models.VCSConnection{
-		ID:                 fmt.Sprintf("%s", out),
-		Provider:           1,
+		ID:                 id,
+		Provider:           in.VcsConnection.Provider,
 		ConnectionId:       in.VcsConnection.ConnectionId,
 		AccessToken:        in.VcsConnection.AccessToken,
 		RefreshToken:       in.VcsConnection.RefreshToken,

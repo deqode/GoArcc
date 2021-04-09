@@ -5,6 +5,6 @@ import (
 	"context"
 )
 
-func (u *UserProfileService) UpdateUserProfile(ctx context.Context, request *pb.UpdateUserProfileRequest) (*pb.UserProfile, error) {
+func (s *UserProfileService) UpdateUserProfile(ctx context.Context, request *pb.UpdateUserProfileRequest) (*pb.UserProfile, error) {
 	panic("implement me")
 }

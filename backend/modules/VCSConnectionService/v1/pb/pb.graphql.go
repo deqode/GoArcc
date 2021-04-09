@@ -2,12 +2,13 @@
 package pb
 
 import (
+	types "alfred/protos/types"
 	"github.com/graphql-go/graphql"
+
 	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
 )
 
 var (
-	gql__enum_VCSConnectionProvider                 *graphql.Enum        // enum VCSConnectionProvider in vcs-connection-service.proto
 	gql__type_VCSConnection                         *graphql.Object      // message VCSConnection in vcs-connection-service.proto
 	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in vcs-connection-service.proto
 	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in vcs-connection-service.proto
@@ -26,29 +27,6 @@ var (
 	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in vcs-connection-service.proto
 )
 
-func Gql__enum_VCSConnectionProvider() *graphql.Enum {
-	if gql__enum_VCSConnectionProvider == nil {
-		gql__enum_VCSConnectionProvider = graphql.NewEnum(graphql.EnumConfig{
-			Name: "Pb_Enum_VCSConnectionProvider",
-			Values: graphql.EnumValueConfigMap{
-				"VCS_UNKNOWN": &graphql.EnumValueConfig{
-					Value: VCSConnectionProvider(0),
-				},
-				"VCS_GITHUB": &graphql.EnumValueConfig{
-					Value: VCSConnectionProvider(1),
-				},
-				"VCS_GITLAB": &graphql.EnumValueConfig{
-					Value: VCSConnectionProvider(2),
-				},
-				"VCS_BITBUCKET": &graphql.EnumValueConfig{
-					Value: VCSConnectionProvider(3),
-				},
-			},
-		})
-	}
-	return gql__enum_VCSConnectionProvider
-}
-
 func Gql__type_VCSConnection() *graphql.Object {
 	if gql__type_VCSConnection == nil {
 		gql__type_VCSConnection = graphql.NewObject(graphql.ObjectConfig{
@@ -62,7 +40,7 @@ func Gql__type_VCSConnection() *graphql.Object {
 					Type: graphql.String,
 				},
 				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"connection_id": &graphql.Field{
 					Type: graphql.String,
@@ -114,7 +92,7 @@ func Gql__type_ListVCSConnectionRequest() *graphql.Object {
 					Type: graphql.String,
 				},
 				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 			},
 		})
@@ -142,7 +120,7 @@ func Gql__type_CallbackRequest() *graphql.Object {
 			Name: "Pb_Type_CallbackRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"state": &graphql.Field{
 					Type: graphql.String,
@@ -179,7 +157,7 @@ func Gql__type_AuthorizeRequest() *graphql.Object {
 			Name: "Pb_Type_AuthorizeRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"label": &graphql.Field{
 					Type: graphql.String,
@@ -196,7 +174,7 @@ func Gql__type_AccountVCSConnection() *graphql.Object {
 			Name: "Pb_Type_AccountVCSConnection",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"account_id": &graphql.Field{
 					Type: graphql.String,
@@ -223,7 +201,7 @@ func Gql__input_VCSConnection() *graphql.InputObject {
 					Type: graphql.String,
 				},
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"connection_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -275,7 +253,7 @@ func Gql__input_ListVCSConnectionRequest() *graphql.InputObject {
 					Type: graphql.String,
 				},
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 			},
 		})
@@ -303,7 +281,7 @@ func Gql__input_CallbackRequest() *graphql.InputObject {
 			Name: "Pb_Input_CallbackRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"state": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -340,7 +318,7 @@ func Gql__input_AuthorizeRequest() *graphql.InputObject {
 			Name: "Pb_Input_AuthorizeRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"label": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -357,7 +335,7 @@ func Gql__input_AccountVCSConnection() *graphql.InputObject {
 			Name: "Pb_Input_AccountVCSConnection",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_VCSConnectionProvider(),
+					Type: types.Gql__enum_GitProviders(),
 				},
 				"account_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,

@@ -6,8 +6,6 @@ import (
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
 	v13 "alfred/modules/AuthService/v1"
 	authPb "alfred/modules/AuthService/v1/pb"
-	"alfred/modules/HelloWorldService"
-	hellopb "alfred/modules/HelloWorldService/pb"
 	userProfile "alfred/modules/UserProfileService/v1"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	vcs "alfred/modules/VCSConnectionService/v1"
@@ -24,7 +22,6 @@ func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, g
 	//todo register new grpc modules here
 	//register user modules
 	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection))
-	hellopb.RegisterHelloWorldServiceServer(srv, HelloWorldService.NewHelloService())
 	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService())
 	authPb.RegisterUserLoginServiceServer(srv, v13.NewAuthService(db, config, grpcClientConnection))
 	vcsPb.RegisterVCSConnectionServiceServer(srv, vcs.NewVCSConnectionService(db, config, grpcClientConnection))

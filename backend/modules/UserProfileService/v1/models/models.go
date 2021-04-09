@@ -2,6 +2,7 @@ package models
 
 import (
 	"alfred/logger"
+	"alfred/modules/UserProfileService/v1/pb"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"time"
@@ -13,7 +14,7 @@ type UserProfile struct {
 	Email       string
 	PhoneNumber string
 	Sub         string
-	Source      int
+	Source      pb.SOURCE
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`

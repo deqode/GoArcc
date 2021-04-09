@@ -14,19 +14,19 @@ import (
 )
 
 var (
-	gql__enum_SOURCE                    *graphql.Enum        // enum SOURCE in user-profile-service.proto
-	gql__type_UserProfile               *graphql.Object      // message UserProfile in user-profile-service.proto
-	gql__type_UpdateUserProfileRequest  *graphql.Object      // message UpdateUserProfileRequest in user-profile-service.proto
-	gql__type_ProfilePicture            *graphql.Object      // message ProfilePicture in user-profile-service.proto
-	gql__type_GetUserProfileRequest     *graphql.Object      // message GetUserProfileRequest in user-profile-service.proto
-	gql__type_DeleteUserProfileRequest  *graphql.Object      // message DeleteUserProfileRequest in user-profile-service.proto
-	gql__type_CreateUserProfileRequest  *graphql.Object      // message CreateUserProfileRequest in user-profile-service.proto
-	gql__input_UserProfile              *graphql.InputObject // message UserProfile in user-profile-service.proto
-	gql__input_UpdateUserProfileRequest *graphql.InputObject // message UpdateUserProfileRequest in user-profile-service.proto
-	gql__input_ProfilePicture           *graphql.InputObject // message ProfilePicture in user-profile-service.proto
-	gql__input_GetUserProfileRequest    *graphql.InputObject // message GetUserProfileRequest in user-profile-service.proto
-	gql__input_DeleteUserProfileRequest *graphql.InputObject // message DeleteUserProfileRequest in user-profile-service.proto
-	gql__input_CreateUserProfileRequest *graphql.InputObject // message CreateUserProfileRequest in user-profile-service.proto
+	gql__enum_SOURCE                    *graphql.Enum        // enum SOURCE in user-profile-git-service.proto
+	gql__type_UserProfile               *graphql.Object      // message UserProfile in user-profile-git-service.proto
+	gql__type_UpdateUserProfileRequest  *graphql.Object      // message UpdateUserProfileRequest in user-profile-git-service.proto
+	gql__type_ProfilePicture            *graphql.Object      // message ProfilePicture in user-profile-git-service.proto
+	gql__type_GetUserProfileRequest     *graphql.Object      // message GetUserProfileRequest in user-profile-git-service.proto
+	gql__type_DeleteUserProfileRequest  *graphql.Object      // message DeleteUserProfileRequest in user-profile-git-service.proto
+	gql__type_CreateUserProfileRequest  *graphql.Object      // message CreateUserProfileRequest in user-profile-git-service.proto
+	gql__input_UserProfile              *graphql.InputObject // message UserProfile in user-profile-git-service.proto
+	gql__input_UpdateUserProfileRequest *graphql.InputObject // message UpdateUserProfileRequest in user-profile-git-service.proto
+	gql__input_ProfilePicture           *graphql.InputObject // message ProfilePicture in user-profile-git-service.proto
+	gql__input_GetUserProfileRequest    *graphql.InputObject // message GetUserProfileRequest in user-profile-git-service.proto
+	gql__input_DeleteUserProfileRequest *graphql.InputObject // message DeleteUserProfileRequest in user-profile-git-service.proto
+	gql__input_CreateUserProfileRequest *graphql.InputObject // message CreateUserProfileRequest in user-profile-git-service.proto
 )
 
 func Gql__enum_SOURCE() *graphql.Enum {

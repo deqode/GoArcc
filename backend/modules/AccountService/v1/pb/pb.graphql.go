@@ -12,16 +12,16 @@ import (
 )
 
 var (
-	gql__type_UpdateAccountRequest  *graphql.Object      // message UpdateAccountRequest in account-service.proto
-	gql__type_GetAccountRequest     *graphql.Object      // message GetAccountRequest in account-service.proto
-	gql__type_DeleteAccountRequest  *graphql.Object      // message DeleteAccountRequest in account-service.proto
-	gql__type_CreateAccountRequest  *graphql.Object      // message CreateAccountRequest in account-service.proto
-	gql__type_Account               *graphql.Object      // message Account in account-service.proto
-	gql__input_UpdateAccountRequest *graphql.InputObject // message UpdateAccountRequest in account-service.proto
-	gql__input_GetAccountRequest    *graphql.InputObject // message GetAccountRequest in account-service.proto
-	gql__input_DeleteAccountRequest *graphql.InputObject // message DeleteAccountRequest in account-service.proto
-	gql__input_CreateAccountRequest *graphql.InputObject // message CreateAccountRequest in account-service.proto
-	gql__input_Account              *graphql.InputObject // message Account in account-service.proto
+	gql__type_UpdateAccountRequest  *graphql.Object      // message UpdateAccountRequest in account-git-service.proto
+	gql__type_GetAccountRequest     *graphql.Object      // message GetAccountRequest in account-git-service.proto
+	gql__type_DeleteAccountRequest  *graphql.Object      // message DeleteAccountRequest in account-git-service.proto
+	gql__type_CreateAccountRequest  *graphql.Object      // message CreateAccountRequest in account-git-service.proto
+	gql__type_Account               *graphql.Object      // message Account in account-git-service.proto
+	gql__input_UpdateAccountRequest *graphql.InputObject // message UpdateAccountRequest in account-git-service.proto
+	gql__input_GetAccountRequest    *graphql.InputObject // message GetAccountRequest in account-git-service.proto
+	gql__input_DeleteAccountRequest *graphql.InputObject // message DeleteAccountRequest in account-git-service.proto
+	gql__input_CreateAccountRequest *graphql.InputObject // message CreateAccountRequest in account-git-service.proto
+	gql__input_Account              *graphql.InputObject // message Account in account-git-service.proto
 )
 
 func Gql__type_UpdateAccountRequest() *graphql.Object {

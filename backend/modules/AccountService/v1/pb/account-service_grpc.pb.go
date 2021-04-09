@@ -210,5 +210,5 @@ var _AccountService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "account-service.proto",
+	Metadata: "account-git-service.proto",
 }

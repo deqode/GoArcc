@@ -24,9 +24,6 @@ type AuthService struct {
 func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserLoginServiceServer {
 	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
-	//if err != nil{
-	//	return status.Error(code.Code_ABORTED,"Unable to initialize Authenticator")
-	//}
 	return &AuthService{
 		db:                db,
 		config:            config,

@@ -9,19 +9,13 @@ var (
 	gql__type_ValidateUserLoginResponse  *graphql.Object      // message ValidateUserLoginResponse in auth-service.proto
 	gql__type_ValidateUserLoginRequest   *graphql.Object      // message ValidateUserLoginRequest in auth-service.proto
 	gql__type_UserLoginResponse          *graphql.Object      // message UserLoginResponse in auth-service.proto
+	gql__type_UserLoginCallbackResponse  *graphql.Object      // message UserLoginCallbackResponse in auth-service.proto
 	gql__type_UserLoginCallbackRequest   *graphql.Object      // message UserLoginCallbackRequest in auth-service.proto
-	gql__type_UpdateUserPasswordRequest  *graphql.Object      // message UpdateUserPasswordRequest in auth-service.proto
-	gql__type_ResetUserPasswordRequest   *graphql.Object      // message ResetUserPasswordRequest in auth-service.proto
-	gql__type_GetUserLoginRequest        *graphql.Object      // message GetUserLoginRequest in auth-service.proto
-	gql__type_DeleteUserLoginRequest     *graphql.Object      // message DeleteUserLoginRequest in auth-service.proto
 	gql__input_ValidateUserLoginResponse *graphql.InputObject // message ValidateUserLoginResponse in auth-service.proto
 	gql__input_ValidateUserLoginRequest  *graphql.InputObject // message ValidateUserLoginRequest in auth-service.proto
 	gql__input_UserLoginResponse         *graphql.InputObject // message UserLoginResponse in auth-service.proto
+	gql__input_UserLoginCallbackResponse *graphql.InputObject // message UserLoginCallbackResponse in auth-service.proto
 	gql__input_UserLoginCallbackRequest  *graphql.InputObject // message UserLoginCallbackRequest in auth-service.proto
-	gql__input_UpdateUserPasswordRequest *graphql.InputObject // message UpdateUserPasswordRequest in auth-service.proto
-	gql__input_ResetUserPasswordRequest  *graphql.InputObject // message ResetUserPasswordRequest in auth-service.proto
-	gql__input_GetUserLoginRequest       *graphql.InputObject // message GetUserLoginRequest in auth-service.proto
-	gql__input_DeleteUserLoginRequest    *graphql.InputObject // message DeleteUserLoginRequest in auth-service.proto
 )
 
 func Gql__type_ValidateUserLoginResponse() *graphql.Object {
@@ -73,6 +67,26 @@ func Gql__type_UserLoginResponse() *graphql.Object {
 	return gql__type_UserLoginResponse
 }
 
+func Gql__type_UserLoginCallbackResponse() *graphql.Object {
+	if gql__type_UserLoginCallbackResponse == nil {
+		gql__type_UserLoginCallbackResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_UserLoginCallbackResponse",
+			Fields: graphql.Fields{
+				"id_token": &graphql.Field{
+					Type: graphql.String,
+				},
+				"access_token": &graphql.Field{
+					Type: graphql.String,
+				},
+				"user_id": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_UserLoginCallbackResponse
+}
+
 func Gql__type_UserLoginCallbackRequest() *graphql.Object {
 	if gql__type_UserLoginCallbackRequest == nil {
 		gql__type_UserLoginCallbackRequest = graphql.NewObject(graphql.ObjectConfig{
@@ -88,77 +102,6 @@ func Gql__type_UserLoginCallbackRequest() *graphql.Object {
 		})
 	}
 	return gql__type_UserLoginCallbackRequest
-}
-
-func Gql__type_UpdateUserPasswordRequest() *graphql.Object {
-	if gql__type_UpdateUserPasswordRequest == nil {
-		gql__type_UpdateUserPasswordRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_UpdateUserPasswordRequest",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Id is the unique user id`,
-				},
-				"old_password": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Password to be added against the given user id.`,
-				},
-				"new_password": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_UpdateUserPasswordRequest
-}
-
-func Gql__type_ResetUserPasswordRequest() *graphql.Object {
-	if gql__type_ResetUserPasswordRequest == nil {
-		gql__type_ResetUserPasswordRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ResetUserPasswordRequest",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Id is the unique user id`,
-				},
-				"new_password": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Password to be added against the given user id.`,
-				},
-			},
-		})
-	}
-	return gql__type_ResetUserPasswordRequest
-}
-
-func Gql__type_GetUserLoginRequest() *graphql.Object {
-	if gql__type_GetUserLoginRequest == nil {
-		gql__type_GetUserLoginRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetUserLoginRequest",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Id is the unique user id`,
-				},
-			},
-		})
-	}
-	return gql__type_GetUserLoginRequest
-}
-
-func Gql__type_DeleteUserLoginRequest() *graphql.Object {
-	if gql__type_DeleteUserLoginRequest == nil {
-		gql__type_DeleteUserLoginRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_DeleteUserLoginRequest",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type:        graphql.String,
-					Description: `Id is the unique user id`,
-				},
-			},
-		})
-	}
-	return gql__type_DeleteUserLoginRequest
 }
 
 func Gql__input_ValidateUserLoginResponse() *graphql.InputObject {
@@ -209,6 +152,26 @@ func Gql__input_UserLoginResponse() *graphql.InputObject {
 	return gql__input_UserLoginResponse
 }
 
+func Gql__input_UserLoginCallbackResponse() *graphql.InputObject {
+	if gql__input_UserLoginCallbackResponse == nil {
+		gql__input_UserLoginCallbackResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_UserLoginCallbackResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id_token": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"access_token": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"user_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_UserLoginCallbackResponse
+}
+
 func Gql__input_UserLoginCallbackRequest() *graphql.InputObject {
 	if gql__input_UserLoginCallbackRequest == nil {
 		gql__input_UserLoginCallbackRequest = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -224,75 +187,4 @@ func Gql__input_UserLoginCallbackRequest() *graphql.InputObject {
 		})
 	}
 	return gql__input_UserLoginCallbackRequest
-}
-
-func Gql__input_UpdateUserPasswordRequest() *graphql.InputObject {
-	if gql__input_UpdateUserPasswordRequest == nil {
-		gql__input_UpdateUserPasswordRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_UpdateUserPasswordRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Description: `Id is the unique user id`,
-					Type:        graphql.String,
-				},
-				"old_password": &graphql.InputObjectFieldConfig{
-					Description: `Password to be added against the given user id.`,
-					Type:        graphql.String,
-				},
-				"new_password": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_UpdateUserPasswordRequest
-}
-
-func Gql__input_ResetUserPasswordRequest() *graphql.InputObject {
-	if gql__input_ResetUserPasswordRequest == nil {
-		gql__input_ResetUserPasswordRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ResetUserPasswordRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Description: `Id is the unique user id`,
-					Type:        graphql.String,
-				},
-				"new_password": &graphql.InputObjectFieldConfig{
-					Description: `Password to be added against the given user id.`,
-					Type:        graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_ResetUserPasswordRequest
-}
-
-func Gql__input_GetUserLoginRequest() *graphql.InputObject {
-	if gql__input_GetUserLoginRequest == nil {
-		gql__input_GetUserLoginRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetUserLoginRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Description: `Id is the unique user id`,
-					Type:        graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_GetUserLoginRequest
-}
-
-func Gql__input_DeleteUserLoginRequest() *graphql.InputObject {
-	if gql__input_DeleteUserLoginRequest == nil {
-		gql__input_DeleteUserLoginRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_DeleteUserLoginRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Description: `Id is the unique user id`,
-					Type:        graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_DeleteUserLoginRequest
 }

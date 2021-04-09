@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.25.0
 // 	protoc        v3.6.1
-// source: architecture-suggester-service.proto
+// source: architecture-suggester-git-service.proto
 
 package pb
 

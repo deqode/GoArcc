@@ -3,6 +3,7 @@ package VCSConnectionService
 import (
 	internal_pb "alfred/modules/VCSConnectionService/v1/internal/pb"
 	"alfred/modules/VCSConnectionService/v1/pb"
+	"alfred/protos/types"
 	"context"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/empty"
@@ -32,7 +33,7 @@ func (s *VCSConnectionService) ListAllSupportedVCSProviders(context.Context, *em
 func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
 	var redirectUrl string
 	switch in.Provider {
-	case pb.VCSConnectionProvider_VCS_GITHUB:
+	case types.GitProviders_GITHUB:
 		conf := s.config.VCSConfig
 		// Format required field in url
 		mp := map[string]string{
@@ -70,7 +71,7 @@ func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequ
 	}
 
 	switch in.Provider {
-	case pb.VCSConnectionProvider_VCS_GITHUB:
+	case types.GitProviders_GITHUB:
 		//config
 		conf := s.config.VCSConfig
 		githubOauthConfig := &oauth2.Config{
@@ -104,7 +105,7 @@ func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequ
 	}
 
 	vcs := &internal_pb.VCSConnection{
-		Provider:           internal_pb.VCSConnectionProvider_VCS_GITHUB,
+		Provider:           types.GitProviders_GITHUB,
 		ConnectionId:       "",
 		AccessToken:        accessToken,
 		RefreshToken:       refreshToken,
@@ -128,60 +129,3 @@ func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequ
 func (s *VCSConnectionService) ListVCSConnection(context.Context, *pb.ListVCSConnectionRequest) (*pb.ListVCSConnectionResponse, error) {
 	return nil, nil
 }
-
-//func (s *VCSConnectionService) ListReposistory(ctx context.Context, in *pb.ListReposistoryRequest) (*pb.ListReposistoryResponse, error) {
-//	//check the stored accessToken
-//	vcs, err := s.GetVCSConnection(ctx, &pb.GetVCSConnectionRequest{
-//		AccountId: "",
-//		Provider:  in.Provider,
-//	})
-//	if err != nil {
-//		return nil, err
-//	}
-//	var accessToken string
-//	if vcs.AccessToken != "" {
-//		accessToken = vcs.AccessToken
-//	} else {
-//		return nil, status.Error(codes.NotFound, "Integration token not found")
-//	}
-//
-//	ts := oauth2.StaticTokenSource(
-//		&oauth2.Token{AccessToken: accessToken},
-//	)
-//	tc := oauth2.NewClient(ctx, ts)
-//
-//	client := gitHub.NewClient(tc)
-//
-//	// list all repositories for the authenticated user
-//	var reposistories []*pb.Reposistory
-//	repos, _, err := client.Repositories.List(ctx, "", nil)
-//	if err != nil {
-//		return nil, err
-//	}
-//	for _, repo := range repos {
-//		reposistory := &pb.Reposistory{
-//			Id:       *repo.ID,
-//			NodeID:   *repo.NodeID,
-//			Name:     *repo.Name,
-//			FullName: *repo.FullName,
-//			//Description:   *repo.Description,
-//			DefaultBranch: *repo.DefaultBranch,
-//			//MasterBranch:  *repo.MasterBranch,
-//			//CreatedAt:     repo.CreatedAt,
-//			//PushedAt:      *repo.PushedAt,
-//			//UpdatedAt:     *repo.UpdatedAt,
-//			Clone_URL: *repo.CloneURL,
-//			Git_URL:   *repo.GitURL,
-//			//Size:          *repo.Size,
-//			Private:  *repo.Private,
-//			Branches: nil,
-//		}
-//		reposistories = append(reposistories, reposistory)
-//	}
-//	return &pb.ListReposistoryResponse{
-//		Reposistories: reposistories,
-//	}, nil
-//}
-//func (s *VCSConnectionService) GetReposistory(context.Context, *pb.GetReposistoryRequest) (*pb.Reposistory, error) {
-//	return nil, nil
-//}

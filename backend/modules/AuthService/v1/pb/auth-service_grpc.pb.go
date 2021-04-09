@@ -31,7 +31,7 @@ func NewValidateLoginServiceClient(cc grpc.ClientConnInterface) ValidateLoginSer
 
 func (c *validateLoginServiceClient) ValidateUserLogin(ctx context.Context, in *ValidateUserLoginRequest, opts ...grpc.CallOption) (*ValidateUserLoginResponse, error) {
 	out := new(ValidateUserLoginResponse)
-	err := c.cc.Invoke(ctx, "/pb.ValidateLoginService/ValidateUserLogin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.auth.v1.ValidateLoginService/ValidateUserLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.ValidateLoginService/ValidateUserLogin",
+		FullMethod: "/alfred.auth.v1.ValidateLoginService/ValidateUserLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ValidateLoginServiceServer).ValidateUserLogin(ctx, req.(*ValidateUserLoginRequest))
@@ -83,7 +83,7 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 }
 
 var _ValidateLoginService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.ValidateLoginService",
+	ServiceName: "alfred.auth.v1.ValidateLoginService",
 	HandlerType: (*ValidateLoginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -102,7 +102,7 @@ type UserLoginServiceClient interface {
 	// CreateUserLogin creates a new user
 	UserLogin(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	//callback endpoint
-	UserLoginCallback(ctx context.Context, in *UserLoginCallbackRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	UserLoginCallback(ctx context.Context, in *UserLoginCallbackRequest, opts ...grpc.CallOption) (*UserLoginCallbackResponse, error)
 	UserLogout(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -116,16 +116,16 @@ func NewUserLoginServiceClient(cc grpc.ClientConnInterface) UserLoginServiceClie
 
 func (c *userLoginServiceClient) UserLogin(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserLoginResponse, error) {
 	out := new(UserLoginResponse)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/UserLogin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.auth.v1.UserLoginService/UserLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userLoginServiceClient) UserLoginCallback(ctx context.Context, in *UserLoginCallbackRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/UserLoginCallback", in, out, opts...)
+func (c *userLoginServiceClient) UserLoginCallback(ctx context.Context, in *UserLoginCallbackRequest, opts ...grpc.CallOption) (*UserLoginCallbackResponse, error) {
+	out := new(UserLoginCallbackResponse)
+	err := c.cc.Invoke(ctx, "/alfred.auth.v1.UserLoginService/UserLoginCallback", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func (c *userLoginServiceClient) UserLoginCallback(ctx context.Context, in *User
 
 func (c *userLoginServiceClient) UserLogout(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserLoginService/UserLogout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.auth.v1.UserLoginService/UserLogout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -148,7 +148,7 @@ type UserLoginServiceServer interface {
 	// CreateUserLogin creates a new user
 	UserLogin(context.Context, *empty.Empty) (*UserLoginResponse, error)
 	//callback endpoint
-	UserLoginCallback(context.Context, *UserLoginCallbackRequest) (*empty.Empty, error)
+	UserLoginCallback(context.Context, *UserLoginCallbackRequest) (*UserLoginCallbackResponse, error)
 	UserLogout(context.Context, *empty.Empty) (*empty.Empty, error)
 }
 
@@ -159,7 +159,7 @@ type UnimplementedUserLoginServiceServer struct {
 func (UnimplementedUserLoginServiceServer) UserLogin(context.Context, *empty.Empty) (*UserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
 }
-func (UnimplementedUserLoginServiceServer) UserLoginCallback(context.Context, *UserLoginCallbackRequest) (*empty.Empty, error) {
+func (UnimplementedUserLoginServiceServer) UserLoginCallback(context.Context, *UserLoginCallbackRequest) (*UserLoginCallbackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLoginCallback not implemented")
 }
 func (UnimplementedUserLoginServiceServer) UserLogout(context.Context, *empty.Empty) (*empty.Empty, error) {
@@ -187,7 +187,7 @@ func _UserLoginService_UserLogin_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserLoginService/UserLogin",
+		FullMethod: "/alfred.auth.v1.UserLoginService/UserLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserLoginServiceServer).UserLogin(ctx, req.(*empty.Empty))
@@ -205,7 +205,7 @@ func _UserLoginService_UserLoginCallback_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserLoginService/UserLoginCallback",
+		FullMethod: "/alfred.auth.v1.UserLoginService/UserLoginCallback",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserLoginServiceServer).UserLoginCallback(ctx, req.(*UserLoginCallbackRequest))
@@ -223,7 +223,7 @@ func _UserLoginService_UserLogout_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserLoginService/UserLogout",
+		FullMethod: "/alfred.auth.v1.UserLoginService/UserLogout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserLoginServiceServer).UserLogout(ctx, req.(*empty.Empty))
@@ -232,7 +232,7 @@ func _UserLoginService_UserLogout_Handler(srv interface{}, ctx context.Context, 
 }
 
 var _UserLoginService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.UserLoginService",
+	ServiceName: "alfred.auth.v1.UserLoginService",
 	HandlerType: (*UserLoginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

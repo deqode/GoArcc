@@ -238,5 +238,5 @@ var _UserProfileService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "user-profile-service.proto",
+	Metadata: "user-profile-git-service.proto",
 }
