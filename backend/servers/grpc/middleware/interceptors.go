@@ -19,7 +19,7 @@ import (
 
 // AddInterceptors: Add interceptors to the grpc server
 func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.ServerOption) []grpc.ServerOption {
-	// Make sure that log statements internal to gRPC library are logged using the zapLogger as well.
+	// Make sure that log statements internals to gRPC library are logged using the zapLogger as well.
 	grpc_zap.ReplaceGrpcLoggerV2(logger)
 	//grpc recovery options
 	recoveryOptions := []grpc_recovery.Option{

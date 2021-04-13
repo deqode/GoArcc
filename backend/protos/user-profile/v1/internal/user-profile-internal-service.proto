@@ -1,29 +1,33 @@
 syntax = "proto3";
-package alfred.user_profile.v1;
+package alfred.vcs_connection.v1.internal;
 
-option go_package = "pb/";
+option go_package = "/pb";
 
 import "google/protobuf/empty.proto";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
 
-service UserProfileService {
+service UserProfileInternalService {
+    rpc CreateUserProfile(CreateUserProfileRequest) returns (UserProfile);
 
-    rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile){
-        option (google.api.http) = {
-            get: "/v1/user-profile/get-user-profile/{id}"
-        };
-        option (graphql.schema) = {
-            type: query
-            name: "user"
-        };
-    }
+    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UserProfile);
+
+    rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
+
+    rpc GetUserMe (google.protobuf.Empty) returns (UserProfile);
 }
 
+message CreateUserProfileRequest {
+    UserProfile user_profile = 1;
+}
 
-message GetUserProfileRequest {
+message DeleteUserProfileRequest {
     string id = 1;
+}
+
+message UpdateUserProfileRequest {
+    UserProfile user_profile = 1;
 }
 
 message UserProfile {

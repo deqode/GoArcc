@@ -1,7 +1,7 @@
 package VCSConnectionService
 
 import (
-	internal_pb "alfred/modules/VCSConnectionService/v1/internal/pb"
+	internal_pb "alfred/modules/VCSConnectionService/v1/internals/pb"
 	"alfred/modules/VCSConnectionService/v1/pb"
 	"alfred/protos/types"
 	"context"

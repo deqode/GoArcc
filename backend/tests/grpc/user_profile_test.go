@@ -1,9 +1,8 @@
-package UserProfileService_test
+package grpc
 
 import (
-	"alfred/client/grpcClient"
-	config "alfred/config"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
+	"alfred/tests/grpc/helpers"
 	"context"
 	"log"
 	"testing"
@@ -13,11 +12,7 @@ import (
 // so we are using go mock when we have to test methods , receivers method
 // ~ Mocking simply means resolving all the dependency so that we can test easily.
 func TestCreateUserProfile(t *testing.T) {
-	c := config.Config{Grpc: config.GraphqlServerConfig{
-		Port: "8080",
-		Host: "localhost",
-	}}
-	clientCon := grpcClient.GetGrpcClientConnection(&c)
+	clientCon := helpers.NewClient()
 	client := userProfilePb.NewUserProfileServiceClient(clientCon)
 	resp, err := client.CreateUserProfile(context.Background(), &userProfilePb.CreateUserProfileRequest{UserProfile: &userProfilePb.UserProfile{
 		Name:           "Shivang Saxena",
@@ -33,11 +28,7 @@ func TestCreateUserProfile(t *testing.T) {
 }
 
 func TestDeleteUserProfile(t *testing.T) {
-	c := config.Config{Grpc: config.GraphqlServerConfig{
-		Port: "8080",
-		Host: "localhost",
-	}}
-	clientCon := grpcClient.GetGrpcClientConnection(&c)
+	clientCon := helpers.NewClient()
 	client := userProfilePb.NewUserProfileServiceClient(clientCon)
 	resp, err := client.DeleteUserProfile(context.Background(), &userProfilePb.DeleteUserProfileRequest{Id: "c692a624-077b-c992-bd49-c9d06c48e717"})
 	if err != nil {
@@ -48,11 +39,7 @@ func TestDeleteUserProfile(t *testing.T) {
 }
 
 func TestGetUserProfile(t *testing.T) {
-	c := config.Config{Grpc: config.GraphqlServerConfig{
-		Port: "8080",
-		Host: "localhost",
-	}}
-	clientCon := grpcClient.GetGrpcClientConnection(&c)
+	clientCon := helpers.NewClient()
 	client := userProfilePb.NewUserProfileServiceClient(clientCon)
 	resp, err := client.GetUserProfile(context.Background(), &userProfilePb.GetUserProfileRequest{Id: "5531657c-9e9e-ddc5-e4f6-30b2779a71a9"})
 	if err != nil {

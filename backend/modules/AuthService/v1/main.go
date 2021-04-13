@@ -2,6 +2,7 @@ package AuthService
 
 import (
 	"alfred/config"
+	"alfred/modules/AuthService/v1/middleware"
 	"alfred/modules/AuthService/v1/pb"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	"context"
@@ -10,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"log"
+	"time"
 )
 
 type AuthService struct {
@@ -18,10 +20,17 @@ type AuthService struct {
 	grpcClient        *grpc.ClientConn
 	userProfileClient userProfilePb.UserProfileServiceClient
 	authenticator     *Authenticator
+	jwtManager        *middleware.JWTManager
 }
+
+const (
+	secretKey     = "secret"
+	tokenDuration = 15 * time.Minute
+)
 
 //Service Implementation
 func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserLoginServiceServer {
+	jwtManager := middleware.NewJWTManager(secretKey, tokenDuration)
 	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
 	return &AuthService{
@@ -30,6 +39,7 @@ func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.Cli
 		grpcClient:        grpcClientConn,
 		userProfileClient: userProfileCli,
 		authenticator:     authenticatorCli,
+		jwtManager:        jwtManager,
 	}
 }
 

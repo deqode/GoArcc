@@ -1,8 +1,8 @@
-package internal
+package internals
 
 import (
 	"alfred/config"
-	"alfred/modules/VCSConnectionService/v1/internal/pb"
+	"alfred/modules/VCSConnectionService/v1/internals/pb"
 	"alfred/modules/VCSConnectionService/v1/models"
 	"context"
 	"github.com/golang/protobuf/ptypes"

@@ -16,8 +16,8 @@ service CloudConnectionService {
             body: "*"
         };
         option (graphql.schema) = {
-            type: MUTATION   // decleare as Mutation
-            name: "createCloudConnection" // query name
+            type: MUTATION
+            name: "createCloudConnection"
         };
     };
     rpc UpdateCloudConnection(UpdateCloudConnectionRequest) returns (CloudConnection){
@@ -26,8 +26,8 @@ service CloudConnectionService {
             body: "*"
         };
         option (graphql.schema) = {
-            type: MUTATION   // decleare as Mutation
-            name: "updateCloudConnection" // query name
+            type: MUTATION
+            name: "updateCloudConnection"
         };
     }
     rpc GetCloudConnection(GetCloudConnectionRequest) returns (CloudConnection){
@@ -35,8 +35,8 @@ service CloudConnectionService {
             get: "/v1/cloud-connection/get-cloud-connection/{id}"
         };
         option (graphql.schema) = {
-            type: QUERY   // decleare as Mutation
-            name: "cloudConnection" // query name
+            type: QUERY
+            name: "cloudConnection"
         };
     }
     rpc DeleteCloudConnection(DeleteCloudConnectionRequest) returns (google.protobuf.Empty) {
@@ -44,8 +44,8 @@ service CloudConnectionService {
             delete: "/v1/cloud-connection/delete-cloud-connection/{id}"
         };
         option (graphql.schema) = {
-            type: QUERY   // decleare as query
-            name: "deleteCloudConnection" // query name
+            type: QUERY
+            name: "deleteCloudConnection"
         };
     }
 }

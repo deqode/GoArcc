@@ -30,7 +30,7 @@ func Gql__type_Reposistory() *graphql.Object {
 			Name: "Pb_Type_Reposistory",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.Int,
 				},
 				"node_id": &graphql.Field{
 					Type: graphql.String,
@@ -137,7 +137,7 @@ func Gql__input_Reposistory() *graphql.InputObject {
 			Name: "Pb_Input_Reposistory",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.Int,
 				},
 				"node_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.26.0
 // 	protoc        v3.6.1
-// source: vcs-connection-internal-service.proto
+// source: vcs-connection-internals-service.proto
 
 package pb
 
@@ -532,33 +532,33 @@ func file_vcs_connection_internal_service_proto_rawDescGZIP() []byte {
 
 var file_vcs_connection_internal_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_vcs_connection_internal_service_proto_goTypes = []interface{}{
-	(*VCSConnection)(nil),              // 0: alfred.vcs_connection.v1.internal.VCSConnection
-	(*AccountVCSConnection)(nil),       // 1: alfred.vcs_connection.v1.internal.AccountVCSConnection
-	(*RevokeVCSTokenRequest)(nil),      // 2: alfred.vcs_connection.v1.internal.RevokeVCSTokenRequest
-	(*RenewVCSTokenRequest)(nil),       // 3: alfred.vcs_connection.v1.internal.RenewVCSTokenRequest
-	(*CreateVCSConnectionRequest)(nil), // 4: alfred.vcs_connection.v1.internal.CreateVCSConnectionRequest
-	(*GetVCSConnectionRequest)(nil),    // 5: alfred.vcs_connection.v1.internal.GetVCSConnectionRequest
+	(*VCSConnection)(nil),              // 0: alfred.vcs_connection.v1.internals.VCSConnection
+	(*AccountVCSConnection)(nil),       // 1: alfred.vcs_connection.v1.internals.AccountVCSConnection
+	(*RevokeVCSTokenRequest)(nil),      // 2: alfred.vcs_connection.v1.internals.RevokeVCSTokenRequest
+	(*RenewVCSTokenRequest)(nil),       // 3: alfred.vcs_connection.v1.internals.RenewVCSTokenRequest
+	(*CreateVCSConnectionRequest)(nil), // 4: alfred.vcs_connection.v1.internals.CreateVCSConnectionRequest
+	(*GetVCSConnectionRequest)(nil),    // 5: alfred.vcs_connection.v1.internals.GetVCSConnectionRequest
 	(types.GitProviders)(0),            // 6: alfred.types.GitProviders
 	(*timestamp.Timestamp)(nil),        // 7: google.protobuf.Timestamp
 	(*empty.Empty)(nil),                // 8: google.protobuf.Empty
 }
 var file_vcs_connection_internal_service_proto_depIdxs = []int32{
-	6,  // 0: alfred.vcs_connection.v1.internal.VCSConnection.provider:type_name -> alfred.types.GitProviders
-	7,  // 1: alfred.vcs_connection.v1.internal.VCSConnection.accessTokenExpiry:type_name -> google.protobuf.Timestamp
-	7,  // 2: alfred.vcs_connection.v1.internal.VCSConnection.refreshTokenExpiry:type_name -> google.protobuf.Timestamp
-	6,  // 3: alfred.vcs_connection.v1.internal.AccountVCSConnection.provider:type_name -> alfred.types.GitProviders
-	6,  // 4: alfred.vcs_connection.v1.internal.RevokeVCSTokenRequest.provider:type_name -> alfred.types.GitProviders
-	6,  // 5: alfred.vcs_connection.v1.internal.RenewVCSTokenRequest.provider:type_name -> alfred.types.GitProviders
-	0,  // 6: alfred.vcs_connection.v1.internal.CreateVCSConnectionRequest.vcs_connection:type_name -> alfred.vcs_connection.v1.internal.VCSConnection
-	6,  // 7: alfred.vcs_connection.v1.internal.GetVCSConnectionRequest.provider:type_name -> alfred.types.GitProviders
-	5,  // 8: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.GetVCSConnection:input_type -> alfred.vcs_connection.v1.internal.GetVCSConnectionRequest
-	4,  // 9: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.CreateVCSConnection:input_type -> alfred.vcs_connection.v1.internal.CreateVCSConnectionRequest
-	2,  // 10: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.RevokeVCSToken:input_type -> alfred.vcs_connection.v1.internal.RevokeVCSTokenRequest
-	3,  // 11: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.RenewVCSToken:input_type -> alfred.vcs_connection.v1.internal.RenewVCSTokenRequest
-	0,  // 12: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.GetVCSConnection:output_type -> alfred.vcs_connection.v1.internal.VCSConnection
-	0,  // 13: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.CreateVCSConnection:output_type -> alfred.vcs_connection.v1.internal.VCSConnection
-	8,  // 14: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.RevokeVCSToken:output_type -> google.protobuf.Empty
-	8,  // 15: alfred.vcs_connection.v1.internal.VCSConnectionInternalService.RenewVCSToken:output_type -> google.protobuf.Empty
+	6,  // 0: alfred.vcs_connection.v1.internals.VCSConnection.provider:type_name -> alfred.types.GitProviders
+	7,  // 1: alfred.vcs_connection.v1.internals.VCSConnection.accessTokenExpiry:type_name -> google.protobuf.Timestamp
+	7,  // 2: alfred.vcs_connection.v1.internals.VCSConnection.refreshTokenExpiry:type_name -> google.protobuf.Timestamp
+	6,  // 3: alfred.vcs_connection.v1.internals.AccountVCSConnection.provider:type_name -> alfred.types.GitProviders
+	6,  // 4: alfred.vcs_connection.v1.internals.RevokeVCSTokenRequest.provider:type_name -> alfred.types.GitProviders
+	6,  // 5: alfred.vcs_connection.v1.internals.RenewVCSTokenRequest.provider:type_name -> alfred.types.GitProviders
+	0,  // 6: alfred.vcs_connection.v1.internals.CreateVCSConnectionRequest.vcs_connection:type_name -> alfred.vcs_connection.v1.internals.VCSConnection
+	6,  // 7: alfred.vcs_connection.v1.internals.GetVCSConnectionRequest.provider:type_name -> alfred.types.GitProviders
+	5,  // 8: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.GetVCSConnection:input_type -> alfred.vcs_connection.v1.internals.GetVCSConnectionRequest
+	4,  // 9: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.CreateVCSConnection:input_type -> alfred.vcs_connection.v1.internals.CreateVCSConnectionRequest
+	2,  // 10: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.RevokeVCSToken:input_type -> alfred.vcs_connection.v1.internals.RevokeVCSTokenRequest
+	3,  // 11: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.RenewVCSToken:input_type -> alfred.vcs_connection.v1.internals.RenewVCSTokenRequest
+	0,  // 12: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.GetVCSConnection:output_type -> alfred.vcs_connection.v1.internals.VCSConnection
+	0,  // 13: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.CreateVCSConnection:output_type -> alfred.vcs_connection.v1.internals.VCSConnection
+	8,  // 14: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.RevokeVCSToken:output_type -> google.protobuf.Empty
+	8,  // 15: alfred.vcs_connection.v1.internals.VCSConnectionInternalService.RenewVCSToken:output_type -> google.protobuf.Empty
 	12, // [12:16] is the sub-list for method output_type
 	8,  // [8:12] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name

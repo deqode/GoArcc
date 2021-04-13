@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type VCSConnectionInternalServiceClient interface {
-	//internal
+	//internals
 	GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error)
 	CreateVCSConnection(ctx context.Context, in *CreateVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error)
 	RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -35,7 +35,7 @@ func NewVCSConnectionInternalServiceClient(cc grpc.ClientConnInterface) VCSConne
 
 func (c *vCSConnectionInternalServiceClient) GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error) {
 	out := new(VCSConnection)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/GetVCSConnection", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/GetVCSConnection", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (c *vCSConnectionInternalServiceClient) GetVCSConnection(ctx context.Contex
 
 func (c *vCSConnectionInternalServiceClient) CreateVCSConnection(ctx context.Context, in *CreateVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error) {
 	out := new(VCSConnection)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/CreateVCSConnection", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/CreateVCSConnection", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *vCSConnectionInternalServiceClient) CreateVCSConnection(ctx context.Con
 
 func (c *vCSConnectionInternalServiceClient) RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/RevokeVCSToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/RevokeVCSToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (c *vCSConnectionInternalServiceClient) RevokeVCSToken(ctx context.Context,
 
 func (c *vCSConnectionInternalServiceClient) RenewVCSToken(ctx context.Context, in *RenewVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/RenewVCSToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/RenewVCSToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (c *vCSConnectionInternalServiceClient) RenewVCSToken(ctx context.Context, 
 // All implementations must embed UnimplementedVCSConnectionInternalServiceServer
 // for forward compatibility
 type VCSConnectionInternalServiceServer interface {
-	//internal
+	//internals
 	GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*VCSConnection, error)
 	CreateVCSConnection(context.Context, *CreateVCSConnectionRequest) (*VCSConnection, error)
 	RevokeVCSToken(context.Context, *RevokeVCSTokenRequest) (*empty.Empty, error)
@@ -121,7 +121,7 @@ func _VCSConnectionInternalService_GetVCSConnection_Handler(srv interface{}, ctx
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/GetVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/GetVCSConnection",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServiceServer).GetVCSConnection(ctx, req.(*GetVCSConnectionRequest))
@@ -139,7 +139,7 @@ func _VCSConnectionInternalService_CreateVCSConnection_Handler(srv interface{}, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/CreateVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/CreateVCSConnection",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServiceServer).CreateVCSConnection(ctx, req.(*CreateVCSConnectionRequest))
@@ -157,7 +157,7 @@ func _VCSConnectionInternalService_RevokeVCSToken_Handler(srv interface{}, ctx c
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/RevokeVCSToken",
+		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/RevokeVCSToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServiceServer).RevokeVCSToken(ctx, req.(*RevokeVCSTokenRequest))
@@ -175,7 +175,7 @@ func _VCSConnectionInternalService_RenewVCSToken_Handler(srv interface{}, ctx co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternalService/RenewVCSToken",
+		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternalService/RenewVCSToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServiceServer).RenewVCSToken(ctx, req.(*RenewVCSTokenRequest))
@@ -184,7 +184,7 @@ func _VCSConnectionInternalService_RenewVCSToken_Handler(srv interface{}, ctx co
 }
 
 var _VCSConnectionInternalService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.vcs_connection.v1.internal.VCSConnectionInternalService",
+	ServiceName: "alfred.vcs_connection.v1.internals.VCSConnectionInternalService",
 	HandlerType: (*VCSConnectionInternalServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -205,5 +205,5 @@ var _VCSConnectionInternalService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "vcs-connection-internal-service.proto",
+	Metadata: "vcs-connection-internals-service.proto",
 }

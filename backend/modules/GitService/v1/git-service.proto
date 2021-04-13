@@ -33,7 +33,7 @@ service GitService {
 
 
 message Reposistory{
-    string id = 1;
+    int64 id = 1;
     string node_id = 2;
     string name = 3;
     string full_name = 4;
