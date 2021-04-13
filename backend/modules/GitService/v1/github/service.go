@@ -1,7 +1,7 @@
 package github
 
 import (
-	"alfred/modules/VCSConnectionService/v1/pb"
+	"alfred/modules/GitService/v1/pb"
 	"context"
 	"github.com/google/go-github/v34/github"
 	"golang.org/x/oauth2"
@@ -30,21 +30,15 @@ func (s *Service) ListReposistory(ctx context.Context, in *pb.ListReposistoryReq
 	}
 	for _, repo := range repos {
 		reposistory := &pb.Reposistory{
-			Id:       *repo.ID,
-			NodeID:   *repo.NodeID,
-			Name:     *repo.Name,
-			FullName: *repo.FullName,
-			//Description:   *repo.Description,
+			Id:            *repo.ID,
+			NodeId:        *repo.NodeID,
+			Name:          *repo.Name,
+			FullName:      *repo.FullName,
 			DefaultBranch: *repo.DefaultBranch,
-			//MasterBranch:  *repo.MasterBranch,
-			//CreatedAt:     repo.CreatedAt,
-			//PushedAt:      *repo.PushedAt,
-			//UpdatedAt:     *repo.UpdatedAt,
-			Clone_URL: *repo.CloneURL,
-			Git_URL:   *repo.GitURL,
-			//Size:          *repo.Size,
-			Private:  *repo.Private,
-			Branches: nil,
+			CloneUrl:      *repo.CloneURL,
+			GitUrl:        *repo.GitURL,
+			Private:       *repo.Private,
+			Branches:      nil,
 		}
 		reposistories = append(reposistories, reposistory)
 	}
@@ -60,6 +54,7 @@ func (s *Service) GetReposistory(ctx context.Context, in *pb.GetReposistoryReque
 		return nil, err
 	}
 
+	//get reposistory branches
 	res, _, err := s.githubClient.Repositories.ListBranches(ctx, "", in.RepoName, nil)
 	if err != nil {
 		return nil, err
@@ -69,21 +64,15 @@ func (s *Service) GetReposistory(ctx context.Context, in *pb.GetReposistoryReque
 		branches = append(branches, *br.Name)
 	}
 	reposistory := &pb.Reposistory{
-		Id:       *repo.ID,
-		NodeID:   *repo.NodeID,
-		Name:     *repo.Name,
-		FullName: *repo.FullName,
-		//Description:   *repo.Description,
+		Id:            *repo.ID,
+		NodeId:        *repo.NodeID,
+		Name:          *repo.Name,
+		FullName:      *repo.FullName,
 		DefaultBranch: *repo.DefaultBranch,
-		//MasterBranch:  *repo.MasterBranch,
-		//CreatedAt:     repo.CreatedAt,
-		//PushedAt:      *repo.PushedAt,
-		//UpdatedAt:     *repo.UpdatedAt,
-		Clone_URL: *repo.CloneURL,
-		Git_URL:   *repo.GitURL,
-		//Size:          *repo.Size,
-		Private:  *repo.Private,
-		Branches: branches,
+		CloneUrl:      *repo.CloneURL,
+		GitUrl:        *repo.GitURL,
+		Private:       *repo.Private,
+		Branches:      branches,
 	}
 	return reposistory, nil
 }

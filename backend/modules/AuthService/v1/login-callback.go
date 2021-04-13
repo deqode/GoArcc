@@ -1,33 +1,14 @@
 package AuthService
 
 import (
-	"alfred/config"
 	"alfred/modules/AuthService/v1/pb"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	"context"
-	"crypto/rand"
-	"encoding/base64"
 	"fmt"
 	"github.com/coreos/go-oidc"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"net/url"
-	//userProfilePb "alfred/modules/UserProfileService/pb"
 )
-
-func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserLoginResponse, error) {
-	b := make([]byte, 32)
-	_, err := rand.Read(b)
-	if err != nil {
-		return nil, err
-	}
-	state := base64.StdEncoding.EncodeToString(b)
-
-	return &pb.UserLoginResponse{
-		Url: s.authenticator.Config.AuthCodeURL(state),
-	}, nil
-}
 
 func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*pb.UserLoginCallbackResponse, error) {
 
@@ -78,33 +59,4 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		AccessToken: token.AccessToken,
 		UserId:      usr.Id,
 	}, nil
-}
-
-func (s *AuthService) UserLogout(context.Context, *empty.Empty) (*empty.Empty, error) {
-	//TODO - Implement Token based logout
-	domain := config.GetConfig().Auth.Auth0Domain
-
-	logoutUrl, err := url.Parse("http://" + domain)
-
-	if err != nil {
-		//http.Error(w, err.Error(), http.StatusInternalServerError)
-		return nil, err
-	}
-
-	logoutUrl.Path += "/v1/authentication/logout"
-	parameters := url.Values{}
-
-	var scheme string
-	scheme = "http"
-
-	returnTo, err := url.Parse(scheme + "://" + "http://localhost:8082")
-	if err != nil {
-		//http.Error(w, err.Error(), http.StatusInternalServerError)
-		return nil, err
-	}
-	parameters.Add("returnTo", returnTo.String())
-	parameters.Add("client_id", config.GetConfig().Auth.Auth0ClientId)
-	logoutUrl.RawQuery = parameters.Encode()
-
-	return &empty.Empty{}, nil
 }

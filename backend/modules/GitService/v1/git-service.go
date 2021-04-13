@@ -1,11 +1,11 @@
 package GitService
 
 import (
+	githubService "alfred/modules/GitService/v1/github"
 	"alfred/modules/GitService/v1/pb"
 	vcsinternalPb "alfred/modules/VCSConnectionService/v1/internals/pb"
+	"alfred/protos/types"
 	"context"
-	"github.com/google/go-github/v34/github"
-	"golang.org/x/oauth2"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -13,7 +13,7 @@ import (
 func (s *GitService) ListReposistory(ctx context.Context, in *pb.ListReposistoryRequest) (*pb.ListReposistoryResponse, error) {
 	//fetch the stored accessToken
 	vcs, err := s.vcsInternalServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
-		AccountId: "",
+		AccountId: in.AccountId,
 		Provider:  in.Provider,
 	})
 	if err != nil {
@@ -25,44 +25,31 @@ func (s *GitService) ListReposistory(ctx context.Context, in *pb.ListReposistory
 	} else {
 		return nil, status.Error(codes.NotFound, "Integration token not found")
 	}
-
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: accessToken},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-
-	client := github.NewClient(tc)
-
-	// list all repositories for the authenticated user
-	var reposistories []*pb.Reposistory
-	repos, _, err := client.Repositories.List(ctx, "", nil)
+	switch in.Provider {
+	case types.GitProviders_GITHUB:
+		githubService.NewGithubService(ctx, accessToken)
+		return s.githubService.ListReposistory(ctx, in)
+	}
+	return nil, nil
+}
+func (s *GitService) GetReposistory(ctx context.Context, in *pb.GetReposistoryRequest) (*pb.Reposistory, error) {
+	vcs, err := s.vcsInternalServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
+		AccountId: in.AccountId,
+		Provider:  in.Provider,
+	})
 	if err != nil {
 		return nil, err
 	}
-	for _, repo := range repos {
-		reposistory := &pb.Reposistory{
-			Id:       *repo.ID,
-			NodeId:   *repo.NodeID,
-			Name:     *repo.Name,
-			FullName: *repo.FullName,
-			//Description:   *repo.Description,
-			DefaultBranch: *repo.DefaultBranch,
-			//MasterBranch:  *repo.MasterBranch,
-			//CreatedAt:     repo.CreatedAt,
-			//PushedAt:      *repo.PushedAt,
-			//UpdatedAt:     *repo.UpdatedAt,
-			CloneUrl: *repo.CloneURL,
-			GitUrl:   *repo.GitURL,
-			//Size:          *repo.Size,
-			Private:  *repo.Private,
-			Branches: nil,
-		}
-		reposistories = append(reposistories, reposistory)
+	var accessToken string
+	if vcs.AccessToken != "" {
+		accessToken = vcs.AccessToken
+	} else {
+		return nil, status.Error(codes.NotFound, "Integration token not found")
 	}
-	return &pb.ListReposistoryResponse{
-		Reposistories: reposistories,
-	}, nil
-}
-func (s *GitService) GetReposistory(ctx context.Context, in *pb.GetReposistoryRequest) (*pb.Reposistory, error) {
+	switch in.Provider {
+	case types.GitProviders_GITHUB:
+		githubService.NewGithubService(ctx, accessToken)
+		return s.githubService.GetReposistory(ctx, in)
+	}
 	return nil, nil
 }

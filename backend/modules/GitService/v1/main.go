@@ -2,6 +2,7 @@ package GitService
 
 import (
 	"alfred/config"
+	"alfred/modules/GitService/v1/github"
 	"alfred/modules/GitService/v1/pb"
 	vcsinternal "alfred/modules/VCSConnectionService/v1/internals"
 	vcsinternalPb "alfred/modules/VCSConnectionService/v1/internals/pb"
@@ -14,6 +15,7 @@ type GitService struct {
 	config            *config.Config
 	grpcClient        *grpc.ClientConn
 	vcsInternalServer vcsinternalPb.VCSConnectionInternalServiceServer
+	githubService     github.Service
 }
 
 //todo : AlWays add migration code for best practices
