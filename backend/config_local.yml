@@ -1,5 +1,5 @@
 grpc:
-    Port: 8080
+    Port: 8000
     Host: localhost
 
 graphql:
