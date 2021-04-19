@@ -299,7 +299,7 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 					return nil, errors.Wrap(err, "Failed to marshal request for reposistories")
 				}
 				client := NewGitServiceClient(conn)
-				resp, err := client.listReposistory(p.Context, &req)
+				resp, err := client.ListReposistory(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC listReposistory")
 				}

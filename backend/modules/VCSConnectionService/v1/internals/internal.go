@@ -40,7 +40,7 @@ func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetV
 
 	VCS := &pb.VCSConnection{
 		Id:                 record.ID,
-		Provider:           1,
+		Provider:           in.Provider,
 		ConnectionId:       record.ConnectionId,
 		AccessToken:        record.AccessToken,
 		RefreshToken:       record.RefreshToken,
