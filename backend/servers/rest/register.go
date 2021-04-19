@@ -2,8 +2,10 @@ package rest
 
 import (
 	"alfred/logger"
+	accPb "alfred/modules/AccountService/v1/pb"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
 	authPb "alfred/modules/AuthService/v1/pb"
+	gitPb "alfred/modules/GitService/v1/pb"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	vcsPb "alfred/modules/VCSConnectionService/v1/pb"
 	"context"
@@ -32,6 +34,16 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 	}
 
 	if err := vcsPb.RegisterVCSConnectionServiceHandler(ctx, mux, conn); err != nil {
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
+		return err
+	}
+
+	if err := accPb.RegisterAccountServiceHandler(ctx, mux, conn); err != nil {
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
+		return err
+	}
+
+	if err := gitPb.RegisterGitServiceHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

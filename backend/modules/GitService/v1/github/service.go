@@ -11,25 +11,25 @@ type Service struct {
 	githubClient *github.Client
 }
 
-func NewGithubService(ctx context.Context, accessToken string) Service {
+func NewGithubService(ctx context.Context, accessToken string) pb.GitServiceServer {
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: accessToken},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
 	client := github.NewClient(tc)
-	return Service{
+	return &Service{
 		githubClient: client,
 	}
 }
-func (s *Service) ListReposistory(ctx context.Context, in *pb.ListReposistoryRequest) (*pb.ListReposistoryResponse, error) {
-	var reposistories []*pb.Reposistory
+func (s *Service) ListRepository(ctx context.Context, in *pb.ListRepositoryRequest) (*pb.ListRepositoryResponse, error) {
+	var repositories []*pb.Repository
 	repos, _, err := s.githubClient.Repositories.List(ctx, "", nil)
 	if err != nil {
 		return nil, err
 	}
 	for _, repo := range repos {
-		reposistory := &pb.Reposistory{
+		Repository := &pb.Repository{
 			Id:            *repo.ID,
 			NodeId:        *repo.NodeID,
 			Name:          *repo.Name,
@@ -40,22 +40,22 @@ func (s *Service) ListReposistory(ctx context.Context, in *pb.ListReposistoryReq
 			Private:       *repo.Private,
 			Branches:      nil,
 		}
-		reposistories = append(reposistories, reposistory)
+		repositories = append(repositories, Repository)
 	}
-	return &pb.ListReposistoryResponse{
-		Reposistories: reposistories,
+	return &pb.ListRepositoryResponse{
+		Repositories: repositories,
 	}, nil
 }
 
-func (s *Service) GetReposistory(ctx context.Context, in *pb.GetReposistoryRequest) (*pb.Reposistory, error) {
-	//get reposistory with branches
-	repo, _, err := s.githubClient.Repositories.Get(ctx, "", in.RepoName)
+func (s *Service) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest) (*pb.Repository, error) {
+	//get Repository with branches
+	repo, _, err := s.githubClient.Repositories.Get(ctx, in.OwnerName, in.RepoName)
 	if err != nil {
 		return nil, err
 	}
 
-	//get reposistory branches
-	res, _, err := s.githubClient.Repositories.ListBranches(ctx, "", in.RepoName, nil)
+	//get Repository branches
+	res, _, err := s.githubClient.Repositories.ListBranches(ctx, in.OwnerName, in.RepoName, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (s *Service) GetReposistory(ctx context.Context, in *pb.GetReposistoryReque
 	for _, br := range res {
 		branches = append(branches, *br.Name)
 	}
-	reposistory := &pb.Reposistory{
+	Repository := &pb.Repository{
 		Id:            *repo.ID,
 		NodeId:        *repo.NodeID,
 		Name:          *repo.Name,
@@ -74,5 +74,5 @@ func (s *Service) GetReposistory(ctx context.Context, in *pb.GetReposistoryReque
 		Private:       *repo.Private,
 		Branches:      branches,
 	}
-	return reposistory, nil
+	return Repository, nil
 }

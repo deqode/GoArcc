@@ -21,6 +21,7 @@ type UserProfileServiceClient interface {
 	CreateUserProfile(ctx context.Context, in *CreateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
+	GetUserProfileByEmail(ctx context.Context, in *GetUserProfileByEmailRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error)
 }
@@ -35,7 +36,7 @@ func NewUserProfileServiceClient(cc grpc.ClientConnInterface) UserProfileService
 
 func (c *userProfileServiceClient) CreateUserProfile(ctx context.Context, in *CreateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/pb.UserProfileService/CreateUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/CreateUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +45,7 @@ func (c *userProfileServiceClient) CreateUserProfile(ctx context.Context, in *Cr
 
 func (c *userProfileServiceClient) UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/pb.UserProfileService/UpdateUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/UpdateUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,16 @@ func (c *userProfileServiceClient) UpdateUserProfile(ctx context.Context, in *Up
 
 func (c *userProfileServiceClient) GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/pb.UserProfileService/GetUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserProfile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userProfileServiceClient) GetUserProfileByEmail(ctx context.Context, in *GetUserProfileByEmailRequest, opts ...grpc.CallOption) (*UserProfile, error) {
+	out := new(UserProfile)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserProfileByEmail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +72,7 @@ func (c *userProfileServiceClient) GetUserProfile(ctx context.Context, in *GetUs
 
 func (c *userProfileServiceClient) DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/pb.UserProfileService/DeleteUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/DeleteUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +81,7 @@ func (c *userProfileServiceClient) DeleteUserProfile(ctx context.Context, in *De
 
 func (c *userProfileServiceClient) GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/pb.UserProfileService/GetUserMe", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserMe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,18 +89,18 @@ func (c *userProfileServiceClient) GetUserMe(ctx context.Context, in *empty.Empt
 }
 
 // UserProfileServiceServer is the server API for UserProfileService service.
-// All implementations must embed UnimplementedUserProfileServiceServer
+// All implementations should embed UnimplementedUserProfileServiceServer
 // for forward compatibility
 type UserProfileServiceServer interface {
 	CreateUserProfile(context.Context, *CreateUserProfileRequest) (*UserProfile, error)
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
+	GetUserProfileByEmail(context.Context, *GetUserProfileByEmailRequest) (*UserProfile, error)
 	DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error)
 	GetUserMe(context.Context, *empty.Empty) (*UserProfile, error)
-	//mustEmbedUnimplementedUserProfileServiceServer()
 }
 
-// UnimplementedUserProfileServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedUserProfileServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedUserProfileServiceServer struct {
 }
 
@@ -103,13 +113,15 @@ func (UnimplementedUserProfileServiceServer) UpdateUserProfile(context.Context, 
 func (UnimplementedUserProfileServiceServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
 }
+func (UnimplementedUserProfileServiceServer) GetUserProfileByEmail(context.Context, *GetUserProfileByEmailRequest) (*UserProfile, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfileByEmail not implemented")
+}
 func (UnimplementedUserProfileServiceServer) DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserProfile not implemented")
 }
 func (UnimplementedUserProfileServiceServer) GetUserMe(context.Context, *empty.Empty) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserMe not implemented")
 }
-func (UnimplementedUserProfileServiceServer) mustEmbedUnimplementedUserProfileServiceServer() {}
 
 // UnsafeUserProfileServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to UserProfileServiceServer will
@@ -132,7 +144,7 @@ func _UserProfileService_CreateUserProfile_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserProfileService/CreateUserProfile",
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/CreateUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileServiceServer).CreateUserProfile(ctx, req.(*CreateUserProfileRequest))
@@ -150,7 +162,7 @@ func _UserProfileService_UpdateUserProfile_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserProfileService/UpdateUserProfile",
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/UpdateUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileServiceServer).UpdateUserProfile(ctx, req.(*UpdateUserProfileRequest))
@@ -168,10 +180,28 @@ func _UserProfileService_GetUserProfile_Handler(srv interface{}, ctx context.Con
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserProfileService/GetUserProfile",
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileServiceServer).GetUserProfile(ctx, req.(*GetUserProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserProfileService_GetUserProfileByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserProfileByEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserProfileServiceServer).GetUserProfileByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserProfileByEmail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserProfileServiceServer).GetUserProfileByEmail(ctx, req.(*GetUserProfileByEmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -186,7 +216,7 @@ func _UserProfileService_DeleteUserProfile_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserProfileService/DeleteUserProfile",
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/DeleteUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileServiceServer).DeleteUserProfile(ctx, req.(*DeleteUserProfileRequest))
@@ -204,7 +234,7 @@ func _UserProfileService_GetUserMe_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UserProfileService/GetUserMe",
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserMe",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileServiceServer).GetUserMe(ctx, req.(*empty.Empty))
@@ -213,7 +243,7 @@ func _UserProfileService_GetUserMe_Handler(srv interface{}, ctx context.Context,
 }
 
 var _UserProfileService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.UserProfileService",
+	ServiceName: "alfred.user_profile.v1.UserProfileService",
 	HandlerType: (*UserProfileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -229,6 +259,10 @@ var _UserProfileService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _UserProfileService_GetUserProfile_Handler,
 		},
 		{
+			MethodName: "GetUserProfileByEmail",
+			Handler:    _UserProfileService_GetUserProfileByEmail_Handler,
+		},
+		{
 			MethodName: "DeleteUserProfile",
 			Handler:    _UserProfileService_DeleteUserProfile_Handler,
 		},
@@ -238,5 +272,5 @@ var _UserProfileService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "user-profile-git-service.proto",
+	Metadata: "user-profile-service.proto",
 }

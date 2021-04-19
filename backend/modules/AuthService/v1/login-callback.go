@@ -37,21 +37,34 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	//store user details
-	usr, err := s.userProfileClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
-		UserProfile: &userProfilePb.UserProfile{
-			Id:             "",
-			Sub:            fmt.Sprintf("%s", profile["sub"]),
-			Name:           fmt.Sprintf("%s", profile["nickname"]),
-			Email:          fmt.Sprintf("%s", profile["name"]),
-			PhoneNumber:    "",
-			ExternalSource: userProfilePb.SOURCE_GITHUB,
-			TokenValidTill: nil,
-		},
+	//get user_details
+	isCreateUserProfile := false
+	usr, err := s.userProfileClient.GetUserProfileByEmail(ctx, &userProfilePb.GetUserProfileByEmailRequest{
+		Email: fmt.Sprintf("%s", profile["name"]),
 	})
-
 	if err != nil {
+		if err == status.Error(codes.NotFound, "No Record Found") {
+			isCreateUserProfile = true
+		}
 		return nil, err
+	}
+	//store user details
+	if isCreateUserProfile {
+		user, err := s.userProfileClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
+			UserProfile: &userProfilePb.UserProfile{
+				Id:             "",
+				Sub:            fmt.Sprintf("%s", profile["sub"]),
+				Name:           fmt.Sprintf("%s", profile["nickname"]),
+				Email:          fmt.Sprintf("%s", profile["name"]),
+				PhoneNumber:    "",
+				ExternalSource: userProfilePb.SOURCE_GITHUB,
+				TokenValidTill: nil,
+			},
+		})
+		if err != nil {
+			return nil, err
+		}
+		usr.Id = user.Id
 	}
 
 	return &pb.UserLoginCallbackResponse{

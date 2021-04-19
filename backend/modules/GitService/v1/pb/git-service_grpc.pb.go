@@ -17,9 +17,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GitServiceClient interface {
-	//listReposistory list all reposistory of user's account
-	ListReposistory(ctx context.Context, in *ListReposistoryRequest, opts ...grpc.CallOption) (*ListReposistoryResponse, error)
-	GetReposistory(ctx context.Context, in *GetReposistoryRequest, opts ...grpc.CallOption) (*Reposistory, error)
+	//listRepository list all repository of user's account
+	ListRepository(ctx context.Context, in *ListRepositoryRequest, opts ...grpc.CallOption) (*ListRepositoryResponse, error)
+	GetRepository(ctx context.Context, in *GetRepositoryRequest, opts ...grpc.CallOption) (*Repository, error)
 }
 
 type gitServiceClient struct {
@@ -30,18 +30,18 @@ func NewGitServiceClient(cc grpc.ClientConnInterface) GitServiceClient {
 	return &gitServiceClient{cc}
 }
 
-func (c *gitServiceClient) ListReposistory(ctx context.Context, in *ListReposistoryRequest, opts ...grpc.CallOption) (*ListReposistoryResponse, error) {
-	out := new(ListReposistoryResponse)
-	err := c.cc.Invoke(ctx, "/alfred.git.v1.GitService/listReposistory", in, out, opts...)
+func (c *gitServiceClient) ListRepository(ctx context.Context, in *ListRepositoryRequest, opts ...grpc.CallOption) (*ListRepositoryResponse, error) {
+	out := new(ListRepositoryResponse)
+	err := c.cc.Invoke(ctx, "/alfred.git.v1.GitService/listRepository", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gitServiceClient) GetReposistory(ctx context.Context, in *GetReposistoryRequest, opts ...grpc.CallOption) (*Reposistory, error) {
-	out := new(Reposistory)
-	err := c.cc.Invoke(ctx, "/alfred.git.v1.GitService/GetReposistory", in, out, opts...)
+func (c *gitServiceClient) GetRepository(ctx context.Context, in *GetRepositoryRequest, opts ...grpc.CallOption) (*Repository, error) {
+	out := new(Repository)
+	err := c.cc.Invoke(ctx, "/alfred.git.v1.GitService/GetRepository", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,20 +52,20 @@ func (c *gitServiceClient) GetReposistory(ctx context.Context, in *GetReposistor
 // All implementations should embed UnimplementedGitServiceServer
 // for forward compatibility
 type GitServiceServer interface {
-	//listReposistory list all reposistory of user's account
-	ListReposistory(context.Context, *ListReposistoryRequest) (*ListReposistoryResponse, error)
-	GetReposistory(context.Context, *GetReposistoryRequest) (*Reposistory, error)
+	//listRepository list all repository of user's account
+	ListRepository(context.Context, *ListRepositoryRequest) (*ListRepositoryResponse, error)
+	GetRepository(context.Context, *GetRepositoryRequest) (*Repository, error)
 }
 
 // UnimplementedGitServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedGitServiceServer struct {
 }
 
-func (UnimplementedGitServiceServer) ListReposistory(context.Context, *ListReposistoryRequest) (*ListReposistoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListReposistory not implemented")
+func (UnimplementedGitServiceServer) ListRepository(context.Context, *ListRepositoryRequest) (*ListRepositoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRepository not implemented")
 }
-func (UnimplementedGitServiceServer) GetReposistory(context.Context, *GetReposistoryRequest) (*Reposistory, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetReposistory not implemented")
+func (UnimplementedGitServiceServer) GetRepository(context.Context, *GetRepositoryRequest) (*Repository, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRepository not implemented")
 }
 
 // UnsafeGitServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -79,38 +79,38 @@ func RegisterGitServiceServer(s *grpc.Server, srv GitServiceServer) {
 	s.RegisterService(&_GitService_serviceDesc, srv)
 }
 
-func _GitService_ListReposistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListReposistoryRequest)
+func _GitService_ListRepository_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRepositoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GitServiceServer).ListReposistory(ctx, in)
+		return srv.(GitServiceServer).ListRepository(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.git.v1.GitService/ListReposistory",
+		FullMethod: "/alfred.git.v1.GitService/ListRepository",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GitServiceServer).ListReposistory(ctx, req.(*ListReposistoryRequest))
+		return srv.(GitServiceServer).ListRepository(ctx, req.(*ListRepositoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GitService_GetReposistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetReposistoryRequest)
+func _GitService_GetRepository_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRepositoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GitServiceServer).GetReposistory(ctx, in)
+		return srv.(GitServiceServer).GetRepository(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.git.v1.GitService/GetReposistory",
+		FullMethod: "/alfred.git.v1.GitService/GetRepository",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GitServiceServer).GetReposistory(ctx, req.(*GetReposistoryRequest))
+		return srv.(GitServiceServer).GetRepository(ctx, req.(*GetRepositoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -120,12 +120,12 @@ var _GitService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*GitServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "listReposistory",
-			Handler:    _GitService_ListReposistory_Handler,
+			MethodName: "listRepository",
+			Handler:    _GitService_ListRepository_Handler,
 		},
 		{
-			MethodName: "GetReposistory",
-			Handler:    _GitService_GetReposistory_Handler,
+			MethodName: "GetRepository",
+			Handler:    _GitService_GetRepository_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

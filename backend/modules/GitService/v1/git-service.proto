@@ -9,30 +9,30 @@ import "include/graphql.proto";
 import "types/enums.proto";
 
 service GitService {
-    //listReposistory list all reposistory of user's account
-    rpc listReposistory(ListReposistoryRequest) returns (ListReposistoryResponse){
+    //listRepository list all repository of user's account
+    rpc listRepository(ListRepositoryRequest) returns (ListRepositoryResponse){
         option (google.api.http) = {
-            get: "/v1/vcs-connection/reposistories/{provider}"
+            get: "/v1/vcs-connection/repositories"
         };
         option (graphql.schema) = {
             type: QUERY
-            name: "reposistories"
+            name: "repositories"
         };
     }
 
-    rpc GetReposistory(GetReposistoryRequest) returns (Reposistory){
+    rpc GetRepository(GetRepositoryRequest) returns (Repository){
         option (google.api.http) = {
-            get: "/v1/vcs-connection/reposistory/{repo_name}"
+            get: "/v1/vcs-connection/repository"
         };
         option (graphql.schema) = {
             type: QUERY
-            name: "reposistory"
+            name: "repository"
         };
     }
 }
 
 
-message Reposistory{
+message Repository{
     int64 id = 1;
     string node_id = 2;
     string name = 3;
@@ -49,18 +49,19 @@ message Reposistory{
     repeated string branches = 15;
 }
 
-message ListReposistoryRequest{
+message ListRepositoryRequest{
     types.GitProviders provider = 1;
     string user_id = 2;
     string account_id = 3;
     string label = 4;
 }
-message ListReposistoryResponse{
-    repeated Reposistory reposistories = 1;
+message ListRepositoryResponse{
+    repeated Repository repositories = 1;
 }
 
-message GetReposistoryRequest{
+message GetRepositoryRequest{
     types.GitProviders provider = 1;
     string repo_name = 2;
     string account_id = 3;
+    string owner_name = 4;
 }

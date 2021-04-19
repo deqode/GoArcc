@@ -27,9 +27,9 @@ func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequ
 		//config
 		conf := s.config.VCSConfig
 		githubOauthConfig := &oauth2.Config{
-			RedirectURL:  conf["vcs_github"].RedirectUri,
-			ClientID:     conf["vcs_github"].ClientID,
-			ClientSecret: conf["vcs_github"].ClientSecret,
+			RedirectURL:  conf["github"].RedirectUri,
+			ClientID:     conf["github"].ClientID,
+			ClientSecret: conf["github"].ClientSecret,
 			Scopes:       GithubOAuthScope,
 			Endpoint:     github.Endpoint,
 		}

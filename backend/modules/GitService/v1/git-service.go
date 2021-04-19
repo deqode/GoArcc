@@ -10,7 +10,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *GitService) ListReposistory(ctx context.Context, in *pb.ListReposistoryRequest) (*pb.ListReposistoryResponse, error) {
+func (s *GitService) ListRepository(ctx context.Context, in *pb.ListRepositoryRequest) (*pb.ListRepositoryResponse, error) {
+	in.Provider = types.GitProviders_GITHUB
 	//fetch the stored accessToken
 	vcs, err := s.vcsInternalServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
@@ -27,12 +28,15 @@ func (s *GitService) ListReposistory(ctx context.Context, in *pb.ListReposistory
 	}
 	switch in.Provider {
 	case types.GitProviders_GITHUB:
-		githubService.NewGithubService(ctx, accessToken)
-		return s.githubService.ListReposistory(ctx, in)
+		client := githubService.NewGithubService(ctx, accessToken)
+		return client.ListRepository(ctx, in)
+		//return githubService.ListRepository(ctx, in)
 	}
 	return nil, nil
 }
-func (s *GitService) GetReposistory(ctx context.Context, in *pb.GetReposistoryRequest) (*pb.Reposistory, error) {
+func (s *GitService) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest) (*pb.Repository, error) {
+	//in.Provider = types.GitProviders_GITHUB
+	//in.RepoName = "chatbox"
 	vcs, err := s.vcsInternalServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
@@ -48,8 +52,8 @@ func (s *GitService) GetReposistory(ctx context.Context, in *pb.GetReposistoryRe
 	}
 	switch in.Provider {
 	case types.GitProviders_GITHUB:
-		githubService.NewGithubService(ctx, accessToken)
-		return s.githubService.GetReposistory(ctx, in)
+		client := githubService.NewGithubService(ctx, accessToken)
+		return client.GetRepository(ctx, in)
 	}
 	return nil, nil
 }

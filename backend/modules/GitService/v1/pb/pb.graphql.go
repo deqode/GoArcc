@@ -14,20 +14,20 @@ import (
 )
 
 var (
-	gql__type_Reposistory              *graphql.Object      // message Reposistory in git-service.proto
-	gql__type_ListReposistoryResponse  *graphql.Object      // message ListReposistoryResponse in git-service.proto
-	gql__type_ListReposistoryRequest   *graphql.Object      // message ListReposistoryRequest in git-service.proto
-	gql__type_GetReposistoryRequest    *graphql.Object      // message GetReposistoryRequest in git-service.proto
-	gql__input_Reposistory             *graphql.InputObject // message Reposistory in git-service.proto
-	gql__input_ListReposistoryResponse *graphql.InputObject // message ListReposistoryResponse in git-service.proto
-	gql__input_ListReposistoryRequest  *graphql.InputObject // message ListReposistoryRequest in git-service.proto
-	gql__input_GetReposistoryRequest   *graphql.InputObject // message GetReposistoryRequest in git-service.proto
+	gql__type_Repository              *graphql.Object      // message Repository in git-service.proto
+	gql__type_ListRepositoryResponse  *graphql.Object      // message ListRepositoryResponse in git-service.proto
+	gql__type_ListRepositoryRequest   *graphql.Object      // message ListRepositoryRequest in git-service.proto
+	gql__type_GetRepositoryRequest    *graphql.Object      // message GetRepositoryRequest in git-service.proto
+	gql__input_Repository             *graphql.InputObject // message Repository in git-service.proto
+	gql__input_ListRepositoryResponse *graphql.InputObject // message ListRepositoryResponse in git-service.proto
+	gql__input_ListRepositoryRequest  *graphql.InputObject // message ListRepositoryRequest in git-service.proto
+	gql__input_GetRepositoryRequest   *graphql.InputObject // message GetRepositoryRequest in git-service.proto
 )
 
-func Gql__type_Reposistory() *graphql.Object {
-	if gql__type_Reposistory == nil {
-		gql__type_Reposistory = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_Reposistory",
+func Gql__type_Repository() *graphql.Object {
+	if gql__type_Repository == nil {
+		gql__type_Repository = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_Repository",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
 					Type: graphql.Int,
@@ -74,27 +74,27 @@ func Gql__type_Reposistory() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_Reposistory
+	return gql__type_Repository
 }
 
-func Gql__type_ListReposistoryResponse() *graphql.Object {
-	if gql__type_ListReposistoryResponse == nil {
-		gql__type_ListReposistoryResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ListReposistoryResponse",
+func Gql__type_ListRepositoryResponse() *graphql.Object {
+	if gql__type_ListRepositoryResponse == nil {
+		gql__type_ListRepositoryResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_ListRepositoryResponse",
 			Fields: graphql.Fields{
-				"reposistories": &graphql.Field{
-					Type: graphql.NewList(Gql__type_Reposistory()),
+				"repositories": &graphql.Field{
+					Type: graphql.NewList(Gql__type_Repository()),
 				},
 			},
 		})
 	}
-	return gql__type_ListReposistoryResponse
+	return gql__type_ListRepositoryResponse
 }
 
-func Gql__type_ListReposistoryRequest() *graphql.Object {
-	if gql__type_ListReposistoryRequest == nil {
-		gql__type_ListReposistoryRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ListReposistoryRequest",
+func Gql__type_ListRepositoryRequest() *graphql.Object {
+	if gql__type_ListRepositoryRequest == nil {
+		gql__type_ListRepositoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_ListRepositoryRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
 					Type: types.Gql__enum_GitProviders(),
@@ -105,16 +105,19 @@ func Gql__type_ListReposistoryRequest() *graphql.Object {
 				"account_id": &graphql.Field{
 					Type: graphql.String,
 				},
+				"label": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
-	return gql__type_ListReposistoryRequest
+	return gql__type_ListRepositoryRequest
 }
 
-func Gql__type_GetReposistoryRequest() *graphql.Object {
-	if gql__type_GetReposistoryRequest == nil {
-		gql__type_GetReposistoryRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetReposistoryRequest",
+func Gql__type_GetRepositoryRequest() *graphql.Object {
+	if gql__type_GetRepositoryRequest == nil {
+		gql__type_GetRepositoryRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_GetRepositoryRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
 					Type: types.Gql__enum_GitProviders(),
@@ -125,16 +128,19 @@ func Gql__type_GetReposistoryRequest() *graphql.Object {
 				"account_id": &graphql.Field{
 					Type: graphql.String,
 				},
+				"owner_name": &graphql.Field{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
-	return gql__type_GetReposistoryRequest
+	return gql__type_GetRepositoryRequest
 }
 
-func Gql__input_Reposistory() *graphql.InputObject {
-	if gql__input_Reposistory == nil {
-		gql__input_Reposistory = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_Reposistory",
+func Gql__input_Repository() *graphql.InputObject {
+	if gql__input_Repository == nil {
+		gql__input_Repository = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_Repository",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
@@ -181,27 +187,27 @@ func Gql__input_Reposistory() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_Reposistory
+	return gql__input_Repository
 }
 
-func Gql__input_ListReposistoryResponse() *graphql.InputObject {
-	if gql__input_ListReposistoryResponse == nil {
-		gql__input_ListReposistoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ListReposistoryResponse",
+func Gql__input_ListRepositoryResponse() *graphql.InputObject {
+	if gql__input_ListRepositoryResponse == nil {
+		gql__input_ListRepositoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_ListRepositoryResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"reposistories": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewList(Gql__input_Reposistory()),
+				"repositories": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewList(Gql__input_Repository()),
 				},
 			},
 		})
 	}
-	return gql__input_ListReposistoryResponse
+	return gql__input_ListRepositoryResponse
 }
 
-func Gql__input_ListReposistoryRequest() *graphql.InputObject {
-	if gql__input_ListReposistoryRequest == nil {
-		gql__input_ListReposistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ListReposistoryRequest",
+func Gql__input_ListRepositoryRequest() *graphql.InputObject {
+	if gql__input_ListRepositoryRequest == nil {
+		gql__input_ListRepositoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_ListRepositoryRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
 					Type: types.Gql__enum_GitProviders(),
@@ -212,16 +218,19 @@ func Gql__input_ListReposistoryRequest() *graphql.InputObject {
 				"account_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"label": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
-	return gql__input_ListReposistoryRequest
+	return gql__input_ListRepositoryRequest
 }
 
-func Gql__input_GetReposistoryRequest() *graphql.InputObject {
-	if gql__input_GetReposistoryRequest == nil {
-		gql__input_GetReposistoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetReposistoryRequest",
+func Gql__input_GetRepositoryRequest() *graphql.InputObject {
+	if gql__input_GetRepositoryRequest == nil {
+		gql__input_GetRepositoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_GetRepositoryRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
 					Type: types.Gql__enum_GitProviders(),
@@ -232,10 +241,13 @@ func Gql__input_GetReposistoryRequest() *graphql.InputObject {
 				"account_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"owner_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 			},
 		})
 	}
-	return gql__input_GetReposistoryRequest
+	return gql__input_GetRepositoryRequest
 }
 
 // graphql__resolver_GitService is a struct for making query, mutation and resolve fields.
@@ -280,8 +292,8 @@ func (x *graphql__resolver_GitService) CreateConnection(ctx context.Context) (*g
 // GetQueries returns acceptable graphql.Fields for Query.
 func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
-		"reposistories": &graphql.Field{
-			Type: Gql__type_ListReposistoryResponse(),
+		"repositories": &graphql.Field{
+			Type: Gql__type_ListRepositoryResponse(),
 			Args: graphql.FieldConfigArgument{
 				"provider": &graphql.ArgumentConfig{
 					Type: types.Gql__enum_GitProviders(),
@@ -292,22 +304,25 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 				"account_id": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
+				"label": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req ListReposistoryRequest
+				var req ListRepositoryRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for reposistories")
+					return nil, errors.Wrap(err, "Failed to marshal request for repositories")
 				}
 				client := NewGitServiceClient(conn)
-				resp, err := client.ListReposistory(p.Context, &req)
+				resp, err := client.ListRepository(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC listReposistory")
+					return nil, errors.Wrap(err, "Failed to call RPC listRepository")
 				}
 				return resp, nil
 			},
 		},
-		"reposistory": &graphql.Field{
-			Type: Gql__type_Reposistory(),
+		"repository": &graphql.Field{
+			Type: Gql__type_Repository(),
 			Args: graphql.FieldConfigArgument{
 				"provider": &graphql.ArgumentConfig{
 					Type: types.Gql__enum_GitProviders(),
@@ -318,16 +333,19 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 				"account_id": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
+				"owner_name": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req GetReposistoryRequest
+				var req GetRepositoryRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for reposistory")
+					return nil, errors.Wrap(err, "Failed to marshal request for repository")
 				}
 				client := NewGitServiceClient(conn)
-				resp, err := client.GetReposistory(p.Context, &req)
+				resp, err := client.GetRepository(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetReposistory")
+					return nil, errors.Wrap(err, "Failed to call RPC GetRepository")
 				}
 				return resp, nil
 			},

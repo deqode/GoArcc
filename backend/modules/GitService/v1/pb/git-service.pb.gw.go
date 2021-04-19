@@ -9,7 +9,6 @@ It translates gRPC into RESTful JSON APIs.
 package pb
 
 import (
-	"alfred/protos/types"
 	"context"
 	"io"
 	"net/http"
@@ -33,147 +32,73 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 var (
-	filter_GitService_ListReposistory_0 = &utilities.DoubleArray{Encoding: map[string]int{"provider": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_GitService_ListRepository_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_GitService_ListReposistory_0(ctx context.Context, marshaler runtime.Marshaler, client GitServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListReposistoryRequest
+func request_GitService_ListRepository_0(ctx context.Context, marshaler runtime.Marshaler, client GitServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListRepositoryRequest
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		e   int32
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["provider"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
-	}
-
-	e, err = runtime.Enum(val, types.GitProviders_value)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
-	}
-
-	protoReq.Provider = types.GitProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_ListReposistory_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_ListRepository_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ListReposistory(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListRepository(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_GitService_ListReposistory_0(ctx context.Context, marshaler runtime.Marshaler, server GitServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListReposistoryRequest
+func local_request_GitService_ListRepository_0(ctx context.Context, marshaler runtime.Marshaler, server GitServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListRepositoryRequest
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		e   int32
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["provider"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
-	}
-
-	e, err = runtime.Enum(val, types.GitProviders_value)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
-	}
-
-	protoReq.Provider = types.GitProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_ListReposistory_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_ListRepository_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ListReposistory(ctx, &protoReq)
+	msg, err := server.ListRepository(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_GitService_GetReposistory_0 = &utilities.DoubleArray{Encoding: map[string]int{"repo_name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_GitService_GetRepository_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_GitService_GetReposistory_0(ctx context.Context, marshaler runtime.Marshaler, client GitServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetReposistoryRequest
+func request_GitService_GetRepository_0(ctx context.Context, marshaler runtime.Marshaler, client GitServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetRepositoryRequest
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["repo_name"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "repo_name")
-	}
-
-	protoReq.RepoName, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "repo_name", err)
-	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_GetReposistory_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_GetRepository_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetReposistory(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetRepository(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_GitService_GetReposistory_0(ctx context.Context, marshaler runtime.Marshaler, server GitServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetReposistoryRequest
+func local_request_GitService_GetRepository_0(ctx context.Context, marshaler runtime.Marshaler, server GitServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetRepositoryRequest
 	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["repo_name"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "repo_name")
-	}
-
-	protoReq.RepoName, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "repo_name", err)
-	}
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_GetReposistory_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GitService_GetRepository_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetReposistory(ctx, &protoReq)
+	msg, err := server.GetRepository(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -184,18 +109,18 @@ func local_request_GitService_GetReposistory_0(ctx context.Context, marshaler ru
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterGitServiceHandlerFromEndpoint instead.
 func RegisterGitServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server GitServiceServer) error {
 
-	mux.Handle("GET", pattern_GitService_ListReposistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_GitService_ListRepository_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.git.v1.GitService/ListReposistory")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.git.v1.GitService/ListRepository")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_GitService_ListReposistory_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_GitService_ListRepository_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -203,22 +128,22 @@ func RegisterGitServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 			return
 		}
 
-		forward_GitService_ListReposistory_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GitService_ListRepository_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_GitService_GetReposistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_GitService_GetRepository_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.git.v1.GitService/GetReposistory")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.git.v1.GitService/GetRepository")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_GitService_GetReposistory_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_GitService_GetRepository_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -226,7 +151,7 @@ func RegisterGitServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 			return
 		}
 
-		forward_GitService_GetReposistory_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GitService_GetRepository_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -271,43 +196,43 @@ func RegisterGitServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn 
 // "GitServiceClient" to call the correct interceptors.
 func RegisterGitServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client GitServiceClient) error {
 
-	mux.Handle("GET", pattern_GitService_ListReposistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_GitService_ListRepository_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.git.v1.GitService/ListReposistory")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.git.v1.GitService/ListRepository")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GitService_ListReposistory_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_GitService_ListRepository_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GitService_ListReposistory_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GitService_ListRepository_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_GitService_GetReposistory_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_GitService_GetRepository_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.git.v1.GitService/GetReposistory")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.git.v1.GitService/GetRepository")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GitService_GetReposistory_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_GitService_GetRepository_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GitService_GetReposistory_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GitService_GetRepository_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -315,13 +240,13 @@ func RegisterGitServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_GitService_ListReposistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vcs-connection", "reposistories", "provider"}, ""))
+	pattern_GitService_ListRepository_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "vcs-connection", "repositories"}, ""))
 
-	pattern_GitService_GetReposistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "vcs-connection", "reposistory", "repo_name"}, ""))
+	pattern_GitService_GetRepository_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "vcs-connection", "repository"}, ""))
 )
 
 var (
-	forward_GitService_ListReposistory_0 = runtime.ForwardResponseMessage
+	forward_GitService_ListRepository_0 = runtime.ForwardResponseMessage
 
-	forward_GitService_GetReposistory_0 = runtime.ForwardResponseMessage
+	forward_GitService_GetRepository_0 = runtime.ForwardResponseMessage
 )

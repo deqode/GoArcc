@@ -24,6 +24,7 @@ type AccountServiceClient interface {
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	//GetAccount get account details by its unique id
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
+	GetUserAllAccount(ctx context.Context, in *GetUserAllAccountRequest, opts ...grpc.CallOption) (*GetUserAllAccountResponse, error)
 	//DeleteAccount delete the existing account from DB
 	//This will be soft delete in DB
 	DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -64,6 +65,15 @@ func (c *accountServiceClient) GetAccount(ctx context.Context, in *GetAccountReq
 	return out, nil
 }
 
+func (c *accountServiceClient) GetUserAllAccount(ctx context.Context, in *GetUserAllAccountRequest, opts ...grpc.CallOption) (*GetUserAllAccountResponse, error) {
+	out := new(GetUserAllAccountResponse)
+	err := c.cc.Invoke(ctx, "/alfred.account.v1.AccountService/GetUserAllAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountServiceClient) DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/alfred.account.v1.AccountService/DeleteAccount", in, out, opts...)
@@ -83,6 +93,7 @@ type AccountServiceServer interface {
 	UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error)
 	//GetAccount get account details by its unique id
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
+	GetUserAllAccount(context.Context, *GetUserAllAccountRequest) (*GetUserAllAccountResponse, error)
 	//DeleteAccount delete the existing account from DB
 	//This will be soft delete in DB
 	DeleteAccount(context.Context, *DeleteAccountRequest) (*empty.Empty, error)
@@ -100,6 +111,9 @@ func (UnimplementedAccountServiceServer) UpdateAccount(context.Context, *UpdateA
 }
 func (UnimplementedAccountServiceServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
+}
+func (UnimplementedAccountServiceServer) GetUserAllAccount(context.Context, *GetUserAllAccountRequest) (*GetUserAllAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserAllAccount not implemented")
 }
 func (UnimplementedAccountServiceServer) DeleteAccount(context.Context, *DeleteAccountRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
@@ -170,6 +184,24 @@ func _AccountService_GetAccount_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetUserAllAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserAllAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetUserAllAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.account.v1.AccountService/GetUserAllAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetUserAllAccount(ctx, req.(*GetUserAllAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountService_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteAccountRequest)
 	if err := dec(in); err != nil {
@@ -205,10 +237,14 @@ var _AccountService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _AccountService_GetAccount_Handler,
 		},
 		{
+			MethodName: "GetUserAllAccount",
+			Handler:    _AccountService_GetUserAllAccount_Handler,
+		},
+		{
 			MethodName: "DeleteAccount",
 			Handler:    _AccountService_DeleteAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "account-git-service.proto",
+	Metadata: "account-service.proto",
 }

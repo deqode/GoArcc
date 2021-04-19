@@ -63,7 +63,7 @@ func NewAuthenticator(config *config.Config) (*Authenticator, error) {
 		ClientSecret: config.Auth.Auth0ClientSecret,
 		RedirectURL:  config.Auth.Auth0CallbackUrl,
 		Endpoint:     provider.Endpoint(),
-		Scopes:       []string{oidc.ScopeOpenID, "profile"},
+		Scopes:       []string{oidc.ScopeOpenID, "profile", "user"},
 	}
 
 	return &Authenticator{

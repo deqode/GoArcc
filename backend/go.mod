@@ -36,7 +36,7 @@ require (
 	google.golang.org/genproto v0.0.0-20210224155714-063164c882e6
 	google.golang.org/grpc v1.36.0
 	google.golang.org/protobuf v1.25.0
-	gopkg.in/square/go-jose.v2 v2.5.1 // indirect
+	gopkg.in/square/go-jose.v2 v2.5.1
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.20.12
 )
