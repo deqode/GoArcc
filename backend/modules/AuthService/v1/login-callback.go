@@ -10,6 +10,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+var ErrNotFound = status.Error(codes.NotFound, "No Record Found")
+
 func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*pb.UserLoginCallbackResponse, error) {
 
 	token, err := s.authenticator.Config.Exchange(ctx, in.Code)
@@ -39,14 +41,17 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 
 	//get user_details
 	isCreateUserProfile := false
-	usr, err := s.userProfileClient.GetUserProfileByEmail(ctx, &userProfilePb.GetUserProfileByEmailRequest{
-		Email: fmt.Sprintf("%s", profile["name"]),
+	userId := ""
+	usr, err := s.userProfileClient.GetUserProfileBySub(ctx, &userProfilePb.GetUserProfileBySubRequest{
+		Sub: fmt.Sprintf("%s", profile["sub"]),
 	})
 	if err != nil {
-		if err == status.Error(codes.NotFound, "No Record Found") {
+		code, _ := status.FromError(err)
+		if code.Code() == codes.NotFound {
 			isCreateUserProfile = true
+		} else {
+			return nil, err
 		}
-		return nil, err
 	}
 	//store user details
 	if isCreateUserProfile {
@@ -54,9 +59,9 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 			UserProfile: &userProfilePb.UserProfile{
 				Id:             "",
 				Sub:            fmt.Sprintf("%s", profile["sub"]),
-				Name:           fmt.Sprintf("%s", profile["nickname"]),
-				Email:          fmt.Sprintf("%s", profile["name"]),
-				PhoneNumber:    "",
+				Name:           fmt.Sprintf("%s", profile["name"]),
+				UserName:       fmt.Sprintf("%s", profile["nickname"]),
+				ProfilePicUrl:  fmt.Sprintf("%s", profile["picture"]),
 				ExternalSource: userProfilePb.SOURCE_GITHUB,
 				TokenValidTill: nil,
 			},
@@ -64,12 +69,14 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		if err != nil {
 			return nil, err
 		}
-		usr.Id = user.Id
+		userId = user.Id
+	} else {
+		userId = usr.Id
 	}
 
 	return &pb.UserLoginCallbackResponse{
 		IdToken:     rawIDToken,
 		AccessToken: token.AccessToken,
-		UserId:      usr.Id,
+		UserId:      userId,
 	}, nil
 }

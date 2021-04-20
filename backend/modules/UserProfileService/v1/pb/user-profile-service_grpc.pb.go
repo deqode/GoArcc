@@ -21,7 +21,7 @@ type UserProfileServiceClient interface {
 	CreateUserProfile(ctx context.Context, in *CreateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
-	GetUserProfileByEmail(ctx context.Context, in *GetUserProfileByEmailRequest, opts ...grpc.CallOption) (*UserProfile, error)
+	GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error)
 }
@@ -61,9 +61,9 @@ func (c *userProfileServiceClient) GetUserProfile(ctx context.Context, in *GetUs
 	return out, nil
 }
 
-func (c *userProfileServiceClient) GetUserProfileByEmail(ctx context.Context, in *GetUserProfileByEmailRequest, opts ...grpc.CallOption) (*UserProfile, error) {
+func (c *userProfileServiceClient) GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserProfileByEmail", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserProfileBySub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,7 @@ type UserProfileServiceServer interface {
 	CreateUserProfile(context.Context, *CreateUserProfileRequest) (*UserProfile, error)
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
-	GetUserProfileByEmail(context.Context, *GetUserProfileByEmailRequest) (*UserProfile, error)
+	GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error)
 	DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error)
 	GetUserMe(context.Context, *empty.Empty) (*UserProfile, error)
 }
@@ -113,8 +113,8 @@ func (UnimplementedUserProfileServiceServer) UpdateUserProfile(context.Context, 
 func (UnimplementedUserProfileServiceServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
 }
-func (UnimplementedUserProfileServiceServer) GetUserProfileByEmail(context.Context, *GetUserProfileByEmailRequest) (*UserProfile, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfileByEmail not implemented")
+func (UnimplementedUserProfileServiceServer) GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfileBySub not implemented")
 }
 func (UnimplementedUserProfileServiceServer) DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserProfile not implemented")
@@ -188,20 +188,20 @@ func _UserProfileService_GetUserProfile_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileService_GetUserProfileByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserProfileByEmailRequest)
+func _UserProfileService_GetUserProfileBySub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserProfileBySubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserProfileServiceServer).GetUserProfileByEmail(ctx, in)
+		return srv.(UserProfileServiceServer).GetUserProfileBySub(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserProfileByEmail",
+		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserProfileBySub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).GetUserProfileByEmail(ctx, req.(*GetUserProfileByEmailRequest))
+		return srv.(UserProfileServiceServer).GetUserProfileBySub(ctx, req.(*GetUserProfileBySubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -259,8 +259,8 @@ var _UserProfileService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _UserProfileService_GetUserProfile_Handler,
 		},
 		{
-			MethodName: "GetUserProfileByEmail",
-			Handler:    _UserProfileService_GetUserProfileByEmail_Handler,
+			MethodName: "GetUserProfileBySub",
+			Handler:    _UserProfileService_GetUserProfileBySub_Handler,
 		},
 		{
 			MethodName: "DeleteUserProfile",

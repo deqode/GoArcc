@@ -9,15 +9,17 @@ import (
 )
 
 type UserProfile struct {
-	ID          string
-	Name        string
-	Email       string
-	PhoneNumber string
-	Sub         string
-	Source      pb.SOURCE
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
+	ID            string
+	Name          string
+	UserName      string
+	Email         string
+	PhoneNumber   string
+	Sub           string
+	ProfilePicUrl string
+	Source        pb.SOURCE
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	DeletedAt     gorm.DeletedAt `gorm:"index"`
 }
 
 func InitialMigrationUserProfile(db *gorm.DB) {

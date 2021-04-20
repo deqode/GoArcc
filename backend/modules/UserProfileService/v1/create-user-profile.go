@@ -15,12 +15,14 @@ func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.Creat
 	}
 
 	VCSModel := &models.UserProfile{
-		ID:          id,
-		Name:        in.UserProfile.Name,
-		Email:       in.UserProfile.Email,
-		PhoneNumber: in.UserProfile.PhoneNumber,
-		Sub:         in.UserProfile.Sub,
-		Source:      in.UserProfile.ExternalSource,
+		ID:            id,
+		Name:          in.UserProfile.Name,
+		Email:         in.UserProfile.Email,
+		PhoneNumber:   in.UserProfile.PhoneNumber,
+		Sub:           in.UserProfile.Sub,
+		UserName:      in.UserProfile.UserName,
+		ProfilePicUrl: in.UserProfile.ProfilePicUrl,
+		Source:        in.UserProfile.ExternalSource,
 	}
 
 	t := s.db.Create(VCSModel)

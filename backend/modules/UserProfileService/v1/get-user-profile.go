@@ -22,5 +22,7 @@ func (s *UserProfileService) GetUserProfile(ctx context.Context, in *pb.GetUserP
 		ExternalSource: profile.Source,
 		Name:           profile.Name,
 		Email:          profile.Email,
+		Sub:            profile.Sub,
+		UserName:       profile.UserName,
 	}, nil
 }

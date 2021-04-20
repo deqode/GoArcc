@@ -12,21 +12,19 @@ import (
 )
 
 var (
-	gql__enum_SOURCE                        *graphql.Enum        // enum SOURCE in user-profile-service.proto
-	gql__type_UserProfile                   *graphql.Object      // message UserProfile in user-profile-service.proto
-	gql__type_UpdateUserProfileRequest      *graphql.Object      // message UpdateUserProfileRequest in user-profile-service.proto
-	gql__type_ProfilePicture                *graphql.Object      // message ProfilePicture in user-profile-service.proto
-	gql__type_GetUserProfileRequest         *graphql.Object      // message GetUserProfileRequest in user-profile-service.proto
-	gql__type_GetUserProfileByEmailRequest  *graphql.Object      // message GetUserProfileByEmailRequest in user-profile-service.proto
-	gql__type_DeleteUserProfileRequest      *graphql.Object      // message DeleteUserProfileRequest in user-profile-service.proto
-	gql__type_CreateUserProfileRequest      *graphql.Object      // message CreateUserProfileRequest in user-profile-service.proto
-	gql__input_UserProfile                  *graphql.InputObject // message UserProfile in user-profile-service.proto
-	gql__input_UpdateUserProfileRequest     *graphql.InputObject // message UpdateUserProfileRequest in user-profile-service.proto
-	gql__input_ProfilePicture               *graphql.InputObject // message ProfilePicture in user-profile-service.proto
-	gql__input_GetUserProfileRequest        *graphql.InputObject // message GetUserProfileRequest in user-profile-service.proto
-	gql__input_GetUserProfileByEmailRequest *graphql.InputObject // message GetUserProfileByEmailRequest in user-profile-service.proto
-	gql__input_DeleteUserProfileRequest     *graphql.InputObject // message DeleteUserProfileRequest in user-profile-service.proto
-	gql__input_CreateUserProfileRequest     *graphql.InputObject // message CreateUserProfileRequest in user-profile-service.proto
+	gql__enum_SOURCE                      *graphql.Enum        // enum SOURCE in user-profile-service.proto
+	gql__type_UserProfile                 *graphql.Object      // message UserProfile in user-profile-service.proto
+	gql__type_UpdateUserProfileRequest    *graphql.Object      // message UpdateUserProfileRequest in user-profile-service.proto
+	gql__type_GetUserProfileRequest       *graphql.Object      // message GetUserProfileRequest in user-profile-service.proto
+	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in user-profile-service.proto
+	gql__type_DeleteUserProfileRequest    *graphql.Object      // message DeleteUserProfileRequest in user-profile-service.proto
+	gql__type_CreateUserProfileRequest    *graphql.Object      // message CreateUserProfileRequest in user-profile-service.proto
+	gql__input_UserProfile                *graphql.InputObject // message UserProfile in user-profile-service.proto
+	gql__input_UpdateUserProfileRequest   *graphql.InputObject // message UpdateUserProfileRequest in user-profile-service.proto
+	gql__input_GetUserProfileRequest      *graphql.InputObject // message GetUserProfileRequest in user-profile-service.proto
+	gql__input_GetUserProfileBySubRequest *graphql.InputObject // message GetUserProfileBySubRequest in user-profile-service.proto
+	gql__input_DeleteUserProfileRequest   *graphql.InputObject // message DeleteUserProfileRequest in user-profile-service.proto
+	gql__input_CreateUserProfileRequest   *graphql.InputObject // message CreateUserProfileRequest in user-profile-service.proto
 )
 
 func Gql__enum_SOURCE() *graphql.Enum {
@@ -69,6 +67,9 @@ func Gql__type_UserProfile() *graphql.Object {
 				"name": &graphql.Field{
 					Type: graphql.String,
 				},
+				"user_name": &graphql.Field{
+					Type: graphql.String,
+				},
 				"email": &graphql.Field{
 					Type: graphql.String,
 				},
@@ -78,8 +79,8 @@ func Gql__type_UserProfile() *graphql.Object {
 				"external_source": &graphql.Field{
 					Type: Gql__enum_SOURCE(),
 				},
-				"profile": &graphql.Field{
-					Type: Gql__type_ProfilePicture(),
+				"profile_pic_url": &graphql.Field{
+					Type: graphql.String,
 				},
 				"token_valid_till": &graphql.Field{
 					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
@@ -104,23 +105,6 @@ func Gql__type_UpdateUserProfileRequest() *graphql.Object {
 	return gql__type_UpdateUserProfileRequest
 }
 
-func Gql__type_ProfilePicture() *graphql.Object {
-	if gql__type_ProfilePicture == nil {
-		gql__type_ProfilePicture = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_ProfilePicture",
-			Fields: graphql.Fields{
-				"url": &graphql.Field{
-					Type: graphql.String,
-				},
-				"mime_type": &graphql.Field{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__type_ProfilePicture
-}
-
 func Gql__type_GetUserProfileRequest() *graphql.Object {
 	if gql__type_GetUserProfileRequest == nil {
 		gql__type_GetUserProfileRequest = graphql.NewObject(graphql.ObjectConfig{
@@ -135,18 +119,18 @@ func Gql__type_GetUserProfileRequest() *graphql.Object {
 	return gql__type_GetUserProfileRequest
 }
 
-func Gql__type_GetUserProfileByEmailRequest() *graphql.Object {
-	if gql__type_GetUserProfileByEmailRequest == nil {
-		gql__type_GetUserProfileByEmailRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetUserProfileByEmailRequest",
+func Gql__type_GetUserProfileBySubRequest() *graphql.Object {
+	if gql__type_GetUserProfileBySubRequest == nil {
+		gql__type_GetUserProfileBySubRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_GetUserProfileBySubRequest",
 			Fields: graphql.Fields{
-				"email": &graphql.Field{
+				"sub": &graphql.Field{
 					Type: graphql.String,
 				},
 			},
 		})
 	}
-	return gql__type_GetUserProfileByEmailRequest
+	return gql__type_GetUserProfileBySubRequest
 }
 
 func Gql__type_DeleteUserProfileRequest() *graphql.Object {
@@ -191,6 +175,9 @@ func Gql__input_UserProfile() *graphql.InputObject {
 				"name": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"user_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
 				"email": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
@@ -200,8 +187,8 @@ func Gql__input_UserProfile() *graphql.InputObject {
 				"external_source": &graphql.InputObjectFieldConfig{
 					Type: Gql__enum_SOURCE(),
 				},
-				"profile": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_ProfilePicture(),
+				"profile_pic_url": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 				"token_valid_till": &graphql.InputObjectFieldConfig{
 					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
@@ -226,23 +213,6 @@ func Gql__input_UpdateUserProfileRequest() *graphql.InputObject {
 	return gql__input_UpdateUserProfileRequest
 }
 
-func Gql__input_ProfilePicture() *graphql.InputObject {
-	if gql__input_ProfilePicture == nil {
-		gql__input_ProfilePicture = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_ProfilePicture",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"url": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"mime_type": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-			},
-		})
-	}
-	return gql__input_ProfilePicture
-}
-
 func Gql__input_GetUserProfileRequest() *graphql.InputObject {
 	if gql__input_GetUserProfileRequest == nil {
 		gql__input_GetUserProfileRequest = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -257,18 +227,18 @@ func Gql__input_GetUserProfileRequest() *graphql.InputObject {
 	return gql__input_GetUserProfileRequest
 }
 
-func Gql__input_GetUserProfileByEmailRequest() *graphql.InputObject {
-	if gql__input_GetUserProfileByEmailRequest == nil {
-		gql__input_GetUserProfileByEmailRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetUserProfileByEmailRequest",
+func Gql__input_GetUserProfileBySubRequest() *graphql.InputObject {
+	if gql__input_GetUserProfileBySubRequest == nil {
+		gql__input_GetUserProfileBySubRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_GetUserProfileBySubRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"email": &graphql.InputObjectFieldConfig{
+				"sub": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 			},
 		})
 	}
-	return gql__input_GetUserProfileByEmailRequest
+	return gql__input_GetUserProfileBySubRequest
 }
 
 func Gql__input_DeleteUserProfileRequest() *graphql.InputObject {
