@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package alfred.types;
+
+option go_package = "alfred/protos/types";
+
+enum GitProviders {
+    UNKNOWN = 0;
+    GITHUB = 1;
+    GITLAB = 2;
+    BITBUCKET = 3;
+}
+
+/*
+    protoc -I ./ --go_out=paths=source_relative:. --graphql_out=paths=source_relative:. enums.proto && goimports -w .
+*/
