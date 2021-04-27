@@ -1,0 +1,165 @@
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.gateway-alfred {
+	background: #f3f3f3;
+}
+
+.logo {
+	padding: 20px;
+}
+
+.content_section {
+	padding: 200px 0;
+}
+
+.github_btn {
+  display: inline-block;
+  color: #fff;
+  background: #000;
+  margin-top: 20px;
+}
+
+.github_btn:hover {
+	color: #fff;
+}
+
+.github_btn img {
+	margin:0 5px;
+}
+
+.github_btn:focus {
+	box-shadow: none;
+}
+
+.login-right {
+	background-color: #fff;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.page-head {
+  font-family: 'OpenSans-Bold';
+  max-width: 500px;
+  margin-bottom: 25px;
+}
+
+.content-para {
+  color: #707070;
+  max-width: 289px;
+}
+
+.sign_up_head {
+	font-size: 20px;
+	font-family: 'OpenSans-Bold';
+}
+
+.project-info_form {
+	max-width: 600px;
+}
+
+.custom_input label {
+	color: #6a6a6a;
+	padding: 0;
+	font-size: 18px;
+}
+
+.custom_input input {
+  background: #f3f3f3;
+  border-color: transparent;
+  padding: 10px 15px;
+}
+
+.custom_input input::placeholder {
+	color: #252525;
+}
+
+.custom_input input:focus {
+	box-shadow: none;
+	border-color: transparent;
+	background: #f3f3f3;
+}
+
+.fetch-btn {
+	background-color: #f76540;
+	color: #fff;
+	display: inline-block;
+	font-size: 18px;
+	padding: 10px;
+}
+
+.fetch-btn:hover {
+	color: #fff;
+}
+
+/*Select Project Details*/
+
+.select {
+	position: relative;
+}
+
+.select select {
+  flex: 1;
+  padding: 10px 15px;
+  color: #252525;
+  cursor: pointer;
+  background: #f3f3f3;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  line-height: initial;
+}
+
+.select select:focus {
+	box-shadow: none;
+}
+
+/* Arrow */
+.select::after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  margin-top: 12px;
+  bottom: 17px;
+  border: solid #252525;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+	.content_section {
+    padding: 100px 0;
+  }
+}
+
+@media (max-width: 767px) {
+	.login-right {
+		margin: 0 15px;
+		padding: 20px;
+		margin-top: 20px;
+	}
+
+	.logo {
+	  text-align: center;
+	}
+
+	.content_section {
+	  padding: 50px 0;
+	}
+}
