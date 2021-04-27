@@ -25,8 +25,8 @@ type (
 	}
 )
 
-// Setup setup the config for the code run
-func (h *CadenceAdapter) Setup(config *bConfig.CadenceConfig) {
+// CadenceSetup Setup setup the config for the code run
+func (h *CadenceAdapter) CadenceSetup(config *bConfig.CadenceConfig) {
 	if h.CadenceClient != nil {
 		return
 	}

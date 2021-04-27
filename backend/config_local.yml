@@ -24,9 +24,9 @@ logger:
 postgres:
     PostgresqlHost: localhost
     PostgresqlPort: 5432
-    PostgresqlUser: postgres
-    PostgresqlPassword: root
-    PostgresqlDbname: deqode
+    PostgresqlUser: atul
+    PostgresqlPassword: atul
+    PostgresqlDbname: alfred
     PostgresqlSslmode: false
     PgDriver: pgx
 

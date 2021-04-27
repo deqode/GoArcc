@@ -12,7 +12,7 @@ func main() {
 	var cadenceAppConfig background.CadenceAppConfig
 	cadenceAppConfig.Setup()
 	var cadenceClient cadenceAdapter.CadenceAdapter
-	cadenceClient.Setup(&cadenceAppConfig.Cadence)
+	cadenceClient.CadenceSetup(&cadenceAppConfig.Cadence)
     workflows.StartWorkers(&cadenceClient)
 	// The workers are supposed to be long running process that should not exit.
 	select {}

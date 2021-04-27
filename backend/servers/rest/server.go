@@ -22,8 +22,7 @@ func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn
 	srv := &http.Server{
 		Addr: config.Rest.Host + ":" + config.Rest.Port,
 		// add handler with middleware
-		Handler: middleware.AddCors(middleware.AddRequestID(
-		middleware.AddLogger(logger.Log, mux))),
+		Handler: middleware.AddCors(middleware.AddRequestID(middleware.AddLogger(logger.Log, mux))),
 	}
 
 	logger.Log.Info("starting HTTP/REST gateway...")
