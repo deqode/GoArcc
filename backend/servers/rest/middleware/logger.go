@@ -41,6 +41,10 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 			zap.Error(err)
 		}
+
+		if request == nil {
+			request = "Request object is nil"
+		}
 		// Log HTTP request
 		logger.Debug("request started",
 			zap.String("request-id", id),

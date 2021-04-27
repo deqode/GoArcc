@@ -3,6 +3,7 @@ package rest
 import (
 	"alfred/config"
 	"alfred/logger"
+	"alfred/servers/rest/middleware"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/fx"
@@ -21,8 +22,7 @@ func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn
 	srv := &http.Server{
 		Addr: config.Rest.Host + ":" + config.Rest.Port,
 		// add handler with middleware
-		Handler:/* middleware.AddRequestID(
-		middleware.AddLogger(logger.Log, mux))*/mux,
+		Handler: middleware.AddCors(middleware.AddRequestID(middleware.AddLogger(logger.Log, mux))),
 	}
 
 	logger.Log.Info("starting HTTP/REST gateway...")

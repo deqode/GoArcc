@@ -23,13 +23,17 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/pquerna/cachecontrol v0.0.0-20201205024021-ac21108117ac // indirect
 	github.com/prometheus/client_golang v1.9.0
+	github.com/rs/cors v1.7.0 // indirect
 	github.com/smartystreets/assertions v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
+	github.com/uber-go/tally v3.3.15+incompatible
 	github.com/uber/jaeger-client-go v2.25.0+incompatible
 	github.com/uber/jaeger-lib v2.4.0+incompatible
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
+	go.uber.org/cadence v0.16.1-0.20210420001847-b31c3bbfb06a
 	go.uber.org/fx v1.13.1
 	go.uber.org/multierr v1.6.0 // indirect
+	go.uber.org/yarpc v1.53.2
 	go.uber.org/zap v1.16.0
 	golang.org/x/oauth2 v0.0.0-20210201163806-010130855d6c
 	golang.org/x/tools v0.1.0 // indirect
@@ -40,3 +44,5 @@ require (
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.20.12
 )
+
+replace github.com/apache/thrift => github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02
