@@ -1,16 +1,17 @@
-import '../../css/bootstrap.min.css';
-import '../../css/alfred.css';
-import '../../css/fonts.css';
-import github from '../../images/github_icon.png';
-import logo from '../../images/logo.png';
+import Head from 'next/head';
 
-function Login() {
+export default function Login() {
   return (
     <div>
+      <Head>
+        <title>Login to Alfred</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <nav>
         <div className="container-fluid">
           <div className="logo">
-            <a href="/" className="d-block"><img src={logo} alt="Logo!" /></a>
+            <a href="/" className="d-block"><img src="/assets/logo.png" alt="Logo!" /></a>
           </div>
         </div>
       </nav>
@@ -25,7 +26,7 @@ function Login() {
             <div className="col-md-6 login-right">
               <div className="text-center">
                 <div className="sign_up_head">Sign Up</div>
-                <a href="/tell-us-more" className="btn github_btn">Login with github<img src={github} alt="Login with github" /></a>
+                <a href="/tell-us-more" className="btn github_btn">Login with github<img src="/assets/github_icon.png" alt="Login with github" /></a>
               </div>
             </div>
           </div>
@@ -34,5 +35,3 @@ function Login() {
     </div>
   )
 }
-
-export default Login
