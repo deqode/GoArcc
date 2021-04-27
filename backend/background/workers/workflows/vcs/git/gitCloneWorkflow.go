@@ -54,7 +54,6 @@ func GitCloneActivity(ctx context.Context, req *GitCloneRequest) (*GitCloneRespo
 }
 
 
-
 func GitCloneWorkflow(ctx workflow.Context, req *GitCloneRequest) (*GitCloneResponse, error) {
 	ctx = workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
 		ScheduleToStartTimeout: time.Minute,

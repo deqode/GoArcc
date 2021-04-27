@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-//Todo : Whenever any new modules will be in alfred : it must be registered in below method
+// RegisterRESTModules Todo : Whenever any new modules will be in alfred : it must be registered in below method
 //Todo: Remove local host from here
 func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	//opts := []grpc.DialOption{grpc.WithInsecure()}
