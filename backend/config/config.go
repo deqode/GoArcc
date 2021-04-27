@@ -22,36 +22,36 @@ type Config struct {
 	VCSConfig   map[string]VCSSConfig
 }
 
-// GrpcServerConfig: gRPC  server configuration
+// GrpcServerConfig GrpcServerConfig: gRPC  server configuration
 type GrpcServerConfig struct {
 	Port string
 	Host string
 }
 
-// GraphqlServerConfig: Graphql server configuration
+// GraphqlServerConfig GraphqlServerConfig: Graphql server configuration
 type GraphqlServerConfig struct {
 	Port string
 	Host string
 }
 
-//RestServerConfig: Rest Implementation config
+// RestServerConfig RestServerConfig: Rest Implementation config
 type RestServerConfig struct {
 	Port string
 	Host string
 }
 
-//HealthCheckServerConfig: Configuration about health check
+// HealthCheckServerConfig HealthCheckServerConfig: Configuration about health check
 type HealthCheckServerConfig struct {
 	Port string
 	Host string
 }
 
-//LoggerConfig: Zapier log level
+// LoggerConfig LoggerConfig: Zapier log level
 type LoggerConfig struct {
 	LogLevel string
 }
 
-//PostgresConfig: detail config about the postgres database
+// PostgresConfig PostgresConfig: detail config about the postgres database
 type PostgresConfig struct {
 	PostgresqlHost     string
 	PostgresqlPort     string
@@ -76,7 +76,7 @@ type JaegerServerConfig struct {
 	LogSpans    string
 }
 
-//Authentication config: details provided by Auth0
+// AuthConfig Authentication config: details provided by Auth0
 type AuthConfig struct {
 	Auth0ClientId     string
 	Auth0Domain       string
@@ -96,6 +96,10 @@ type VCSSConfig struct {
 	ResponseType string
 	ClientSecret string
 }
+
+
+
+
 
 // LoadConfig config file from given path
 func LoadConfig(filename string) (*viper.Viper, error) {
@@ -124,7 +128,7 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 	return &c, nil
 }
 
-// GetConfig: get the path from local or docker
+// GetConfigPath get the path from local or docker
 func GetConfigPath(configPath string) string {
 	if configPath == "docker" {
 		return "config_docker"
