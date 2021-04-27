@@ -4,7 +4,17 @@ import '../../css/fonts.css';
 import github from '../../images/github_icon.png';
 import logo from '../../images/logo.png';
 
+
 function Login() {
+
+  const signUp = () => {
+
+    fetch("http://localhost:8082/v1/authentication/login").then(res => {
+      console.log(res);
+    })
+    console.log("SignUp")
+  }
+
   return (
     <div>
       <nav>
@@ -25,7 +35,7 @@ function Login() {
             <div className="col-md-6 login-right">
               <div className="text-center">
                 <div className="sign_up_head">Sign Up</div>
-                <a href="/tell-us-more" className="btn github_btn">Login with github<img src={github} alt="Login with github" /></a>
+                <button onClick={signUp} className="btn github_btn">Login with github<img src={github} alt="Login with github" /></button>
               </div>
             </div>
           </div>
