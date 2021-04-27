@@ -43,7 +43,7 @@ auth:
   Auth0ClientId    : BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ
   Auth0Domain      : alfred-sh.us.auth0.com
   Auth0ClientSecret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
-  Auth0CallbackUrl : http://localhost:8082/v1/authentication/callback
+  Auth0CallbackUrl : http://localhost:3000/authentication/callback
 
 VCSConfig:
   github:

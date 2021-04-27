@@ -7,15 +7,6 @@ export default function TellUsMore() {
         <title>Tell Us More!</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <nav>
-        <div className="container-fluid">
-          <div className="logo">
-            <a href="/" className="d-block"><img src="/assets/logo.png" alt="Logo!" /></a>
-          </div>
-        </div>
-      </nav>
-
       <section className="content_section">
         <div className="container">
           <div className="row">
