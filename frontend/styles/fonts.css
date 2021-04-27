@@ -1,8 +1,8 @@
 @font-face {
     font-family: 'OpenSans-Light';
-    src: url('../fonts/OpenSans-Light.woff2') format('woff2'),
-        url('../fonts/OpenSans-Light.woff') format('woff'),
-        url('../fonts/OpenSans-Light.ttf') format('truetype');
+    src: url('/fonts/OpenSans-Light.woff2') format('woff2'),
+        url('/fonts/OpenSans-Light.woff') format('woff'),
+        url('/fonts/OpenSans-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -10,9 +10,9 @@
 
 @font-face {
     font-family: 'OpenSans';
-    src: url('../fonts/OpenSans-Regular.woff2') format('woff2'),
-        url('../fonts/OpenSans-Regular.woff') format('woff'),
-        url('../fonts/OpenSans-Regular.ttf') format('truetype');
+    src: url('/fonts/OpenSans-Regular.woff2') format('woff2'),
+        url('/fonts/OpenSans-Regular.woff') format('woff'),
+        url('/fonts/OpenSans-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

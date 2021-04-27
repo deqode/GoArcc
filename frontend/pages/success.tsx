@@ -1,15 +1,17 @@
-import '../../css/bootstrap.min.css'
-import '../../css/alfred.css';
-import '../../css/fonts.css';
-import logo from '../../images/logo.png';
+import Head from 'next/head';
 
-function Success() {
+export default function Success() {
   return (
     <div>
+      <Head>
+        <title>Tell Us More!</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <nav>
         <div className="container-fluid">
           <div className="logo">
-            <a href="/" className="d-block"><img src={logo} alt="Logo!" /></a>
+            <a href="/" className="d-block"><img src="/assets/logo.png" alt="Logo!" /></a>
           </div>
         </div>
       </nav>
@@ -26,7 +28,5 @@ function Success() {
         </div>
       </section>
     </div>
-  )
+  );
 }
-
-export default Success
