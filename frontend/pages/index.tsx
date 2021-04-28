@@ -1,16 +1,13 @@
-import { useQuery } from '@apollo/client';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import Head from 'next/head';
-import { GET_TOKEN } from '../GraphQL/cache';
 import { SERVER } from '../utils/constants';
 import Link from 'next/link'
-import { report } from 'node:process';
+import { useContext } from 'react';
+import { UserContext } from '../Contexts/UserContext';
 
-export default function Login({ auth,repo }) {
+export default function Login({ auth, repo }) {
 
-  const { loading, error, data } = useQuery(GET_TOKEN);
-
-  console.log(data, loading, error, "from index")
+  const { user } = useContext(UserContext)
 
   return (
     <div>
@@ -18,7 +15,6 @@ export default function Login({ auth,repo }) {
         <title>Login to Alfred</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Paper elevation={0} style={{ padding: "100px" }} />
       <Grid justify="center" alignItems="center" spacing={1} container>
         <Grid item md={4}>
@@ -28,7 +24,7 @@ export default function Login({ auth,repo }) {
         </Grid>
         <Grid item>
           <div className="text-center">
-            {data.token != null ?
+            {user.idToken != "" ?
               <> <div className="sign_up_head">Connect</div>
                 <Link href={repo.redirectUrl}>
                   <a className="btn github_btn">Connect with github<img src="/assets/github_icon.png" alt="Login with github" /></a>

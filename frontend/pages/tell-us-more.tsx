@@ -1,6 +1,73 @@
+import { useQuery } from '@apollo/client';
 import Head from 'next/head';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../Contexts/UserContext';
+import { GET_BRANCHES, GET_REPOSITORIES } from '../GraphQL/Query';
+import { SERVER } from '../utils/constants';
 
 export default function TellUsMore() {
+
+
+  const [accoutID, setaccoutID] = useState("")
+  const { user } = useContext(UserContext)
+  const [ownerName, setownerName] = useState("rjoshi-deq")
+  const [repos, setrepos] = useState([])
+  const [currenRepoName, setcurrenRepoName] = useState("")
+  const [branches, setbranches] = useState([])
+
+  const repoQuery = useQuery(GET_REPOSITORIES, {
+    variables: {
+      userid: user.userId,
+      accountid: accoutID
+    }
+  });
+  const reposLoading = repoQuery.loading
+  const refetchRepos = repoQuery.refetch
+  const repoData = repoQuery.data
+
+  const branchQuery = useQuery(GET_BRANCHES, {
+    variables: {
+      ownerName: ownerName,
+      repoName: currenRepoName,
+      accountid: accoutID
+    }
+  })
+
+  const branchLoading = branchQuery.loading
+  const refetchBranches = branchQuery.refetch
+  const branchData = branchQuery.data
+  const branchError = branchQuery.error
+
+  useEffect(() => {
+    (async () => {
+      if (user.userId != "") {
+        let res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`)
+        let accounts = await res.json()
+        setaccoutID(accounts.accounts[0].id)
+        refetchRepos()
+      }
+    })()
+  }, [user])
+
+  useEffect(() => {
+    if (!reposLoading)
+      setrepos(repoData.repositories.repositories)
+  }, [repoData])
+
+  useEffect(() => {
+   refetchBranches()
+  }, [currenRepoName])
+
+  console.log(branches, currenRepoName)
+
+  useEffect(() => {
+    if (!branchLoading && branchError == undefined) {
+      setbranches(branchData.repository.branches)
+    }
+  }, [branchLoading, branchError,branchData])
+
+  const selectRepo = (e) => setcurrenRepoName(e.target.value)
+
   return (
     <div>
       <Head>
@@ -19,26 +86,18 @@ export default function TellUsMore() {
                 </div>
                 <div className="form-group row select custom_input">
                   <label className="col-md-4" htmlFor="inlineFormCustomSelectPref">Your Repo's Name</label>
-                  <select className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
-                    <option value="default">email finder</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <select disabled={!(repos.length > 0)} onChange={selectRepo} className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
+                    {repos.map(r => <option value={r.name}>{r.name}</option>)}
                   </select>
                 </div>
                 <div className="form-group row select custom_input">
-                  <label className="col-md-4" htmlFor="inlineFormCustomSelectPref">Your Environment</label>
-                  <select className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
-                    <option value="default">Production</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <label className="col-md-4" htmlFor="inlineFormCustomSelectPref">Your Branch</label>
+                  <select disabled={!(branches.length > 0)} className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
+                    {branches.map(r => <option value={r}>{r}</option>)}
+
                   </select>
                 </div>
-                <div className="form-group row custom_input">
-                  <label htmlFor="branchname" className="col-md-4">Your Branch</label>
-                  <input type="text" className="form-control col-md-8" placeholder="master" />
-                </div>
+
               </form>
               <div className="text-center mt-5 mb-5"><a href="/success" className="btn fetch-btn w-50">Go Fetch</a></div>
             </div>
