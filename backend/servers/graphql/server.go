@@ -3,7 +3,7 @@ package graphql
 import (
 	"alfred/config"
 	"alfred/logger"
-	"alfred/servers/rest/middleware"
+	"alfred/servers/graphql/middleware"
 	"context"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/fx"
