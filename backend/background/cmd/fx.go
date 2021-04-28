@@ -1,6 +1,8 @@
 package cmd
 
-import "go.uber.org/fx"
+import (
+	"go.uber.org/fx"
+)
 
 // CadenceSetupFx ConfigProviderFx: config globally in the pipeline stream
 var CadenceSetupFx = fx.Options(
@@ -8,3 +10,4 @@ var CadenceSetupFx = fx.Options(
 		CadenceSetup,
 	),
 )
+
