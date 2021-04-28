@@ -3,6 +3,7 @@ package graphql
 import (
 	"alfred/config"
 	"alfred/logger"
+	"alfred/servers/rest/middleware"
 	"context"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/fx"
@@ -23,8 +24,8 @@ func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientC
 	srv := &http.Server{
 		Addr: config.Graphql.Host + ":" + config.Graphql.Port,
 		// add handler with middleware
-		Handler:/*middleware.AddRequestID(
-		middleware.AddLogger(logger.Log, mux))*/mux,
+		Handler:middleware.AddCors(middleware.AddRequestID(
+		middleware.AddLogger(logger.Log, mux))),
 	}
 
 	lc.Append(fx.Hook{

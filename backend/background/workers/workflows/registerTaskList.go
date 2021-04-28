@@ -19,6 +19,8 @@ func getAllWorkers() []string {
 	}
 }
 
+
+
 func StartWorkers(h *cadenceAdapter.CadenceAdapter) {
 	taskList := getAllWorkers()
 	// Configure worker options.
@@ -27,13 +29,11 @@ func StartWorkers(h *cadenceAdapter.CadenceAdapter) {
 		Logger:       h.Logger,
 	}
 	for _, taskName := range taskList {
-		func(tName string) {
-			cadenceWorker := worker.New(h.ServiceClient, h.Config.Domain, tName, workerOptions)
+			cadenceWorker := worker.New(h.ServiceClient, h.Config.Domain, taskName, workerOptions)
 			err := cadenceWorker.Start()
 			if err != nil {
-				h.Logger.Error("Failed to start worker:"+tName, zap.Error(err))
+				h.Logger.Error("Failed to start worker:"+taskName, zap.Error(err))
 			}
-		}(taskName)
 
 	}
 }
