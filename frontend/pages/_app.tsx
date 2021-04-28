@@ -14,7 +14,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [user, setState] = useState({
     accessToken: "",
     idToken: "",
-    userId: ""
+    userId: "",
+    provider:""
   });
 
   useEffect(() => {
@@ -32,7 +33,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     setState({
       accessToken: "",
       idToken: "",
-      userId: ""
+      userId: "",
+      provider:""
     })
   }
 

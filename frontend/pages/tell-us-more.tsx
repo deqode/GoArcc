@@ -18,7 +18,8 @@ export default function TellUsMore() {
   const repoQuery = useQuery(GET_REPOSITORIES, {
     variables: {
       userid: user.userId,
-      accountid: accoutID
+      accountid: accoutID,
+      provider:user.provider
     }
   });
   const reposLoading = repoQuery.loading
@@ -29,7 +30,8 @@ export default function TellUsMore() {
     variables: {
       ownerName: ownerName,
       repoName: currenRepoName,
-      accountid: accoutID
+      accountid: accoutID,
+      provider:user.provider
     }
   })
 

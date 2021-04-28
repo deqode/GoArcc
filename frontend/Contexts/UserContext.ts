@@ -4,7 +4,8 @@ export const UserContext = createContext({
     user: {
         accessToken: "",
         idToken: "",
-        userId: ""
+        userId: "",
+        provider:""
     },
     setUser: (value) => { },
     removeUser: () => { }
