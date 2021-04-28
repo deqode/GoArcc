@@ -20,10 +20,10 @@ func init() {
 }
 
 type GitCloneRequest struct {
-	AccountId string
-	UserId string
+	AccountId     string
+	UserId        string
 	RepositoryURL string
-	BranchName string
+	BranchName    string
 }
 
 type GitCloneResponse struct {
@@ -36,23 +36,22 @@ func GitCloneActivity(ctx context.Context, req *GitCloneRequest) (*GitCloneRespo
 
 	wd, err := os.Getwd()
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	repoWD := wd + "/repositories"
 	if err := os.Chdir(repoWD); err != nil {
-		return nil,err
+		return nil, err
 	}
 	fmt.Println(repoWD)
-	args := []string{"clone",req.RepositoryURL}
+	args := []string{"clone", req.RepositoryURL}
 	if err := runCommand("git", args...); err != nil {
 		//logger.Info(err)
-		return nil,err
+		return nil, err
 	}
 	return &GitCloneResponse{
 		Status: true,
 	}, nil
 }
-
 
 func GitCloneWorkflow(ctx workflow.Context, req *GitCloneRequest) (*GitCloneResponse, error) {
 	ctx = workflow.WithActivityOptions(ctx, workflow.ActivityOptions{

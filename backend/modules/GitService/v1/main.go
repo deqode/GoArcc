@@ -1,6 +1,8 @@
 package GitService
 
 import (
+	cadenceAdapter "alfred/background/adapters/cadence"
+	background "alfred/background/config"
 	"alfred/config"
 	"alfred/modules/GitService/v1/github"
 	"alfred/modules/GitService/v1/pb"
@@ -16,10 +18,18 @@ type GitService struct {
 	grpcClient        *grpc.ClientConn
 	vcsInternalServer vcsinternalPb.VCSConnectionInternalServiceServer
 	githubService     github.Service
+	cadenceConfig     *background.CadenceAppConfig
+	cadenceAdapter    *cadenceAdapter.CadenceAdapter
 }
 
-//todo : AlWays add migration code for best practices
-func NewGitService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.GitServiceServer {
+// NewGitService todo : AlWays add migration code for best practices
+func NewGitService(
+	db *gorm.DB,
+	config *config.Config,
+	grpcClientConn *grpc.ClientConn,
+	cadenceConfig *background.CadenceAppConfig,
+	cadenceAdapter *cadenceAdapter.CadenceAdapter,
+) pb.GitServiceServer {
 
 	//initial migration of databases: schema migration
 	vcsInternalSrv := vcsinternal.NewVCSConnectionInternalService(db, config, grpcClientConn)
@@ -28,5 +38,7 @@ func NewGitService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.Clie
 		config:            config,
 		grpcClient:        grpcClientConn,
 		vcsInternalServer: vcsInternalSrv,
+		cadenceAdapter:    cadenceAdapter,
+		cadenceConfig:     cadenceConfig,
 	}
 }

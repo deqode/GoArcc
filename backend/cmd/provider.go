@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"alfred/background/cmd"
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
@@ -12,7 +13,7 @@ import (
 	"go.uber.org/fx"
 )
 
-//ProviderOptions: Global Constructor. Sequence in fx does not matter.
+// GetProviderOptions ProviderOptions: Global Constructor. Sequence in fx does not matter.
 func GetProviderOptions() []fx.Option {
 	return []fx.Option{
 		config.ConfigProviderFx,
@@ -23,5 +24,6 @@ func GetProviderOptions() []fx.Option {
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,
 		grpcClient.GrpcClientConnectionFx,
+		cmd.CadenceSetupFx,
 	}
 }

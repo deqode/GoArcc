@@ -23,7 +23,7 @@ type CadenceAppConfig struct {
 func (h *CadenceAppConfig) Setup() {
 	viper.SetConfigName("background_local")
 	viper.AddConfigPath("background") // These two lines will make sure viper pulls the config from app/resources/application.yml
-	viper.AutomaticEnv()                 // This allows viper to read variables from the environment variables if they exists.
+	viper.AutomaticEnv()              // This allows viper to read variables from the environment variables if they exists.
 	viper.SetConfigType("yml")
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Printf("Error reading config file, %s", err)
@@ -42,4 +42,3 @@ func (h *CadenceAppConfig) Setup() {
 
 	logger.Debug("Finished loading Configuration!")
 }
-

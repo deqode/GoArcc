@@ -9,9 +9,8 @@ import (
 // GitCloneGroup TaskListName This is registration process where you register all your workflows
 // and activity function handlers.
 const (
-   GitCloneGroup = "gitCloneGroup"
+	GitCloneGroup = "gitCloneGroup"
 )
-
 
 //add string constant here
 func getAllWorkers() []string {
@@ -27,7 +26,7 @@ func StartWorkers(h *cadenceAdapter.CadenceAdapter) {
 		MetricsScope: h.Scope,
 		Logger:       h.Logger,
 	}
-	for _ , taskName := range taskList {
+	for _, taskName := range taskList {
 		go func(tName string) {
 			cadenceWorker := worker.New(h.ServiceClient, h.Config.Domain, tName, workerOptions)
 			err := cadenceWorker.Start()

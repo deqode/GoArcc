@@ -34,11 +34,7 @@ func GetCleanupConfig(
 	}
 }
 
-/*
-  Cleanup: cleanup is the lifecycle app .
-  responsible for destroying and closing the
-  instance.
-*/
+// Cleanup /*
 func Cleanup(lc fx.Lifecycle, config *CleanupConfig) {
 	lc.Append(fx.Hook{
 		OnStop: func(ctx context.Context) error {

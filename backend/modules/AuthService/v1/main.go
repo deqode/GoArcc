@@ -1,6 +1,8 @@
 package AuthService
 
 import (
+	cadenceAdapter "alfred/background/adapters/cadence"
+	background "alfred/background/config"
 	"alfred/config"
 	"alfred/modules/AuthService/v1/middleware"
 	"alfred/modules/AuthService/v1/pb"
@@ -21,6 +23,8 @@ type AuthService struct {
 	userProfileClient userProfilePb.UserProfileServiceClient
 	authenticator     *Authenticator
 	jwtManager        *middleware.JWTManager
+	cadenceConfig     *background.CadenceAppConfig
+	cadenceAdapter    *cadenceAdapter.CadenceAdapter
 }
 
 const (
@@ -28,8 +32,14 @@ const (
 	tokenDuration = 15 * time.Minute
 )
 
-//Service Implementation
-func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserLoginServiceServer {
+// NewAuthService Service Implementation
+func NewAuthService(
+	db *gorm.DB,
+	config *config.Config,
+	grpcClientConn *grpc.ClientConn,
+	cadenceConfig *background.CadenceAppConfig,
+	cadenceAdapter *cadenceAdapter.CadenceAdapter,
+) pb.UserLoginServiceServer {
 	jwtManager := middleware.NewJWTManager(secretKey, tokenDuration)
 	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
@@ -40,6 +50,8 @@ func NewAuthService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.Cli
 		userProfileClient: userProfileCli,
 		authenticator:     authenticatorCli,
 		jwtManager:        jwtManager,
+		cadenceAdapter:    cadenceAdapter,
+		cadenceConfig:     cadenceConfig,
 	}
 }
 
