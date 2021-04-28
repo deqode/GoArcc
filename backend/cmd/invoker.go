@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"alfred/background/cmd"
 	"alfred/servers/cleanup"
 	"alfred/servers/graphql"
 	"alfred/servers/grpc"
@@ -14,7 +15,7 @@ import (
    Todo Alarm !!!!!! Do not touch the invocation sequence, either you might go through sleepless nights
 */
 
-//GetInvokersOptions: Please do not change the sequence because it invoker is lifecycle based method .
+// GetInvokersOptions GetInvokersOptions: Please do not change the sequence because it invoker is lifecycle based method .
 // So changing the sequence will be harmful.
 func GetInvokersOptions() fx.Option {
 	return fx.Invoke(
@@ -31,5 +32,7 @@ func GetInvokersOptions() fx.Option {
 		//Add Health check
 		healthcheck.HealthCheckRunner,
 		cleanup.Cleanup,
+		//Start Background
+		cmd.StartBackground,
 	)
 }

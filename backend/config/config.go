@@ -97,10 +97,6 @@ type VCSSConfig struct {
 	ClientSecret string
 }
 
-
-
-
-
 // LoadConfig config file from given path
 func LoadConfig(filename string) (*viper.Viper, error) {
 	v := viper.New()

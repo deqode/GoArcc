@@ -1,6 +1,8 @@
 package UserProfileService
 
 import (
+	cadenceAdapter "alfred/background/adapters/cadence"
+	background "alfred/background/config"
 	"alfred/config"
 	"alfred/modules/AccountService/v1"
 	accountPb "alfred/modules/AccountService/v1/pb"
@@ -11,22 +13,32 @@ import (
 )
 
 type UserProfileService struct {
-	db            *gorm.DB
-	config        *config.Config
-	grpcClient    *grpc.ClientConn
-	accountClient accountPb.AccountServiceServer
+	db             *gorm.DB
+	config         *config.Config
+	grpcClient     *grpc.ClientConn
+	accountClient  accountPb.AccountServiceServer
+	cadenceConfig  *background.CadenceAppConfig
+	cadenceAdapter *cadenceAdapter.CadenceAdapter
 }
 
-//todo : AlWays add migration code for best practices
-func NewUserProfileService(db *gorm.DB, config *config.Config, grpcClientConn *grpc.ClientConn) pb.UserProfileServiceServer {
+// NewUserProfileService todo : AlWays add migration code for best practices
+func NewUserProfileService(
+	db *gorm.DB,
+	config *config.Config,
+	grpcClientConn *grpc.ClientConn,
+	cadenceConfig *background.CadenceAppConfig,
+	cadenceAdapter *cadenceAdapter.CadenceAdapter,
+) pb.UserProfileServiceServer {
 
 	//initial migration of databases: schema migration
 	models.InitialMigrationUserProfile(db)
-	accountCli := AccountService.NewAccountService(db, config, grpcClientConn)
+	accountCli := AccountService.NewAccountService(db, config, grpcClientConn, cadenceConfig, cadenceAdapter)
 	return &UserProfileService{
-		db:            db,
-		config:        config,
-		grpcClient:    grpcClientConn,
-		accountClient: accountCli,
+		db:             db,
+		config:         config,
+		grpcClient:     grpcClientConn,
+		accountClient:  accountCli,
+		cadenceAdapter: cadenceAdapter,
+		cadenceConfig:  cadenceConfig,
 	}
 }

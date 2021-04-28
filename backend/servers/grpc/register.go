@@ -1,6 +1,8 @@
 package grpc
 
 import (
+	cadenceAdapter "alfred/background/adapters/cadence"
+	background "alfred/background/config"
 	"alfred/config"
 	acc "alfred/modules/AccountService/v1"
 	accPb "alfred/modules/AccountService/v1/pb"
@@ -18,17 +20,22 @@ import (
 	"gorm.io/gorm"
 )
 
-//Todo : Whenever any new modules will be in alfred : it must be registered in below method
+// RegisterGrpcModules Todo : Whenever any new modules will be in alfred : it must be registered in below method
 /*
   RegisterGrpcModules: will register the modules/services to the server.
 */
-func RegisterGrpcModules(srv *grpc.Server, db *gorm.DB, config *config.Config, grpcClientConnection *grpc.ClientConn) {
+func RegisterGrpcModules(srv *grpc.Server,
+	db *gorm.DB,
+	config *config.Config,
+	grpcClientConnection *grpc.ClientConn,
+	cadenceConfig *background.CadenceAppConfig,
+	cadenceAdapter *cadenceAdapter.CadenceAdapter) {
 	//todo register new grpc modules here
 	//register user modules
-	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection))
-	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService())
-	authPb.RegisterUserLoginServiceServer(srv, v13.NewAuthService(db, config, grpcClientConnection))
-	vcsPb.RegisterVCSConnectionServiceServer(srv, vcs.NewVCSConnectionService(db, config, grpcClientConnection))
-	accPb.RegisterAccountServiceServer(srv, acc.NewAccountService(db, config, grpcClientConnection))
-	gitPb.RegisterGitServiceServer(srv, git.NewGitService(db, config, grpcClientConnection))
+	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService(cadenceConfig, cadenceAdapter))
+	authPb.RegisterUserLoginServiceServer(srv, v13.NewAuthService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	vcsPb.RegisterVCSConnectionServiceServer(srv, vcs.NewVCSConnectionService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	accPb.RegisterAccountServiceServer(srv, acc.NewAccountService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	gitPb.RegisterGitServiceServer(srv, git.NewGitService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 }
