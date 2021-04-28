@@ -27,7 +27,7 @@ func StartWorkers(h *cadenceAdapter.CadenceAdapter) {
 		Logger:       h.Logger,
 	}
 	for _, taskName := range taskList {
-		go func(tName string) {
+		func(tName string) {
 			cadenceWorker := worker.New(h.ServiceClient, h.Config.Domain, tName, workerOptions)
 			err := cadenceWorker.Start()
 			if err != nil {

@@ -26,3 +26,4 @@ go_build_platform
 # temporary remove for production
 ./tests
 
+config_local.yml
