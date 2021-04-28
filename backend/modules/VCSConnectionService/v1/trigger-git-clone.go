@@ -19,7 +19,7 @@ func (s *VCSConnectionService) triggerGitClone(req git.GitCloneRequest) error {
 		TaskList:                     workflows.GitCloneGroup,
 		ExecutionStartToCloseTimeout: time.Hour * 24,
 	}
-	execution, err := s.cadenceAdapter.CadenceClient.StartWorkflow(context.Background(), wo, workflows.GitCloneGroup, &req)
+	execution, err := s.cadenceAdapter.CadenceClient.StartWorkflow(context.Background(), wo, git.GitCloneWorkflow, &req)
 	if err != nil {
 		return status.Error(codes.Internal, err.Error())
 	}
