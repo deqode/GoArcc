@@ -5,7 +5,11 @@ export const UserContext = createContext({
         accessToken: "",
         idToken: "",
         userId: "",
-        provider:""
+        provider: "",
+        state: 0,
+        //  loading=0
+        //  authenticated=1
+        //  unauthenticated=-1
     },
     setUser: (value) => { },
     removeUser: () => { }
