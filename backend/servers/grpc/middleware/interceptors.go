@@ -35,7 +35,7 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		//zap logger implementation
 		grpc_zap.UnaryServerInterceptor(logger),
 
-		grpc_auth.UnaryServerInterceptor(myAuthFunction),
+		grpc_auth.UnaryServerInterceptor(AuthMiddleware),
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.UnaryServerInterceptor(),
@@ -52,7 +52,7 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		grpc_opentracing.StreamServerInterceptor(),
 		//prom implementation
 		grpc_prometheus.StreamServerInterceptor,
-		grpc_auth.StreamServerInterceptor(myAuthFunction),
+		grpc_auth.StreamServerInterceptor(AuthMiddleware),
 		//zap implementation
 		grpc_zap.StreamServerInterceptor(logger),
 		//validate the incoming request - inbound in proto file
