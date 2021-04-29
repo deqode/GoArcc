@@ -7,7 +7,6 @@ export default function Success() {
         <title>Tell Us More!</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <section className="content_section">
         <div className="container">
           <div className="row">

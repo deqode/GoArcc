@@ -1,12 +1,14 @@
 import { useQuery } from '@apollo/client';
 import { AppBar, Button, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core'
 import Link from 'next/link'
+import { useRouter } from 'next/router';
 
-import React from 'react'
-import { GET_TOKEN } from '../GraphQL/cache';
+import React, { useContext } from 'react'
+import { UserContext } from '../Contexts/UserContext';
 
 function Navbar() {
-    const { loading, error, data } = useQuery(GET_TOKEN);
+    const { user ,removeUser} = useContext(UserContext)
+    const router = useRouter();
 
     return (
         <AppBar position="static">
@@ -18,9 +20,9 @@ function Navbar() {
                         </Link>
                     </Grid>
                     <Grid item>
-                        {data.token != null ?
-                            <Button color="inherit">Logout</Button>
-                            : <Button color="inherit">Login</Button>}
+                        {user.idToken != "" ?
+                            <Button onClick={()=>{removeUser();router.push("/")}} color="inherit">Logout</Button>
+                            :""}
                     </Grid>
                 </Grid>
             </Toolbar>
