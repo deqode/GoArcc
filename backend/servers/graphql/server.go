@@ -24,8 +24,8 @@ func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientC
 	srv := &http.Server{
 		Addr: config.Graphql.Host + ":" + config.Graphql.Port,
 		// add handler with middleware
-		Handler:middleware.AddCors(middleware.AddRequestID(
-		middleware.AddLogger(logger.Log, mux))),
+		Handler: middleware.AddCors(middleware.AddRequestID(
+			middleware.AddLogger(logger.Log, mux))),
 	}
 
 	lc.Append(fx.Hook{

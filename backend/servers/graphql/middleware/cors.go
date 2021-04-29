@@ -1,7 +1,5 @@
 package middleware
 
-
-
 import "net/http"
 
 func setupCorsResponse(w *http.ResponseWriter, req *http.Request) {
@@ -16,4 +14,3 @@ func AddCors(h http.Handler) http.Handler {
 		h.ServeHTTP(writer, request)
 	})
 }
-

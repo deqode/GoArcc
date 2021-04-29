@@ -10,4 +10,3 @@ var CadenceSetupFx = fx.Options(
 		CadenceSetup,
 	),
 )
-

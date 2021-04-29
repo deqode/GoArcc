@@ -21,7 +21,6 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 
 		id := GetReqID(ctx)
 
-
 		// Prepare fields to log
 		var scheme string
 		if r.TLS != nil {
