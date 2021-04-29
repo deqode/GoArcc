@@ -4,7 +4,6 @@ import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	"alfred/modules/AuthService/v1/middleware"
 	"alfred/modules/AuthService/v1/pb"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
 	"context"
@@ -22,7 +21,6 @@ type AuthService struct {
 	grpcClient        *grpc.ClientConn
 	userProfileClient userProfilePb.UserProfileServiceClient
 	authenticator     *Authenticator
-	jwtManager        *middleware.JWTManager
 	cadenceConfig     *background.CadenceAppConfig
 	cadenceAdapter    *cadenceAdapter.CadenceAdapter
 }
@@ -40,7 +38,6 @@ func NewAuthService(
 	cadenceConfig *background.CadenceAppConfig,
 	cadenceAdapter *cadenceAdapter.CadenceAdapter,
 ) pb.UserLoginServiceServer {
-	jwtManager := middleware.NewJWTManager(secretKey, tokenDuration)
 	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
 	return &AuthService{
@@ -49,7 +46,6 @@ func NewAuthService(
 		grpcClient:        grpcClientConn,
 		userProfileClient: userProfileCli,
 		authenticator:     authenticatorCli,
-		jwtManager:        jwtManager,
 		cadenceAdapter:    cadenceAdapter,
 		cadenceConfig:     cadenceConfig,
 	}

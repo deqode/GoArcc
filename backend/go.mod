@@ -5,7 +5,6 @@ go 1.16
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
 	github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02 // indirect
-	github.com/auth0/go-jwt-middleware v1.0.0
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
@@ -16,6 +15,7 @@ require (
 	github.com/gogo/status v1.1.0 // indirect
 	github.com/golang/protobuf v1.5.2
 	github.com/google/go-github/v34 v34.0.0
+	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/graphql-go/graphql v0.7.9
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
@@ -30,13 +30,13 @@ require (
 	github.com/pquerna/cachecontrol v0.1.0 // indirect
 	github.com/prometheus/client_golang v1.3.0
 	github.com/samuel/go-thrift v0.0.0-20191111193933-5165175b40af // indirect
+	github.com/smartystreets/assertions v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/uber-go/tally v3.3.17+incompatible
 	github.com/uber/jaeger-client-go v2.27.0+incompatible
 	github.com/uber/jaeger-lib v2.4.1+incompatible
 	github.com/uber/tchannel-go v1.16.0 // indirect
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
-	go.opencensus.io v0.22.6
 	go.uber.org/cadence v0.17.0
 	go.uber.org/fx v1.13.1
 	go.uber.org/net/metrics v1.3.0 // indirect
