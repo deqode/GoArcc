@@ -11,6 +11,9 @@ func setupCorsResponse(w *http.ResponseWriter, req *http.Request) {
 func AddCors(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		setupCorsResponse(&writer, request)
+		if request.Method == "OPTIONS"{
+			writer.WriteHeader(http.StatusOK)
+		}
 		h.ServeHTTP(writer, request)
 	})
 }

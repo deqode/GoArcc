@@ -58,7 +58,6 @@ func AddLogger(logger *zap.Logger, h http.Handler) http.Handler {
 		)
 
 		t1 := time.Now()
-
 		h.ServeHTTP(w, r)
 
 		// Log HTTP response

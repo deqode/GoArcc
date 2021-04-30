@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/justinas/alice"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
@@ -66,7 +67,9 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 			break
 		}
 	}
-	authRequired = false
+
+	header := grpc.Header(&md)
+	fmt.Println(header)
 	if authRequired {
 		token := md.Get("authorization")
 		if len(token) < 1 {
