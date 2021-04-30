@@ -45,7 +45,11 @@ export default function TellUsMore() {
   useEffect(() => {
     (async () => {
       if (user.userId != "") {
-        let res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`)
+        let res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`, {
+          headers: new Headers({
+            'Authorization': `Bearer ${user.idToken}`,
+          })
+        })
         let accounts = await res.json()
         setaccoutID(accounts.accounts[0].id)
         refetchRepos()
@@ -73,8 +77,8 @@ export default function TellUsMore() {
   const selectRepo = (e) => {
     if (e.target.value == "choose") {
       setbranches([])
-    }else 
-    setcurrenRepoName(e.target.value)
+    } else
+      setcurrenRepoName(e.target.value)
 
   }
 
@@ -84,7 +88,7 @@ export default function TellUsMore() {
     if (user.state == -1)
       router.push("/")
   }, [user])
-  if(user.state!=1)return (<div><Loading/></div>)
+  if (user.state != 1) return (<div><Loading /></div>)
   return (
     <div>
       <Head>
