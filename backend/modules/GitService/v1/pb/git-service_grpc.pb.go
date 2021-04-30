@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // GitServiceClient is the client API for GitService service.
@@ -75,8 +76,8 @@ type UnsafeGitServiceServer interface {
 	mustEmbedUnimplementedGitServiceServer()
 }
 
-func RegisterGitServiceServer(s *grpc.Server, srv GitServiceServer) {
-	s.RegisterService(&_GitService_serviceDesc, srv)
+func RegisterGitServiceServer(s grpc.ServiceRegistrar, srv GitServiceServer) {
+	s.RegisterService(&GitService_ServiceDesc, srv)
 }
 
 func _GitService_ListRepository_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -89,7 +90,7 @@ func _GitService_ListRepository_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.git.v1.GitService/ListRepository",
+		FullMethod: "/alfred.git.v1.GitService/listRepository",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GitServiceServer).ListRepository(ctx, req.(*ListRepositoryRequest))
@@ -115,7 +116,10 @@ func _GitService_GetRepository_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-var _GitService_serviceDesc = grpc.ServiceDesc{
+// GitService_ServiceDesc is the grpc.ServiceDesc for GitService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var GitService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.git.v1.GitService",
 	HandlerType: (*GitServiceServer)(nil),
 	Methods: []grpc.MethodDesc{

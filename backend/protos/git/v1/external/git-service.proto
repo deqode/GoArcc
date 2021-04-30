@@ -9,7 +9,7 @@ import "include/graphql.proto";
 import "types/enums.proto";
 
 service GitService {
-    //listReposistory list all reposistory of user's account
+    //listRepository list all reposistory of user's account
     rpc listReposistory(ListReposistoryRequest) returns (ListReposistoryResponse){
         option (google.api.http) = {
             get: "/v1/vcs-connection/reposistories/{provider}"

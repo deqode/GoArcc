@@ -6,10 +6,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
-	"gopkg.in/square/go-jose.v2"
-	"gopkg.in/square/go-jose.v2/jwt"
 	"strings"
-	"time"
 )
 
 //
@@ -41,24 +38,4 @@ func myAuthFunction(ctx context.Context) (context.Context, error) {
 	}
 
 	return ctx, nil
-}
-
-func VerifyToken(t, iss string, aud []string, ks *jose.JSONWebKeySet) (map[string]interface{}, error) {
-	token, err := jwt.ParseSigned(t)
-	if err != nil {
-		return nil, err
-	}
-
-	claims := jwt.Claims{}
-	cmap := make(map[string]interface{})
-	token.Claims(ks, &claims, &cmap)
-	if err := claims.Validate(jwt.Expected{
-		Issuer:   iss,
-		Time:     time.Now(),
-		Audience: aud,
-	}); err != nil {
-		return nil, err
-	}
-
-	return cmap, nil
 }

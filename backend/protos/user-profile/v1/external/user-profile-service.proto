@@ -15,7 +15,7 @@ service UserProfileService {
             get: "/v1/user-profile/get-user-profile/{id}"
         };
         option (graphql.schema) = {
-            type: query
+            type: QUERY
             name: "user"
         };
     }
