@@ -45,7 +45,6 @@ func GitCloneActivity(ctx context.Context, req *GitCloneRequest) (*GitCloneRespo
 	fmt.Println(repoWD)
 	args := []string{"clone", req.RepositoryURL}
 	if err := runCommand("git", args...); err != nil {
-		//logger.Info(err)
 		return nil, err
 	}
 	return &GitCloneResponse{

@@ -16,7 +16,7 @@ import (
 	"net/http"
 )
 
-//InitGrpcBeforeServing: give the instance of server and listener.
+// InitGrpcBeforeServing InitGrpcBeforeServing: give the instance of server and listener.
 func InitGrpcBeforeServing(config *config.Config, tracer opentracing.Tracer) (*grpc.Server, net.Listener) {
 	listen, err := net.Listen("tcp", config.Grpc.Host+":"+config.Grpc.Port)
 	if err != nil {

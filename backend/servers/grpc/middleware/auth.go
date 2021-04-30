@@ -37,6 +37,8 @@ type Config struct {
 	Audience []string
 }
 
+
+// NewConfig todo : keep this config into config-local
 func NewConfig() (Config, error) {
 	newConfig := Config{
 		Issuer:   "https://alfred-sh.us.auth0.com/",
@@ -64,7 +66,6 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 			break
 		}
 	}
-
 	if authRequired {
 		token := md.Get("authorization")
 		if len(token) < 1 {
