@@ -6,8 +6,12 @@ import (
 	vcsinternalPb "alfred/modules/VCSConnectionService/v1/internals/pb"
 	"alfred/protos/types"
 	"context"
+	"github.com/hashicorp/go-uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"log"
+	"sync"
+	"time"
 )
 
 func (s *GitService) ListRepository(ctx context.Context, in *pb.ListRepositoryRequest) (*pb.ListRepositoryResponse, error) {
@@ -34,6 +38,7 @@ func (s *GitService) ListRepository(ctx context.Context, in *pb.ListRepositoryRe
 	}
 	return nil, nil
 }
+
 func (s *GitService) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest) (*pb.Repository, error) {
 	//in.Provider = types.GitProviders_GITHUB
 	//in.RepoName = "chatbox"
@@ -56,4 +61,24 @@ func (s *GitService) GetRepository(ctx context.Context, in *pb.GetRepositoryRequ
 		return client.GetRepository(ctx, in)
 	}
 	return nil, nil
+}
+
+
+func (s *GitService) CloneRepository(req *pb.CloneRepositoryRequest, server pb.GitService_CloneRepositoryServer) error {
+	//use wait group to allow process to be concurrent
+	var wg sync.WaitGroup
+	for i := 0 ; i < 10 ; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+            time.Sleep(time.Second*10)
+			id, _:= uuid.GenerateUUID()
+			response := pb.CloneRepositoryResponse{Id: "213123123" , Logs: id}
+			if err := server.Send(&response); err != nil {
+				log.Println("unable to find logs")
+			}
+		}()
+	}
+	wg.Wait()
+	return nil
 }

@@ -29,9 +29,29 @@ service GitService {
             name: "repository"
         };
     }
+
+    rpc CloneRepository(CloneRepositoryRequest) returns (stream CloneRepositoryResponse){
+        option (google.api.http) = {
+            post: "/v1/vcs-connection/cloneRepository"
+        };
+        option (graphql.schema) = {
+            type: MUTATION
+            name: "cloneRepository"
+        };
+    }
+}
+
+message CloneRepositoryRequest {
+    Repository repo = 1;
+}
+
+message  CloneRepositoryResponse {
+    string id = 1;
+    string logs = 2;
 }
 
 
+//todo: rename git url to generic name
 message Repository{
     int64 id = 1;
     string node_id = 2;

@@ -21,6 +21,7 @@ type GitServiceClient interface {
 	//listRepository list all repository of user's account
 	ListRepository(ctx context.Context, in *ListRepositoryRequest, opts ...grpc.CallOption) (*ListRepositoryResponse, error)
 	GetRepository(ctx context.Context, in *GetRepositoryRequest, opts ...grpc.CallOption) (*Repository, error)
+	CloneRepository(ctx context.Context, in *CloneRepositoryRequest, opts ...grpc.CallOption) (GitService_CloneRepositoryClient, error)
 }
 
 type gitServiceClient struct {
@@ -49,6 +50,38 @@ func (c *gitServiceClient) GetRepository(ctx context.Context, in *GetRepositoryR
 	return out, nil
 }
 
+func (c *gitServiceClient) CloneRepository(ctx context.Context, in *CloneRepositoryRequest, opts ...grpc.CallOption) (GitService_CloneRepositoryClient, error) {
+	stream, err := c.cc.NewStream(ctx, &GitService_ServiceDesc.Streams[0], "/alfred.git.v1.GitService/CloneRepository", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &gitServiceCloneRepositoryClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type GitService_CloneRepositoryClient interface {
+	Recv() (*CloneRepositoryResponse, error)
+	grpc.ClientStream
+}
+
+type gitServiceCloneRepositoryClient struct {
+	grpc.ClientStream
+}
+
+func (x *gitServiceCloneRepositoryClient) Recv() (*CloneRepositoryResponse, error) {
+	m := new(CloneRepositoryResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // GitServiceServer is the server API for GitService service.
 // All implementations should embed UnimplementedGitServiceServer
 // for forward compatibility
@@ -56,6 +89,7 @@ type GitServiceServer interface {
 	//listRepository list all repository of user's account
 	ListRepository(context.Context, *ListRepositoryRequest) (*ListRepositoryResponse, error)
 	GetRepository(context.Context, *GetRepositoryRequest) (*Repository, error)
+	CloneRepository(*CloneRepositoryRequest, GitService_CloneRepositoryServer) error
 }
 
 // UnimplementedGitServiceServer should be embedded to have forward compatible implementations.
@@ -67,6 +101,9 @@ func (UnimplementedGitServiceServer) ListRepository(context.Context, *ListReposi
 }
 func (UnimplementedGitServiceServer) GetRepository(context.Context, *GetRepositoryRequest) (*Repository, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRepository not implemented")
+}
+func (UnimplementedGitServiceServer) CloneRepository(*CloneRepositoryRequest, GitService_CloneRepositoryServer) error {
+	return status.Errorf(codes.Unimplemented, "method CloneRepository not implemented")
 }
 
 // UnsafeGitServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -116,6 +153,27 @@ func _GitService_GetRepository_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GitService_CloneRepository_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(CloneRepositoryRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(GitServiceServer).CloneRepository(m, &gitServiceCloneRepositoryServer{stream})
+}
+
+type GitService_CloneRepositoryServer interface {
+	Send(*CloneRepositoryResponse) error
+	grpc.ServerStream
+}
+
+type gitServiceCloneRepositoryServer struct {
+	grpc.ServerStream
+}
+
+func (x *gitServiceCloneRepositoryServer) Send(m *CloneRepositoryResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // GitService_ServiceDesc is the grpc.ServiceDesc for GitService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +190,12 @@ var GitService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GitService_GetRepository_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "CloneRepository",
+			Handler:       _GitService_CloneRepository_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "git-service.proto",
 }
