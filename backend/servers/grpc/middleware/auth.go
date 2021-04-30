@@ -66,6 +66,7 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 			break
 		}
 	}
+	authRequired = false
 	if authRequired {
 		token := md.Get("authorization")
 		if len(token) < 1 {
