@@ -10,8 +10,11 @@ function callback() {
     const authenticate = async () => {
         let res = await fetch(`${SERVER}/authentication/callback?code=${query.code}&state=${query.state}`)
         let data = await res.json()
-        if (data.idToken)
-            setUser(data)
+        if (data.idToken) {
+            let user = data
+            user.state = 1
+            setUser(user)
+        }
         router.push("/")
     }
     authenticate()

@@ -15,11 +15,13 @@ require (
 	github.com/gogo/status v1.1.0 // indirect
 	github.com/golang/protobuf v1.5.2
 	github.com/google/go-github/v34 v34.0.0
+	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/graphql-go/graphql v0.7.9
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.4.0
 	github.com/hashicorp/go-uuid v1.0.2
+	github.com/justinas/alice v1.2.0
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/opentracing/opentracing-go v1.2.0
@@ -28,6 +30,7 @@ require (
 	github.com/pquerna/cachecontrol v0.1.0 // indirect
 	github.com/prometheus/client_golang v1.3.0
 	github.com/samuel/go-thrift v0.0.0-20191111193933-5165175b40af // indirect
+	github.com/smartystreets/assertions v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20201229170055-e5319fda7802 // indirect
 	github.com/uber-go/tally v3.3.17+incompatible

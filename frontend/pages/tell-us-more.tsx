@@ -1,6 +1,8 @@
 import { useQuery } from '@apollo/client';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
+import Loading from '../components/Loading';
 import { UserContext } from '../Contexts/UserContext';
 import { GET_BRANCHES, GET_REPOSITORIES } from '../GraphQL/Query';
 import { SERVER } from '../utils/constants';
@@ -19,7 +21,7 @@ export default function TellUsMore() {
     variables: {
       userid: user.userId,
       accountid: accoutID,
-      provider:user.provider
+      provider: user.provider
     }
   });
   const reposLoading = repoQuery.loading
@@ -31,7 +33,7 @@ export default function TellUsMore() {
       ownerName: ownerName,
       repoName: currenRepoName,
       accountid: accoutID,
-      provider:user.provider
+      provider: user.provider
     }
   })
 
@@ -57,7 +59,7 @@ export default function TellUsMore() {
   }, [repoData])
 
   useEffect(() => {
-   refetchBranches()
+    refetchBranches()
   }, [currenRepoName])
 
   console.log(branches, currenRepoName)
@@ -66,10 +68,23 @@ export default function TellUsMore() {
     if (!branchLoading && branchError == undefined) {
       setbranches(branchData.repository.branches)
     }
-  }, [branchLoading, branchError,branchData])
+  }, [branchLoading, branchError, branchData])
 
-  const selectRepo = (e) => setcurrenRepoName(e.target.value)
+  const selectRepo = (e) => {
+    if (e.target.value == "choose") {
+      setbranches([])
+    }else 
+    setcurrenRepoName(e.target.value)
 
+  }
+
+
+  const router = useRouter();
+  useEffect(() => {
+    if (user.state == -1)
+      router.push("/")
+  }, [user])
+  if(user.state!=1)return (<div><Loading/></div>)
   return (
     <div>
       <Head>
@@ -89,6 +104,7 @@ export default function TellUsMore() {
                 <div className="form-group row select custom_input">
                   <label className="col-md-4" htmlFor="inlineFormCustomSelectPref">Your Repo's Name</label>
                   <select disabled={!(repos.length > 0)} onChange={selectRepo} className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
+                    <option value="choose">choose</option>
                     {repos.map(r => <option value={r.name}>{r.name}</option>)}
                   </select>
                 </div>

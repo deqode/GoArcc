@@ -9,18 +9,29 @@ import Navbar from '../components/Navbar';
 import { UserContext } from '../Contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { getStorage, removeStorage, setStorage } from '../utils/localStorage';
+import { useRouter } from 'next/router';
+import Login from '.';
+import Success from './success';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setState] = useState({
     accessToken: "",
     idToken: "",
     userId: "",
-    provider:""
+    provider: "",
+    state:0,
   });
 
   useEffect(() => {
     if (getStorage("token"))
       setState(getStorage("token"))
+      else setState({
+        accessToken: "",
+        idToken: "",
+        userId: "",
+        provider: "",
+        state:-1,
+      })
   }, [])
 
   const setUser = (value) => {
@@ -34,13 +45,20 @@ function MyApp({ Component, pageProps }: AppProps) {
       accessToken: "",
       idToken: "",
       userId: "",
-      provider:""
+      provider: "",
+      state:-1,
     })
   }
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (user.idToken == "")
+  //     router.push("/")
+  // }, [])
+
 
   return (
     <ApolloProvider client={client}>
-      <UserContext.Provider value={{ user, setUser,removeUser }}>
+      <UserContext.Provider value={{ user, setUser, removeUser }}>
         <Navbar />
         <Component {...pageProps} />
       </UserContext.Provider>
@@ -49,3 +67,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default MyApp
+
