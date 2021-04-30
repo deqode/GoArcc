@@ -63,17 +63,16 @@ func (s *GitService) GetRepository(ctx context.Context, in *pb.GetRepositoryRequ
 	return nil, nil
 }
 
-
 func (s *GitService) CloneRepository(req *pb.CloneRepositoryRequest, server pb.GitService_CloneRepositoryServer) error {
 	//use wait group to allow process to be concurrent
 	var wg sync.WaitGroup
-	for i := 0 ; i < 10 ; i++ {
+	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-            time.Sleep(time.Second*10)
-			id, _:= uuid.GenerateUUID()
-			response := pb.CloneRepositoryResponse{Id: "213123123" , Logs: id}
+			time.Sleep(time.Second * 10)
+			id, _ := uuid.GenerateUUID()
+			response := pb.CloneRepositoryResponse{Id: "213123123", Logs: id}
 			if err := server.Send(&response); err != nil {
 				log.Println("unable to find logs")
 			}

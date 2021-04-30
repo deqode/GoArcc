@@ -11,7 +11,6 @@ type Service struct {
 	githubClient *github.Client
 }
 
-
 func NewGithubService(ctx context.Context, accessToken string) pb.GitServiceServer {
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: accessToken},
@@ -78,8 +77,6 @@ func (s *Service) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest
 	}
 	return Repository, nil
 }
-
-
 
 func (s *Service) CloneRepository(request *pb.CloneRepositoryRequest, server pb.GitService_CloneRepositoryServer) error {
 	panic("implement me")

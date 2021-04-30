@@ -3,7 +3,6 @@ package middleware
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/justinas/alice"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
@@ -13,23 +12,21 @@ import (
 	"gopkg.in/square/go-jose.v2"
 	"gopkg.in/square/go-jose.v2/jwt"
 	"net/http"
-	"time"
-
 	"strings"
+	"time"
 )
 
 const (
-	id = "id"
-	email = "email"
-	userKey key = iota
+	id                       = "id"
+	email                    = "email"
+	userKey        key       = iota
 	claimsKeyValue claimsKey = 0
 )
 
 type (
 	claimsKey int
-	key int
+	key       int
 )
-
 
 type Config struct {
 	Issuer   string
@@ -37,7 +34,6 @@ type Config struct {
 	Domain   string
 	Audience []string
 }
-
 
 // NewConfig todo : keep this config into config-local
 func NewConfig() (Config, error) {
@@ -68,8 +64,6 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 		}
 	}
 
-	header := grpc.Header(&md)
-	fmt.Println(header)
 	if authRequired {
 		token := md.Get("authorization")
 		if len(token) < 1 {
@@ -94,7 +88,6 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 	}
 	return ctx, nil
 }
-
 
 type DiscoveryResponse struct {
 	fx.Out
@@ -227,4 +220,3 @@ func FromContext(ctx context.Context) UserInfo {
 
 	return UserInfo{}
 }
-

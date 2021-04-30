@@ -22,7 +22,6 @@ type GitService struct {
 	cadenceAdapter    *cadenceAdapter.CadenceAdapter
 }
 
-
 // NewGitService todo : AlWays add migration code for best practices
 func NewGitService(
 	db *gorm.DB,
