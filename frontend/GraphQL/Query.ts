@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const  GET_REPOSITORIES=gql`
+export const GET_REPOSITORIES = gql`
 query repositories(
     $userid:String!
     $accountid:String!
@@ -15,9 +15,9 @@ query repositories(
     }}
   }
 `
+// todo : gql file
 
-
-export const GET_BRANCHES=gql`
+export const GET_BRANCHES = gql`
 query repository(
     $ownerName:String!
     $repoName:String!
@@ -33,3 +33,16 @@ query repository(
       branches
     }
   }`
+
+export const VCS_CONNECTIONS = gql`
+query VCSConnections(
+  $accountid:String!
+){
+  VCSConnections(
+    account_id:$accountid
+    ){
+    vcs_connection{
+            user_name
+    }
+  }
+}`
