@@ -78,6 +78,10 @@ func (s *Service) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest
 	return Repository, nil
 }
 
-func (s *Service) CloneRepository(request *pb.CloneRepositoryRequest, server pb.GitService_CloneRepositoryServer) error {
+func (s *Service) CloneRepository(ctx context.Context, in *pb.CloneRepositoryRequest) (*pb.CloneRepositoryResponse, error) {
+	panic("implement me")
+}
+
+func (s *Service) GetCloningStatus(ctx context.Context, in *pb.GetCloningStatusRequest) (*pb.GetCloningStatusResponse, error) {
 	panic("implement me")
 }

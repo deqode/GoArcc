@@ -30,7 +30,11 @@ func NewVCSConnectionInternalService(db *gorm.DB, config *config.Config, grpcCli
 
 func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.VCSConnection, error) {
 	record := models.VCSConnection{}
-	result := s.db.Where("provider = ?", in.Provider).Find(&record)
+	chain := s.db.Where("provider = ?", in.Provider)
+	if in.AccountId != "" {
+		chain = chain.Where("account_id = ?", in.AccountId)
+	}
+	result := chain.Find(&record)
 	if result.Error != nil {
 		return nil, status.Error(codes.Internal, result.Error.Error())
 	}
@@ -47,7 +51,7 @@ func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetV
 		AccessTokenExpiry:  nil,
 		RefreshTokenExpiry: nil,
 		Revoked:            false,
-		AccountId:          "",
+		AccountId:          in.AccountId,
 	}
 	return VCS, nil
 }
@@ -74,6 +78,8 @@ func (s *VCSConnectionService) CreateVCSConnection(ctx context.Context, in *pb.C
 		RefreshTokenExpiry: &rTEP,
 		Revoked:            false,
 		AccountId:          in.VcsConnection.AccountId,
+		UserName:           in.VcsConnection.UserName,
+		Label:              in.VcsConnection.Label,
 	}
 
 	t := s.db.Create(VCSModel)

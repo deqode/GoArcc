@@ -14,18 +14,22 @@ import (
 )
 
 var (
-	gql__type_Repository               *graphql.Object      // message Repository in git-service.proto
-	gql__type_ListRepositoryResponse   *graphql.Object      // message ListRepositoryResponse in git-service.proto
-	gql__type_ListRepositoryRequest    *graphql.Object      // message ListRepositoryRequest in git-service.proto
-	gql__type_GetRepositoryRequest     *graphql.Object      // message GetRepositoryRequest in git-service.proto
-	gql__type_CloneRepositoryResponse  *graphql.Object      // message CloneRepositoryResponse in git-service.proto
-	gql__type_CloneRepositoryRequest   *graphql.Object      // message CloneRepositoryRequest in git-service.proto
-	gql__input_Repository              *graphql.InputObject // message Repository in git-service.proto
-	gql__input_ListRepositoryResponse  *graphql.InputObject // message ListRepositoryResponse in git-service.proto
-	gql__input_ListRepositoryRequest   *graphql.InputObject // message ListRepositoryRequest in git-service.proto
-	gql__input_GetRepositoryRequest    *graphql.InputObject // message GetRepositoryRequest in git-service.proto
-	gql__input_CloneRepositoryResponse *graphql.InputObject // message CloneRepositoryResponse in git-service.proto
-	gql__input_CloneRepositoryRequest  *graphql.InputObject // message CloneRepositoryRequest in git-service.proto
+	gql__type_Repository                *graphql.Object      // message Repository in git-service.proto
+	gql__type_ListRepositoryResponse    *graphql.Object      // message ListRepositoryResponse in git-service.proto
+	gql__type_ListRepositoryRequest     *graphql.Object      // message ListRepositoryRequest in git-service.proto
+	gql__type_GetRepositoryRequest      *graphql.Object      // message GetRepositoryRequest in git-service.proto
+	gql__type_GetCloningStatusResponse  *graphql.Object      // message GetCloningStatusResponse in git-service.proto
+	gql__type_GetCloningStatusRequest   *graphql.Object      // message GetCloningStatusRequest in git-service.proto
+	gql__type_CloneRepositoryResponse   *graphql.Object      // message CloneRepositoryResponse in git-service.proto
+	gql__type_CloneRepositoryRequest    *graphql.Object      // message CloneRepositoryRequest in git-service.proto
+	gql__input_Repository               *graphql.InputObject // message Repository in git-service.proto
+	gql__input_ListRepositoryResponse   *graphql.InputObject // message ListRepositoryResponse in git-service.proto
+	gql__input_ListRepositoryRequest    *graphql.InputObject // message ListRepositoryRequest in git-service.proto
+	gql__input_GetRepositoryRequest     *graphql.InputObject // message GetRepositoryRequest in git-service.proto
+	gql__input_GetCloningStatusResponse *graphql.InputObject // message GetCloningStatusResponse in git-service.proto
+	gql__input_GetCloningStatusRequest  *graphql.InputObject // message GetCloningStatusRequest in git-service.proto
+	gql__input_CloneRepositoryResponse  *graphql.InputObject // message CloneRepositoryResponse in git-service.proto
+	gql__input_CloneRepositoryRequest   *graphql.InputObject // message CloneRepositoryRequest in git-service.proto
 )
 
 func Gql__type_Repository() *graphql.Object {
@@ -142,15 +146,46 @@ func Gql__type_GetRepositoryRequest() *graphql.Object {
 	return gql__type_GetRepositoryRequest
 }
 
+func Gql__type_GetCloningStatusResponse() *graphql.Object {
+	if gql__type_GetCloningStatusResponse == nil {
+		gql__type_GetCloningStatusResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_GetCloningStatusResponse",
+			Fields: graphql.Fields{
+				"status": &graphql.Field{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__type_GetCloningStatusResponse
+}
+
+func Gql__type_GetCloningStatusRequest() *graphql.Object {
+	if gql__type_GetCloningStatusRequest == nil {
+		gql__type_GetCloningStatusRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_GetCloningStatusRequest",
+			Fields: graphql.Fields{
+				"workflow_id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"run_id": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_GetCloningStatusRequest
+}
+
 func Gql__type_CloneRepositoryResponse() *graphql.Object {
 	if gql__type_CloneRepositoryResponse == nil {
 		gql__type_CloneRepositoryResponse = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Pb_Type_CloneRepositoryResponse",
 			Fields: graphql.Fields{
-				"id": &graphql.Field{
+				"workflow_id": &graphql.Field{
 					Type: graphql.String,
 				},
-				"logs": &graphql.Field{
+				"run_id": &graphql.Field{
 					Type: graphql.String,
 				},
 			},
@@ -164,8 +199,20 @@ func Gql__type_CloneRepositoryRequest() *graphql.Object {
 		gql__type_CloneRepositoryRequest = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Pb_Type_CloneRepositoryRequest",
 			Fields: graphql.Fields{
-				"repo": &graphql.Field{
-					Type: Gql__type_Repository(),
+				"provider": &graphql.Field{
+					Type: types.Gql__enum_GitProviders(),
+				},
+				"account_id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"repository_url": &graphql.Field{
+					Type: graphql.String,
+				},
+				"branch_name": &graphql.Field{
+					Type: graphql.String,
+				},
+				"user_name": &graphql.Field{
+					Type: graphql.String,
 				},
 			},
 		})
@@ -286,15 +333,46 @@ func Gql__input_GetRepositoryRequest() *graphql.InputObject {
 	return gql__input_GetRepositoryRequest
 }
 
+func Gql__input_GetCloningStatusResponse() *graphql.InputObject {
+	if gql__input_GetCloningStatusResponse == nil {
+		gql__input_GetCloningStatusResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_GetCloningStatusResponse",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"status": &graphql.InputObjectFieldConfig{
+					Type: graphql.Boolean,
+				},
+			},
+		})
+	}
+	return gql__input_GetCloningStatusResponse
+}
+
+func Gql__input_GetCloningStatusRequest() *graphql.InputObject {
+	if gql__input_GetCloningStatusRequest == nil {
+		gql__input_GetCloningStatusRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_GetCloningStatusRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"workflow_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"run_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_GetCloningStatusRequest
+}
+
 func Gql__input_CloneRepositoryResponse() *graphql.InputObject {
 	if gql__input_CloneRepositoryResponse == nil {
 		gql__input_CloneRepositoryResponse = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Pb_Input_CloneRepositoryResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
+				"workflow_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
-				"logs": &graphql.InputObjectFieldConfig{
+				"run_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 			},
@@ -308,8 +386,20 @@ func Gql__input_CloneRepositoryRequest() *graphql.InputObject {
 		gql__input_CloneRepositoryRequest = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Pb_Input_CloneRepositoryRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"repo": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_Repository(),
+				"provider": &graphql.InputObjectFieldConfig{
+					Type: types.Gql__enum_GitProviders(),
+				},
+				"account_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"repository_url": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"branch_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"user_name": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 			},
 		})
@@ -417,6 +507,29 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 				return resp, nil
 			},
 		},
+		"getCloningStatus": &graphql.Field{
+			Type: Gql__type_GetCloningStatusResponse(),
+			Args: graphql.FieldConfigArgument{
+				"workflow_id": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"run_id": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+			},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req GetCloningStatusRequest
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for getCloningStatus")
+				}
+				client := NewGitServiceClient(conn)
+				resp, err := client.GetCloningStatus(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC GetCloningStatus")
+				}
+				return resp, nil
+			},
+		},
 	}
 }
 
@@ -426,8 +539,20 @@ func (x *graphql__resolver_GitService) GetMutations(conn *grpc.ClientConn) graph
 		"cloneRepository": &graphql.Field{
 			Type: Gql__type_CloneRepositoryResponse(),
 			Args: graphql.FieldConfigArgument{
-				"repo": &graphql.ArgumentConfig{
-					Type: Gql__input_Repository(),
+				"provider": &graphql.ArgumentConfig{
+					Type: types.Gql__enum_GitProviders(),
+				},
+				"account_id": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"repository_url": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"branch_name": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"user_name": &graphql.ArgumentConfig{
+					Type: graphql.String,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

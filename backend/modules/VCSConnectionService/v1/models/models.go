@@ -18,6 +18,8 @@ type VCSConnection struct {
 	RefreshTokenExpiry *time.Time
 	Revoked            bool
 	AccountId          string
+	UserName           string
+	Label              string
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
 	DeletedAt          gorm.DeletedAt `gorm:"index"`

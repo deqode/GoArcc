@@ -11,7 +11,6 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // GitServiceClient is the client API for GitService service.
@@ -21,7 +20,8 @@ type GitServiceClient interface {
 	//listRepository list all repository of user's account
 	ListRepository(ctx context.Context, in *ListRepositoryRequest, opts ...grpc.CallOption) (*ListRepositoryResponse, error)
 	GetRepository(ctx context.Context, in *GetRepositoryRequest, opts ...grpc.CallOption) (*Repository, error)
-	CloneRepository(ctx context.Context, in *CloneRepositoryRequest, opts ...grpc.CallOption) (GitService_CloneRepositoryClient, error)
+	CloneRepository(ctx context.Context, in *CloneRepositoryRequest, opts ...grpc.CallOption) (*CloneRepositoryResponse, error)
+	GetCloningStatus(ctx context.Context, in *GetCloningStatusRequest, opts ...grpc.CallOption) (*GetCloningStatusResponse, error)
 }
 
 type gitServiceClient struct {
@@ -50,36 +50,22 @@ func (c *gitServiceClient) GetRepository(ctx context.Context, in *GetRepositoryR
 	return out, nil
 }
 
-func (c *gitServiceClient) CloneRepository(ctx context.Context, in *CloneRepositoryRequest, opts ...grpc.CallOption) (GitService_CloneRepositoryClient, error) {
-	stream, err := c.cc.NewStream(ctx, &GitService_ServiceDesc.Streams[0], "/alfred.git.v1.GitService/CloneRepository", opts...)
+func (c *gitServiceClient) CloneRepository(ctx context.Context, in *CloneRepositoryRequest, opts ...grpc.CallOption) (*CloneRepositoryResponse, error) {
+	out := new(CloneRepositoryResponse)
+	err := c.cc.Invoke(ctx, "/alfred.git.v1.GitService/CloneRepository", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &gitServiceCloneRepositoryClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
+	return out, nil
 }
 
-type GitService_CloneRepositoryClient interface {
-	Recv() (*CloneRepositoryResponse, error)
-	grpc.ClientStream
-}
-
-type gitServiceCloneRepositoryClient struct {
-	grpc.ClientStream
-}
-
-func (x *gitServiceCloneRepositoryClient) Recv() (*CloneRepositoryResponse, error) {
-	m := new(CloneRepositoryResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
+func (c *gitServiceClient) GetCloningStatus(ctx context.Context, in *GetCloningStatusRequest, opts ...grpc.CallOption) (*GetCloningStatusResponse, error) {
+	out := new(GetCloningStatusResponse)
+	err := c.cc.Invoke(ctx, "/alfred.git.v1.GitService/GetCloningStatus", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	return m, nil
+	return out, nil
 }
 
 // GitServiceServer is the server API for GitService service.
@@ -89,7 +75,8 @@ type GitServiceServer interface {
 	//listRepository list all repository of user's account
 	ListRepository(context.Context, *ListRepositoryRequest) (*ListRepositoryResponse, error)
 	GetRepository(context.Context, *GetRepositoryRequest) (*Repository, error)
-	CloneRepository(*CloneRepositoryRequest, GitService_CloneRepositoryServer) error
+	CloneRepository(context.Context, *CloneRepositoryRequest) (*CloneRepositoryResponse, error)
+	GetCloningStatus(context.Context, *GetCloningStatusRequest) (*GetCloningStatusResponse, error)
 }
 
 // UnimplementedGitServiceServer should be embedded to have forward compatible implementations.
@@ -102,8 +89,11 @@ func (UnimplementedGitServiceServer) ListRepository(context.Context, *ListReposi
 func (UnimplementedGitServiceServer) GetRepository(context.Context, *GetRepositoryRequest) (*Repository, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRepository not implemented")
 }
-func (UnimplementedGitServiceServer) CloneRepository(*CloneRepositoryRequest, GitService_CloneRepositoryServer) error {
-	return status.Errorf(codes.Unimplemented, "method CloneRepository not implemented")
+func (UnimplementedGitServiceServer) CloneRepository(context.Context, *CloneRepositoryRequest) (*CloneRepositoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloneRepository not implemented")
+}
+func (UnimplementedGitServiceServer) GetCloningStatus(context.Context, *GetCloningStatusRequest) (*GetCloningStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCloningStatus not implemented")
 }
 
 // UnsafeGitServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -113,8 +103,8 @@ type UnsafeGitServiceServer interface {
 	mustEmbedUnimplementedGitServiceServer()
 }
 
-func RegisterGitServiceServer(s grpc.ServiceRegistrar, srv GitServiceServer) {
-	s.RegisterService(&GitService_ServiceDesc, srv)
+func RegisterGitServiceServer(s *grpc.Server, srv GitServiceServer) {
+	s.RegisterService(&_GitService_serviceDesc, srv)
 }
 
 func _GitService_ListRepository_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -127,7 +117,7 @@ func _GitService_ListRepository_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.git.v1.GitService/listRepository",
+		FullMethod: "/alfred.git.v1.GitService/ListRepository",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GitServiceServer).ListRepository(ctx, req.(*ListRepositoryRequest))
@@ -153,31 +143,43 @@ func _GitService_GetRepository_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GitService_CloneRepository_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(CloneRepositoryRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _GitService_CloneRepository_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloneRepositoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(GitServiceServer).CloneRepository(m, &gitServiceCloneRepositoryServer{stream})
+	if interceptor == nil {
+		return srv.(GitServiceServer).CloneRepository(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.git.v1.GitService/CloneRepository",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GitServiceServer).CloneRepository(ctx, req.(*CloneRepositoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-type GitService_CloneRepositoryServer interface {
-	Send(*CloneRepositoryResponse) error
-	grpc.ServerStream
+func _GitService_GetCloningStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCloningStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GitServiceServer).GetCloningStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.git.v1.GitService/GetCloningStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GitServiceServer).GetCloningStatus(ctx, req.(*GetCloningStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-type gitServiceCloneRepositoryServer struct {
-	grpc.ServerStream
-}
-
-func (x *gitServiceCloneRepositoryServer) Send(m *CloneRepositoryResponse) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-// GitService_ServiceDesc is the grpc.ServiceDesc for GitService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var GitService_ServiceDesc = grpc.ServiceDesc{
+var _GitService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.git.v1.GitService",
 	HandlerType: (*GitServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -189,13 +191,15 @@ var GitService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetRepository",
 			Handler:    _GitService_GetRepository_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "CloneRepository",
-			Handler:       _GitService_CloneRepository_Handler,
-			ServerStreams: true,
+			MethodName: "CloneRepository",
+			Handler:    _GitService_CloneRepository_Handler,
+		},
+		{
+			MethodName: "GetCloningStatus",
+			Handler:    _GitService_GetCloningStatus_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "git-service.proto",
 }

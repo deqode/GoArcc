@@ -1,6 +1,7 @@
 package git
 
 import (
+	gitPb "alfred/modules/GitService/v1/pb"
 	"context"
 	"fmt"
 	"go.uber.org/cadence/activity"
@@ -52,7 +53,7 @@ func GitCloneActivity(ctx context.Context, req *GitCloneRequest) (*GitCloneRespo
 	}, nil
 }
 
-func GitCloneWorkflow(ctx workflow.Context, req *GitCloneRequest) (*GitCloneResponse, error) {
+func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (*GitCloneResponse, error) {
 	ctx = workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
 		ScheduleToStartTimeout: time.Minute,
 		StartToCloseTimeout:    time.Minute,

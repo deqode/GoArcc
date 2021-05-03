@@ -14,6 +14,7 @@ require (
 	github.com/gogo/googleapis v1.3.2 // indirect
 	github.com/gogo/status v1.1.0 // indirect
 	github.com/golang/protobuf v1.5.2
+	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-github/v34 v34.0.0
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/graphql-go/graphql v0.7.9

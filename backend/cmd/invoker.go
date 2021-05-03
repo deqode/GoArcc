@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"alfred/background/cmd"
 	"alfred/servers/cleanup"
 	"alfred/servers/graphql"
 	"alfred/servers/grpc"
@@ -32,6 +33,6 @@ func GetInvokersOptions() fx.Option {
 		healthcheck.HealthCheckRunner,
 		cleanup.Cleanup,
 		//Start Background
-		//cmd.StartBackground,
+		cmd.StartBackground,
 	)
 }

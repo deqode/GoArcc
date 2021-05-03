@@ -39,6 +39,8 @@ message VCSConnection {
     bool revoked = 9;
     // vcs connection must belong to a account_id
     string account_id = 10;
+    //specific user-name required while fetching the repo
+    string user_name = 11;
 }
 
 message AccountVCSConnection{

@@ -12,7 +12,7 @@ service GitService {
     //listRepository list all repository of user's account
     rpc listRepository(ListRepositoryRequest) returns (ListRepositoryResponse){
         option (google.api.http) = {
-            get: "/v1/vcs-connection/repositories"
+            get: "/v1/git-service/repositories"
         };
         option (graphql.schema) = {
             type: QUERY
@@ -22,7 +22,7 @@ service GitService {
 
     rpc GetRepository(GetRepositoryRequest) returns (Repository){
         option (google.api.http) = {
-            get: "/v1/vcs-connection/repository"
+            get: "/v1/git-service/repository"
         };
         option (graphql.schema) = {
             type: QUERY
@@ -30,24 +30,37 @@ service GitService {
         };
     }
 
-    rpc CloneRepository(CloneRepositoryRequest) returns (stream CloneRepositoryResponse){
+    rpc CloneRepository(CloneRepositoryRequest) returns (CloneRepositoryResponse){
         option (google.api.http) = {
-            post: "/v1/vcs-connection/cloneRepository"
+            post: "/v1/git-service/clone-repository"
         };
         option (graphql.schema) = {
             type: MUTATION
             name: "cloneRepository"
         };
     }
+    rpc GetCloningStatus(GetCloningStatusRequest) returns (GetCloningStatusResponse){
+        option (google.api.http) = {
+            get: "/v1/git-service/get-cloning-status"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "getCloningStatus"
+        };
+    }
 }
 
 message CloneRepositoryRequest {
-    Repository repo = 1;
+    types.GitProviders provider = 1;
+    string account_id = 2;
+    string repository_url = 3;
+    string branch_name = 4;
+    string user_name = 5;
 }
 
 message  CloneRepositoryResponse {
-    string id = 1;
-    string logs = 2;
+    string workflow_id = 1;
+    string run_id = 2;
 }
 
 
@@ -84,4 +97,13 @@ message GetRepositoryRequest{
     string repo_name = 2;
     string account_id = 3;
     string owner_name = 4;
+}
+
+message GetCloningStatusRequest{
+    string workflow_id = 1;
+    string run_id = 2;
+}
+
+message GetCloningStatusResponse{
+    bool status = 1;
 }

@@ -13,7 +13,7 @@ function callback() {
             (async () => {
                 console.log(query)
                 if (query.code) {
-                    let res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}`, {
+                    let res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}&account_id=7cd96426-5f94-1a78-e9b2-b96bf41e1a45`, {
                         headers: new Headers({
                             'Authorization': `Bearer ${user.idToken}`,
                         })
