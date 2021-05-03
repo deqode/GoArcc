@@ -11,6 +11,23 @@ services:
       - "6831:6831/udp"
       - "16686:16686"
 
+
+
+  centrifugo:
+    container_name: centrifugo
+    image: centrifugo/centrifugo:latest
+    volumes:
+      - ./config/centrifugo.yaml:/centrifugo/centrifugo.yaml
+    command: centrifugo --config=centrifugo.yaml
+    ports:
+      - 7070:7070
+      - 9000:9000
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+
   prometheus:
     image: prom/prometheus:latest
     ports:
