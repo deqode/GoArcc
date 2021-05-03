@@ -6,6 +6,7 @@ export const UserContext = createContext({
         idToken: "",
         userId: "",
         provider: "",
+        accounts: [],
         state: 0,
         //  loading=0
         //  authenticated=1

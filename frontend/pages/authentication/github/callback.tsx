@@ -12,8 +12,8 @@ function callback() {
         if (query.code && query.code.length > 0) {
             (async () => {
                 console.log(query)
-                if (query.code) {
-                    let res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}&account_id=7cd96426-5f94-1a78-e9b2-b96bf41e1a45`, {
+                if (query.code && user.userId != "") {
+                    let res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}&account_id=${user.userId}`, {
                         headers: new Headers({
                             'Authorization': `Bearer ${user.idToken}`,
                         })
@@ -21,6 +21,14 @@ function callback() {
                     let data = await res.json()
                     let newUser = user
                     newUser.provider = data.provider
+
+                    res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`, {
+                        headers: new Headers({
+                            'Authorization': `Bearer ${user.idToken}`,
+                        })
+                    })
+                    data = await res.json()
+                    newUser.accounts = data.accounts || []
                     console.log(newUser)
                     setUser(newUser)
                     router.push("/tell-us-more")
@@ -33,7 +41,7 @@ function callback() {
         }
         // else
         // router.push("/")
-    }, [router])
+    }, [router, user])
 
     return (
         <div>
