@@ -26,6 +26,8 @@ type VCSConnectionServiceClient interface {
 	Callback(ctx context.Context, in *CallbackRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
 	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(ctx context.Context, in *ListVCSConnectionRequest, opts ...grpc.CallOption) (*ListVCSConnectionResponse, error)
+	//ListVCSConnection list all connected service of user's account
+	GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
 }
 
 type vCSConnectionServiceClient struct {
@@ -72,6 +74,15 @@ func (c *vCSConnectionServiceClient) ListVCSConnection(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *vCSConnectionServiceClient) GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error) {
+	out := new(AccountVCSConnection)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnectionService/GetVCSConnection", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VCSConnectionServiceServer is the server API for VCSConnectionService service.
 // All implementations should embed UnimplementedVCSConnectionServiceServer
 // for forward compatibility
@@ -84,6 +95,8 @@ type VCSConnectionServiceServer interface {
 	Callback(context.Context, *CallbackRequest) (*AccountVCSConnection, error)
 	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error)
+	//ListVCSConnection list all connected service of user's account
+	GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*AccountVCSConnection, error)
 }
 
 // UnimplementedVCSConnectionServiceServer should be embedded to have forward compatible implementations.
@@ -101,6 +114,9 @@ func (UnimplementedVCSConnectionServiceServer) Callback(context.Context, *Callba
 }
 func (UnimplementedVCSConnectionServiceServer) ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListVCSConnection not implemented")
+}
+func (UnimplementedVCSConnectionServiceServer) GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*AccountVCSConnection, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVCSConnection not implemented")
 }
 
 // UnsafeVCSConnectionServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -186,6 +202,24 @@ func _VCSConnectionService_ListVCSConnection_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _VCSConnectionService_GetVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetVCSConnectionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VCSConnectionServiceServer).GetVCSConnection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnectionService/GetVCSConnection",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VCSConnectionServiceServer).GetVCSConnection(ctx, req.(*GetVCSConnectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _VCSConnectionService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.vcs_connection.v1.VCSConnectionService",
 	HandlerType: (*VCSConnectionServiceServer)(nil),
@@ -205,6 +239,10 @@ var _VCSConnectionService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListVCSConnection",
 			Handler:    _VCSConnectionService_ListVCSConnection_Handler,
+		},
+		{
+			MethodName: "GetVCSConnection",
+			Handler:    _VCSConnectionService_GetVCSConnection_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
