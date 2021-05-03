@@ -17,9 +17,7 @@ export default function Loading() {
 
     return (
         <div className={classes.root}>
-            <center>
                 <CircularProgress />
-            </center>
         </div>
     );
 }
