@@ -13,22 +13,27 @@ function callback() {
             (async () => {
                 console.log(query)
                 if (query.code && user.userId != "") {
-                    let res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}&account_id=${user.userId}`, {
+
+
+                    let res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`, {
                         headers: new Headers({
                             'Authorization': `Bearer ${user.idToken}`,
                         })
                     })
                     let data = await res.json()
                     let newUser = user
-                    newUser.provider = data.provider
 
-                    res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`, {
+                    newUser.accounts = data.accounts || []
+
+                    // todo: gql
+                    res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}&account_id=${newUser.accounts[0].id}`, {
                         headers: new Headers({
                             'Authorization': `Bearer ${user.idToken}`,
                         })
                     })
                     data = await res.json()
-                    newUser.accounts = data.accounts || []
+                    newUser.provider = data.provider
+
                     console.log(newUser)
                     setUser(newUser)
                     router.push("/tell-us-more")

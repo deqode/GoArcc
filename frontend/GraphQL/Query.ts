@@ -37,11 +37,9 @@ query repository(
 export const VCS_CONNECTIONS = gql`
 query VCSConnections(
   $accountid:String!
-  $provider:Types_Enum_GitProviders!
 ){
   VCSConnections(
     account_id:$accountid
-    provider:$provider,
     ){
     vcs_connection{
             user_name
