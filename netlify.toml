@@ -1,0 +1,8 @@
+[build]
+  ignore = "git diff --quiet HEAD^ HEAD backend/"
+  base = "frontend/"
+  command = "npm run build"
+#  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
