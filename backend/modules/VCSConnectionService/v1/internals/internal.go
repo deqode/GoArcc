@@ -52,6 +52,8 @@ func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetV
 		RefreshTokenExpiry: nil,
 		Revoked:            false,
 		AccountId:          in.AccountId,
+		UserName:           record.UserName,
+		Label:              record.Label,
 	}
 	return VCS, nil
 }

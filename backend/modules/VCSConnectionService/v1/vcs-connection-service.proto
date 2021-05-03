@@ -36,6 +36,10 @@ service VCSConnectionService {
         option (google.api.http) = {
             get: "/v1/vcs-connection/list-vcs-connections"
         };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "VCSConnections"
+        };
     }
 }
 
@@ -84,6 +88,7 @@ message AccountVCSConnection{
     types.GitProviders provider = 1;
     string account_id = 2;
     string label = 3;
+    string user_name = 4;
 }
 
 message ListVCSConnectionRequest{
