@@ -31,7 +31,7 @@ type GitCloneResponse struct {
 	Status bool
 }
 
-func GitCloneActivity(ctx context.Context, req *GitCloneRequest) (*GitCloneResponse, error) {
+func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*gitPb.GetCloningStatusResponse, error) {
 	logger := activity.GetLogger(ctx)
 	logger.Info("repository cloning activity started")
 
@@ -44,16 +44,16 @@ func GitCloneActivity(ctx context.Context, req *GitCloneRequest) (*GitCloneRespo
 		return nil, err
 	}
 	fmt.Println(repoWD)
-	args := []string{"clone", req.RepositoryURL}
+	args := []string{"clone", req.RepositoryUrl}
 	if err := runCommand("git", args...); err != nil {
 		return nil, err
 	}
-	return &GitCloneResponse{
+	return &gitPb.GetCloningStatusResponse{
 		Status: true,
 	}, nil
 }
 
-func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (*GitCloneResponse, error) {
+func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (*gitPb.GetCloningStatusResponse, error) {
 	ctx = workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
 		ScheduleToStartTimeout: time.Minute,
 		StartToCloseTimeout:    time.Minute,
@@ -62,7 +62,7 @@ func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (
 
 	logger := workflow.GetLogger(ctx)
 	logger.Info("repository clone workflow started")
-	var activityResult GitCloneResponse
+	var activityResult gitPb.GetCloningStatusResponse
 	err := workflow.ExecuteActivity(ctx, GitCloneActivity, req).Get(ctx, &activityResult)
 	if err != nil {
 		logger.Error("Activity failed.", zap.Error(err))

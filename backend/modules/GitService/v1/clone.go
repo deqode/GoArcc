@@ -19,7 +19,7 @@ func (s *GitService) CloneRepository(ctx context.Context, in *pb.CloneRepository
 		TaskList:                     workflows.GitCloneGroup,
 		ExecutionStartToCloseTimeout: time.Hour * 24,
 	}
-	execution, err := s.cadenceAdapter.CadenceClient.StartWorkflow(context.Background(), wo, git.GitCloneWorkflow, in)
+	execution, err := s.cadenceAdapter.CadenceClient.StartWorkflow(ctx, wo, git.GitCloneWorkflow, in)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
