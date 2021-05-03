@@ -1,133 +1,203 @@
+import React from 'react';
+import { Grid, Paper, Typography,Button,TextField,InputLabel,MenuItem,FormControl,Select} from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
 import Loading from '../components/Loading';
+import VerticalLinearStepper from '../components/steps';
 import { UserContext } from '../Contexts/UserContext';
 import { GET_BRANCHES, GET_REPOSITORIES, VCS_CONNECTIONS } from '../GraphQL/Query';
 
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+      '& .MuiTextField-root': {
+        margin: theme.spacing(1),
+        width: '25ch',
+      }
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }),
+);
+
 export default function TellUsMore() {
+  const classes = useStyles();
+  const { user } = useContext(UserContext)
+  const [ownerName, setownerName] = useState("")
+  const [repos, setrepos] = useState([])
+  const [currenRepoName, setcurrenRepoName] = useState("")
+  const [branches, setbranches] = useState([])
+  const router = useRouter();
 
-    const { user } = useContext(UserContext)
-    const [ownerName, setownerName] = useState("")
-    const [repos, setrepos] = useState([])
-    const [currenRepoName, setcurrenRepoName] = useState("")
-    const [branches, setbranches] = useState([])
-    const router = useRouter();
+  const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS)
+  const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES)
+  const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES)
 
-    const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS)
-    const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES)
-    const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES)
+  useEffect(() => {
+      if (user.idToken != "" && user.accounts.length > 0)
+          vcsrefetch({
+              variables: {
+                  accountid: user.accounts[0].id
+              }
+          })
 
-    useEffect(() => {
-        if (user.idToken != "" && user.accounts.length > 0)
-            vcsrefetch({
-                variables: {
-                    accountid: user.accounts[0].id
-                }
-            })
+  }, [user])
 
-    }, [user])
+  useEffect(() => {
+      if (!vcsData.loading && vcsData.error == undefined && vcsData.data != undefined)
+          setownerName(vcsData.data.VCSConnections.vcs_connection[0].user_name)
 
-    useEffect(() => {
-        if (!vcsData.loading && vcsData.error == undefined && vcsData.data != undefined)
-            setownerName(vcsData.data.VCSConnections.vcs_connection[0].user_name)
+  }, [vcsData])
 
-    }, [vcsData])
-
-    useEffect(() => {
-        if (ownerName != "")
-            reposrefetch({
-                variables: {
-                    userid: user.userId,
-                    accountid: user.accounts[0].id,
-                    provider: user.provider
-                }
-            })
-    }, [ownerName])
-
-
-    useEffect(() => {
-        if (!reposData.loading && reposData.error == undefined && reposData.data != undefined) {
-            setrepos(reposData.data.repositories.repositories)
-            console.log(reposData.data.repositories.repositories, "wow")
-        }
-
-    }, [reposData])
-
-    useEffect(() => {
-        if (currenRepoName != "")
-            branchesRefetch({
-                variables: {
-                    ownerName: ownerName,
-                    repoName: currenRepoName,
-                    accountid: user.accounts[0].id,
-                    provider: user.provider
-                }
-            })
-    }, [currenRepoName])
+  useEffect(() => {
+      if (ownerName != "")
+          reposrefetch({
+              variables: {
+                  userid: user.userId,
+                  accountid: user.accounts[0].id,
+                  provider: user.provider
+              }
+          })
+  }, [ownerName])
 
 
-    useEffect(() => {
-        if (!branchesData.loading && branchesData.error == undefined && branchesData.data != undefined) {
-            setbranches(branchesData.data.repository.branches)
-        }
-    }, [branchesData])
+  useEffect(() => {
+      if (!reposData.loading && reposData.error == undefined && reposData.data != undefined) {
+          setrepos(reposData.data.repositories.repositories)
+          console.log(reposData.data.repositories.repositories, "wow")
+      }
 
-    const selectRepo = (e) => {
-        if (e.target.value == "choose") {
-            setbranches([])
-            setcurrenRepoName("")
+  }, [reposData])
 
-        } else {
-            setcurrenRepoName(e.target.value)
-        }
+  useEffect(() => {
+      if (currenRepoName != "")
+          branchesRefetch({
+              variables: {
+                  ownerName: ownerName,
+                  repoName: currenRepoName,
+                  accountid: user.accounts[0].id,
+                  provider: user.provider
+              }
+          })
+  }, [currenRepoName])
 
-    }
 
-    useEffect(() => {
-        if (user.state == -1)
-            router.push("/")
-    }, [user])
-    if (user.state != 1) return (<div><Loading /></div>)
-    return (
-        <div>
-            <Head>
-                <title>Tell Us More!</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <section className="content_section">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 project-info_form">
-                            <h1 className="page-head">Tell Alfed more about your project.</h1>
-                            <h5>{ownerName}</h5>
-                            <form className="form container">
-                                <div className="form-group row custom_input custom_input">
-                                    <label htmlFor="appname" className="col-md-4">Your App's Name </label>
-                                    <input type="text" className="form-control col-md-8" placeholder="Demo App" />
-                                </div>
-                                <div className="form-group row select custom_input">
-                                    <label className="col-md-4" htmlFor="inlineFormCustomSelectPref">Your Repo's Name</label>
-                                    <select disabled={!(repos.length > 0)} onChange={selectRepo} className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
-                                        <option value="choose">choose</option>
-                                        {repos.map(r => <option value={r.name}>{r.name}</option>)}
-                                    </select>
-                                </div>
-                                <div className="form-group row select custom_input">
-                                    <label className="col-md-4" htmlFor="inlineFormCustomSelectPref">Your Branch</label>
-                                    <select disabled={!(branches.length > 0)} className="custom-select col-md-8" id="inlineFormCustomSelectPref" defaultValue="default">
-                                        {branches.map(r => <option value={r}>{r}</option>)}
+  useEffect(() => {
+      if (!branchesData.loading && branchesData.error == undefined && branchesData.data != undefined) {
+          setbranches(branchesData.data.repository.branches)
+      }
+  }, [branchesData])
 
-                                    </select>
-                                </div>
+  const selectRepo = (e) => {
+      if (e.target.value == "choose") {
+          setbranches([])
+          setcurrenRepoName("")
 
-                            </form>
-                            <div className="text-center mt-5 mb-5"><a href="/success" className="btn fetch-btn w-50">Go Fetch</a></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    );
+      } else {
+          setcurrenRepoName(e.target.value)
+      }
+
+  }
+
+  useEffect(() => {
+      if (user.state == -1)
+          router.push("/")
+  }, [user])
+  if (user.state != 1) return (<div><Loading /></div>)
+  return (
+    <div>
+      <Head>
+        <title>Tell Us More!</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Paper elevation={0} style={{ padding: "100px" }} />
+      <Grid justify="center" alignItems="center" spacing={1} container>
+        <Grid item md={4}>
+          <Typography variant="h1" component="h1" style={{ fontSize: "50px" }}>Tell Alfed more about your project.</Typography>
+        </Grid>
+        <Grid item md={4}>
+        <form className={classes.root} noValidate autoComplete="off">
+        <Grid container spacing={1} alignItems="center">
+        <Grid item>
+        <Typography variant ="h6" align="justify" color="textSecondary">
+        Your App's Name
+        </Typography>
+          </Grid>
+          <Grid item>
+          <TextField id="outlined-basic" label="App Name" variant="outlined" placeholder="Demo App"/>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} alignItems="center">
+        <Grid item>
+        <Typography variant ="h6" align="justify" color="textSecondary">
+        Your Repo's Name
+        </Typography>
+          </Grid>
+          <Grid> 
+          <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">Repo Name</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          onChange={selectRepo}
+          label="Repo Name"
+          disabled={!(repos.length > 0)}
+          autoWidth
+        >
+           <MenuItem value="">
+            <em>Choose</em>
+          </MenuItem>
+          {repos.map(r => <MenuItem value={r.name}>{r.name}</MenuItem>)}
+        </Select>
+      </FormControl>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={1} alignItems="center">
+        <Grid item>
+        <Typography variant ="h6" align="justify" color="textSecondary">
+        Your Branch
+        </Typography>
+          </Grid>
+          <Grid item>
+          <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">Branch Name</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          onChange={selectRepo}
+          label="Repo Name"
+          disabled={!(repos.length > 0)}
+        >
+           <MenuItem value="">
+            <em>Choose</em>
+          </MenuItem>
+          {/* {branches.map(r => <option value={r}>{r}</option>)} */}
+          {branches.map(r => <MenuItem value={r}>{r}</MenuItem>)}
+        </Select>
+      </FormControl>
+          </Grid>
+          <Grid justify="center" alignItems="center" spacing={1} container>
+          <Button variant="contained" color="primary" href="#contained-buttons">Go Fetch</Button>
+      </Grid>
+        </Grid>
+
+          </form>
+        </Grid>
+      </Grid>
+      <Paper />
+      <VerticalLinearStepper></VerticalLinearStepper>
+    </div>
+  );
 }
