@@ -20,17 +20,6 @@ func init() {
 	activity.Register(GitCloneActivity)
 }
 
-type GitCloneRequest struct {
-	AccountId     string
-	UserId        string
-	RepositoryURL string
-	BranchName    string
-}
-
-type GitCloneResponse struct {
-	Status bool
-}
-
 func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*gitPb.GetCloningStatusResponse, error) {
 	logger := activity.GetLogger(ctx)
 	logger.Info("repository cloning activity started")

@@ -41,6 +41,17 @@ service VCSConnectionService {
             name: "VCSConnections"
         };
     }
+
+    //ListVCSConnection list all connected service of user's account
+    rpc GetVCSConnection(GetVCSConnectionRequest) returns (AccountVCSConnection){
+        option (google.api.http) = {
+            get: "/v1/vcs-connection/vcs-connection/{id}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "VCSConnection"
+        };
+    }
 }
 
 message ListAllSupportedVCSProvidersResponse{
@@ -85,10 +96,11 @@ message VCSConnection {
 }
 
 message AccountVCSConnection{
-    types.GitProviders provider = 1;
-    string account_id = 2;
-    string label = 3;
-    string user_name = 4;
+    string id = 1;
+    types.GitProviders provider = 2;
+    string account_id = 3;
+    string label = 4;
+    string user_name = 5;
 }
 
 message ListVCSConnectionRequest{
@@ -98,4 +110,9 @@ message ListVCSConnectionRequest{
 
 message ListVCSConnectionResponse{
     repeated AccountVCSConnection vcs_connection = 1;
+}
+
+message GetVCSConnectionRequest{
+       string id = 1;
+       string account_id = 2;
 }
