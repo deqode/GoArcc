@@ -58,11 +58,14 @@ export default function TellUsMore() {
   const [currentBranchName, setcurrentBranchName] = useState("");
   const [runID, setrunID] = useState("")
   const [workFlowId, setworkFlowId] = useState("")
+  const [showStepper, setshowStepper] = useState(false)
+
   const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
   const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES);
   const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES);
   const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY);
   const [checkClonningStatusFetch, checkClonningStatusData] = useLazyQuery(CLONNING_STATUS)
+
 
   useEffect(() => {
     if (user.idToken != "" && user.accounts.length > 0)
@@ -175,18 +178,11 @@ export default function TellUsMore() {
           userName: ownerName
         }
       });
+      setshowStepper(true)
     }
   };
 
-  const checkClonningStatus = async () => {
-    console.log("checkClonningStatus")
-    let res = await fetch(`${SERVER}/git-service/get-cloning-status?workflow_id=${workFlowId}&runId=${runID}`)
-    let data = await res.json()
-  }
-  useEffect(() => {
-
-    setInterval(checkClonningStatus, 2000)
-  }, [workFlowId,runID])
+  
 
   useEffect(() => {
     if (user.state == -1) router.push("/");
@@ -257,7 +253,7 @@ export default function TellUsMore() {
                 </FormControl>
               </Grid>
             </Grid>
-
+  
             <Grid container spacing={1} alignItems="center">
               <Grid item>
                 <Typography variant="h6" align="justify" color="textSecondary">
@@ -295,21 +291,19 @@ export default function TellUsMore() {
                 >
                   Go Fetch
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  href="#contained-buttons"
-                  onClick={checkClonningStatus}
-                >
-                  CheckStatus
-                </Button>
+            
+
               </Grid>
             </Grid>
           </form>
         </Grid>
       </Grid>
       <Paper />
-      <VerticalLinearStepper></VerticalLinearStepper>
+      {
+        showStepper ? <VerticalLinearStepper
+          runID={runID}
+          workflowID={workFlowId}
+        /> : ""}
     </div>
   );
 }

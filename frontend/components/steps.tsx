@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
+import { SERVER } from '../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-  return ['Repository Cloning', 'Done', 'Congratulations'];
+  return ['Repository Cloning', 'Congratulations'];
 }
 
 function getStepContent(step: number) {
@@ -40,14 +39,20 @@ function getStepContent(step: number) {
       return `Repository Cloning Started`;
     case 1:
       return 'A Repository Cloned Successfully';
-    case 2:
-      return ``;
     default:
       return 'Unknown step';
   }
 }
 
-export default function VerticalLinearStepper() {
+export default function VerticalLinearStepper(props) {
+  const { workflowID, runID } = props
+  const [clonningState, setclonningState] = useState(-1)
+  //-1 not started yet
+  //0 started
+  //1 clonned
+  //2 falied
+  const scrollRef = useRef(null);
+
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -56,47 +61,63 @@ export default function VerticalLinearStepper() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  useEffect(() => {
+    if (workflowID != "" && runID != "") {
+      setclonningState(0)
+      checkClonningStatus()
+    }
+  }, [workflowID, runID])
+
+  const checkClonningStatus = async () => {
+    console.log("checkClonningStatus")
+    let res = await fetch(`${SERVER}/git-service/get-cloning-status?workflow_id=${workflowID}&runId=${runID}`)
+    let data = await res.json()
+    if (data.status) {
+      setclonningState(1)
+    } else {
+      setclonningState(2)
+    }
+  }
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  setTimeout(() => { () => handleNext}, 20);
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+    }
+  }, []);
 
   return (
-    <div className={classes.root}>
-        <Container fixed>
-            <Box
-  display="flex"
-  justifyContent="center"
-  alignItems="center"
-  minHeight="100vh"
->
-<Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-            <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
-                  <CircularProgress />
-                </div>
-              </div>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      
-</Box>
-</Container>
-     
+    <div className={classes.root} ref={scrollRef}>
+      <Container fixed >
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="100vh"
+        >
+          {clonningState == 2 ?
+            <Alert severity="error">Repository Clonning Failed</Alert>
+            : <Stepper activeStep={clonningState} orientation="vertical">
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                  <StepContent>
+                    <Typography>{getStepContent(index)}</Typography>
+                    <div className={classes.actionsContainer}>
+                      <div>
+                        {clonningState == 0 && <CircularProgress />}
+                      </div>
+                    </div>
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>}
+
+        </Box>
+      </Container>
+
     </div>
   );
 }
