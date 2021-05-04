@@ -24,7 +24,9 @@ import {
   GET_REPOSITORIES,
   VCS_CONNECTIONS,
   CLONE_REPOSITORY,
+  CLONNING_STATUS
 } from "../GraphQL/Query";
+import { SERVER } from "../utils/constants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,6 +58,9 @@ export default function TellUsMore() {
   const router = useRouter();
   const [cloneUrl, setCloneUrl] = useState("");
   const [currentBranchName, setcurrentBranchName] = useState("");
+  const [runID, setrunID] = useState("")
+  const [workFlowId, setworkFlowId] = useState("")
+  const [showStepper, setshowStepper] = useState(false)
 
   const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
   const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES);
@@ -120,6 +125,17 @@ export default function TellUsMore() {
         },
       });
   }, [currenRepoName]);
+  
+  useEffect(() => {
+    if (
+      !reposData.loading &&
+      reposData.error == undefined &&
+      reposData.data != undefined
+    ) {
+      setrepos(reposData.data.repositories.repositories);
+      console.log(reposData.data.repositories.repositories, "wow");
+    }
+  }, [reposData]);
 
   useEffect(() => {
     if (
@@ -128,10 +144,32 @@ export default function TellUsMore() {
       branchesData.data != undefined
     ) {
       setbranches(branchesData.data.repository.branches);
-      console.log(branchesData.data.repository);
       setCloneUrl(branchesData.data.repository.clone_url);
     }
   }, [branchesData]);
+
+  useEffect(() => {
+    if (currenRepoName != "")
+      branchesRefetch({
+        variables: {
+          ownerName: ownerName,
+          repoName: currenRepoName,
+          accountid: user.accounts[0].id,
+          provider: user.provider,
+        },
+      });
+  }, [currenRepoName]);
+
+  useEffect(() => {
+    if (
+      !cloneData.loading &&
+      cloneData.error == undefined &&
+      cloneData.data != undefined
+    ) {
+      setrunID(cloneData.data.cloneRepository.run_id || "")
+      setworkFlowId(cloneData.data.cloneRepository.workflow_id || "")
+    }
+  }, [cloneData])
 
   const selectRepo = (e) => {
     if (e.target.value == "choose") {
@@ -147,10 +185,11 @@ export default function TellUsMore() {
       setcurrentBranchName("");
     } else {
       setcurrentBranchName(e.target.value);
+
     }
   };
 
-  const cloneRepoAndSubscribe = () => {
+  const cloneRepo = () => {
     if (
       user.idToken != "" &&
       user.accounts.length > 0 &&
@@ -161,20 +200,18 @@ export default function TellUsMore() {
     ) {
       clonereporefetch({
         variables: {
-          repositoryurl: cloneUrl,
-          branchname: currentBranchName,
-          accountid: user.accounts[0].id,
+          cloneURL: cloneUrl,
+          branchName: currentBranchName,
+          accountId: user.accounts[0].id,
           provider: user.provider,
-          username: ownerName
+          userName: ownerName
         }
       });
+      setshowStepper(true)
     }
-    // console.log(app.centrifuge, "===========================================================")
-    // app.centrifuge.subscribe('clone-logs', (message) => {
-    //   console.log("+++++++++++++++++++++++++++++")
-    //   console.log(message)
-    // })
   };
+
+  
 
   useEffect(() => {
     if (user.state == -1) router.push("/");
@@ -245,7 +282,6 @@ export default function TellUsMore() {
                 </FormControl>
               </Grid>
             </Grid>
-
             <Grid container spacing={1} alignItems="center">
               <Grid item>
                 <Typography variant="h6" align="justify" color="textSecondary">
@@ -279,7 +315,7 @@ export default function TellUsMore() {
                   variant="contained"
                   color="primary"
                   href="#contained-buttons"
-                  onClick={cloneRepoAndSubscribe}
+                  onClick={cloneRepo}
                 >
                   Go Fetch
                 </Button>
@@ -289,7 +325,11 @@ export default function TellUsMore() {
         </Grid>
       </Grid>
       <Paper />
-      <VerticalLinearStepper></VerticalLinearStepper>
+      {
+        showStepper ? <VerticalLinearStepper
+          runID={runID}
+          workflowID={workFlowId}
+        /> : ""}
     </div>
   );
 }

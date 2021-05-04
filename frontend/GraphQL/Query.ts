@@ -43,27 +43,42 @@ query VCSConnections(
     account_id:$accountid
     ){
     vcs_connection{
-            user_name
+      user_name
     }
   }
 }`
 
 export const CLONE_REPOSITORY = gql`
 mutation cloneRepository(
-  $provider:Types_Enum_GitProviders!
-  $accountid:String!
-  $repositoryurl:String!
-  $branchname:String!
-  $username:String!
+    $provider:Types_Enum_GitProviders!
+    $accountId:String!
+    $cloneURL:String!
+    $branchName:String!
+    $userName:String!
 ){
-  cloneRepository(
+cloneRepository(
     provider:$provider
-    account_id:$accountid
-    repository_url:$repositoryurl
-    branch_name:$branchname
-    user_name:$username
+    account_id:$accountId
+    repository_url:$cloneURL
+    branch_name:$branchName
+    user_name:$userName
   ){
     run_id
     workflow_id
+     }
+  }
+
+`
+
+export const CLONNING_STATUS=gql`
+query
+ getCloningStatus(
+   $runId: String,
+   $workflowId: String
+   ){
+  getCloningStatus(
+    run_id: $runId,
+     workflow_id: $workflowId){
+    status
   }
 }`
