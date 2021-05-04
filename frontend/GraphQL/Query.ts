@@ -31,6 +31,7 @@ query repository(
       account_id:$accountid
     ){
       branches
+      clone_url
     }
   }`
 
@@ -44,5 +45,25 @@ query VCSConnections(
     vcs_connection{
             user_name
     }
+  }
+}`
+
+export const CLONE_REPOSITORY = gql`
+mutation cloneRepository(
+  $provider:Types_Enum_GitProviders!
+  $accountid:String!
+  $repositoryurl:String!
+  $branchname:String!
+  $username:String!
+){
+  cloneRepository(
+    provider:$provider
+    account_id:$accountid
+    repository_url:$repositoryurl
+    branch_name:$branchname
+    user_name:$username
+  ){
+    run_id
+    workflow_id
   }
 }`

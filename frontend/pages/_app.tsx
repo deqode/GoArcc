@@ -7,11 +7,14 @@ import '../styles/fonts.css';
 import '../styles/alfred.css';
 import Navbar from '../components/Navbar';
 import { UserContext } from '../Contexts/UserContext';
+import { AppContext } from '../Contexts/AppContext'
 import { useEffect, useState } from 'react';
 import { getStorage, removeStorage, setStorage } from '../utils/localStorage';
 import { useRouter } from 'next/router';
 import Login from '.';
 import Success from './success';
+import Centrifuge from 'centrifuge';
+import { CENTRIFUGO } from '../utils/constants';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setState] = useState({
@@ -21,6 +24,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     provider: "",
     accounts: [],
     state: 0,
+  });
+
+  const [app, setAppState] = useState({
+    centrifuge: new Centrifuge(CENTRIFUGO),
+    subscribed: false
   });
 
   useEffect(() => {
@@ -52,11 +60,26 @@ function MyApp({ Component, pageProps }: AppProps) {
       state: -1,
     })
   }
+
+  const setApp = (value) => {
+    setStorage("app", value)
+    setAppState(value)
+  }
+
+  const removeApp = () => {
+    removeStorage("app")
+    setAppState({
+        centrifuge: new Centrifuge(CENTRIFUGO),
+        subscribed: false
+      })
+  }
   return (
     <ApolloProvider client={client}>
       <UserContext.Provider value={{ user, setUser, removeUser }}>
+      <AppContext.Provider value={{ app, setApp, removeApp }}>
         <Navbar />
         <Component {...pageProps} />
+      </AppContext.Provider>
       </UserContext.Provider>
     </ApolloProvider >
   );

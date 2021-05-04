@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 import Head from 'next/head';
-import { SERVER } from '../utils/constants';
+import { SERVER, CENTRIFUGO } from '../utils/constants';
 import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Contexts/UserContext';
@@ -12,7 +12,6 @@ export default function Login({ auth, }) {
   useEffect(() => {
     (async () => {
       if (user.idToken != "") {
-
         let res = await fetch(`${SERVER}/vcs-connection/authorize/GITHUB`, {
           headers: new Headers({
             'Authorization': `Bearer ${user.idToken}`,
