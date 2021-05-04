@@ -26,23 +26,8 @@ func init() {
 func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*gitPb.GetCloningStatusResponse, error) {
 	logger := activity.GetLogger(ctx)
 	logger.Info("repository cloning activity started")
-
-	wd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-	repoWD := wd + "/repositories"
-	if err := os.Chdir(repoWD); err != nil {
-		return nil, err
-	}
 	args := []string{"clone", req.RepositoryUrl}
 	if err := runCommand("git", args...); err != nil {
-		if err := os.Chdir(wd); err != nil {
-			return nil, err
-		}
-		return nil, err
-	}
-	if err := os.Chdir(wd); err != nil {
 		return nil, err
 	}
 	return &gitPb.GetCloningStatusResponse{
@@ -70,6 +55,8 @@ func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (
 
 func runCommand(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
+	wd , _ := os.Getwd()
+	cmd.Dir = wd + "/repositories"
 	stderr, _ := cmd.StderrPipe()
 	stdout, _ := cmd.StdoutPipe()
 	if err := cmd.Start(); err != nil {
