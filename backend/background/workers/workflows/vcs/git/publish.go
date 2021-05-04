@@ -3,7 +3,6 @@ package git
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -36,14 +35,13 @@ func Publish(request *PublishRequest) error {
 	if err != nil {
 		return err
 	}
-
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", "apikey abc")
 	res, err := client.Do(req)
 	if err != nil {
 		return err
 	}
-	log.Println("Successfully pushed to socket")
+	//log.Println("Successfully pushed to socket")
 
 	defer res.Body.Close()
 	_, err = ioutil.ReadAll(res.Body)

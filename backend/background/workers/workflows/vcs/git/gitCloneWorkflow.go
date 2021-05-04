@@ -38,8 +38,8 @@ func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*
 		return nil, err
 	}
 	//fmt.Println(repoWD)
-	urlWithBranch := "-b " + req.BranchName + " " + req.RepositoryUrl
-	args := []string{"clone", urlWithBranch}
+	//urlWithBranch := "-b " + req.BranchName + " " + req.RepositoryUrl
+	args := []string{"clone", req.RepositoryUrl}
 	if err := runCommand("git", args...); err != nil {
 		return nil, err
 	}
@@ -78,7 +78,6 @@ func runCommand(name string, args ...string) error {
 
 	go reader(wg, stderr)
 	go reader(wg, stdout)
-
 	wg.Wait()
 
 	if err := cmd.Wait(); err != nil {
@@ -102,6 +101,7 @@ func reader(wg *sync.WaitGroup, closer io.ReadCloser) {
 	in := bufio.NewScanner(closer)
 	for in.Scan() {
 		request.Params.Data.Log = in.Text()
+		log.Println(in.Text())
 		err := Publish(&request)
 		if err != nil {
 			log.Println(err)
