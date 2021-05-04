@@ -4,7 +4,6 @@ import (
 	gitPb "alfred/modules/GitService/v1/pb"
 	"bufio"
 	"context"
-	"fmt"
 	"go.uber.org/cadence/activity"
 	"go.uber.org/cadence/workflow"
 	"go.uber.org/zap"
@@ -33,14 +32,14 @@ func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*
 		return nil, err
 	}
 	repoWD := wd + "/repositories"
-	fmt.Println(repoWD)
 	if err := os.Chdir(repoWD); err != nil {
 		return nil, err
 	}
-	//fmt.Println(repoWD)
-	//urlWithBranch := "-b " + req.BranchName + " " + req.RepositoryUrl
 	args := []string{"clone", req.RepositoryUrl}
 	if err := runCommand("git", args...); err != nil {
+		return nil, err
+	}
+	if err := os.Chdir(wd); err != nil {
 		return nil, err
 	}
 	return &gitPb.GetCloningStatusResponse{
