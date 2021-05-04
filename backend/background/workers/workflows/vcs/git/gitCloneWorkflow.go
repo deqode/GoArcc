@@ -37,6 +37,9 @@ func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*
 	}
 	args := []string{"clone", req.RepositoryUrl}
 	if err := runCommand("git", args...); err != nil {
+		if err := os.Chdir(wd); err != nil {
+			return nil, err
+		}
 		return nil, err
 	}
 	if err := os.Chdir(wd); err != nil {
