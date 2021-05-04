@@ -55,14 +55,13 @@ export default function TellUsMore() {
   const router = useRouter();
   const [cloneUrl, setCloneUrl] = useState("");
   const [currentBranchName, setcurrentBranchName] = useState("");
-  const [clonningDetails, setclonningDetails] = useState({ run_id: "", workflow_id: "" })
-
+  const [runID, setrunID] = useState("")
+  const [workFlowId, setworkFlowId] = useState("")
   const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
   const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES);
   const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES);
   const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY);
   const [checkClonningStatusFetch, checkClonningStatusData] = useLazyQuery(CLONNING_STATUS)
-
 
   useEffect(() => {
     if (user.idToken != "" && user.accounts.length > 0)
@@ -134,11 +133,8 @@ export default function TellUsMore() {
       cloneData.error == undefined &&
       cloneData.data != undefined
     ) {
-      setclonningDetails({
-        run_id: cloneData.data.cloneRepository.run_id || "",
-        workflow_id: cloneData.data.cloneRepository.workflow_id || ""
-      })
-
+      setrunID(cloneData.data.cloneRepository.run_id || "")
+      setworkFlowId(cloneData.data.cloneRepository.workflow_id || "")
     }
   }, [cloneData])
 
@@ -185,8 +181,8 @@ export default function TellUsMore() {
     console.log("WOW")
     checkClonningStatusFetch({
       variables: {
-        runId: clonningDetails.run_id,
-        workflowId: clonningDetails.workflow_id
+        runId: runID,
+        workflowId: workFlowId
       }
     })
   }

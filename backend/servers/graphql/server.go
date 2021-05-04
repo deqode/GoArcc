@@ -3,12 +3,14 @@ package graphql
 import (
 	"alfred/config"
 	"alfred/logger"
+	"alfred/servers/graphql/middleware"
 	"context"
+	"net/http"
+
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"net/http"
 )
 
 func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
@@ -23,8 +25,8 @@ func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientC
 	srv := &http.Server{
 		Addr: config.Graphql.Host + ":" + config.Graphql.Port,
 		// add handler with middleware
-		Handler:/*middleware.ChangeContext(middleware.AddCors(middleware.AddRequestID(
-		middleware.AddLogger(logger.Log, mux)))),*/mux,
+		Handler: middleware.ChangeContext(middleware.AddCors(middleware.AddRequestID(
+			middleware.AddLogger(logger.Log, mux)))),
 	}
 
 	lc.Append(fx.Hook{
