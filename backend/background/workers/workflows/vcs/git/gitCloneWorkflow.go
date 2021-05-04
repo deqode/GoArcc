@@ -4,17 +4,15 @@ import (
 	gitPb "alfred/modules/GitService/v1/pb"
 	"bufio"
 	"context"
-	"encoding/json"
 	"fmt"
 	"go.uber.org/cadence/activity"
 	"go.uber.org/cadence/workflow"
 	"go.uber.org/zap"
-	"io/ioutil"
+	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/exec"
-	"strings"
+	"sync"
 	"time"
 )
 
@@ -67,7 +65,28 @@ func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (
 }
 
 func runCommand(name string, args ...string) error {
+	cmd := exec.Command(name, args...)
+	stderr, _ := cmd.StderrPipe()
+	stdout, _ := cmd.StdoutPipe()
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	wg := new(sync.WaitGroup)
+	wg.Add(2)
 
+	go reader(wg, stderr)
+	go reader(wg, stdout)
+
+	wg.Wait()
+
+	if err := cmd.Wait(); err != nil {
+		return err
+	}
+	return nil
+}
+
+//read stdout and std err and publish
+func reader(wg *sync.WaitGroup, closer io.ReadCloser) {
 	request := PublishRequest{
 		Method: "publish",
 		Params: &Params{
@@ -77,82 +96,16 @@ func runCommand(name string, args ...string) error {
 			},
 		},
 	}
-
-	cmd := exec.Command(name, args...)
-	stdout, _ := cmd.StdoutPipe()
-	if err := cmd.Start(); err != nil {
-		return err
-	}
-
-	oneByte := make([]byte, 100)
-	num := 1
-	for {
-		_, err := stdout.Read(oneByte)
+	defer wg.Done()
+	in := bufio.NewScanner(closer)
+	for in.Scan() {
+		request.Params.Data.Log = in.Text()
+		err := Publish(&request)
 		if err != nil {
 			log.Println(err)
-			break
 		}
-		r := bufio.NewReader(stdout)
-		line, _, _ := r.ReadLine()
-		fmt.Println(string(line))
-		num = num + 1
 	}
-
-	if err := cmd.Wait(); err != nil {
-		return err
+	if err := in.Err(); err != nil {
+		log.Println("error: %s", err)
 	}
-
-	if err := Publish(&request); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-type PublishRequest struct {
-	Method string  `json:"method"`
-	Params *Params `json:"params"`
-}
-
-type Params struct {
-	Channel string `json:"channel"`
-	Data    *Data  `json:"data"`
-}
-
-type Data struct {
-	Log string `json:"log"`
-}
-
-func Publish(request *PublishRequest) error {
-	publishBody, err := json.Marshal(request)
-	if err != nil {
-		return err
-	}
-	url := "http://localhost:9000/api"
-	method := "POST"
-	payload := strings.NewReader(string(publishBody))
-
-	client := &http.Client{}
-	req, err := http.NewRequest(method, url, payload)
-	if err != nil {
-		return err
-	}
-
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", "apikey abc")
-	res, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-
-	defer res.Body.Close()
-	_, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	if res.StatusCode != 200 {
-		return err
-	}
-	return nil
 }
