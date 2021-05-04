@@ -33,11 +33,13 @@ func GitCloneActivity(ctx context.Context, req *gitPb.CloneRepositoryRequest) (*
 		return nil, err
 	}
 	repoWD := wd + "/repositories"
+	fmt.Println(repoWD)
 	if err := os.Chdir(repoWD); err != nil {
 		return nil, err
 	}
-	fmt.Println(repoWD)
-	args := []string{"clone", req.RepositoryUrl}
+	//fmt.Println(repoWD)
+	urlWithBranch := "-b " + req.BranchName + " " + req.RepositoryUrl
+	args := []string{"clone", urlWithBranch}
 	if err := runCommand("git", args...); err != nil {
 		return nil, err
 	}

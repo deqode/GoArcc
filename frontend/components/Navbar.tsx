@@ -11,12 +11,12 @@ function Navbar() {
     const router = useRouter();
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" color="transparent">
             <Toolbar>
-                <Grid justify="space-between" container>
+                <Grid justify="space-between" container >
                     <Grid item>
                         <Link href="/">
-                            <img src="/assets/alfred.png" width="100px" />
+                            <img src="/assets/logo.png" width="100px" />
                         </Link>
                     </Grid>
                     <Grid item>
