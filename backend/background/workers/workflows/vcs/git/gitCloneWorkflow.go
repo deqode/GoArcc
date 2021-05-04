@@ -51,7 +51,7 @@ func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (
 	ctx = workflow.WithActivityOptions(ctx, workflow.ActivityOptions{
 		ScheduleToStartTimeout: time.Minute,
 		StartToCloseTimeout:    time.Minute,
-		HeartbeatTimeout:       time.Minute,
+		HeartbeatTimeout:       time.Minute*20,
 	})
 
 	logger := workflow.GetLogger(ctx)

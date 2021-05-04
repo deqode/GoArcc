@@ -25,6 +25,7 @@ import {
   CLONE_REPOSITORY,
   CLONNING_STATUS
 } from "../GraphQL/Query";
+import { SERVER } from "../utils/constants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -177,17 +178,15 @@ export default function TellUsMore() {
     }
   };
 
-  const checkClonningStatus = () => {
-    console.log("WOW")
-    checkClonningStatusFetch({
-      variables: {
-        runId: runID,
-        workflowId: workFlowId
-      }
-    })
+  const checkClonningStatus = async () => {
+    console.log("checkClonningStatus")
+    let res = await fetch(`${SERVER}/git-service/get-cloning-status?workflow_id=${workFlowId}&runId=${runID}`)
+    let data = await res.json()
   }
+  useEffect(() => {
 
-
+    setInterval(checkClonningStatus, 2000)
+  }, [workFlowId,runID])
 
   useEffect(() => {
     if (user.state == -1) router.push("/");
