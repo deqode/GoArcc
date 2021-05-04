@@ -24,9 +24,9 @@ import {
   GET_REPOSITORIES,
   VCS_CONNECTIONS,
   CLONE_REPOSITORY,
-  CLONNING_STATUS
+  CLONNING_STATUS,
 } from "../GraphQL/Query";
-import { SERVER } from "../utils/constants";
+import { LazyLog } from "react-lazylog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function TellUsMore() {
   const classes = useStyles();
   const { user } = useContext(UserContext);
-  const { app, setApp } = useContext(AppContext);
+  const { app } = useContext(AppContext);
   const [ownerName, setownerName] = useState("");
   const [repos, setrepos] = useState([]);
   const [currenRepoName, setcurrenRepoName] = useState("");
@@ -58,21 +58,26 @@ export default function TellUsMore() {
   const router = useRouter();
   const [cloneUrl, setCloneUrl] = useState("");
   const [currentBranchName, setcurrentBranchName] = useState("");
-  const [runID, setrunID] = useState("")
-  const [workFlowId, setworkFlowId] = useState("")
-  const [showStepper, setshowStepper] = useState(false)
+  const [runID, setrunID] = useState("");
+  const [workFlowId, setworkFlowId] = useState("");
+  const [showStepper, setshowStepper] = useState(false);
+  const [cloneLogs, setCloneLogs] = useState("");
 
   const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
   const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES);
   const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES);
   const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY);
+  const appendLog = (log) => {
+    setCloneLogs(cloneLogs + "\n" + log);
+  };
 
   useEffect(() => {
-    app.centrifuge.connect()
-    app.centrifuge.subscribe('clone-logs', (message) => {
-        console.log(message)
-    })
-  }, [])
+    app.centrifuge.connect();
+    app.centrifuge.subscribe("clone-logs", (message) => {
+      // console.log()
+      appendLog(message.data.log);
+    });
+  }, []);
 
   useEffect(() => {
     if (user.idToken != "" && user.accounts.length > 0)
@@ -125,7 +130,7 @@ export default function TellUsMore() {
         },
       });
   }, [currenRepoName]);
-  
+
   useEffect(() => {
     if (
       !reposData.loading &&
@@ -166,10 +171,10 @@ export default function TellUsMore() {
       cloneData.error == undefined &&
       cloneData.data != undefined
     ) {
-      setrunID(cloneData.data.cloneRepository.run_id || "")
-      setworkFlowId(cloneData.data.cloneRepository.workflow_id || "")
+      setrunID(cloneData.data.cloneRepository.run_id || "");
+      setworkFlowId(cloneData.data.cloneRepository.workflow_id || "");
     }
-  }, [cloneData])
+  }, [cloneData]);
 
   const selectRepo = (e) => {
     if (e.target.value == "choose") {
@@ -185,7 +190,6 @@ export default function TellUsMore() {
       setcurrentBranchName("");
     } else {
       setcurrentBranchName(e.target.value);
-
     }
   };
 
@@ -204,14 +208,12 @@ export default function TellUsMore() {
           branchName: currentBranchName,
           accountId: user.accounts[0].id,
           provider: user.provider,
-          userName: ownerName
-        }
+          userName: ownerName,
+        },
       });
-      setshowStepper(true)
+      setshowStepper(true);
     }
   };
-
-  
 
   useEffect(() => {
     if (user.state == -1) router.push("/");
@@ -325,11 +327,19 @@ export default function TellUsMore() {
         </Grid>
       </Grid>
       <Paper />
-      {
-        showStepper ? <VerticalLinearStepper
-          runID={runID}
-          workflowID={workFlowId}
-        /> : ""}
+      {showStepper ? (
+        <div>
+          {/* <LazyLog
+            extraLines={1}
+            enableSearch
+            text={cloneLogs}
+            caseInsensitive
+          /> */}
+          <VerticalLinearStepper runID={runID} workflowID={workFlowId} />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
