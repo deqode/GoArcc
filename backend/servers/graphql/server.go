@@ -48,7 +48,6 @@ func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientC
 
 			return nil
 		},
-
 		OnStop: func(ctx context.Context) error {
 			logger.Log.Info("graceful shutting down Graphql Server")
 			_ = srv.Shutdown(Ctx)
