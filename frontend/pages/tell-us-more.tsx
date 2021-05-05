@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
+      margin: theme.spacing(2),
+      minWidth: 225,
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
@@ -248,10 +248,10 @@ export default function TellUsMore() {
             Tell Alfed more about your project.
           </Typography>
         </Grid>
-        <Grid item md={4}>
+        <Grid item>
           <form className={classes.root} noValidate autoComplete="off">
-            <Grid container spacing={1} alignItems="center">
-              <Grid item>
+            <Grid container spacing={7} alignItems="center">
+              <Grid item >
                 <Typography variant="h6" align="justify" color="textSecondary">
                   Your App's Name
                 </Typography>
@@ -266,7 +266,7 @@ export default function TellUsMore() {
               </Grid>
             </Grid>
 
-            <Grid container spacing={1} alignItems="center">
+            <Grid container spacing={8} alignItems="center">
               <Grid item>
                 <Typography variant="h6" align="justify" color="textSecondary">
                   Your Repo's Name
@@ -295,8 +295,8 @@ export default function TellUsMore() {
                 </FormControl>
               </Grid>
             </Grid>
-            <Grid container spacing={1} alignItems="center">
-              <Grid item>
+            <Grid container spacing={10} alignItems="center">
+              <Grid item >
                 <Typography variant="h6" align="justify" color="textSecondary">
                   Your Branch
                 </Typography>
