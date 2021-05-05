@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   Grid,
   Paper,
@@ -9,16 +9,20 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Drawer,
+  Fab,
+  List,
 } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import { useEffect, useState, useContext } from "react";
 import Loading from "../components/Loading";
-import VerticalLinearStepper from "../components/steps";
 import { UserContext } from "../Contexts/UserContext";
 import { AppContext } from "../Contexts/AppContext";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import {
   GET_BRANCHES,
   GET_REPOSITORIES,
@@ -26,7 +30,8 @@ import {
   CLONE_REPOSITORY,
   CLONNING_STATUS,
 } from "../GraphQL/Query";
-import { LazyLog } from "react-lazylog";
+import VerticalLinearStepper from "../components/steps";
+import { LogViewer } from "react-log-output";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,23 +66,28 @@ export default function TellUsMore() {
   const [runID, setrunID] = useState("");
   const [workFlowId, setworkFlowId] = useState("");
   const [showStepper, setshowStepper] = useState(false);
-  const [cloneLogs, setCloneLogs] = useState("");
+  const [cloneLogs, setCloneLogs] = useState([]);
+  const [cloneLog, setCloneLog] = useState("");
+  const [showLogs, setshowLogs] = useState(false)
+
 
   const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
   const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES);
   const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES);
   const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY);
-  const appendLog = (log) => {
-    setCloneLogs(cloneLogs + "\n" + log);
-  };
 
   useEffect(() => {
     app.centrifuge.connect();
     app.centrifuge.subscribe("clone-logs", (message) => {
-      // console.log()
-      appendLog(message.data.log);
+      setCloneLog(message.data.log);
+      console.log("setCloneLog")
     });
   }, []);
+  useEffect(() => {
+    setCloneLogs([...cloneLogs, cloneLog])
+    console.log("setCloneLogs")
+
+  }, [cloneLog]);
 
   useEffect(() => {
     if (user.idToken != "" && user.accounts.length > 0)
@@ -212,6 +222,7 @@ export default function TellUsMore() {
         },
       });
       setshowStepper(true);
+      setshowLogs(true)
     }
   };
 
@@ -328,18 +339,30 @@ export default function TellUsMore() {
       </Grid>
       <Paper />
       {showStepper ? (
-        <div>
-          {/* <LazyLog
-            extraLines={1}
-            enableSearch
-            text={cloneLogs}
-            caseInsensitive
-          /> */}
+        <div style={{ width: "" }}>
           <VerticalLinearStepper runID={runID} workflowID={workFlowId} />
         </div>
       ) : (
         ""
       )}
+      <br />
+      <Drawer anchor={"top"} open={showLogs} onClose={() => { setshowLogs(!showLogs) }}>
+        <Paper style={{ maxHeight: 300, overflow: 'auto' }}>
+          <LogViewer text={cloneLogs.join("\n")} />
+
+        </Paper>
+      </Drawer>
+      <Fab color="secondary" style={{
+        margin: 0,
+        top: 'auto',
+        right: 50,
+        bottom: 100,
+        left: 'auto',
+        position: 'fixed',
+      }} onClick={() => { setshowLogs(!showLogs) }} aria-label="edit">
+        <VisibilityIcon />
+      </Fab>
+
     </div>
   );
 }
