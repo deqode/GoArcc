@@ -55,7 +55,7 @@ func GitCloneWorkflow(ctx workflow.Context, req *gitPb.CloneRepositoryRequest) (
 
 func runCommand(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
-	wd , _ := os.Getwd()
+	wd, _ := os.Getwd()
 	cmd.Dir = wd + "/repositories"
 	stderr, _ := cmd.StderrPipe()
 	stdout, _ := cmd.StdoutPipe()
