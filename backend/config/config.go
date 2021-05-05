@@ -23,21 +23,26 @@ type Config struct {
 }
 
 // GrpcServerConfig GrpcServerConfig: gRPC  server configuration
+// Timeout is the request timeout:
+// any client request take longer then the given timeout will automatically cancelled.
 type GrpcServerConfig struct {
-	Port string
-	Host string
+	Port           string
+	Host           string
+	RequestTimeout int
 }
 
 // GraphqlServerConfig GraphqlServerConfig: Graphql server configuration
 type GraphqlServerConfig struct {
-	Port string
-	Host string
+	Port           string
+	Host           string
+	RequestTimeout int
 }
 
 // RestServerConfig RestServerConfig: Rest Implementation config
 type RestServerConfig struct {
-	Port string
-	Host string
+	Port           string
+	Host           string
+	RequestTimeout int
 }
 
 // HealthCheckServerConfig HealthCheckServerConfig: Configuration about health check

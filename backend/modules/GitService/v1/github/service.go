@@ -30,18 +30,20 @@ func (s *Service) ListRepository(ctx context.Context, in *pb.ListRepositoryReque
 		return nil, err
 	}
 	for _, repo := range repos {
-		Repository := &pb.Repository{
-			Id:            *repo.ID,
-			NodeId:        *repo.NodeID,
-			Name:          *repo.Name,
-			FullName:      *repo.FullName,
-			DefaultBranch: *repo.DefaultBranch,
-			CloneUrl:      *repo.CloneURL,
-			GitUrl:        *repo.GitURL,
-			Private:       *repo.Private,
-			Branches:      nil,
+		if !*repo.Private {
+			Repository := &pb.Repository{
+				Id:            *repo.ID,
+				NodeId:        *repo.NodeID,
+				Name:          *repo.Name,
+				FullName:      *repo.FullName,
+				DefaultBranch: *repo.DefaultBranch,
+				CloneUrl:      *repo.CloneURL,
+				GitUrl:        *repo.GitURL,
+				Private:       *repo.Private,
+				Branches:      nil,
+			}
+			repositories = append(repositories, Repository)
 		}
-		repositories = append(repositories, Repository)
 	}
 	return &pb.ListRepositoryResponse{
 		Repositories: repositories,

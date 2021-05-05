@@ -30,6 +30,7 @@ func RegisterGrpcModules(srv *grpc.Server,
 	grpcClientConnection *grpc.ClientConn,
 	cadenceConfig *background.CadenceAppConfig,
 	cadenceAdapter *cadenceAdapter.CadenceAdapter) {
+
 	//todo register new grpc modules here
 	//register user modules
 	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))

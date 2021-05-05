@@ -9,6 +9,7 @@ import (
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"net/http"
+	"time"
 )
 
 func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
@@ -22,7 +23,13 @@ func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn
 	srv := &http.Server{
 		Addr: config.Rest.Host + ":" + config.Rest.Port,
 		// add handler with middleware
-		Handler: middleware.AddCors(middleware.AddRequestID(middleware.AddLogger(logger.Log, mux))),
+		Handler: http.TimeoutHandler(
+			middleware.AddCors(middleware.AddRequestID(middleware.AddLogger(logger.Log, mux))),
+			time.Second*time.Duration(config.Rest.RequestTimeout),
+			"Context deadline exceeded",
+		),
+		//Read Timeout is the time required to read the request body.
+		WriteTimeout: time.Second * time.Duration(config.Rest.RequestTimeout),
 	}
 
 	logger.Log.Info("starting HTTP/REST gateway...")
