@@ -6,6 +6,7 @@ import (
 	"alfred/servers/graphql/middleware"
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/fx"
@@ -23,10 +24,11 @@ func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientC
 	}
 	http.Handle("/graphql", mux)
 	srv := &http.Server{
-		Addr: config.Graphql.Host + ":" + config.Graphql.Port,
+		Addr:         config.Graphql.Host + ":" + config.Graphql.Port,
+		WriteTimeout: time.Second * time.Duration(config.Graphql.RequestTimeout),
 		// add handler with middleware
-		Handler: middleware.ChangeContext(middleware.AddCors(middleware.AddRequestID(
-			middleware.AddLogger(logger.Log, mux)))),
+		Handler: http.TimeoutHandler(middleware.ChangeContext(middleware.AddCors(middleware.AddRequestID(
+			middleware.AddLogger(logger.Log, mux)))), time.Second*time.Duration(config.Graphql.RequestTimeout), "Context deadline exceeded"),
 	}
 
 	lc.Append(fx.Hook{

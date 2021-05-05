@@ -1,14 +1,17 @@
 grpc:
     Port: 8000
     Host: localhost
+    RequestTimeout: 20
 
 graphql:
     Port: 8081
     Host: localhost
+    RequestTimeout: 20
 
 rest:
     Port: 8082
     Host: localhost
+    RequestTimeout: 20
 
 healthcheck:
     Port: 8083

@@ -5,10 +5,12 @@ import (
 	"alfred/logger"
 	"alfred/servers/rest/middleware"
 	"context"
+	"encoding/json"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"net/http"
+	"time"
 )
 
 func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
@@ -19,10 +21,22 @@ func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn
 	if err := RegisterRESTModules(Ctx, mux, conn); err != nil {
 		panic(err)
 	}
+	type TimeoutError struct {
+		Message string
+	}
+	timeoutError := TimeoutError{Message: "Context deadline exceeded"}
+
+	errorMessage, _ := json.Marshal(timeoutError)
 	srv := &http.Server{
 		Addr: config.Rest.Host + ":" + config.Rest.Port,
 		// add handler with middleware
-		Handler: middleware.AddCors(middleware.AddRequestID(middleware.AddLogger(logger.Log, mux))),
+		Handler: http.TimeoutHandler(
+			middleware.AddCors(middleware.AddRequestID(middleware.AddLogger(logger.Log, mux))),
+			time.Second*time.Duration(config.Rest.RequestTimeout),
+			string(errorMessage),
+		),
+		//Read Timeout is the time required to read the request body.
+		WriteTimeout: time.Second * time.Duration(config.Rest.RequestTimeout),
 	}
 
 	logger.Log.Info("starting HTTP/REST gateway...")
