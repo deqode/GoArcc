@@ -1,52 +1,9 @@
-version: '3.3'
-
-volumes:
-  postgres:
-  scylla:
-
+version: '3'
 services:
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    ports:
-      - "6831:6831/udp"
-      - "16686:16686"
-
-
-
-  centrifugo:
-    container_name: centrifugo
-    image: centrifugo/centrifugo:latest
-    volumes:
-      - ./config/centrifugo.yaml:/centrifugo/centrifugo.yaml
-    command: centrifugo --config=centrifugo.yaml
-    ports:
-      - 7070:7070
-      - 9000:9000
-    ulimits:
-      nofile:
-        soft: 65535
-        hard: 65535
-
-
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - 9090:9090
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-      - ./telementry/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-
-  scylla:
-    image: scylladb/scylla:4.3.1
-    command:
-      - "--smp"
-      - "1"
+  cassandra:
+    image: cassandra:3.11
     ports:
       - "9042:9042"
-    volumes:
-      - scylla:/var/lib/scylla
-
   statsd:
     image: graphiteapp/graphite-statsd
     ports:
@@ -54,23 +11,20 @@ services:
       - "2003:2003"
       - "8125:8125"
       - "8126:8126"
-
   cadence:
     image: ubercadence/server:master-auto-setup
     ports:
-      - "7933:7933"
-      - "7934:7934"
-      - "7935:7935"
-      - "7939:7939"
+     - "7933:7933"
+     - "7934:7934"
+     - "7935:7935"
+     - "7939:7939"
     environment:
-      - "DB=scylla"
-      - "CASSANDRA_SEEDS=scylla"
+      - "CASSANDRA_SEEDS=cassandra"
       - "STATSD_ENDPOINT=statsd:8125"
       - "DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development.yaml"
     depends_on:
-      - scylla
+      - cassandra
       - statsd
-
   cadence-web:
     image: ubercadence/web:latest
     environment:
@@ -79,13 +33,3 @@ services:
       - "8088:8088"
     depends_on:
       - cadence
-
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      PGDATA: /data/postgres
-    volumes:
-      - postgres:/data/postgres
