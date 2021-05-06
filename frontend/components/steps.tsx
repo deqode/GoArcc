@@ -44,22 +44,19 @@ function getStepContent(step: number) {
   }
 }
 
-export default function VerticalLinearStepper(props) {
+export default function VerticalLinearStepper(props: any) {
   const { workflowID, runID } = props
   const [clonningState, setclonningState] = useState(-1)
   //-1 not started yet
   //0 started
   //1 clonned
   //2 falied
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+
 
   useEffect(() => {
     if (workflowID != "" && runID != "") {
@@ -68,10 +65,10 @@ export default function VerticalLinearStepper(props) {
     }
   }, [workflowID, runID])
 
-  const checkClonningStatus = async () => {
+  const checkClonningStatus = async (): Promise<void> => {
     console.log("checkClonningStatus")
-    let res = await fetch(`${SERVER}/git-service/get-cloning-status?workflow_id=${workflowID}&runId=${runID}`)
-    let data = await res.json()
+    const res = await fetch(`${SERVER}/git-service/get-cloning-status?workflow_id=${workflowID}&runId=${runID}`)
+    const data = await res.json()
     if (data.status) {
       setclonningState(1)
     } else {
@@ -79,12 +76,10 @@ export default function VerticalLinearStepper(props) {
     }
   }
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+    if (scrollRef && scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 

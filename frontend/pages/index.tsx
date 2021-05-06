@@ -1,24 +1,24 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 import Head from 'next/head';
-import { SERVER, CENTRIFUGO } from '../utils/constants';
+import { SERVER,} from '../utils/constants';
 import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../Contexts/UserContext';
 
-export default function Login({ auth, }) {
+export default function Login({ auth }:any) {
 
   const { user } = useContext(UserContext)
-  const [repo, setrepo] = useState({redirectUrl:""})
+  const [repo, setrepo] = useState({ redirectUrl: "" })
   useEffect(() => {
     (async () => {
       if (user.idToken != "") {
-        let res = await fetch(`${SERVER}/vcs-connection/authorize/GITHUB`, {
+        const res = await fetch(`${SERVER}/vcs-connection/authorize/GITHUB`, {
           headers: new Headers({
             'Authorization': `Bearer ${user.idToken}`,
           })
         })
-        let data = await res.json()
-        console.log(data.redirectUrl,"1111111")
+        const data = await res.json()
+        console.log(data.redirectUrl, "1111111")
         setrepo(data)
       }
     })()
@@ -61,12 +61,15 @@ export default function Login({ auth, }) {
 
 
 export const getStaticProps = async () => {
-  let res = await fetch(`${SERVER}/authentication/login`)
-  let data = await res.json()
-  let auth = data
-  return {
-    props: {
-      auth,
-    },
-  }
+
+
+    const res = await fetch(`${SERVER}/authentication/login`)
+    const data = await res.json()
+    const auth = data
+    return {
+      props: {
+        auth,
+      },
+    }
+  
 }

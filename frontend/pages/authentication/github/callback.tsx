@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { UserContext } from '../../../Contexts/UserContext';
 import { SERVER } from '../../../utils/constants';
 
-function callback() {
+function Callback() {
     const router = useRouter();
     const { setUser, user } = useContext(UserContext)
 
@@ -21,7 +21,7 @@ function callback() {
                         })
                     })
                     let data = await res.json()
-                    let newUser = user
+                    const newUser = user
 
                     newUser.accounts = data.accounts || []
 
@@ -46,7 +46,7 @@ function callback() {
         }
         // else
         // router.push("/")
-    }, [router, user])
+    }, [query, router, setUser, user])
 
     return (
         <div>
@@ -55,5 +55,5 @@ function callback() {
     )
 }
 
-export default callback
+export default Callback
 

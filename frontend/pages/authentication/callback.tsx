@@ -1,27 +1,27 @@
 import React, { useContext, useEffect } from 'react'
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { SERVER, CENTRIFUGO } from '../../utils/constants';
 import Centrifuge from 'centrifuge'
 import { UserContext } from '../../Contexts/UserContext';
 import { AppContext } from '../../Contexts/AppContext';
-function callback() {
+export default function Callback() {
     const { setUser } = useContext(UserContext)
-    const { app, setApp } = useContext(AppContext)
+    const { setApp } = useContext(AppContext)
     const router = useRouter();
     const { query } = router
     useEffect(() => {
         (async () => {
             if (query.code) {
                 console.log("send", query)
-                let res = await fetch(`${SERVER}/authentication/callback?code=${query.code}&state=${query.state}`)
-                let data = await res.json()
+                const res = await fetch(`${SERVER}/authentication/callback?code=${query.code}&state=${query.state}`)
+                const data = await res.json()
                 if (data.idToken) {
-                    let user = data
+                    const user = data
                     user.state = 1
                     setUser(user)
                     const centrifuge = new Centrifuge(CENTRIFUGO)
                     centrifuge.connect();
-                    setApp({centrifuge, subscribe: false})
+                    setApp({ centrifuge, subscribe: false })
                 }
                 router.push("/")
             }
@@ -38,4 +38,3 @@ function callback() {
         </div>
     )
 }
-export default callback

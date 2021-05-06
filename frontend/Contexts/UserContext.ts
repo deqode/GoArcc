@@ -1,6 +1,7 @@
 import { createContext } from "react";
+import { UserContextInterface } from "../interface";
 
-export const UserContext = createContext({
+const userContext: UserContextInterface = {
     user: {
         accessToken: "",
         idToken: "",
@@ -12,6 +13,10 @@ export const UserContext = createContext({
         //  authenticated=1
         //  unauthenticated=-1
     },
-    setUser: (value) => { },
-    removeUser: () => { }
-});
+    setUser: () => null,
+    removeUser: () => null
+
+
+}
+
+export const UserContext = createContext(userContext);

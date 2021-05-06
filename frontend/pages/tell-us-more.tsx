@@ -20,7 +20,12 @@ import Loading from "../components/Loading";
 import {UserContext} from "../Contexts/UserContext";
 import {AppContext} from "../Contexts/AppContext";
 import VisibilityIcon from '@material-ui/icons/Visibility';
-import {CLONE_REPOSITORY, GET_BRANCHES, GET_REPOSITORIES, VCS_CONNECTIONS,} from "../GraphQL/Query";
+import {
+  GET_BRANCHES,
+  GET_REPOSITORIES,
+  VCS_CONNECTIONS,
+  CLONE_REPOSITORY,
+} from "../GraphQL/Query";
 import VerticalLinearStepper from "../components/steps";
 import {LogViewer} from "react-log-output";
 
@@ -44,22 +49,22 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function TellUsMore() {
-    const classes = useStyles();
-    const {user} = useContext(UserContext);
-    const {app} = useContext(AppContext);
-    const [ownerName, setownerName] = useState("");
-    const [repos, setrepos] = useState([]);
-    const [currenRepoName, setcurrenRepoName] = useState("");
-    const [branches, setbranches] = useState([]);
-    const router = useRouter();
-    const [cloneUrl, setCloneUrl] = useState("");
-    const [currentBranchName, setcurrentBranchName] = useState("");
-    const [runID, setrunID] = useState("");
-    const [workFlowId, setworkFlowId] = useState("");
-    const [showStepper, setshowStepper] = useState(false);
-    const [cloneLogs, setCloneLogs] = useState([]);
-    const [cloneLog, setCloneLog] = useState("");
-    const [showLogs, setshowLogs] = useState(false)
+  const classes = useStyles();
+  const { user } = useContext(UserContext);
+  const { app } = useContext(AppContext);
+  const [ownerName, setownerName] = useState("");
+  const [repos, setrepos] = useState([]);
+  const [currenRepoName, setcurrenRepoName] = useState("");
+  const [branches, setbranches] = useState([]);
+  const router = useRouter();
+  const [cloneUrl, setCloneUrl] = useState("");
+  const [currentBranchName, setcurrentBranchName] = useState("");
+  const [runID, setrunID] = useState("");
+  const [workFlowId, setworkFlowId] = useState("");
+  const [showStepper, setshowStepper] = useState(false);
+  const [cloneLogs, setCloneLogs] = useState<string[]>([]);
+  const [cloneLog, setCloneLog] = useState("");
+  const [showLogs, setshowLogs] = useState(false)
 
 
     const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
@@ -67,27 +72,29 @@ export default function TellUsMore() {
     const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES);
     const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY);
 
+  useEffect(() => {
+    app.centrifuge.connect();
+    app.centrifuge.subscribe("clone-logs", (message: any) => {
+      setCloneLog(message.data.log);
+      console.log("setCloneLog")
+    });
+  }, [app.centrifuge]);
     useEffect(() => {
-        app.centrifuge.connect();
-        app.centrifuge.subscribe("clone-logs", (message) => {
-            setCloneLog(message.data.log);
-            console.log("setCloneLog")
-        });
-    }, []);
-    useEffect(() => {
-        setCloneLogs([...cloneLogs, cloneLog])
-        console.log("setCloneLogs")
+      const newcloneLogs=cloneLogs
+      newcloneLogs.push(cloneLog)
+      setCloneLogs([...cloneLogs, cloneLog])
+      console.log("setCloneLogs")
 
     }, [cloneLog]);
 
-    useEffect(() => {
-        if (user.idToken != "" && user.accounts.length > 0)
-            vcsrefetch({
-                variables: {
-                    accountid: user.accounts[0].id,
-                },
-            });
-    }, [user]);
+  useEffect(() => {
+    if (user.idToken != "" && user.accounts.length > 0)
+      vcsrefetch({
+        variables: {
+          accountid: user.accounts[0].id,
+        },
+      });
+  }, [user, vcsrefetch]);
 
     useEffect(() => {
         if (
@@ -98,16 +105,16 @@ export default function TellUsMore() {
             setownerName(vcsData.data.VCSConnections.vcs_connection[0].user_name);
     }, [vcsData]);
 
-    useEffect(() => {
-        if (ownerName != "")
-            reposrefetch({
-                variables: {
-                    userid: user.userId,
-                    accountid: user.accounts[0].id,
-                    provider: user.provider,
-                },
-            });
-    }, [ownerName]);
+  useEffect(() => {
+    if (ownerName != "")
+      reposrefetch({
+        variables: {
+          userid: user.userId,
+          accountid: user.accounts[0].id,
+          provider: user.provider,
+        },
+      });
+  }, [ownerName, reposrefetch, user.accounts, user.provider, user.userId]);
 
     useEffect(() => {
         if (
@@ -120,17 +127,17 @@ export default function TellUsMore() {
         }
     }, [reposData]);
 
-    useEffect(() => {
-        if (currenRepoName != "")
-            branchesRefetch({
-                variables: {
-                    ownerName: ownerName,
-                    repoName: currenRepoName,
-                    accountid: user.accounts[0].id,
-                    provider: user.provider,
-                },
-            });
-    }, [currenRepoName]);
+  useEffect(() => {
+    if (currenRepoName != "")
+      branchesRefetch({
+        variables: {
+          ownerName: ownerName,
+          repoName: currenRepoName,
+          accountid: user.accounts[0].id,
+          provider: user.provider,
+        },
+      });
+  }, [branchesRefetch, currenRepoName, ownerName, user.accounts, user.provider]);
 
     useEffect(() => {
         if (
@@ -154,17 +161,17 @@ export default function TellUsMore() {
         }
     }, [branchesData]);
 
-    useEffect(() => {
-        if (currenRepoName != "")
-            branchesRefetch({
-                variables: {
-                    ownerName: ownerName,
-                    repoName: currenRepoName,
-                    accountid: user.accounts[0].id,
-                    provider: user.provider,
-                },
-            });
-    }, [currenRepoName]);
+  useEffect(() => {
+    if (currenRepoName != "")
+      branchesRefetch({
+        variables: {
+          ownerName: ownerName,
+          repoName: currenRepoName,
+          accountid: user.accounts[0].id,
+          provider: user.provider,
+        },
+      });
+  }, [branchesRefetch, currenRepoName, ownerName, user.accounts, user.provider]);
 
     useEffect(() => {
         if (
@@ -177,186 +184,181 @@ export default function TellUsMore() {
         }
     }, [cloneData]);
 
-    const selectRepo = (e) => {
-        if (e.target.value == "choose") {
-            setbranches([]);
-            setcurrenRepoName("");
-        } else {
-            setcurrenRepoName(e.target.value);
-        }
-    };
+  const selectRepo = (e: any): void => {
+    if (e.target.value == "choose") {
+      setbranches([]);
+      setcurrenRepoName("");
+    } else {
+      setcurrenRepoName(e.target.value);
+    }
+  };
 
-    const selectBranch = (e) => {
-        if (e.target.value == "choose") {
-            setcurrentBranchName("");
-        } else {
-            setcurrentBranchName(e.target.value);
-        }
-    };
+  const selectBranch = (e: any): void => {
+    if (e.target.value == "choose") {
+      setcurrentBranchName("");
+    } else {
+      setcurrentBranchName(e.target.value);
+    }
+  };
 
-    const cloneRepo = () => {
-        if (
-            user.idToken != "" &&
-            user.accounts.length > 0 &&
-            cloneUrl != "" &&
-            user.provider != "" &&
-            currenRepoName != "" &&
-            currentBranchName != ""
-        ) {
-            clonereporefetch({
-                variables: {
-                    cloneURL: cloneUrl,
-                    branchName: currentBranchName,
-                    accountId: user.accounts[0].id,
-                    provider: user.provider,
-                    userName: ownerName,
-                },
-            });
-            setshowStepper(true);
-            setshowLogs(true)
-        }
-    };
+  const cloneRepo = (): void => {
+    if (
+      user.idToken != "" &&
+      user.accounts.length > 0 &&
+      cloneUrl != "" &&
+      user.provider != "" &&
+      currenRepoName != "" &&
+      currentBranchName != ""
+    ) {
+      clonereporefetch({
+        variables: {
+          cloneURL: cloneUrl,
+          branchName: currentBranchName,
+          accountId: user.accounts[0].id,
+          provider: user.provider,
+          userName: ownerName,
+        },
+      });
+      setshowStepper(true);
+      setshowLogs(true)
+    }
+  };
 
-    useEffect(() => {
-        if (user.state == -1) router.push("/");
-    }, [user]);
-    if (user.state != 1)
-        return (
-            <div>
-                <Loading/>
-            </div>
-        );
+  useEffect(() => {
+    if (user.state == -1) router.push("/");
+  }, [router, user]);
+  if (user.state != 1)
     return (
-        <div>
-            <Head>
-                <title>Tell Us More!</title>
-                <link rel="icon" href="/favicon.ico"/>
-            </Head>
-            <Paper elevation={0} style={{padding: "100px"}}/>
-            <Grid justify="center" alignItems="center" spacing={1} container>
-                <Grid item md={4}>
-                    <Typography variant="h1" component="h1" style={{fontSize: "50px"}}>
-                        Tell Alfed more about your project.
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <form className={classes.root} noValidate autoComplete="off">
-                        <Grid container spacing={7} alignItems="center">
-                            <Grid item>
-                                <Typography variant="h6" align="justify" color="textSecondary">
-                                    Your App's Name
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <TextField
-                                    id="outlined-basic"
-                                    label="App Name"
-                                    variant="outlined"
-                                    placeholder="Demo App"
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={8} alignItems="center">
-                            <Grid item>
-                                <Typography variant="h6" align="justify" color="textSecondary">
-                                    Your Repo's Name
-                                </Typography>
-                            </Grid>
-                            <Grid>
-                                <FormControl variant="outlined" className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-outlined-label">
-                                        Repo Name
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-outlined-label"
-                                        id="demo-simple-select-outlined"
-                                        onChange={selectRepo}
-                                        label="Repo Name"
-                                        disabled={!(repos.length > 0)}
-                                        autoWidth
-                                    >
-                                        <MenuItem value="">
-                                            <em>Choose</em>
-                                        </MenuItem>
-                                        {repos.map((r) => (
-                                            <MenuItem value={r.name}>{r.name}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={10} alignItems="center">
-                            <Grid item>
-                                <Typography variant="h6" align="justify" color="textSecondary">
-                                    Your Branch
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <FormControl variant="outlined" className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-outlined-label">
-                                        Branch Name
-                                    </InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-outlined-label"
-                                        id="demo-simple-select-outlined"
-                                        onChange={selectBranch}
-                                        label="Repo Name"
-                                        disabled={!(branches.length > 0)}
-                                    >
-                                        <MenuItem value="">
-                                            <em>Choose</em>
-                                        </MenuItem>
-                                        {/* {branches.map(r => <option value={r}>{r}</option>)} */}
-                                        {branches.map((r) => (
-                                            <MenuItem value={r}>{r}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid justify="center" alignItems="center" spacing={1} container>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    href="#contained-buttons"
-                                    onClick={cloneRepo}
-                                >
-                                    Go Fetch
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </Grid>
+      <div>
+        <Loading />
+      </div>
+    );
+  return (
+    <div>
+      <Head>
+        <title>Tell Us More!</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Paper elevation={0} style={{ padding: "100px" }} />
+      <Grid justify="center" alignItems="center" spacing={1} container>
+        <Grid item md={4}>
+          <Typography variant="h1" component="h1" style={{ fontSize: "50px" }}>
+            Tell Alfed more about your project.
+          </Typography>
+        </Grid>
+        <Grid item md={4}>
+          <form className={classes.root} noValidate autoComplete="off">
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <Typography variant="h6" align="justify" color="textSecondary">
+                  Your App`&apos;s Name
+                </Typography>
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="outlined-basic"
+                  label="App Name"
+                  variant="outlined"
+                  placeholder="Demo App"
+                />
+              </Grid>
             </Grid>
-            <Paper/>
-            {showStepper ? (
-                <div style={{width: ""}}>
-                    <VerticalLinearStepper runID={runID} workflowID={workFlowId}/>
-                </div>
-            ) : (
-                ""
-            )}
-            <br/>
-            <Drawer anchor={"top"} open={showLogs} onClose={() => {
-                setshowLogs(!showLogs)
-            }}>
-                <Paper style={{maxHeight: 300, overflow: 'auto'}}>
-                    <LogViewer text={cloneLogs.join("\n")}/>
 
-                </Paper>
-            </Drawer>
-            <Fab color="secondary" style={{
-                margin: 0,
-                top: 'auto',
-                right: 50,
-                bottom: 100,
-                left: 'auto',
-                position: 'fixed',
-            }} onClick={() => {
-                setshowLogs(!showLogs)
-            }} aria-label="edit">
-                <VisibilityIcon/>
-            </Fab>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <Typography variant="h6" align="justify" color="textSecondary">
+                  Your Repo`&apos;s Name
+                </Typography>
+              </Grid>
+              <Grid>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Repo Name
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    onChange={selectRepo}
+                    label="Repo Name"
+                    disabled={!(repos.length > 0)}
+                    autoWidth
+                  >
+                    <MenuItem value="">
+                      <em>Choose</em>
+                    </MenuItem>
+                    {repos.map((r: any) => (
+                      <MenuItem key={r.name} value={r.name}>{r.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <Typography variant="h6" align="justify" color="textSecondary">
+                  Your Branch
+                </Typography>
+              </Grid>
+              <Grid item>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">
+                    Branch Name
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    onChange={selectBranch}
+                    label="Repo Name"
+                    disabled={!(branches.length > 0)}
+                  >
+                    <MenuItem value="">
+                      <em>Choose</em>
+                    </MenuItem>
+                    {/* {branches.map(r => <option value={r}>{r}</option>)} */}
+                    {branches.map((r: any) => (
+                      <MenuItem key={r} value={r}>{r}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid justify="center" alignItems="center" spacing={1} container>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  href="#contained-buttons"
+                  onClick={cloneRepo}
+                >
+                  Go Fetch
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
+      <Paper />
+      {showStepper ? (
+        <div style={{ width: "" }}>
+          <VerticalLinearStepper runID={runID} workflowID={workFlowId} />
+        </div>
+      ) : (
+        ""
+      )}
+      <br />
+      <Drawer anchor={"top"} open={showLogs} onClose={() => { setshowLogs(!showLogs) }}>
+        <Paper style={{ maxHeight: 300, overflow: 'auto' }}>
+          <LogViewer text={cloneLogs.join("\n")} />
+        </Paper>
+      </Drawer>
+      <Fab color="secondary" style={{
+        margin: 0,
+        top: 'auto',
+        right: 50,
+        bottom: 100,
+        left: 'auto',
+        position: 'fixed',
+      }} onClick={() => { setshowLogs(!showLogs) }} aria-label="edit">
+        <VisibilityIcon />
+      </Fab>
 
         </div>
     );

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 import Loading from '../components/Loading';
 import { UserContext } from '../Contexts/UserContext';
-import { getStorage } from '../utils/localStorage';
 
 export default function Success() {
   const { user } = useContext(UserContext)
