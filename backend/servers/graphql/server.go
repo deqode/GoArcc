@@ -14,6 +14,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// RunGraphqlServer : Will start the graphql server.
 func RunGraphqlServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
 	Ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

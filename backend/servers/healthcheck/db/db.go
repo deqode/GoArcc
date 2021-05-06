@@ -10,7 +10,7 @@ type Checker struct {
 	DB *gorm.DB
 }
 
-// NewChecker returns a new url.Checker with the given URL
+// NewPostgresChecker NewChecker returns a new url.Checker with the given URL
 func NewPostgresChecker(db *gorm.DB) Checker {
 	return Checker{
 		DB: db,

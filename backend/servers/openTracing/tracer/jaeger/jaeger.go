@@ -24,7 +24,7 @@ var (
 	Tracer opentracing.Tracer
 )
 
-//todo close the connection
+// InitJaeger todo close the connection
 //InitJaeger is responsible for initialising the jaeger tracing instance.
 func InitJaeger(config *config.Config) (io.Closer, opentracing.Tracer) {
 	//conversion string val to bool

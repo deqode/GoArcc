@@ -12,6 +12,7 @@ import (
 	"time"
 )
 
+// RunRestServer : Will responsible to run the Rest server in different port.
 func RunRestServer(lc fx.Lifecycle, config *config.Config, conn *grpc.ClientConn) {
 	Ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

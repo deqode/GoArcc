@@ -8,10 +8,8 @@ import (
 	"io"
 )
 
-/*
-  CleanupConfig: cleanup config is the configuration of closing the instance.
-  more type will be added in cleanup config if we stop or destroy the instance.
-*/
+// CleanupConfig : cleanup config is the configuration of closing the instance.
+// more type will be added in cleanup config if we stop or destroy the instance.
 type CleanupConfig struct {
 	//Db *gorm.DB
 	GrpcServerConnection *grpc.Server
@@ -19,10 +17,8 @@ type CleanupConfig struct {
 	JaegerCloser         io.Closer
 }
 
-/*
-  GetCleanupConfig: Get cleanup config is the constructor.
-  required all the closing instance
-*/
+// GetCleanupConfig GetCleanupConfig: Get cleanup config is the constructor.
+//  required all the closing instance
 func GetCleanupConfig(
 	GrpcServerConnection *grpc.Server,
 	GrpcClientConnection *grpc.ClientConn,

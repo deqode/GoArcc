@@ -15,6 +15,7 @@ import (
 
 func (s *GitService) CloneRepository(ctx context.Context, in *pb.CloneRepositoryRequest) (*pb.CloneRepositoryResponse, error) {
 	//use wait group to allow process to be concurrent
+	time.Sleep(time.Second * 10)
 	wo := client.StartWorkflowOptions{
 		TaskList:                     workflows.GitCloneGroup,
 		ExecutionStartToCloseTimeout: time.Hour * 24,

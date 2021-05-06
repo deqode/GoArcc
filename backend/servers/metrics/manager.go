@@ -8,16 +8,17 @@ import (
 	"time"
 )
 
-// Metrics Manager
+// Manager Manager
 type Manager struct {
 	metrics Metrics
 }
 
-// InterceptorManager constructor
+// NewMetricsManager InterceptorManager constructor
 func NewMetricsManager(metrics Metrics) *Manager {
 	return &Manager{metrics: metrics}
 }
 
+// Metrics :
 func (im *Manager) Metrics(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	start := time.Now()
 	resp, err := handler(ctx, req)

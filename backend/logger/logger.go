@@ -12,7 +12,7 @@ var (
 	// Log is global logger
 	Log *zap.Logger
 
-	// timeFormat is custom Time format
+	// customTimeFormat is custom Time format
 	customTimeFormat string
 
 	// onceInit guarantee initialize logger only once

@@ -25,6 +25,7 @@ go_build_platform
 go_build_backend_
 repositories/
 repositories
+vendor
 
 # temporary remove for production
 ./tests

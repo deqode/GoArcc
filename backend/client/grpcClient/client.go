@@ -8,6 +8,7 @@ import (
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"time"
 )
 
 //ClientContext to store context
@@ -31,8 +32,11 @@ func GetGrpcClientConnection(config *config.Config) *grpc.ClientConn {
 	opts = append(opts,
 		grpc.WithInsecure(),
 	)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.Grpc.RequestTimeout))
+	defer cancel()
+
 	// You must have some sort of OpenTracing Tracer instance on hand.
-	conn, err := grpc.DialContext(context.Background(), config.Grpc.Host+":"+config.Grpc.Port, opts...)
+	conn, err := grpc.DialContext(ctx, config.Grpc.Host+":"+config.Grpc.Port, opts...)
 	if err != nil {
 		logger.Log.Fatal("did not connect", zap.Error(err))
 	}

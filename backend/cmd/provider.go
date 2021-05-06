@@ -13,7 +13,8 @@ import (
 	"go.uber.org/fx"
 )
 
-// GetProviderOptions ProviderOptions: Global Constructor. Sequence in fx does not matter.
+// GetProviderOptions ProviderOptions: Global Constructor.
+// Sequence in fx does not matter,  So you can write in any order you want.
 func GetProviderOptions() []fx.Option {
 	return []fx.Option{
 		config.ConfigProviderFx,

@@ -2,7 +2,7 @@ package config
 
 import "go.uber.org/fx"
 
-// ConfigProviderFx ConfigProviderFx: config globally in the pipeline stream
+// ConfigProviderFx : Provider of  GetConfig
 var ConfigProviderFx = fx.Options(
 	fx.Provide(
 		GetConfig,

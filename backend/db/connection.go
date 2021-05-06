@@ -9,10 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
-/*
-NewConnection: will open the connection with the database information
-that is passed as an argument.
-*/
+// NewConnection NewConnection: will open the connection with the database information
+// that is passed as an argument
 func NewConnection(config *config.Config) *gorm.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable Timezone=Asia/Shanghai",

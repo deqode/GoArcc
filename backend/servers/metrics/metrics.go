@@ -22,6 +22,7 @@ type PrometheusMetrics struct {
 	Times     *prometheus.HistogramVec
 }
 
+// CreateMetrics : Create Metrics will create the metrics in prometheus server.
 func CreateMetrics(config *config.Config) Metrics {
 	var metrics PrometheusMetrics
 	metrics.HitsTotal = prometheus.NewCounter(prometheus.CounterOpts{
@@ -67,11 +68,13 @@ func CreateMetrics(config *config.Config) Metrics {
 	return &metrics
 }
 
+//IncHits : increment the total hits
 func (metrics *PrometheusMetrics) IncHits(status int, method, path string) {
 	metrics.HitsTotal.Inc()
 	metrics.Hits.WithLabelValues(strconv.Itoa(status), method, path).Inc()
 }
 
+//ObserveResponseTime :
 func (metrics *PrometheusMetrics) ObserveResponseTime(status int, method, path string, observeTime float64) {
 	metrics.Times.WithLabelValues(strconv.Itoa(status), method, path).Observe(observeTime)
 }
