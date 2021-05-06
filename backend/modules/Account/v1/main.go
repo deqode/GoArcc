@@ -1,16 +1,16 @@
-package AccountService
+package Account
 
 import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	"alfred/modules/AccountService/v1/models"
-	"alfred/modules/AccountService/v1/pb"
+	"alfred/modules/Account/v1/models"
+	"alfred/modules/Account/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
 
-type AccountService struct {
+type accountsServer struct {
 	db             *gorm.DB
 	config         *config.Config
 	grpcClient     *grpc.ClientConn
@@ -18,18 +18,18 @@ type AccountService struct {
 	cadenceAdapter *cadenceAdapter.CadenceAdapter
 }
 
-// NewAccountService todo : AlWays add migration code for best practices
-func NewAccountService(
+// NewAccountsServer todo : AlWays add migration code for best practices
+func NewAccountsServer(
 	db *gorm.DB,
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
 	cadenceConfig *background.CadenceAppConfig,
 	cadenceAdapter *cadenceAdapter.CadenceAdapter,
-) pb.AccountServiceServer {
+) pb.AccountsServer {
 
 	//initial migration of databases: schema migration
 	models.InitialMigrationAccount(db)
-	return &AccountService{
+	return &accountsServer{
 		db:             db,
 		config:         config,
 		grpcClient:     grpcClientConn,

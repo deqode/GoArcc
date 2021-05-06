@@ -12,20 +12,20 @@ import (
 )
 
 var (
-	gql__type_UpdateAccountRequest       *graphql.Object      // message UpdateAccountRequest in account-service.proto
-	gql__type_GetUserAllAccountResponse  *graphql.Object      // message GetUserAllAccountResponse in account-service.proto
-	gql__type_GetUserAllAccountRequest   *graphql.Object      // message GetUserAllAccountRequest in account-service.proto
-	gql__type_GetAccountRequest          *graphql.Object      // message GetAccountRequest in account-service.proto
-	gql__type_DeleteAccountRequest       *graphql.Object      // message DeleteAccountRequest in account-service.proto
-	gql__type_CreateAccountRequest       *graphql.Object      // message CreateAccountRequest in account-service.proto
-	gql__type_Account                    *graphql.Object      // message Account in account-service.proto
-	gql__input_UpdateAccountRequest      *graphql.InputObject // message UpdateAccountRequest in account-service.proto
-	gql__input_GetUserAllAccountResponse *graphql.InputObject // message GetUserAllAccountResponse in account-service.proto
-	gql__input_GetUserAllAccountRequest  *graphql.InputObject // message GetUserAllAccountRequest in account-service.proto
-	gql__input_GetAccountRequest         *graphql.InputObject // message GetAccountRequest in account-service.proto
-	gql__input_DeleteAccountRequest      *graphql.InputObject // message DeleteAccountRequest in account-service.proto
-	gql__input_CreateAccountRequest      *graphql.InputObject // message CreateAccountRequest in account-service.proto
-	gql__input_Account                   *graphql.InputObject // message Account in account-service.proto
+	gql__type_UpdateAccountRequest     *graphql.Object      // message UpdateAccountRequest in account.proto
+	gql__type_GetUserAccountsResponse  *graphql.Object      // message GetUserAccountsResponse in account.proto
+	gql__type_GetUserAccountsRequest   *graphql.Object      // message GetUserAccountsRequest in account.proto
+	gql__type_GetAccountRequest        *graphql.Object      // message GetAccountRequest in account.proto
+	gql__type_DeleteAccountRequest     *graphql.Object      // message DeleteAccountRequest in account.proto
+	gql__type_CreateAccountRequest     *graphql.Object      // message CreateAccountRequest in account.proto
+	gql__type_Account                  *graphql.Object      // message Account in account.proto
+	gql__input_UpdateAccountRequest    *graphql.InputObject // message UpdateAccountRequest in account.proto
+	gql__input_GetUserAccountsResponse *graphql.InputObject // message GetUserAccountsResponse in account.proto
+	gql__input_GetUserAccountsRequest  *graphql.InputObject // message GetUserAccountsRequest in account.proto
+	gql__input_GetAccountRequest       *graphql.InputObject // message GetAccountRequest in account.proto
+	gql__input_DeleteAccountRequest    *graphql.InputObject // message DeleteAccountRequest in account.proto
+	gql__input_CreateAccountRequest    *graphql.InputObject // message CreateAccountRequest in account.proto
+	gql__input_Account                 *graphql.InputObject // message Account in account.proto
 )
 
 func Gql__type_UpdateAccountRequest() *graphql.Object {
@@ -42,10 +42,10 @@ func Gql__type_UpdateAccountRequest() *graphql.Object {
 	return gql__type_UpdateAccountRequest
 }
 
-func Gql__type_GetUserAllAccountResponse() *graphql.Object {
-	if gql__type_GetUserAllAccountResponse == nil {
-		gql__type_GetUserAllAccountResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetUserAllAccountResponse",
+func Gql__type_GetUserAccountsResponse() *graphql.Object {
+	if gql__type_GetUserAccountsResponse == nil {
+		gql__type_GetUserAccountsResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_GetUserAccountsResponse",
 			Fields: graphql.Fields{
 				"accounts": &graphql.Field{
 					Type: graphql.NewList(Gql__type_Account()),
@@ -53,13 +53,13 @@ func Gql__type_GetUserAllAccountResponse() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_GetUserAllAccountResponse
+	return gql__type_GetUserAccountsResponse
 }
 
-func Gql__type_GetUserAllAccountRequest() *graphql.Object {
-	if gql__type_GetUserAllAccountRequest == nil {
-		gql__type_GetUserAllAccountRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetUserAllAccountRequest",
+func Gql__type_GetUserAccountsRequest() *graphql.Object {
+	if gql__type_GetUserAccountsRequest == nil {
+		gql__type_GetUserAccountsRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_GetUserAccountsRequest",
 			Fields: graphql.Fields{
 				"user_id": &graphql.Field{
 					Type: graphql.String,
@@ -67,7 +67,7 @@ func Gql__type_GetUserAllAccountRequest() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_GetUserAllAccountRequest
+	return gql__type_GetUserAccountsRequest
 }
 
 func Gql__type_GetAccountRequest() *graphql.Object {
@@ -149,10 +149,10 @@ func Gql__input_UpdateAccountRequest() *graphql.InputObject {
 	return gql__input_UpdateAccountRequest
 }
 
-func Gql__input_GetUserAllAccountResponse() *graphql.InputObject {
-	if gql__input_GetUserAllAccountResponse == nil {
-		gql__input_GetUserAllAccountResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetUserAllAccountResponse",
+func Gql__input_GetUserAccountsResponse() *graphql.InputObject {
+	if gql__input_GetUserAccountsResponse == nil {
+		gql__input_GetUserAccountsResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_GetUserAccountsResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"accounts": &graphql.InputObjectFieldConfig{
 					Type: graphql.NewList(Gql__input_Account()),
@@ -160,13 +160,13 @@ func Gql__input_GetUserAllAccountResponse() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_GetUserAllAccountResponse
+	return gql__input_GetUserAccountsResponse
 }
 
-func Gql__input_GetUserAllAccountRequest() *graphql.InputObject {
-	if gql__input_GetUserAllAccountRequest == nil {
-		gql__input_GetUserAllAccountRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetUserAllAccountRequest",
+func Gql__input_GetUserAccountsRequest() *graphql.InputObject {
+	if gql__input_GetUserAccountsRequest == nil {
+		gql__input_GetUserAccountsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_GetUserAccountsRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"user_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -174,7 +174,7 @@ func Gql__input_GetUserAllAccountRequest() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_GetUserAllAccountRequest
+	return gql__input_GetUserAccountsRequest
 }
 
 func Gql__input_GetAccountRequest() *graphql.InputObject {
@@ -242,9 +242,9 @@ func Gql__input_Account() *graphql.InputObject {
 	return gql__input_Account
 }
 
-// graphql__resolver_AccountService is a struct for making query, mutation and resolve fields.
+// graphql__resolver_Accounts is a struct for making query, mutation and resolve fields.
 // This struct must be implemented runtime.SchemaBuilder interface.
-type graphql__resolver_AccountService struct {
+type graphql__resolver_Accounts struct {
 
 	// Automatic connection host
 	host string
@@ -257,9 +257,9 @@ type graphql__resolver_AccountService struct {
 	conn *grpc.ClientConn
 }
 
-// new_graphql_resolver_AccountService creates pointer of service struct
-func new_graphql_resolver_AccountService(conn *grpc.ClientConn) *graphql__resolver_AccountService {
-	return &graphql__resolver_AccountService{
+// new_graphql_resolver_Accounts creates pointer of service struct
+func new_graphql_resolver_Accounts(conn *grpc.ClientConn) *graphql__resolver_Accounts {
+	return &graphql__resolver_Accounts{
 		conn:        conn,
 		host:        "localhost:50051",
 		dialOptions: []grpc.DialOption{},
@@ -267,7 +267,7 @@ func new_graphql_resolver_AccountService(conn *grpc.ClientConn) *graphql__resolv
 }
 
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
-func (x *graphql__resolver_AccountService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
+func (x *graphql__resolver_Accounts) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
 	// If x.conn is not nil, user injected their own connection
 	if x.conn != nil {
 		return x.conn, func() {}, nil
@@ -282,7 +282,7 @@ func (x *graphql__resolver_AccountService) CreateConnection(ctx context.Context)
 }
 
 // GetQueries returns acceptable graphql.Fields for Query.
-func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
+func (x *graphql__resolver_Accounts) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
 		"account": &graphql.Field{
 			Type: Gql__type_Account(),
@@ -296,7 +296,7 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for account")
 				}
-				client := NewAccountServiceClient(conn)
+				client := NewAccountsClient(conn)
 				resp, err := client.GetAccount(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetAccount")
@@ -304,22 +304,22 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 				return resp, nil
 			},
 		},
-		"userAllAccount": &graphql.Field{
-			Type: Gql__type_GetUserAllAccountResponse(),
+		"userAccounts": &graphql.Field{
+			Type: Gql__type_GetUserAccountsResponse(),
 			Args: graphql.FieldConfigArgument{
 				"user_id": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req GetUserAllAccountRequest
+				var req GetUserAccountsRequest
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
-					return nil, errors.Wrap(err, "Failed to marshal request for userAllAccount")
+					return nil, errors.Wrap(err, "Failed to marshal request for userAccounts")
 				}
-				client := NewAccountServiceClient(conn)
-				resp, err := client.GetUserAllAccount(p.Context, &req)
+				client := NewAccountsClient(conn)
+				resp, err := client.GetUserAccounts(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetUserAllAccount")
+					return nil, errors.Wrap(err, "Failed to call RPC GetUserAccounts")
 				}
 				return resp, nil
 			},
@@ -336,7 +336,7 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for deleteAccount")
 				}
-				client := NewAccountServiceClient(conn)
+				client := NewAccountsClient(conn)
 				resp, err := client.DeleteAccount(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC DeleteAccount")
@@ -348,7 +348,7 @@ func (x *graphql__resolver_AccountService) GetQueries(conn *grpc.ClientConn) gra
 }
 
 // GetMutations returns acceptable graphql.Fields for Mutation.
-func (x *graphql__resolver_AccountService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
+func (x *graphql__resolver_Accounts) GetMutations(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
 		"updateAccount": &graphql.Field{
 			Type: Gql__type_Account(),
@@ -362,7 +362,7 @@ func (x *graphql__resolver_AccountService) GetMutations(conn *grpc.ClientConn) g
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for updateAccount")
 				}
-				client := NewAccountServiceClient(conn)
+				client := NewAccountsClient(conn)
 				resp, err := client.UpdateAccount(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC UpdateAccount")
@@ -376,9 +376,9 @@ func (x *graphql__resolver_AccountService) GetMutations(conn *grpc.ClientConn) g
 // Register package divided graphql handler "without" *grpc.ClientConn,
 // therefore gRPC connection will be opened and closed automatically.
 // Occasionally you may worry about open/close performance for each handling graphql request,
-// then you can call RegisterAccountServiceGraphqlHandler with *grpc.ClientConn manually.
-func RegisterAccountServiceGraphql(mux *runtime.ServeMux) error {
-	return RegisterAccountServiceGraphqlHandler(mux, nil)
+// then you can call RegisterAccountsGraphqlHandler with *grpc.ClientConn manually.
+func RegisterAccountsGraphql(mux *runtime.ServeMux) error {
+	return RegisterAccountsGraphqlHandler(mux, nil)
 }
 
 // Register package divided graphql handler "with" *grpc.ClientConn.
@@ -386,7 +386,7 @@ func RegisterAccountServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service AccountService {
+// service Accounts {
 //    option (graphql.service) = {
 //        host: "host:port"
 //        insecure: true or false
@@ -394,6 +394,6 @@ func RegisterAccountServiceGraphql(mux *runtime.ServeMux) error {
 //
 //    ...with RPC definitions
 // }
-func RegisterAccountServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return mux.AddHandler(new_graphql_resolver_AccountService(conn))
+func RegisterAccountsGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return mux.AddHandler(new_graphql_resolver_Accounts(conn))
 }

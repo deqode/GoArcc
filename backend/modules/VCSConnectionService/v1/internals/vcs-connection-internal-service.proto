@@ -7,7 +7,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "types/enums.proto";
 
-service VCSConnectionInternalService {
+service VCSConnectionInternal {
     // GetVCSConnection returns information of vcs stored in DB
     rpc GetVCSConnection(GetVCSConnectionRequest) returns (VCSConnection);
 

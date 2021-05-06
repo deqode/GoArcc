@@ -1,7 +1,7 @@
 package UserProfileService
 
 import (
-	accountPb "alfred/modules/AccountService/v1/pb"
+	accountPb "alfred/modules/Account/v1/pb"
 	"alfred/modules/UserProfileService/v1/models"
 	"alfred/modules/UserProfileService/v1/pb"
 	"context"

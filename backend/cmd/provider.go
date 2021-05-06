@@ -17,14 +17,14 @@ import (
 // Sequence in fx does not matter,  So you can write in any order you want.
 func GetProviderOptions() []fx.Option {
 	return []fx.Option{
-		config.ConfigProviderFx,
+		config.ProviderFx,
 		grpc.InitGrpcBeforeServingFx,
 		user_profile.Module,
 		git_service.Module,
 		db.DatabaseConnectionFx,
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,
-		grpcClient.GrpcClientConnectionFx,
+		grpcClient.ConnectionFx,
 		cmd.CadenceSetupFx,
 	}
 }

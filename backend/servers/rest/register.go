@@ -2,7 +2,7 @@ package rest
 
 import (
 	"alfred/logger"
-	accPb "alfred/modules/AccountService/v1/pb"
+	accPb "alfred/modules/Account/v1/pb"
 	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
 	authPb "alfred/modules/AuthService/v1/pb"
 	gitPb "alfred/modules/GitService/v1/pb"
@@ -38,7 +38,7 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 		return err
 	}
 
-	if err := accPb.RegisterAccountServiceHandler(ctx, mux, conn); err != nil {
+	if err := accPb.RegisterAccountsHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

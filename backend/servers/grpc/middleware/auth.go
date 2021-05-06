@@ -155,7 +155,7 @@ func NewJWTUnaryInterceptor(ctx context.Context, ks *jose.JSONWebKeySet, token s
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, "Unable to verify User")
 	}
-	ui := FromClaims(claims)
+	ui := fromClaims(claims)
 	if ui.ID != "" {
 		ctx = metadata.AppendToOutgoingContext(ctx, id, ui.ID, email, ui.Email)
 	}
@@ -186,7 +186,7 @@ func WithClaims(ctx context.Context, c map[string]interface{}) context.Context {
 	return context.WithValue(ctx, claimsKeyValue, c)
 }
 
-func FromClaims(claims map[string]interface{}) (ui UserInfo) {
+func fromClaims(claims map[string]interface{}) (ui UserInfo) {
 	if claims == nil {
 		return
 	}

@@ -1,13 +1,13 @@
-package AccountService
+package Account
 
 import (
-	"alfred/modules/AccountService/v1/pb"
+	"alfred/modules/Account/v1/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (s *AccountService) GetUserAllAccount(ctx context.Context, in *pb.GetUserAllAccountRequest) (*pb.GetUserAllAccountResponse, error) {
+func (s *accountsServer) GetUserAccounts(ctx context.Context, in *pb.GetUserAccountsRequest) (*pb.GetUserAccountsResponse, error) {
 	var accounts []*pb.Account
 	result := s.db.First(&accounts, "user_id = ?", in.UserId)
 	if result.Error != nil {
@@ -16,7 +16,7 @@ func (s *AccountService) GetUserAllAccount(ctx context.Context, in *pb.GetUserAl
 	if result.RowsAffected == 0 {
 		return nil, status.Error(codes.NotFound, "No Record Found")
 	}
-	return &pb.GetUserAllAccountResponse{
+	return &pb.GetUserAccountsResponse{
 		Accounts: accounts,
 	}, nil
 }

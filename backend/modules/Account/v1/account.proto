@@ -9,8 +9,7 @@ import "include/graphql.proto";
 import "validate/validate.proto";
 
 // Users can have multiple Accounts
-service AccountService {
-
+service Accounts {
     //CreateAccount create new account of a user
     rpc CreateAccount(CreateAccountRequest) returns (Account);
 
@@ -37,13 +36,14 @@ service AccountService {
         };
     }
 
-    rpc GetUserAllAccount(GetUserAllAccountRequest) returns (GetUserAllAccountResponse){
+    //GetUserAccounts will list all the accounts of user
+    rpc GetUserAccounts(GetUserAccountsRequest) returns (GetUserAccountsResponse){
         option (google.api.http) = {
-            get: "/v1/account/get-user-all-account/{user_id}"
+            get: "/v1/account/get-user-accounts/{user_id}"
         };
         option (graphql.schema) = {
             type: QUERY
-            name: "userAllAccount"
+            name: "userAccounts"
         };
     }
 
@@ -76,11 +76,11 @@ message GetAccountRequest {
     string id = 1;
 }
 
-message GetUserAllAccountRequest{
+message GetUserAccountsRequest{
     string user_id = 1;
 }
 
-message GetUserAllAccountResponse{
+message GetUserAccountsResponse{
     repeated Account accounts = 1;
 }
 message Account {

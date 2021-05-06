@@ -1,12 +1,12 @@
-package AccountService
+package Account
 
 import (
-	"alfred/modules/AccountService/v1/models"
-	"alfred/modules/AccountService/v1/pb"
+	"alfred/modules/Account/v1/models"
+	"alfred/modules/Account/v1/pb"
 	"context"
 )
 
-func (s *AccountService) UpdateAccount(ctx context.Context, in *pb.UpdateAccountRequest) (*pb.Account, error) {
+func (s *accountsServer) UpdateAccount(ctx context.Context, in *pb.UpdateAccountRequest) (*pb.Account, error) {
 	account := &models.Account{
 		Slug: in.GetAccount().GetSlug(),
 	}

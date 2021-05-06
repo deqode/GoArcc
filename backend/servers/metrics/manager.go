@@ -24,7 +24,7 @@ func (im *Manager) Metrics(ctx context.Context, req interface{}, info *grpc.Unar
 	resp, err := handler(ctx, req)
 	var status = http.StatusOK
 	if err != nil {
-		status = grpcErrors.MapGRPCErrCodeToHttpStatus(grpcErrors.ParseGRPCErrStatusCode(err))
+		status = grpcErrors.MapGRPCErrCodeToHTTPStatus(grpcErrors.ParseGRPCErrStatusCode(err))
 	}
 	im.metrics.ObserveResponseTime(status, info.FullMethod, info.FullMethod, time.Since(start).Seconds())
 	im.metrics.IncHits(status, info.FullMethod, info.FullMethod)

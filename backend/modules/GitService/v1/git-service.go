@@ -10,6 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+//ListRepository List All the repository
 func (s *GitService) ListRepository(ctx context.Context, in *pb.ListRepositoryRequest) (*pb.ListRepositoryResponse, error) {
 	in.Provider = types.GitProviders_GITHUB
 	//fetch the stored accessToken

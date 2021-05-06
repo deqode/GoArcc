@@ -1,13 +1,13 @@
-package AccountService
+package Account
 
 import (
-	"alfred/modules/AccountService/v1/pb"
+	"alfred/modules/Account/v1/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (s *AccountService) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
+func (s *accountsServer) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
 	account := pb.Account{}
 	result := s.db.First(&account, "id = ?", in.Id)
 	if result.Error != nil {

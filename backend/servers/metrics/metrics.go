@@ -59,11 +59,11 @@ func CreateMetrics(config *config.Config) Metrics {
 	go func() {
 		router := echo.New()
 		router.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
-		if err := router.Start(config.Metrics.Url); err != nil {
+		if err := router.Start(config.Metrics.URL); err != nil {
 			logger.Log.Fatal("unable to create metrics", zap.Error(err))
 		}
 	}()
-	logger.Log.Info("Metrics available URL: ", zap.String("url", config.Metrics.Url),
+	logger.Log.Info("Metrics available URL: ", zap.String("url", config.Metrics.URL),
 		zap.String("service name:", config.Metrics.ServiceName))
 	return &metrics
 }

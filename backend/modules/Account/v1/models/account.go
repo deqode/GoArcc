@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Account - A user can have multiple accounts
 type Account struct {
 	ID        string
 	Slug      string
@@ -16,6 +17,7 @@ type Account struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
+// InitialMigrationAccount will create table in the database
 func InitialMigrationAccount(db *gorm.DB) {
 	if err := db.AutoMigrate(&Account{}); err != nil {
 		logger.Log.Debug("unable to migrate account service", zap.Error(err))

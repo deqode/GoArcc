@@ -4,8 +4,8 @@ import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	"alfred/modules/AccountService/v1"
-	accountPb "alfred/modules/AccountService/v1/pb"
+	"alfred/modules/Account/v1"
+	accountPb "alfred/modules/Account/v1/pb"
 	"alfred/modules/UserProfileService/v1/models"
 	"alfred/modules/UserProfileService/v1/pb"
 	"google.golang.org/grpc"
@@ -16,7 +16,7 @@ type UserProfileService struct {
 	db             *gorm.DB
 	config         *config.Config
 	grpcClient     *grpc.ClientConn
-	accountClient  accountPb.AccountServiceServer
+	accountClient  accountPb.AccountsServer
 	cadenceConfig  *background.CadenceAppConfig
 	cadenceAdapter *cadenceAdapter.CadenceAdapter
 }
@@ -32,7 +32,7 @@ func NewUserProfileService(
 
 	//initial migration of databases: schema migration
 	models.InitialMigrationUserProfile(db)
-	accountCli := AccountService.NewAccountService(db, config, grpcClientConn, cadenceConfig, cadenceAdapter)
+	accountCli := Account.NewAccountsServer(db, config, grpcClientConn, cadenceConfig, cadenceAdapter)
 	return &UserProfileService{
 		db:             db,
 		config:         config,
