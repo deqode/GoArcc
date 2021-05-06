@@ -36,6 +36,7 @@ type Config struct {
 }
 
 // NewConfig todo : keep this config into config-local
+// todo: Move these base AUth0 URLs to config
 func NewConfig() (Config, error) {
 	newConfig := Config{
 		Issuer:   "https://alfred-sh.us.auth0.com/",
