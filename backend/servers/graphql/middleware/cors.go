@@ -3,6 +3,7 @@ package middleware
 import "net/http"
 
 //setupCorsResponse : is the helper method which is responsible to set the header in the response on every request.
+// TODO: Instead of allowing "8" hardcoade, move this to config
 func setupCorsResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, PATCH")
