@@ -8,9 +8,9 @@ import (
 	"io"
 )
 
-// CleanupConfig : cleanup config is the configuration of closing the instance.
+// Config CleanupConfig : cleanup config is the configuration of closing the instance.
 // more type will be added in cleanup config if we stop or destroy the instance.
-type CleanupConfig struct {
+type Config struct {
 	//Db *gorm.DB
 	GrpcServerConnection *grpc.Server
 	GrpcClientConnection *grpc.ClientConn
@@ -22,8 +22,8 @@ type CleanupConfig struct {
 func GetCleanupConfig(
 	GrpcServerConnection *grpc.Server,
 	GrpcClientConnection *grpc.ClientConn,
-	JaegerCloser io.Closer) *CleanupConfig {
-	return &CleanupConfig{
+	JaegerCloser io.Closer) *Config {
+	return &Config{
 		GrpcServerConnection: GrpcServerConnection,
 		JaegerCloser:         JaegerCloser,
 		GrpcClientConnection: GrpcClientConnection,
@@ -31,7 +31,7 @@ func GetCleanupConfig(
 }
 
 // Cleanup /*
-func Cleanup(lc fx.Lifecycle, config *CleanupConfig) {
+func Cleanup(lc fx.Lifecycle, config *Config) {
 	lc.Append(fx.Hook{
 		OnStop: func(ctx context.Context) error {
 			logger.Log.Info(".......Starting Cleanup code ......")

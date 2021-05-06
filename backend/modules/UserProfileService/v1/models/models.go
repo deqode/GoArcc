@@ -15,7 +15,7 @@ type UserProfile struct {
 	Email         string
 	PhoneNumber   string
 	Sub           string
-	ProfilePicUrl string
+	ProfilePicURL string
 	Source        pb.SOURCE
 	CreatedAt     time.Time
 	UpdatedAt     time.Time

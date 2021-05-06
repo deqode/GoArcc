@@ -47,6 +47,7 @@ func NewConfig() (Config, error) {
 	return newConfig, nil
 }
 
+//TODO - User Related Validation
 func AuthMiddleware(ctx context.Context) (context.Context, error) {
 	authRequired := true
 	//getting auth from the context . ie bearer
@@ -57,7 +58,7 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 	//get method name
 	operationName, _ := grpc.Method(ctx)
 	//check for public end point
-	for _, v := range public_endpoint {
+	for _, v := range publicEndpoint {
 		if operationName == v {
 			authRequired = false
 			break
@@ -155,8 +156,8 @@ func NewJWTUnaryInterceptor(ctx context.Context, ks *jose.JSONWebKeySet, token s
 		return nil, status.Error(codes.Unauthenticated, "Unable to verify User")
 	}
 	ui := FromClaims(claims)
-	if ui.Id != "" {
-		ctx = metadata.AppendToOutgoingContext(ctx, id, ui.Id, email, ui.Email)
+	if ui.ID != "" {
+		ctx = metadata.AppendToOutgoingContext(ctx, id, ui.ID, email, ui.Email)
 	}
 	return WithClaims(ctx, claims), nil
 }
@@ -191,7 +192,7 @@ func FromClaims(claims map[string]interface{}) (ui UserInfo) {
 	}
 
 	if v, ok := claims["sub"]; ok {
-		ui.Id = v.(string)
+		ui.ID = v.(string)
 	}
 	if v, ok := claims["ext"]; ok {
 		if e, exist := v.(map[string]interface{})["email"]; exist {
@@ -208,7 +209,7 @@ func FromClaims(claims map[string]interface{}) (ui UserInfo) {
 }
 
 type UserInfo struct {
-	Id          string
+	ID          string
 	Email       string
 	TokenExpiry time.Time
 }

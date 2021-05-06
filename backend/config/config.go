@@ -69,7 +69,7 @@ type PostgresConfig struct {
 
 //MetricsConfig : detail config about the Metrics
 type MetricsConfig struct {
-	Url         string
+	URL         string
 	ServiceName string
 }
 
@@ -83,10 +83,10 @@ type JaegerServerConfig struct {
 
 // AuthConfig Authentication config: details provided by Auth0
 type AuthConfig struct {
-	Auth0ClientId     string
+	Auth0ClientID     string
 	Auth0Domain       string
 	Auth0ClientSecret string
-	Auth0CallbackUrl  string
+	Auth0CallbackURL  string
 }
 
 //VCSSConfig like github,gitlab,bitbucket config
@@ -95,7 +95,7 @@ type VCSSConfig struct {
 	Provider     string
 	URLTemplate  string
 	ClientID     string
-	RedirectUri  string
+	RedirectURI  string
 	State        string
 	Scope        string
 	ResponseType string

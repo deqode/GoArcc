@@ -69,7 +69,8 @@ func runCommand(name string, args ...string) error {
 	go reader(wg, stdout)
 	wg.Wait()
 
-	if err := cmd.Wait(); err != nil {
+	err := cmd.Wait()
+	if err != nil {
 		return err
 	}
 	return nil

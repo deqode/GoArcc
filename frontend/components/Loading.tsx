@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ export default function Loading() {
 
     return (
         <div className={classes.root}>
-                <CircularProgress />
+            <CircularProgress/>
         </div>
     );
 }

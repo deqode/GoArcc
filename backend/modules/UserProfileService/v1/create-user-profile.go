@@ -21,7 +21,7 @@ func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.Creat
 		PhoneNumber:   in.UserProfile.PhoneNumber,
 		Sub:           in.UserProfile.Sub,
 		UserName:      in.UserProfile.UserName,
-		ProfilePicUrl: in.UserProfile.ProfilePicUrl,
+		ProfilePicURL: in.UserProfile.ProfilePicUrl,
 		Source:        in.UserProfile.ExternalSource,
 	}
 

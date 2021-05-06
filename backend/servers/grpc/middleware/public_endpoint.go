@@ -1,6 +1,6 @@
 package middleware
 
-var public_endpoint = []string{
+var publicEndpoint = []string{
 	"/alfred.vcs_connection.v1.VCSConnectionService/ListAllSupportedVCSProviders",
 	"/alfred.auth.v1.UserLoginService/UserLogin",
 	"/alfred.auth.v1.UserLoginService/UserLoginCallback",

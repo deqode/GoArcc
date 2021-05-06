@@ -20,7 +20,7 @@ func (s *AccountService) CreateAccount(ctx context.Context, in *pb.CreateAccount
 	account := &models.Account{
 		ID:     id,
 		Slug:   in.GetAccount().GetSlug(),
-		UserId: in.GetAccount().GetUserId(),
+		UserID: in.GetAccount().GetUserId(),
 	}
 	t := s.db.Create(account)
 	if t.Error != nil {

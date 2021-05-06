@@ -8,9 +8,9 @@ import (
 
 type CloudConnection struct {
 	ID           string
-	ClientId     string
+	ClientID     string
 	ClientSecret string
-	AccountId    string
+	AccountID    string
 	Scope        []string
 	Provider     string
 }

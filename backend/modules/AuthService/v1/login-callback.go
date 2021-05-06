@@ -24,7 +24,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		return nil, status.Error(codes.Internal, "No id_token field in oauth2 token")
 	}
 	oidcConfig := &oidc.Config{
-		ClientID: s.config.Auth.Auth0ClientId,
+		ClientID: s.config.Auth.Auth0ClientID,
 	}
 
 	idToken, err := s.authenticator.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
@@ -41,7 +41,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 
 	//get user_details
 	isCreateUserProfile := false
-	userId := ""
+	userID := ""
 	usr, err := s.userProfileClient.GetUserProfileBySub(ctx, &userProfilePb.GetUserProfileBySubRequest{
 		Sub: fmt.Sprintf("%s", profile["sub"]),
 	})
@@ -69,14 +69,14 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		if err != nil {
 			return nil, err
 		}
-		userId = user.Id
+		userID = user.Id
 	} else {
-		userId = usr.Id
+		userID = usr.Id
 	}
 
 	return &pb.UserLoginCallbackResponse{
 		IdToken:     rawIDToken,
 		AccessToken: token.AccessToken,
-		UserId:      userId,
+		UserId:      userID,
 	}, nil
 }

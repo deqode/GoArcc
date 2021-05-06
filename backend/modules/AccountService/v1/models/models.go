@@ -10,7 +10,7 @@ import (
 type Account struct {
 	ID        string
 	Slug      string
-	UserId    string
+	UserID    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`

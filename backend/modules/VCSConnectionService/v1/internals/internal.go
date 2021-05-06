@@ -45,7 +45,7 @@ func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetV
 	VCS := &pb.VCSConnection{
 		Id:                 record.ID,
 		Provider:           in.Provider,
-		ConnectionId:       record.ConnectionId,
+		ConnectionId:       record.ConnectionID,
 		AccessToken:        record.AccessToken,
 		RefreshToken:       record.RefreshToken,
 		AccessTokenExpiry:  nil,
@@ -73,13 +73,13 @@ func (s *VCSConnectionService) CreateVCSConnection(ctx context.Context, in *pb.C
 	VCSModel := &models.VCSConnection{
 		ID:                 id,
 		Provider:           in.VcsConnection.Provider,
-		ConnectionId:       in.VcsConnection.ConnectionId,
+		ConnectionID:       in.VcsConnection.ConnectionId,
 		AccessToken:        in.VcsConnection.AccessToken,
 		RefreshToken:       in.VcsConnection.RefreshToken,
 		AccessTokenExpiry:  &aTEP,
 		RefreshTokenExpiry: &rTEP,
 		Revoked:            false,
-		AccountId:          in.VcsConnection.AccountId,
+		AccountID:          in.VcsConnection.AccountId,
 		UserName:           in.VcsConnection.UserName,
 		Label:              in.VcsConnection.Label,
 	}

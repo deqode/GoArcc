@@ -11,14 +11,14 @@ func (s *AuthService) UserLogout(context.Context, *empty.Empty) (*empty.Empty, e
 	//TODO - Implement Token based logout
 	domain := config.GetConfig().Auth.Auth0Domain
 
-	logoutUrl, err := url.Parse("http://" + domain)
+	logoutURL, err := url.Parse("http://" + domain)
 
 	if err != nil {
 		//http.Error(w, err.Error(), http.StatusInternalServerError)
 		return nil, err
 	}
 
-	logoutUrl.Path += "/v1/authentication/logout"
+	logoutURL.Path += "/v1/authentication/logout"
 	parameters := url.Values{}
 
 	var scheme string
@@ -30,8 +30,8 @@ func (s *AuthService) UserLogout(context.Context, *empty.Empty) (*empty.Empty, e
 		return nil, err
 	}
 	parameters.Add("returnTo", returnTo.String())
-	parameters.Add("client_id", config.GetConfig().Auth.Auth0ClientId)
-	logoutUrl.RawQuery = parameters.Encode()
+	parameters.Add("client_id", config.GetConfig().Auth.Auth0ClientID)
+	logoutURL.RawQuery = parameters.Encode()
 
 	return &empty.Empty{}, nil
 }

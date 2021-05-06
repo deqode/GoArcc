@@ -14,11 +14,11 @@ import (
 var (
 	ErrNotFound         = errors.New("Not found")
 	ErrNoCtxMetaData    = errors.New("No ctx metadata")
-	ErrInvalidSessionId = errors.New("Invalid session id")
+	ErrInvalidSessionID = errors.New("Invalid session id")
 	ErrEmailExists      = errors.New("Email already exists")
 )
 
-// Parse error and get code
+// ParseGRPCErrStatusCode Parse error and get code
 func ParseGRPCErrStatusCode(err error) codes.Code {
 	switch {
 	case errors.Is(err, sql.ErrNoRows):
@@ -33,7 +33,7 @@ func ParseGRPCErrStatusCode(err error) codes.Code {
 		return codes.AlreadyExists
 	case errors.Is(err, ErrNoCtxMetaData):
 		return codes.Unauthenticated
-	case errors.Is(err, ErrInvalidSessionId):
+	case errors.Is(err, ErrInvalidSessionID):
 		return codes.PermissionDenied
 	case strings.Contains(err.Error(), "Validate"):
 		return codes.InvalidArgument
@@ -43,8 +43,8 @@ func ParseGRPCErrStatusCode(err error) codes.Code {
 	return codes.Internal
 }
 
-// Map GRPC errors codes to http status
-func MapGRPCErrCodeToHttpStatus(code codes.Code) int {
+// MapGRPCErrCodeToHTTPStatus MapGRPCErrCodeToHttpStatus Map GRPC errors codes to http status
+func MapGRPCErrCodeToHTTPStatus(code codes.Code) int {
 	switch code {
 	case codes.Unauthenticated:
 		return http.StatusUnauthorized

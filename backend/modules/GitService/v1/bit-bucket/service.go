@@ -1,1 +1,1 @@
-package bit_bucket
+package bitbucket

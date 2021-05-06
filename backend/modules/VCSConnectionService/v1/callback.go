@@ -26,6 +26,7 @@ func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequ
 	if in.AccountId == "" {
 		return nil, status.Error(codes.InvalidArgument, "Account ID required")
 	}
+
 	vcs, err := s.internalVCSClient.GetVCSConnection(ctx, &internal_pb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
@@ -42,7 +43,7 @@ func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequ
 		//config
 		conf := s.config.VCSConfig
 		githubOauthConfig := &oauth2.Config{
-			RedirectURL:  conf["github"].RedirectUri,
+			RedirectURL:  conf["github"].RedirectURI,
 			ClientID:     conf["github"].ClientID,
 			ClientSecret: conf["github"].ClientSecret,
 			Scopes:       GithubOAuthScope,

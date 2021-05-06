@@ -11,13 +11,13 @@ import (
 type VCSConnection struct {
 	ID                 string
 	Provider           types.GitProviders
-	ConnectionId       string
+	ConnectionID       string
 	AccessToken        string
 	RefreshToken       string
 	AccessTokenExpiry  *time.Time
 	RefreshTokenExpiry *time.Time
 	Revoked            bool
-	AccountId          string
+	AccountID          string
 	UserName           string
 	Label              string
 	CreatedAt          time.Time

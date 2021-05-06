@@ -14,7 +14,7 @@ import (
 )
 
 func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
-	var redirectUrl string
+	var redirectURL string
 	switch in.Provider {
 	case types.GitProviders_GITHUB:
 		conf := s.config.VCSConfig
@@ -22,7 +22,7 @@ func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRe
 		mp := map[string]string{
 			"scope":         conf["github"].Scope,
 			"client_id":     conf["github"].ClientID,
-			"redirect_uri":  conf["github"].RedirectUri,
+			"redirect_uri":  conf["github"].RedirectURI,
 			"response_type": conf["github"].ResponseType,
 		}
 		reg := regexp.MustCompile(`[{}]`)
@@ -35,20 +35,20 @@ func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRe
 				return nil, status.Error(codes.Internal, "Internal ERROR")
 			}
 		}
-		redirectUrl = strings.Join(fields, "")
+		redirectURL = strings.Join(fields, "")
 	}
 
 	// todo - find account id to identify user account
 	return &pb.AuthorizeResponse{
-		RedirectUrl:  redirectUrl,
+		RedirectUrl:  redirectURL,
 		TempJwtToken: "",
 	}, nil
 }
 
 type UserClaims struct {
 	jwt.StandardClaims
-	userId    string `json:"userid"`
-	accountId string `json:"accountid"`
+	userID    string `json:"userid"`
+	accountID string `json:"accountid"`
 }
 
 // Create the JWT key used to create the signature
@@ -61,8 +61,8 @@ func Generate(userid, accountid string) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
-		accountId: accountid,
-		userId:    userid,
+		accountID: accountid,
+		userID:    userid,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

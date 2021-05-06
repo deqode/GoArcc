@@ -42,7 +42,7 @@ func (s *VCSConnectionService) ListVCSConnection(ctx context.Context, in *pb.Lis
 		accountVcsConnection = append(accountVcsConnection, &pb.AccountVCSConnection{
 			Id:        v.ID,
 			Provider:  v.Provider,
-			AccountId: v.AccountId,
+			AccountId: v.AccountID,
 			Label:     v.Label,
 			UserName:  v.UserName,
 		})
@@ -65,7 +65,7 @@ func (s *VCSConnectionService) GetVCSConnection(ctx context.Context, in *pb.GetV
 	accountVcsConnection := &pb.AccountVCSConnection{
 		Id:        record.ID,
 		Provider:  record.Provider,
-		AccountId: record.AccountId,
+		AccountId: record.AccountID,
 		Label:     record.Label,
 		UserName:  record.UserName,
 	}

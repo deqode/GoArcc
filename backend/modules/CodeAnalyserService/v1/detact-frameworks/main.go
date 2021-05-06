@@ -1,1 +1,1 @@
-package detact_frameworks
+package detactframeworks
