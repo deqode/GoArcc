@@ -8,11 +8,11 @@ const appContext: AppContextInterface = {
         centrifuge: new Centrifuge(CENTRIFUGO),
         subscribed: false,
     },
-    setApp:()=>null,
-    removeApp:()=>null,
+    setApp: () => null,
+    removeApp: () => null,
 }
 
-export const AppContext = createContext(appContext);
+export const AppContext = createContext<AppContextInterface>(appContext);
 
 
 

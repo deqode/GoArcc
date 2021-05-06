@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps): any {
   });
 
   const [app, setAppState] = useState({
-    centrifuge: new Centrifuge(CENTRIFUGO),
+    centrifuge: new Centrifuge(CENTRIFUGO||""),
     subscribed: false
   });
 

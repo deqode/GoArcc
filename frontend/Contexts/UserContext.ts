@@ -19,4 +19,4 @@ const userContext: UserContextInterface = {
 
 }
 
-export const UserContext = createContext(userContext);
+export const UserContext = createContext<UserContextInterface>(userContext);
