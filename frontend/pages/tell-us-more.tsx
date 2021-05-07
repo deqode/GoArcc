@@ -1,24 +1,22 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
-    Button,
-    Drawer,
-    Fab,
-    FormControl,
-    Grid,
-    InputLabel,
-    MenuItem,
-    Paper,
-    Select,
-    TextField,
-    Typography,
+  Button,
+  Drawer,
+  Fab,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
 } from "@material-ui/core";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {useLazyQuery, useMutation} from "@apollo/client";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useLazyQuery, useMutation} from "@apollo/client";
 import Head from "next/head";
-import {useRouter} from "next/router";
-import Loading from "../components/Loading";
-import {UserContext} from "../Contexts/UserContext";
-import {AppContext} from "../Contexts/AppContext";
+import { UserContext } from "../Contexts/UserContext";
+import { AppContext } from "../Contexts/AppContext";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import {
   GET_BRANCHES,
@@ -27,36 +25,37 @@ import {
   CLONE_REPOSITORY,
 } from "../GraphQL/Query";
 import VerticalLinearStepper from "../components/steps";
-import {LogViewer} from "react-log-output";
+import { LogViewer } from "react-log-output";
+import { withIronSession } from "next-iron-session";
+import { sessionCongfig } from "../utils/constants";
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            width: "100%",
-            "& .MuiTextField-root": {
-                margin: theme.spacing(1),
-                width: "25ch",
-            },
-        },
-        formControl: {
-            margin: theme.spacing(2),
-            minWidth: 225,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-    })
+  createStyles({
+    root: {
+      width: "100%",
+      "& .MuiTextField-root": {
+        margin: theme.spacing(1),
+        width: "25ch",
+      },
+    },
+    formControl: {
+      margin: theme.spacing(2),
+      minWidth: 225,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  })
 );
 
-export default function TellUsMore() {
+export default function TellUsMore(props: any) {
   const classes = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const { app } = useContext(AppContext);
   const [ownerName, setownerName] = useState("");
   const [repos, setrepos] = useState([]);
   const [currenRepoName, setcurrenRepoName] = useState("");
   const [branches, setbranches] = useState([]);
-  const router = useRouter();
   const [cloneUrl, setCloneUrl] = useState("");
   const [currentBranchName, setcurrentBranchName] = useState("");
   const [runID, setrunID] = useState("");
@@ -65,12 +64,28 @@ export default function TellUsMore() {
   const [cloneLogs, setCloneLogs] = useState<string[]>([]);
   const [cloneLog, setCloneLog] = useState("");
   const [showLogs, setshowLogs] = useState(false)
+  setUser(props.user)
 
-
-    const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS);
-    const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES);
-    const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES);
-    const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY);
+  const [vcsrefetch, vcsData] = useLazyQuery(VCS_CONNECTIONS, {
+    context: {
+      headers: { Authorization: `Bearer ${user.idToken}` },
+    }
+  });
+  const [reposrefetch, reposData] = useLazyQuery(GET_REPOSITORIES, {
+    context: {
+      headers: { Authorization: `Bearer ${user.idToken}` },
+    }
+  });
+  const [branchesRefetch, branchesData] = useLazyQuery(GET_BRANCHES, {
+    context: {
+      headers: { Authorization: `Bearer ${user.idToken}` },
+    }
+  });
+  const [clonereporefetch, cloneData] = useMutation(CLONE_REPOSITORY, {
+    context: {
+      headers: { Authorization: `Bearer ${user.idToken}` },
+    }
+  });
 
   useEffect(() => {
     app.centrifuge.connect();
@@ -79,13 +94,13 @@ export default function TellUsMore() {
       console.log("setCloneLog")
     });
   }, [app.centrifuge]);
-    useEffect(() => {
-      const newcloneLogs=cloneLogs
-      newcloneLogs.push(cloneLog)
-      setCloneLogs([...cloneLogs, cloneLog])
-      console.log("setCloneLogs")
+  useEffect(() => {
+    const newcloneLogs = cloneLogs
+    newcloneLogs.push(cloneLog)
+    setCloneLogs([...cloneLogs, cloneLog])
+    console.log("setCloneLogs")
 
-    }, [cloneLog]);
+  }, [cloneLog]);
 
   useEffect(() => {
     if (user.idToken != "" && user.accounts.length > 0)
@@ -96,14 +111,14 @@ export default function TellUsMore() {
       });
   }, [user, vcsrefetch]);
 
-    useEffect(() => {
-        if (
-            !vcsData.loading &&
-            vcsData.error == undefined &&
-            vcsData.data != undefined
-        )
-            setownerName(vcsData.data.VCSConnections.vcs_connection[0].user_name);
-    }, [vcsData]);
+  useEffect(() => {
+    if (
+      !vcsData.loading &&
+      vcsData.error == undefined &&
+      vcsData.data != undefined
+    )
+      setownerName(vcsData.data.VCSConnections.vcs_connection[0].user_name);
+  }, [vcsData]);
 
   useEffect(() => {
     if (ownerName != "")
@@ -116,16 +131,16 @@ export default function TellUsMore() {
       });
   }, [ownerName, reposrefetch, user.accounts, user.provider, user.userId]);
 
-    useEffect(() => {
-        if (
-            !reposData.loading &&
-            reposData.error == undefined &&
-            reposData.data != undefined
-        ) {
-            setrepos(reposData.data.repositories.repositories);
-            console.log(reposData.data.repositories.repositories, "wow");
-        }
-    }, [reposData]);
+  useEffect(() => {
+    if (
+      !reposData.loading &&
+      reposData.error == undefined &&
+      reposData.data != undefined
+    ) {
+      setrepos(reposData.data.repositories.repositories);
+      console.log(reposData.data.repositories.repositories, "wow");
+    }
+  }, [reposData]);
 
   useEffect(() => {
     if (currenRepoName != "")
@@ -139,27 +154,27 @@ export default function TellUsMore() {
       });
   }, [branchesRefetch, currenRepoName, ownerName, user.accounts, user.provider]);
 
-    useEffect(() => {
-        if (
-            !reposData.loading &&
-            reposData.error == undefined &&
-            reposData.data != undefined
-        ) {
-            setrepos(reposData.data.repositories.repositories);
-            console.log(reposData.data.repositories.repositories, "wow");
-        }
-    }, [reposData]);
+  useEffect(() => {
+    if (
+      !reposData.loading &&
+      reposData.error == undefined &&
+      reposData.data != undefined
+    ) {
+      setrepos(reposData.data.repositories.repositories);
+      console.log(reposData.data.repositories.repositories, "wow");
+    }
+  }, [reposData]);
 
-    useEffect(() => {
-        if (
-            !branchesData.loading &&
-            branchesData.error == undefined &&
-            branchesData.data != undefined
-        ) {
-            setbranches(branchesData.data.repository.branches);
-            setCloneUrl(branchesData.data.repository.clone_url);
-        }
-    }, [branchesData]);
+  useEffect(() => {
+    if (
+      !branchesData.loading &&
+      branchesData.error == undefined &&
+      branchesData.data != undefined
+    ) {
+      setbranches(branchesData.data.repository.branches);
+      setCloneUrl(branchesData.data.repository.clone_url);
+    }
+  }, [branchesData]);
 
   useEffect(() => {
     if (currenRepoName != "")
@@ -173,16 +188,16 @@ export default function TellUsMore() {
       });
   }, [branchesRefetch, currenRepoName, ownerName, user.accounts, user.provider]);
 
-    useEffect(() => {
-        if (
-            !cloneData.loading &&
-            cloneData.error == undefined &&
-            cloneData.data != undefined
-        ) {
-            setrunID(cloneData.data.cloneRepository.run_id || "");
-            setworkFlowId(cloneData.data.cloneRepository.workflow_id || "");
-        }
-    }, [cloneData]);
+  useEffect(() => {
+    if (
+      !cloneData.loading &&
+      cloneData.error == undefined &&
+      cloneData.data != undefined
+    ) {
+      setrunID(cloneData.data.cloneRepository.run_id || "");
+      setworkFlowId(cloneData.data.cloneRepository.workflow_id || "");
+    }
+  }, [cloneData]);
 
   const selectRepo = (e: any): void => {
     if (e.target.value == "choose") {
@@ -224,15 +239,7 @@ export default function TellUsMore() {
     }
   };
 
-  useEffect(() => {
-    if (user.state == -1) router.push("/");
-  }, [router, user]);
-  if (user.state != 1)
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+
   return (
     <div>
       <Head>
@@ -360,6 +367,20 @@ export default function TellUsMore() {
         <VisibilityIcon />
       </Fab>
 
-        </div>
-    );
+    </div>
+  );
 }
+
+export const getServerSideProps = withIronSession(async ({ req }) => {
+  console.log(req.session.get("user"))
+  if (req.session.get("user")) {
+    return { props: { user: req.session.get("user") } }
+  }
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/"
+    }
+  }
+
+}, sessionCongfig)

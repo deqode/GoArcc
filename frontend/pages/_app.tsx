@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps): any {
   }, [])
 
   const setUser = (value: any): void => {
-    setStorage("token", value)
+    // setStorage("token", value)
     setState(value)
   }
 

@@ -6,7 +6,7 @@ import React, { useContext } from 'react'
 import { UserContext } from '../Contexts/UserContext';
 
 function Navbar(): any {
-    const { user, removeUser } = useContext(UserContext)
+    const { user, } = useContext(UserContext)
     const router = useRouter();
     return (
         <AppBar position="static" color="transparent">
@@ -18,10 +18,15 @@ function Navbar(): any {
                         </Link>
                     </Grid>
                     <Grid item>
-                        {user.idToken != "" ?
-                            <Button onClick={() => {
-                                if (removeUser != undefined)
-                                    removeUser();
+                        {user && user.idToken != "" ?
+                            <Button onClick={async () => {
+                                await fetch(`/api/session/destroy`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                })
                                 router.push("/")
                             }} color="inherit">Logout</Button>
                             : ""}

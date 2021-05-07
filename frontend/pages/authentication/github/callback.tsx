@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
-import { UserContext } from '../../../Contexts/UserContext';
-import { SERVER } from '../../../utils/constants';
+import { SERVER, sessionCongfig } from '../../../utils/constants';
+import { withIronSession } from 'next-iron-session';
 
-function Callback() {
+function Callback(props:any) {
     const router = useRouter();
-    const { setUser, user } = useContext(UserContext)
+    const { user } = props
 
     const { query } = router
     useEffect(() => {
@@ -35,10 +35,22 @@ function Callback() {
                     newUser.provider = data.provider
 
                     console.log(newUser)
-                    setUser(newUser)
+                    const sessionRes = await fetch(`/api/session/set`, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newUser)
+                    })
+                    const sessionData = await sessionRes.json()
+                    if (!sessionData) {
+                        router.push("/dashboard")
+                        return
+                    }
                     router.push("/tell-us-more")
                 } else {
-                    router.push("/")
+                    router.push("/dashboard")
                 }
 
             })()
@@ -46,7 +58,7 @@ function Callback() {
         }
         // else
         // router.push("/")
-    }, [query, router, setUser, user])
+    }, [query, router, user])
 
     return (
         <div>
@@ -57,3 +69,15 @@ function Callback() {
 
 export default Callback
 
+export const getServerSideProps = withIronSession(async ({ req }) => {
+    if (req.session.get("user")) {
+        return { props: { user: req.session.get("user") } }
+    }
+    return {
+        redirect: {
+            permanent: false,
+            destination: "/"
+        }
+    }
+
+}, sessionCongfig)

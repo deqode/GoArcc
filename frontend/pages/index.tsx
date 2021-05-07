@@ -1,30 +1,16 @@
 import { Grid, Paper, Typography } from '@material-ui/core';
 import Head from 'next/head';
-import { SERVER,} from '../utils/constants';
-import Link from 'next/link'
-import { useContext, useEffect, useState } from 'react';
+import { SERVER, sessionCongfig, } from '../utils/constants';
+import { useContext } from 'react';
+import { withIronSession } from "next-iron-session";
 import { UserContext } from '../Contexts/UserContext';
 
-export default function Login({ auth }:any) {
+export default function Login(props: any) {
+  const { setUser } = useContext(UserContext)
+  const { auth, user } = props
+  console.log(user)
+  setUser(user)
 
-  const { user } = useContext(UserContext)
-  const [repo, setrepo] = useState({ redirectUrl: "" })
-  useEffect(() => {
-    (async () => {
-      if (user.idToken != "") {
-        const res = await fetch(`${SERVER}/vcs-connection/authorize/GITHUB`, {
-          headers: new Headers({
-            'Authorization': `Bearer ${user.idToken}`,
-          })
-        })
-        const data = await res.json()
-        console.log(data.redirectUrl, "1111111")
-        setrepo(data)
-      }
-    })()
-
-
-  }, [user])
 
   return (
     <div>
@@ -41,18 +27,11 @@ export default function Login({ auth }:any) {
         </Grid>
         <Grid item>
           <div className="text-center">
-            {user.idToken != "" ?
-              <> <div className="sign_up_head">Connect</div>
-                <Link href={repo.redirectUrl}>
-                  <a className="btn github_btn">Connect with github<img src="/assets/github_icon.png" alt="Login with github" /></a>
-                </Link>  </> :
-              <>
-                <div className="sign_up_head">Sign Up</div>
-                <a href={auth.url} className="btn github_btn">Login with github<img src="/assets/github_icon.png" alt="Login with github" /></a>
-              </>}
+
+            <div className="sign_up_head">Sign Up</div>
+            <a href={auth.url} className="btn github_btn">Login with github<img src="/assets/github_icon.png" alt="Login with github" /></a>
           </div>                    </Grid>
       </Grid>
-
       <Paper />
 
     </div>
@@ -60,16 +39,18 @@ export default function Login({ auth }:any) {
 }
 
 
-export const getStaticProps = async () => {
-
-
-    const res = await fetch(`${SERVER}/authentication/login`)
-    const data = await res.json()
-    const auth = data
-    return {
-      props: {
-        auth,
-      },
+export const getServerSideProps = withIronSession(async ({ req }) => {
+  const result = await fetch(`${SERVER}/authentication/login`)
+  const data = await result.json()
+  const auth = data
+  if (!req.session.get("user")) {
+    return { props: { user: null, auth } }
+  }
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/dashboard"
     }
-  
-}
+  }
+
+}, sessionCongfig)
