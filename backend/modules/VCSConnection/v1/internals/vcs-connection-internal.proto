@@ -31,11 +31,12 @@ message VCSConnection {
     // unique connection_id
     string connection_id = 4;
     // access token
-    string accessToken = 5;
+    string access_token = 5;
     // refresh token
-    string refreshToken = 6 ;
-    google.protobuf.Timestamp accessTokenExpiry = 7;
-    google.protobuf.Timestamp refreshTokenExpiry = 8;
+    string refresh_token = 6 ;
+    google.protobuf.Timestamp access_token_expiry = 7;
+    google.protobuf.Timestamp refresh_token_expiry = 8;
+    // user can revoke the vcs access
     bool revoked = 9;
     // vcs connection must belong to a account_id
     string account_id = 10;

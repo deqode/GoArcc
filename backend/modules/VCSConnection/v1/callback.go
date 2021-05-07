@@ -1,8 +1,8 @@
-package VCSConnectionService
+package vcs_connection
 
 import (
-	internal_pb "alfred/modules/VCSConnectionService/v1/internals/pb"
-	"alfred/modules/VCSConnectionService/v1/pb"
+	internal_pb "alfred/modules/VCSConnection/v1/internals/pb"
+	"alfred/modules/VCSConnection/v1/pb"
 	"alfred/protos/types"
 	"context"
 	"github.com/golang/protobuf/ptypes"
@@ -14,7 +14,11 @@ import (
 	"time"
 )
 
-func (s *VCSConnectionService) Callback(ctx context.Context, in *pb.CallbackRequest) (*pb.AccountVCSConnection, error) {
+var (
+	GithubOAuthScope = []string{"user", "gist", "repo", "repo_deployment", "repo_hook"}
+)
+
+func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackRequest) (*pb.AccountVCSConnection, error) {
 	// Getting required tokens and their expiry
 	var accessToken, refreshToken string
 	var accessTokenExpiry, refreshTokenExpiry time.Time

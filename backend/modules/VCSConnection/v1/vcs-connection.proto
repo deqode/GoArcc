@@ -15,6 +15,10 @@ service VCSConnections {
         option (google.api.http) = {
             get: "/v1/vcs-connection/list-all-supported-VCS-providers"
         };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "listAllSupportedVCSProviders"
+        };
     }
 
     //Authorize provide a URL of external OAuth application
@@ -42,7 +46,7 @@ service VCSConnections {
         };
     }
 
-    //ListVCSConnection list all connected service of user's account
+    //GetVCSConnection get a vcs_connection based on id
     rpc GetVCSConnection(GetVCSConnectionRequest) returns (AccountVCSConnection){
         option (google.api.http) = {
             get: "/v1/vcs-connection/vcs-connection/{id}"

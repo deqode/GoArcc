@@ -14,8 +14,8 @@ import (
 	gitPb "alfred/modules/GitService/v1/pb"
 	userProfile "alfred/modules/UserProfileService/v1"
 	userProfilePb "alfred/modules/UserProfileService/v1/pb"
-	vcs "alfred/modules/VCSConnectionService/v1"
-	vcsPb "alfred/modules/VCSConnectionService/v1/pb"
+	vcs "alfred/modules/VCSConnection/v1"
+	vcsPb "alfred/modules/VCSConnection/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -36,7 +36,7 @@ func RegisterGrpcModules(srv *grpc.Server,
 	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService(cadenceConfig, cadenceAdapter))
 	authPb.RegisterUserLoginServiceServer(srv, v13.NewAuthService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
-	vcsPb.RegisterVCSConnectionServiceServer(srv, vcs.NewVCSConnectionService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	vcsPb.RegisterVCSConnectionsServer(srv, vcs.NewVCSConnectionServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 	accPb.RegisterAccountsServer(srv, acc.NewAccountsServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 	gitPb.RegisterGitServiceServer(srv, git.NewGitService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 }

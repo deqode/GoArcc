@@ -1,7 +1,7 @@
-package VCSConnectionService
+package vcs_connection
 
 import (
-	"alfred/modules/VCSConnectionService/v1/pb"
+	"alfred/modules/VCSConnection/v1/pb"
 	"alfred/protos/types"
 	"context"
 	"fmt"
@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
+func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
 
 	var redirectURL string
 	switch in.Provider {
@@ -48,8 +48,8 @@ func (s *VCSConnectionService) Authorize(ctx context.Context, in *pb.AuthorizeRe
 
 type UserClaims struct {
 	jwt.StandardClaims
-	userID    string `json:"userid"`
-	accountID string `json:"accountid"`
+	UserID    string `json:"userid"`
+	AccountID string `json:"accountid"`
 }
 
 // Create the JWT key used to create the signature
@@ -62,8 +62,8 @@ func Generate(userid, accountid string) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
-		accountID: accountid,
-		userID:    userid,
+		AccountID: accountid,
+		UserID:    userid,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

@@ -1,17 +1,17 @@
 grpc:
     Port: 8000
     Host: localhost
-    RequestTimeout: 20
+    RequestTimeout: 5
 
 graphql:
     Port: 8081
     Host: localhost
-    RequestTimeout: 20
+    RequestTimeout: 5
 
 rest:
     Port: 8082
     Host: localhost
-    RequestTimeout: 20
+    RequestTimeout: 5
 
 healthcheck:
     Port: 8083
@@ -27,8 +27,8 @@ logger:
 postgres:
     PostgresqlHost: localhost
     PostgresqlPort: 5432
-    PostgresqlUser: atul
-    PostgresqlPassword: atul
+    PostgresqlUser: postgres
+    PostgresqlPassword: root
     PostgresqlDbname: alfred
     PostgresqlSslmode: false
     PgDriver: pgx

@@ -9,25 +9,27 @@ import (
 	"github.com/pkg/errors"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"google.golang.org/grpc"
+
+	gql_ptypes_empty "github.com/ysugimoto/grpc-graphql-gateway/ptypes/empty"
 )
 
 var (
-	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in vcs-connection-service.proto
-	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_ListAllSupportedVCSProvidersResponse  *graphql.Object      // message ListAllSupportedVCSProvidersResponse in vcs-connection-service.proto
-	gql__type_GetVCSConnectionRequest               *graphql.Object      // message GetVCSConnectionRequest in vcs-connection-service.proto
-	gql__type_CallbackRequest                       *graphql.Object      // message CallbackRequest in vcs-connection-service.proto
-	gql__type_AuthorizeResponse                     *graphql.Object      // message AuthorizeResponse in vcs-connection-service.proto
-	gql__type_AuthorizeRequest                      *graphql.Object      // message AuthorizeRequest in vcs-connection-service.proto
-	gql__type_AccountVCSConnection                  *graphql.Object      // message AccountVCSConnection in vcs-connection-service.proto
-	gql__input_ListVCSConnectionResponse            *graphql.InputObject // message ListVCSConnectionResponse in vcs-connection-service.proto
-	gql__input_ListVCSConnectionRequest             *graphql.InputObject // message ListVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_ListAllSupportedVCSProvidersResponse *graphql.InputObject // message ListAllSupportedVCSProvidersResponse in vcs-connection-service.proto
-	gql__input_GetVCSConnectionRequest              *graphql.InputObject // message GetVCSConnectionRequest in vcs-connection-service.proto
-	gql__input_CallbackRequest                      *graphql.InputObject // message CallbackRequest in vcs-connection-service.proto
-	gql__input_AuthorizeResponse                    *graphql.InputObject // message AuthorizeResponse in vcs-connection-service.proto
-	gql__input_AuthorizeRequest                     *graphql.InputObject // message AuthorizeRequest in vcs-connection-service.proto
-	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in vcs-connection-service.proto
+	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in vcs-connection.proto
+	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in vcs-connection.proto
+	gql__type_ListAllSupportedVCSProvidersResponse  *graphql.Object      // message ListAllSupportedVCSProvidersResponse in vcs-connection.proto
+	gql__type_GetVCSConnectionRequest               *graphql.Object      // message GetVCSConnectionRequest in vcs-connection.proto
+	gql__type_CallbackRequest                       *graphql.Object      // message CallbackRequest in vcs-connection.proto
+	gql__type_AuthorizeResponse                     *graphql.Object      // message AuthorizeResponse in vcs-connection.proto
+	gql__type_AuthorizeRequest                      *graphql.Object      // message AuthorizeRequest in vcs-connection.proto
+	gql__type_AccountVCSConnection                  *graphql.Object      // message AccountVCSConnection in vcs-connection.proto
+	gql__input_ListVCSConnectionResponse            *graphql.InputObject // message ListVCSConnectionResponse in vcs-connection.proto
+	gql__input_ListVCSConnectionRequest             *graphql.InputObject // message ListVCSConnectionRequest in vcs-connection.proto
+	gql__input_ListAllSupportedVCSProvidersResponse *graphql.InputObject // message ListAllSupportedVCSProvidersResponse in vcs-connection.proto
+	gql__input_GetVCSConnectionRequest              *graphql.InputObject // message GetVCSConnectionRequest in vcs-connection.proto
+	gql__input_CallbackRequest                      *graphql.InputObject // message CallbackRequest in vcs-connection.proto
+	gql__input_AuthorizeResponse                    *graphql.InputObject // message AuthorizeResponse in vcs-connection.proto
+	gql__input_AuthorizeRequest                     *graphql.InputObject // message AuthorizeRequest in vcs-connection.proto
+	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in vcs-connection.proto
 )
 
 func Gql__type_ListVCSConnectionResponse() *graphql.Object {
@@ -320,9 +322,9 @@ func Gql__input_AccountVCSConnection() *graphql.InputObject {
 	return gql__input_AccountVCSConnection
 }
 
-// graphql__resolver_VCSConnectionService is a struct for making query, mutation and resolve fields.
+// graphql__resolver_VCSConnections is a struct for making query, mutation and resolve fields.
 // This struct must be implemented runtime.SchemaBuilder interface.
-type graphql__resolver_VCSConnectionService struct {
+type graphql__resolver_VCSConnections struct {
 
 	// Automatic connection host
 	host string
@@ -335,9 +337,9 @@ type graphql__resolver_VCSConnectionService struct {
 	conn *grpc.ClientConn
 }
 
-// new_graphql_resolver_VCSConnectionService creates pointer of service struct
-func new_graphql_resolver_VCSConnectionService(conn *grpc.ClientConn) *graphql__resolver_VCSConnectionService {
-	return &graphql__resolver_VCSConnectionService{
+// new_graphql_resolver_VCSConnections creates pointer of service struct
+func new_graphql_resolver_VCSConnections(conn *grpc.ClientConn) *graphql__resolver_VCSConnections {
+	return &graphql__resolver_VCSConnections{
 		conn:        conn,
 		host:        "localhost:50051",
 		dialOptions: []grpc.DialOption{},
@@ -345,7 +347,7 @@ func new_graphql_resolver_VCSConnectionService(conn *grpc.ClientConn) *graphql__
 }
 
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
-func (x *graphql__resolver_VCSConnectionService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
+func (x *graphql__resolver_VCSConnections) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
 	// If x.conn is not nil, user injected their own connection
 	if x.conn != nil {
 		return x.conn, func() {}, nil
@@ -360,8 +362,24 @@ func (x *graphql__resolver_VCSConnectionService) CreateConnection(ctx context.Co
 }
 
 // GetQueries returns acceptable graphql.Fields for Query.
-func (x *graphql__resolver_VCSConnectionService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
+func (x *graphql__resolver_VCSConnections) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
+		"listAllSupportedVCSProviders": &graphql.Field{
+			Type: Gql__type_ListAllSupportedVCSProvidersResponse(),
+			Args: graphql.FieldConfigArgument{},
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				var req gql_ptypes_empty.Empty
+				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
+					return nil, errors.Wrap(err, "Failed to marshal request for listAllSupportedVCSProviders")
+				}
+				client := NewVCSConnectionsClient(conn)
+				resp, err := client.ListAllSupportedVCSProviders(p.Context, &req)
+				if err != nil {
+					return nil, errors.Wrap(err, "Failed to call RPC ListAllSupportedVCSProviders")
+				}
+				return resp, nil
+			},
+		},
 		"VCSConnections": &graphql.Field{
 			Type: Gql__type_ListVCSConnectionResponse(),
 			Args: graphql.FieldConfigArgument{
@@ -377,7 +395,7 @@ func (x *graphql__resolver_VCSConnectionService) GetQueries(conn *grpc.ClientCon
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for VCSConnections")
 				}
-				client := NewVCSConnectionServiceClient(conn)
+				client := NewVCSConnectionsClient(conn)
 				resp, err := client.ListVCSConnection(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC ListVCSConnection")
@@ -400,7 +418,7 @@ func (x *graphql__resolver_VCSConnectionService) GetQueries(conn *grpc.ClientCon
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for VCSConnection")
 				}
-				client := NewVCSConnectionServiceClient(conn)
+				client := NewVCSConnectionsClient(conn)
 				resp, err := client.GetVCSConnection(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetVCSConnection")
@@ -412,16 +430,16 @@ func (x *graphql__resolver_VCSConnectionService) GetQueries(conn *grpc.ClientCon
 }
 
 // GetMutations returns acceptable graphql.Fields for Mutation.
-func (x *graphql__resolver_VCSConnectionService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
+func (x *graphql__resolver_VCSConnections) GetMutations(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{}
 }
 
 // Register package divided graphql handler "without" *grpc.ClientConn,
 // therefore gRPC connection will be opened and closed automatically.
 // Occasionally you may worry about open/close performance for each handling graphql request,
-// then you can call RegisterVCSConnectionServiceGraphqlHandler with *grpc.ClientConn manually.
-func RegisterVCSConnectionServiceGraphql(mux *runtime.ServeMux) error {
-	return RegisterVCSConnectionServiceGraphqlHandler(mux, nil)
+// then you can call RegisterVCSConnectionsGraphqlHandler with *grpc.ClientConn manually.
+func RegisterVCSConnectionsGraphql(mux *runtime.ServeMux) error {
+	return RegisterVCSConnectionsGraphqlHandler(mux, nil)
 }
 
 // Register package divided graphql handler "with" *grpc.ClientConn.
@@ -429,7 +447,7 @@ func RegisterVCSConnectionServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service VCSConnectionService {
+// service VCSConnections {
 //    option (graphql.service) = {
 //        host: "host:port"
 //        insecure: true or false
@@ -437,6 +455,6 @@ func RegisterVCSConnectionServiceGraphql(mux *runtime.ServeMux) error {
 //
 //    ...with RPC definitions
 // }
-func RegisterVCSConnectionServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return mux.AddHandler(new_graphql_resolver_VCSConnectionService(conn))
+func RegisterVCSConnectionsGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return mux.AddHandler(new_graphql_resolver_VCSConnections(conn))
 }

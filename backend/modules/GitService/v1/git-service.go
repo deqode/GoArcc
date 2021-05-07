@@ -3,7 +3,7 @@ package GitService
 import (
 	githubService "alfred/modules/GitService/v1/github"
 	"alfred/modules/GitService/v1/pb"
-	vcsinternalPb "alfred/modules/VCSConnectionService/v1/internals/pb"
+	vcsinternalPb "alfred/modules/VCSConnection/v1/internals/pb"
 	"alfred/protos/types"
 	"context"
 	"google.golang.org/grpc/codes"

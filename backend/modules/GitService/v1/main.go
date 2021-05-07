@@ -6,8 +6,8 @@ import (
 	"alfred/config"
 	"alfred/modules/GitService/v1/github"
 	"alfred/modules/GitService/v1/pb"
-	vcsinternal "alfred/modules/VCSConnectionService/v1/internals"
-	vcsinternalPb "alfred/modules/VCSConnectionService/v1/internals/pb"
+	vcsinternal "alfred/modules/VCSConnection/v1/internals"
+	vcsinternalPb "alfred/modules/VCSConnection/v1/internals/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -16,7 +16,7 @@ type GitService struct {
 	db                *gorm.DB
 	config            *config.Config
 	grpcClient        *grpc.ClientConn
-	vcsInternalServer vcsinternalPb.VCSConnectionInternalServiceServer
+	vcsInternalServer vcsinternalPb.VCSConnectionInternalServer
 	githubService     github.Service
 	cadenceConfig     *background.CadenceAppConfig
 	cadenceAdapter    *cadenceAdapter.CadenceAdapter
@@ -32,7 +32,7 @@ func NewGitService(
 ) pb.GitServiceServer {
 
 	//initial migration of databases: schema migration
-	vcsInternalSrv := vcsinternal.NewVCSConnectionInternalService(db, config, grpcClientConn)
+	vcsInternalSrv := vcsinternal.NewVCSConnectionInternalServer(db, config, grpcClientConn)
 	return &GitService{
 		db:                db,
 		config:            config,
