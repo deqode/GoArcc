@@ -4,18 +4,18 @@ import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	acc "alfred/modules/Account/v1"
-	accPb "alfred/modules/Account/v1/pb"
-	"alfred/modules/ArchitectureSuggesterService"
-	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
-	v13 "alfred/modules/AuthService/v1"
-	authPb "alfred/modules/AuthService/v1/pb"
-	git "alfred/modules/GitService/v1"
-	gitPb "alfred/modules/GitService/v1/pb"
-	userProfile "alfred/modules/UserProfileService/v1"
-	userProfilePb "alfred/modules/UserProfileService/v1/pb"
-	vcs "alfred/modules/VCSConnection/v1"
-	vcsPb "alfred/modules/VCSConnection/v1/pb"
+	acc "alfred/modules/account/v1"
+	accPb "alfred/modules/account/v1/pb"
+	"alfred/modules/architecture-suggester"
+	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
+	v13 "alfred/modules/auth/v1"
+	authPb "alfred/modules/auth/v1/pb"
+	git "alfred/modules/git/v1"
+	gitPb "alfred/modules/git/v1/pb"
+	userProfile "alfred/modules/user-profile/v1"
+	userProfilePb "alfred/modules/user-profile/v1/pb"
+	vcs "alfred/modules/vcs-connection/v1"
+	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -34,7 +34,7 @@ func RegisterGrpcModules(srv *grpc.Server,
 	//todo register new grpc modules here
 	//register user modules
 	userProfilePb.RegisterUserProfileServiceServer(srv, userProfile.NewUserProfileService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
-	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, ArchitectureSuggesterService.NewArchitectureSuggesterService(cadenceConfig, cadenceAdapter))
+	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, architecture_suggester.NewArchitectureSuggesterService(cadenceConfig, cadenceAdapter))
 	authPb.RegisterUserLoginServiceServer(srv, v13.NewAuthService(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 	vcsPb.RegisterVCSConnectionsServer(srv, vcs.NewVCSConnectionServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 	accPb.RegisterAccountsServer(srv, acc.NewAccountsServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))

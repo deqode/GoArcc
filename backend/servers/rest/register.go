@@ -2,12 +2,12 @@ package rest
 
 import (
 	"alfred/logger"
-	accPb "alfred/modules/Account/v1/pb"
-	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
-	authPb "alfred/modules/AuthService/v1/pb"
-	gitPb "alfred/modules/GitService/v1/pb"
-	userProfilePb "alfred/modules/UserProfileService/v1/pb"
-	vcsPb "alfred/modules/VCSConnection/v1/pb"
+	accPb "alfred/modules/account/v1/pb"
+	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
+	authPb "alfred/modules/auth/v1/pb"
+	gitPb "alfred/modules/git/v1/pb"
+	userProfilePb "alfred/modules/user-profile/v1/pb"
+	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/zap"

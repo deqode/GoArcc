@@ -1,7 +1,7 @@
 package git
 
 import (
-	gitPb "alfred/modules/GitService/v1/pb"
+	gitPb "alfred/modules/git/v1/pb"
 	"bufio"
 	"context"
 	"go.uber.org/cadence/activity"

@@ -2,11 +2,11 @@ package graphql
 
 import (
 	"alfred/logger"
-	accPb "alfred/modules/Account/v1/pb"
-	architectureSuggesterPb "alfred/modules/ArchitectureSuggesterService/pb"
-	gitPb "alfred/modules/GitService/v1/pb"
-	userProfilePb "alfred/modules/UserProfileService/v1/pb"
-	vcsPb "alfred/modules/VCSConnection/v1/pb"
+	accPb "alfred/modules/account/v1/pb"
+	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
+	gitPb "alfred/modules/git/v1/pb"
+	userProfilePb "alfred/modules/user-profile/v1/pb"
+	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
