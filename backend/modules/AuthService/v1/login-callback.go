@@ -14,6 +14,7 @@ var ErrNotFound = status.Error(codes.NotFound, "No Record Found")
 
 func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*pb.UserLoginCallbackResponse, error) {
 
+
 	token, err := s.authenticator.Config.Exchange(ctx, in.Code)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, err.Error())
@@ -23,6 +24,8 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 	if !ok {
 		return nil, status.Error(codes.Internal, "No id_token field in oauth2 token")
 	}
+
+	// TODO: Move this code outside of function
 	oidcConfig := &oidc.Config{
 		ClientID: s.config.Auth.Auth0ClientID,
 	}

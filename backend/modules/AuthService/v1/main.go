@@ -57,6 +57,7 @@ type Authenticator struct {
 	Ctx      context.Context
 }
 
+// TODO: Move this a Fx
 func NewAuthenticator(config *config.Config) (*Authenticator, error) {
 	ctx := context.Background()
 
