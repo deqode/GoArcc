@@ -1,10 +1,10 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 // import { setContext } from '@apollo/client/link/context';
 // import { getStorage } from "./utils/localStorage";
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:8081/graphql',
-});
+})
 
 // const authLink = setContext((_, { headers }) => {
 //   return {
@@ -17,8 +17,8 @@ const httpLink = createHttpLink({
 const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache(),
-});
+})
 
-export default client;
+export default client
 
 // https://www.apollographql.com/docs/react/networking/authentication/

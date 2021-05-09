@@ -1,17 +1,21 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
-import Loading from '../components/Loading';
-import { UserContext } from '../Contexts/UserContext';
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react'
+import Loading from '../components/Loading'
+import { UserContext } from '../Contexts/UserContext'
 
 export default function Success() {
   const { user } = useContext(UserContext)
-  const router = useRouter();
+  const router = useRouter()
   useEffect(() => {
-    if (user.state == -1)
-      router.push("/")
+    if (user.state == -1) router.push('/')
   }, [user])
-  if(user.state!=1)return (<div><Loading/></div>)
+  if (user.state != 1)
+    return (
+      <div>
+        <Loading />
+      </div>
+    )
   return (
     <div>
       <Head>
@@ -24,11 +28,10 @@ export default function Success() {
             <div className="col-md-6">
               <h1 className="page-head">Alfred has cloned your app repository</h1>
             </div>
-            <div className="col-md-6 my-auto login-right">
-            </div>
+            <div className="col-md-6 my-auto login-right"></div>
           </div>
         </div>
       </section>
     </div>
-  );
+  )
 }
