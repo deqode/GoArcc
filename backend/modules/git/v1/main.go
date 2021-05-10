@@ -1,4 +1,4 @@
-package GitService
+package git
 
 import (
 	cadenceAdapter "alfred/background/adapters/cadence"
@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type GitService struct {
+type gitServer struct {
 	db                *gorm.DB
 	config            *config.Config
 	grpcClient        *grpc.ClientConn
@@ -22,18 +22,18 @@ type GitService struct {
 	cadenceAdapter    *cadenceAdapter.CadenceAdapter
 }
 
-// NewGitService todo : AlWays add migration code for best practices
-func NewGitService(
+// NewGitServer todo : AlWays add migration code for best practices
+func NewGitServer(
 	db *gorm.DB,
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
 	cadenceConfig *background.CadenceAppConfig,
 	cadenceAdapter *cadenceAdapter.CadenceAdapter,
-) pb.GitServiceServer {
+) pb.GitsServer {
 
 	//initial migration of databases: schema migration
 	vcsInternalSrv := vcsinternal.NewVCSConnectionInternalServer(db, config, grpcClientConn)
-	return &GitService{
+	return &gitServer{
 		db:                db,
 		config:            config,
 		grpcClient:        grpcClientConn,

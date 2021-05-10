@@ -11,7 +11,7 @@ type Service struct {
 	githubClient *github.Client
 }
 
-func NewGithubService(ctx context.Context, accessToken string) pb.GitServiceServer {
+func NewGithubService(ctx context.Context, accessToken string) pb.GitsServer {
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: accessToken},
 	)

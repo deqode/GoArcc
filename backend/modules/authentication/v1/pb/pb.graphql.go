@@ -6,16 +6,16 @@ import (
 )
 
 var (
-	gql__type_ValidateUserLoginResponse  *graphql.Object      // message ValidateUserLoginResponse in auth-service.proto
-	gql__type_ValidateUserLoginRequest   *graphql.Object      // message ValidateUserLoginRequest in auth-service.proto
-	gql__type_UserLoginResponse          *graphql.Object      // message UserLoginResponse in auth-service.proto
-	gql__type_UserLoginCallbackResponse  *graphql.Object      // message UserLoginCallbackResponse in auth-service.proto
-	gql__type_UserLoginCallbackRequest   *graphql.Object      // message UserLoginCallbackRequest in auth-service.proto
-	gql__input_ValidateUserLoginResponse *graphql.InputObject // message ValidateUserLoginResponse in auth-service.proto
-	gql__input_ValidateUserLoginRequest  *graphql.InputObject // message ValidateUserLoginRequest in auth-service.proto
-	gql__input_UserLoginResponse         *graphql.InputObject // message UserLoginResponse in auth-service.proto
-	gql__input_UserLoginCallbackResponse *graphql.InputObject // message UserLoginCallbackResponse in auth-service.proto
-	gql__input_UserLoginCallbackRequest  *graphql.InputObject // message UserLoginCallbackRequest in auth-service.proto
+	gql__type_ValidateUserLoginResponse  *graphql.Object      // message ValidateUserLoginResponse in authentication.proto
+	gql__type_ValidateUserLoginRequest   *graphql.Object      // message ValidateUserLoginRequest in authentication.proto
+	gql__type_LoginResponse              *graphql.Object      // message LoginResponse in authentication.proto
+	gql__type_LoginCallbackResponse      *graphql.Object      // message LoginCallbackResponse in authentication.proto
+	gql__type_LoginCallbackRequest       *graphql.Object      // message LoginCallbackRequest in authentication.proto
+	gql__input_ValidateUserLoginResponse *graphql.InputObject // message ValidateUserLoginResponse in authentication.proto
+	gql__input_ValidateUserLoginRequest  *graphql.InputObject // message ValidateUserLoginRequest in authentication.proto
+	gql__input_LoginResponse             *graphql.InputObject // message LoginResponse in authentication.proto
+	gql__input_LoginCallbackResponse     *graphql.InputObject // message LoginCallbackResponse in authentication.proto
+	gql__input_LoginCallbackRequest      *graphql.InputObject // message LoginCallbackRequest in authentication.proto
 )
 
 func Gql__type_ValidateUserLoginResponse() *graphql.Object {
@@ -53,10 +53,10 @@ func Gql__type_ValidateUserLoginRequest() *graphql.Object {
 	return gql__type_ValidateUserLoginRequest
 }
 
-func Gql__type_UserLoginResponse() *graphql.Object {
-	if gql__type_UserLoginResponse == nil {
-		gql__type_UserLoginResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_UserLoginResponse",
+func Gql__type_LoginResponse() *graphql.Object {
+	if gql__type_LoginResponse == nil {
+		gql__type_LoginResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_LoginResponse",
 			Fields: graphql.Fields{
 				"url": &graphql.Field{
 					Type: graphql.String,
@@ -64,13 +64,13 @@ func Gql__type_UserLoginResponse() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_UserLoginResponse
+	return gql__type_LoginResponse
 }
 
-func Gql__type_UserLoginCallbackResponse() *graphql.Object {
-	if gql__type_UserLoginCallbackResponse == nil {
-		gql__type_UserLoginCallbackResponse = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_UserLoginCallbackResponse",
+func Gql__type_LoginCallbackResponse() *graphql.Object {
+	if gql__type_LoginCallbackResponse == nil {
+		gql__type_LoginCallbackResponse = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_LoginCallbackResponse",
 			Fields: graphql.Fields{
 				"id_token": &graphql.Field{
 					Type: graphql.String,
@@ -84,13 +84,13 @@ func Gql__type_UserLoginCallbackResponse() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_UserLoginCallbackResponse
+	return gql__type_LoginCallbackResponse
 }
 
-func Gql__type_UserLoginCallbackRequest() *graphql.Object {
-	if gql__type_UserLoginCallbackRequest == nil {
-		gql__type_UserLoginCallbackRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_UserLoginCallbackRequest",
+func Gql__type_LoginCallbackRequest() *graphql.Object {
+	if gql__type_LoginCallbackRequest == nil {
+		gql__type_LoginCallbackRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_LoginCallbackRequest",
 			Fields: graphql.Fields{
 				"state": &graphql.Field{
 					Type: graphql.String,
@@ -101,7 +101,7 @@ func Gql__type_UserLoginCallbackRequest() *graphql.Object {
 			},
 		})
 	}
-	return gql__type_UserLoginCallbackRequest
+	return gql__type_LoginCallbackRequest
 }
 
 func Gql__input_ValidateUserLoginResponse() *graphql.InputObject {
@@ -138,10 +138,10 @@ func Gql__input_ValidateUserLoginRequest() *graphql.InputObject {
 	return gql__input_ValidateUserLoginRequest
 }
 
-func Gql__input_UserLoginResponse() *graphql.InputObject {
-	if gql__input_UserLoginResponse == nil {
-		gql__input_UserLoginResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_UserLoginResponse",
+func Gql__input_LoginResponse() *graphql.InputObject {
+	if gql__input_LoginResponse == nil {
+		gql__input_LoginResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_LoginResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"url": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -149,13 +149,13 @@ func Gql__input_UserLoginResponse() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_UserLoginResponse
+	return gql__input_LoginResponse
 }
 
-func Gql__input_UserLoginCallbackResponse() *graphql.InputObject {
-	if gql__input_UserLoginCallbackResponse == nil {
-		gql__input_UserLoginCallbackResponse = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_UserLoginCallbackResponse",
+func Gql__input_LoginCallbackResponse() *graphql.InputObject {
+	if gql__input_LoginCallbackResponse == nil {
+		gql__input_LoginCallbackResponse = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_LoginCallbackResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id_token": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -169,13 +169,13 @@ func Gql__input_UserLoginCallbackResponse() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_UserLoginCallbackResponse
+	return gql__input_LoginCallbackResponse
 }
 
-func Gql__input_UserLoginCallbackRequest() *graphql.InputObject {
-	if gql__input_UserLoginCallbackRequest == nil {
-		gql__input_UserLoginCallbackRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_UserLoginCallbackRequest",
+func Gql__input_LoginCallbackRequest() *graphql.InputObject {
+	if gql__input_LoginCallbackRequest == nil {
+		gql__input_LoginCallbackRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_LoginCallbackRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"state": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -186,5 +186,5 @@ func Gql__input_UserLoginCallbackRequest() *graphql.InputObject {
 			},
 		})
 	}
-	return gql__input_UserLoginCallbackRequest
+	return gql__input_LoginCallbackRequest
 }

@@ -1,4 +1,4 @@
-package GitService
+package git
 
 import (
 	"alfred/modules/git/v1/pb"
@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *GitService) CloneRepository(ctx context.Context, in *pb.CloneRepositoryRequest) (*pb.CloneRepositoryResponse, error) {
+func (s *gitServer) CloneRepository(ctx context.Context, in *pb.CloneRepositoryRequest) (*pb.CloneRepositoryResponse, error) {
 	return nil, status.Error(codes.Internal, "INTERNAL ERROR")
 	//use wait group to allow process to be concurrent
 	//time.Sleep(time.Second * 10)

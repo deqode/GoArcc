@@ -1,4 +1,4 @@
-package UserProfileService
+package user_profile
 
 import (
 	accountPb "alfred/modules/account/v1/pb"
@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/go-uuid"
 )
 
-func (s *UserProfileService) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
+func (s *userProfileServer) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	id, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, err

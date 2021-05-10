@@ -8,7 +8,7 @@ import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "types/enums.proto";
 
-service GitService {
+service Gits {
     //listRepository list all repository of user's account
     rpc listRepository(ListRepositoryRequest) returns (ListRepositoryResponse){
         option (google.api.http) = {
@@ -20,6 +20,7 @@ service GitService {
         };
     }
 
+    // GetRepository get a repository using its unique id
     rpc GetRepository(GetRepositoryRequest) returns (Repository){
         option (google.api.http) = {
             get: "/v1/git-service/repository"
@@ -30,6 +31,7 @@ service GitService {
         };
     }
 
+    // CloneRepository will start a cadence workflow
     rpc CloneRepository(CloneRepositoryRequest) returns (CloneRepositoryResponse){
         option (google.api.http) = {
             post: "/v1/git-service/clone-repository"
@@ -39,6 +41,8 @@ service GitService {
             name: "cloneRepository"
         };
     }
+
+    // GetCloningStatus returns the status of running workflow
     rpc GetCloningStatus(GetCloningStatusRequest) returns (GetCloningStatusResponse){
         option (google.api.http) = {
             get: "/v1/git-service/get-cloning-status"

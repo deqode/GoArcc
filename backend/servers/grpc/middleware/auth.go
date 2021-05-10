@@ -51,7 +51,7 @@ func NewConfig() (Config, error) {
 //TODO - User Related Validation
 func AuthMiddleware(ctx context.Context) (context.Context, error) {
 	authRequired := true
-	//getting auth from the context . ie bearer
+	//getting authentication from the context . ie bearer
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, status.Error(codes.FailedPrecondition, "authorization failed")

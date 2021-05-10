@@ -1,7 +1,6 @@
-package GitService
+package git
 
 import (
-	"alfred/modules/git/v1/pb"
 	"go.uber.org/fx"
 )
 
@@ -9,6 +8,6 @@ import (
 //module can use our client
 var Module = fx.Options(
 	fx.Provide(
-		pb.NewGitServiceClient,
+		NewGitServer,
 	),
 )

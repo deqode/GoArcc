@@ -1,4 +1,4 @@
-package UserProfileService
+package user_profile
 
 import (
 	cadenceAdapter "alfred/background/adapters/cadence"
@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserProfileService struct {
+type userProfileServer struct {
 	db             *gorm.DB
 	config         *config.Config
 	grpcClient     *grpc.ClientConn
@@ -21,8 +21,8 @@ type UserProfileService struct {
 	cadenceAdapter *cadenceAdapter.CadenceAdapter
 }
 
-// NewUserProfileService todo : AlWays add migration code for best practices
-func NewUserProfileService(
+// NewUserProfileServer todo : AlWays add migration code for best practices
+func NewUserProfileServer(
 	db *gorm.DB,
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
@@ -33,7 +33,7 @@ func NewUserProfileService(
 	//initial migration of databases: schema migration
 	models.InitialMigrationUserProfile(db)
 	accountCli := account.NewAccountsServer(db, config, grpcClientConn, cadenceConfig, cadenceAdapter)
-	return &UserProfileService{
+	return &userProfileServer{
 		db:             db,
 		config:         config,
 		grpcClient:     grpcClientConn,

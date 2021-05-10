@@ -1,4 +1,4 @@
-package UserProfileService
+package user_profile
 
 import (
 	"alfred/modules/user-profile/v1/pb"
@@ -6,6 +6,6 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 )
 
-func (s *UserProfileService) GetUserMe(context.Context, *empty.Empty) (*pb.UserProfile, error) {
+func (s *userProfileServer) GetUserMe(context.Context, *empty.Empty) (*pb.UserProfile, error) {
 	panic("Implement me")
 }

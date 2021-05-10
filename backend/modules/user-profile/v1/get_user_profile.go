@@ -1,4 +1,4 @@
-package UserProfileService
+package user_profile
 
 import (
 	"alfred/modules/user-profile/v1/models"
@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *UserProfileService) GetUserProfile(ctx context.Context, in *pb.GetUserProfileRequest) (*pb.UserProfile, error) {
+func (s *userProfileServer) GetUserProfile(ctx context.Context, in *pb.GetUserProfileRequest) (*pb.UserProfile, error) {
 	profile := models.UserProfile{}
 	result := s.db.First(&profile, "id = ?", in.Id)
 	if result.Error != nil {

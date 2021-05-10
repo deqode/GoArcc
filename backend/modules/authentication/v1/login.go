@@ -1,14 +1,14 @@
-package AuthService
+package authentication
 
 import (
-	"alfred/modules/auth/v1/pb"
+	"alfred/modules/authentication/v1/pb"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"github.com/golang/protobuf/ptypes/empty"
 )
 
-func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserLoginResponse, error) {
+func (s *authenticationServer) Login(ctx context.Context, in *empty.Empty) (*pb.LoginResponse, error) {
 	b := make([]byte, 32)
 	_, err := rand.Read(b)
 	if err != nil {
@@ -16,7 +16,7 @@ func (s *AuthService) UserLogin(ctx context.Context, in *empty.Empty) (*pb.UserL
 	}
 	state := base64.StdEncoding.EncodeToString(b)
 
-	return &pb.UserLoginResponse{
+	return &pb.LoginResponse{
 		Url: s.authenticator.Config.AuthCodeURL(state),
 	}, nil
 }

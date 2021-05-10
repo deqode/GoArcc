@@ -1,7 +1,7 @@
-package AuthService
+package authentication
 
 import (
-	"alfred/modules/auth/v1/pb"
+	"alfred/modules/authentication/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	"fmt"
@@ -12,7 +12,7 @@ import (
 
 var ErrNotFound = status.Error(codes.NotFound, "No Record Found")
 
-func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCallbackRequest) (*pb.UserLoginCallbackResponse, error) {
+func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCallbackRequest) (*pb.LoginCallbackResponse, error) {
 
 	token, err := s.authenticator.Config.Exchange(ctx, in.Code)
 	if err != nil {
@@ -76,7 +76,7 @@ func (s *AuthService) UserLoginCallback(ctx context.Context, in *pb.UserLoginCal
 		userID = usr.Id
 	}
 
-	return &pb.UserLoginCallbackResponse{
+	return &pb.LoginCallbackResponse{
 		IdToken:     rawIDToken,
 		AccessToken: token.AccessToken,
 		UserId:      userID,

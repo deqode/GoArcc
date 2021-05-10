@@ -14,22 +14,22 @@ import (
 )
 
 var (
-	gql__type_Repository                *graphql.Object      // message Repository in git-service.proto
-	gql__type_ListRepositoryResponse    *graphql.Object      // message ListRepositoryResponse in git-service.proto
-	gql__type_ListRepositoryRequest     *graphql.Object      // message ListRepositoryRequest in git-service.proto
-	gql__type_GetRepositoryRequest      *graphql.Object      // message GetRepositoryRequest in git-service.proto
-	gql__type_GetCloningStatusResponse  *graphql.Object      // message GetCloningStatusResponse in git-service.proto
-	gql__type_GetCloningStatusRequest   *graphql.Object      // message GetCloningStatusRequest in git-service.proto
-	gql__type_CloneRepositoryResponse   *graphql.Object      // message CloneRepositoryResponse in git-service.proto
-	gql__type_CloneRepositoryRequest    *graphql.Object      // message CloneRepositoryRequest in git-service.proto
-	gql__input_Repository               *graphql.InputObject // message Repository in git-service.proto
-	gql__input_ListRepositoryResponse   *graphql.InputObject // message ListRepositoryResponse in git-service.proto
-	gql__input_ListRepositoryRequest    *graphql.InputObject // message ListRepositoryRequest in git-service.proto
-	gql__input_GetRepositoryRequest     *graphql.InputObject // message GetRepositoryRequest in git-service.proto
-	gql__input_GetCloningStatusResponse *graphql.InputObject // message GetCloningStatusResponse in git-service.proto
-	gql__input_GetCloningStatusRequest  *graphql.InputObject // message GetCloningStatusRequest in git-service.proto
-	gql__input_CloneRepositoryResponse  *graphql.InputObject // message CloneRepositoryResponse in git-service.proto
-	gql__input_CloneRepositoryRequest   *graphql.InputObject // message CloneRepositoryRequest in git-service.proto
+	gql__type_Repository                *graphql.Object      // message Repository in git.proto
+	gql__type_ListRepositoryResponse    *graphql.Object      // message ListRepositoryResponse in git.proto
+	gql__type_ListRepositoryRequest     *graphql.Object      // message ListRepositoryRequest in git.proto
+	gql__type_GetRepositoryRequest      *graphql.Object      // message GetRepositoryRequest in git.proto
+	gql__type_GetCloningStatusResponse  *graphql.Object      // message GetCloningStatusResponse in git.proto
+	gql__type_GetCloningStatusRequest   *graphql.Object      // message GetCloningStatusRequest in git.proto
+	gql__type_CloneRepositoryResponse   *graphql.Object      // message CloneRepositoryResponse in git.proto
+	gql__type_CloneRepositoryRequest    *graphql.Object      // message CloneRepositoryRequest in git.proto
+	gql__input_Repository               *graphql.InputObject // message Repository in git.proto
+	gql__input_ListRepositoryResponse   *graphql.InputObject // message ListRepositoryResponse in git.proto
+	gql__input_ListRepositoryRequest    *graphql.InputObject // message ListRepositoryRequest in git.proto
+	gql__input_GetRepositoryRequest     *graphql.InputObject // message GetRepositoryRequest in git.proto
+	gql__input_GetCloningStatusResponse *graphql.InputObject // message GetCloningStatusResponse in git.proto
+	gql__input_GetCloningStatusRequest  *graphql.InputObject // message GetCloningStatusRequest in git.proto
+	gql__input_CloneRepositoryResponse  *graphql.InputObject // message CloneRepositoryResponse in git.proto
+	gql__input_CloneRepositoryRequest   *graphql.InputObject // message CloneRepositoryRequest in git.proto
 )
 
 func Gql__type_Repository() *graphql.Object {
@@ -407,9 +407,9 @@ func Gql__input_CloneRepositoryRequest() *graphql.InputObject {
 	return gql__input_CloneRepositoryRequest
 }
 
-// graphql__resolver_GitService is a struct for making query, mutation and resolve fields.
+// graphql__resolver_Gits is a struct for making query, mutation and resolve fields.
 // This struct must be implemented runtime.SchemaBuilder interface.
-type graphql__resolver_GitService struct {
+type graphql__resolver_Gits struct {
 
 	// Automatic connection host
 	host string
@@ -422,9 +422,9 @@ type graphql__resolver_GitService struct {
 	conn *grpc.ClientConn
 }
 
-// new_graphql_resolver_GitService creates pointer of service struct
-func new_graphql_resolver_GitService(conn *grpc.ClientConn) *graphql__resolver_GitService {
-	return &graphql__resolver_GitService{
+// new_graphql_resolver_Gits creates pointer of service struct
+func new_graphql_resolver_Gits(conn *grpc.ClientConn) *graphql__resolver_Gits {
+	return &graphql__resolver_Gits{
 		conn:        conn,
 		host:        "localhost:50051",
 		dialOptions: []grpc.DialOption{},
@@ -432,7 +432,7 @@ func new_graphql_resolver_GitService(conn *grpc.ClientConn) *graphql__resolver_G
 }
 
 // CreateConnection() returns grpc connection which user specified or newly connected and closing function
-func (x *graphql__resolver_GitService) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
+func (x *graphql__resolver_Gits) CreateConnection(ctx context.Context) (*grpc.ClientConn, func(), error) {
 	// If x.conn is not nil, user injected their own connection
 	if x.conn != nil {
 		return x.conn, func() {}, nil
@@ -447,7 +447,7 @@ func (x *graphql__resolver_GitService) CreateConnection(ctx context.Context) (*g
 }
 
 // GetQueries returns acceptable graphql.Fields for Query.
-func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql.Fields {
+func (x *graphql__resolver_Gits) GetQueries(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
 		"repositories": &graphql.Field{
 			Type: Gql__type_ListRepositoryResponse(),
@@ -470,7 +470,7 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for repositories")
 				}
-				client := NewGitServiceClient(conn)
+				client := NewGitsClient(conn)
 				resp, err := client.ListRepository(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC listRepository")
@@ -499,7 +499,7 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for repository")
 				}
-				client := NewGitServiceClient(conn)
+				client := NewGitsClient(conn)
 				resp, err := client.GetRepository(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetRepository")
@@ -522,7 +522,7 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for getCloningStatus")
 				}
-				client := NewGitServiceClient(conn)
+				client := NewGitsClient(conn)
 				resp, err := client.GetCloningStatus(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC GetCloningStatus")
@@ -534,7 +534,7 @@ func (x *graphql__resolver_GitService) GetQueries(conn *grpc.ClientConn) graphql
 }
 
 // GetMutations returns acceptable graphql.Fields for Mutation.
-func (x *graphql__resolver_GitService) GetMutations(conn *grpc.ClientConn) graphql.Fields {
+func (x *graphql__resolver_Gits) GetMutations(conn *grpc.ClientConn) graphql.Fields {
 	return graphql.Fields{
 		"cloneRepository": &graphql.Field{
 			Type: Gql__type_CloneRepositoryResponse(),
@@ -560,7 +560,7 @@ func (x *graphql__resolver_GitService) GetMutations(conn *grpc.ClientConn) graph
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for cloneRepository")
 				}
-				client := NewGitServiceClient(conn)
+				client := NewGitsClient(conn)
 				resp, err := client.CloneRepository(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC CloneRepository")
@@ -574,9 +574,9 @@ func (x *graphql__resolver_GitService) GetMutations(conn *grpc.ClientConn) graph
 // Register package divided graphql handler "without" *grpc.ClientConn,
 // therefore gRPC connection will be opened and closed automatically.
 // Occasionally you may worry about open/close performance for each handling graphql request,
-// then you can call RegisterGitServiceGraphqlHandler with *grpc.ClientConn manually.
-func RegisterGitServiceGraphql(mux *runtime.ServeMux) error {
-	return RegisterGitServiceGraphqlHandler(mux, nil)
+// then you can call RegisterGitsGraphqlHandler with *grpc.ClientConn manually.
+func RegisterGitsGraphql(mux *runtime.ServeMux) error {
+	return RegisterGitsGraphqlHandler(mux, nil)
 }
 
 // Register package divided graphql handler "with" *grpc.ClientConn.
@@ -584,7 +584,7 @@ func RegisterGitServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service git {
+// service Gits {
 //    option (graphql.service) = {
 //        host: "host:port"
 //        insecure: true or false
@@ -592,6 +592,6 @@ func RegisterGitServiceGraphql(mux *runtime.ServeMux) error {
 //
 //    ...with RPC definitions
 // }
-func RegisterGitServiceGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return mux.AddHandler(new_graphql_resolver_GitService(conn))
+func RegisterGitsGraphqlHandler(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return mux.AddHandler(new_graphql_resolver_Gits(conn))
 }

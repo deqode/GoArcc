@@ -1,4 +1,4 @@
-package AuthService
+package authentication
 
 import (
 	"alfred/config"
@@ -7,7 +7,7 @@ import (
 	"net/url"
 )
 
-func (s *AuthService) UserLogout(context.Context, *empty.Empty) (*empty.Empty, error) {
+func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Empty, error) {
 	//TODO - Implement Token based logout
 	domain := config.GetConfig().Auth.Auth0Domain
 
@@ -18,7 +18,7 @@ func (s *AuthService) UserLogout(context.Context, *empty.Empty) (*empty.Empty, e
 		return nil, err
 	}
 
-	logoutURL.Path += "/v1/authentication/logout"
+	logoutURL.Path += "/v1/authenticationServer/logout"
 	parameters := url.Values{}
 
 	var scheme string

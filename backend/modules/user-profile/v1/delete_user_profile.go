@@ -1,4 +1,4 @@
-package UserProfileService
+package user_profile
 
 import (
 	"alfred/modules/user-profile/v1/models"
@@ -7,7 +7,7 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 )
 
-func (s *UserProfileService) DeleteUserProfile(ctx context.Context, request *pb.DeleteUserProfileRequest) (*empty.Empty, error) {
+func (s *userProfileServer) DeleteUserProfile(ctx context.Context, request *pb.DeleteUserProfileRequest) (*empty.Empty, error) {
 
 	// this will be soft delete from the system
 	t := s.db.Delete(&models.UserProfile{

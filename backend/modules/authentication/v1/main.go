@@ -1,10 +1,10 @@
-package AuthService
+package authentication
 
 import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	"alfred/modules/auth/v1/pb"
+	"alfred/modules/authentication/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	oidc "github.com/coreos/go-oidc"
@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-type AuthService struct {
+type authenticationServer struct {
 	db                *gorm.DB
 	config            *config.Config
 	grpcClient        *grpc.ClientConn
@@ -30,17 +30,17 @@ const (
 	tokenDuration = 15 * time.Minute
 )
 
-// NewAuthService Service Implementation
-func NewAuthService(
+// NewAuthenticationServer Service Implementation
+func NewAuthenticationServer(
 	db *gorm.DB,
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
 	cadenceConfig *background.CadenceAppConfig,
 	cadenceAdapter *cadenceAdapter.CadenceAdapter,
-) pb.UserLoginServiceServer {
+) pb.AuthenticationsServer {
 	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
-	return &AuthService{
+	return &authenticationServer{
 		db:                db,
 		config:            config,
 		grpcClient:        grpcClientConn,

@@ -22,7 +22,7 @@ func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error 
 		return err
 	}
 
-	if err := gitPb.RegisterGitServiceGraphqlHandler(mux, conn); err != nil {
+	if err := gitPb.RegisterGitsGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

@@ -23,23 +23,23 @@ message ValidateUserLoginResponse {
     string id = 1;
 }
 
-service UserLoginService {
+service Authentications {
 
-    // UserLogin provide a url of External OAuth login endpoint (Auth0)
-    rpc UserLogin (google.protobuf.Empty) returns (UserLoginResponse) {
+    // Login provide a url of External OAuth login endpoint (Auth0)
+    rpc Login (google.protobuf.Empty) returns (LoginResponse) {
         option (google.api.http) = {
             get: "/v1/authentication/login"
         };
     };
 
-    // UserLoginCallback receives a callback  from external OAuth application
-    rpc UserLoginCallback (UserLoginCallbackRequest) returns (UserLoginCallbackResponse) {
+    // LoginCallback receives a callback  from external OAuth application
+    rpc LoginCallback (LoginCallbackRequest) returns (LoginCallbackResponse) {
         option (google.api.http) = {
             get: "/v1/authentication/callback"
         };
     };
 
-    rpc UserLogout (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             get: "/v1/authentication/logout"
         };
@@ -60,16 +60,16 @@ service UserLoginService {
 
 }
 
-message UserLoginResponse{
+message LoginResponse{
     string url = 1;
 }
 
-message UserLoginCallbackRequest{
+message LoginCallbackRequest{
     string state = 1;
     string code = 2;
 }
 
-message UserLoginCallbackResponse{
+message LoginCallbackResponse{
     string id_token = 1;
     string access_token = 2;
     string user_id = 3;

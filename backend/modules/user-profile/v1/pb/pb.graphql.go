@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	gql__enum_SOURCE                      *graphql.Enum        // enum SOURCE in user-profile-service.proto
-	gql__type_UserProfile                 *graphql.Object      // message UserProfile in user-profile-service.proto
-	gql__type_UpdateUserProfileRequest    *graphql.Object      // message UpdateUserProfileRequest in user-profile-service.proto
-	gql__type_GetUserProfileRequest       *graphql.Object      // message GetUserProfileRequest in user-profile-service.proto
-	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in user-profile-service.proto
-	gql__type_DeleteUserProfileRequest    *graphql.Object      // message DeleteUserProfileRequest in user-profile-service.proto
-	gql__type_CreateUserProfileRequest    *graphql.Object      // message CreateUserProfileRequest in user-profile-service.proto
-	gql__input_UserProfile                *graphql.InputObject // message UserProfile in user-profile-service.proto
-	gql__input_UpdateUserProfileRequest   *graphql.InputObject // message UpdateUserProfileRequest in user-profile-service.proto
-	gql__input_GetUserProfileRequest      *graphql.InputObject // message GetUserProfileRequest in user-profile-service.proto
-	gql__input_GetUserProfileBySubRequest *graphql.InputObject // message GetUserProfileBySubRequest in user-profile-service.proto
-	gql__input_DeleteUserProfileRequest   *graphql.InputObject // message DeleteUserProfileRequest in user-profile-service.proto
-	gql__input_CreateUserProfileRequest   *graphql.InputObject // message CreateUserProfileRequest in user-profile-service.proto
+	gql__enum_SOURCE                      *graphql.Enum        // enum SOURCE in user_profile.proto
+	gql__type_UserProfile                 *graphql.Object      // message UserProfile in user_profile.proto
+	gql__type_UpdateUserProfileRequest    *graphql.Object      // message UpdateUserProfileRequest in user_profile.proto
+	gql__type_GetUserProfileRequest       *graphql.Object      // message GetUserProfileRequest in user_profile.proto
+	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in user_profile.proto
+	gql__type_DeleteUserProfileRequest    *graphql.Object      // message DeleteUserProfileRequest in user_profile.proto
+	gql__type_CreateUserProfileRequest    *graphql.Object      // message CreateUserProfileRequest in user_profile.proto
+	gql__input_UserProfile                *graphql.InputObject // message UserProfile in user_profile.proto
+	gql__input_UpdateUserProfileRequest   *graphql.InputObject // message UpdateUserProfileRequest in user_profile.proto
+	gql__input_GetUserProfileRequest      *graphql.InputObject // message GetUserProfileRequest in user_profile.proto
+	gql__input_GetUserProfileBySubRequest *graphql.InputObject // message GetUserProfileBySubRequest in user_profile.proto
+	gql__input_DeleteUserProfileRequest   *graphql.InputObject // message DeleteUserProfileRequest in user_profile.proto
+	gql__input_CreateUserProfileRequest   *graphql.InputObject // message CreateUserProfileRequest in user_profile.proto
 )
 
 func Gql__enum_SOURCE() *graphql.Enum {
@@ -352,7 +352,7 @@ func RegisterUserProfileServiceGraphql(mux *runtime.ServeMux) error {
 // You need to close it maunally when application will terminate.
 // Otherwise, you can specify automatic opening connection with ServiceOption directive:
 //
-// service user-profile {
+// service UserProfileService {
 //    option (graphql.service) = {
 //        host: "host:port"
 //        insecure: true or false

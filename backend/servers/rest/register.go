@@ -4,7 +4,7 @@ import (
 	"alfred/logger"
 	accPb "alfred/modules/account/v1/pb"
 	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
-	authPb "alfred/modules/auth/v1/pb"
+	authPb "alfred/modules/authentication/v1/pb"
 	gitPb "alfred/modules/git/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
@@ -28,7 +28,7 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 		return err
 	}
 
-	if err := authPb.RegisterUserLoginServiceHandler(ctx, mux, conn); err != nil {
+	if err := authPb.RegisterAuthenticationsHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
@@ -43,7 +43,7 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 		return err
 	}
 
-	if err := gitPb.RegisterGitServiceHandler(ctx, mux, conn); err != nil {
+	if err := gitPb.RegisterGitsHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
