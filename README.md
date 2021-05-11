@@ -12,7 +12,7 @@
 11. each RPC would be implemented in seperate file, and will have same name as RPC in kebabcase
 12. Internal services proto will follow same conventions as the main protos, except proto module will have '.intenals' suffix in them 
 13. Internal protos can include messages from main protos but can not the other way around
-14 Everyone install editorconfig plugins in IDEs
+14 Everyone installs editorconfig plugins in IDEs
 15. Name of RPC methods and file implementing it should be same in kebabcase    
 
 
@@ -22,10 +22,12 @@
 # RPC Endpoint Handler guideline 
 1. On very first add a tracer span
 2. Always Check for AuthN and AuthZ strictly, think from all corner cases, ignore this for public endpoints.
-3. Things which are going to be same accros all execution of the RPC handler should be moved out of function, either as constant or through service struct Fx initialization
+3. Things which are going to be same across all execution of the RPC handler should be moved out of function, either as constant or through service struct Fx initialization
 4. Avoid using Global variables, instead use constants always
 5. Creating connection objects in handler function should not be done
 6. Create Fx providers for following:- Initializing libraries, initializing connection with third parties, creating objects which are going to be common accross multiple execution
+7. Every request should validate input parameters strictly!
+8. Handler should have only relevant code related to functionality itself, all other orchestrating code should be moved to separate internal helpers
 
 # Fx conventions
 
@@ -46,3 +48,5 @@
 7. Have seperate struct file for each model
 8. Model file name should be same as struct name in kebabcase
 9. Models helpers should be written in internal services only
+10. Always add uniq indexes to ID fields
+11. For each module have separate tables
