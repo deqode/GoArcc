@@ -49,6 +49,11 @@ module.exports = {
           },
         ],
         'prettier/prettier': ['error', {}, { usePrettierrc: true }], // Includes .prettierrc.js rules
+        //custom
+        "eqeqeq": "error", // must have !== & ===
+        "no-console": "error", //no console.log
+        "prefer-arrow-callback": "error"
+
       },
     },
   ],

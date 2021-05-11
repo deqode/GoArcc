@@ -1,21 +1,9 @@
+import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
-import Loading from '../components/Loading'
-import { UserContext } from '../Contexts/UserContext'
+import { sessionCongfig } from '../utils/constants'
+import { validateUser } from '../utils/user'
 
 export default function Success() {
-  const { user } = useContext(UserContext)
-  const router = useRouter()
-  useEffect(() => {
-    if (user.state == -1) router.push('/')
-  }, [user])
-  if (user.state != 1)
-    return (
-      <div>
-        <Loading />
-      </div>
-    )
   return (
     <div>
       <Head>
@@ -35,3 +23,14 @@ export default function Success() {
     </div>
   )
 }
+export const getServerSideProps = withIronSession(async ({ req }) => {
+  if (validateUser(req)) {
+    return { props: { user: req.session.get('user') } }
+  }
+  return {
+    redirect: {
+      permanent: false,
+      destination: '/',
+    },
+  }
+}, sessionCongfig)

@@ -1,8 +1,7 @@
 import { withIronSession } from 'next-iron-session'
 import { sessionCongfig } from '../../../utils/constants'
 // todo:validate
-async function handler(req: any, res: any) {
-  console.log(req.body)
+const handler = async (req: any, res: any) => {
   req.session.set('user', req.body)
   await req.session.save()
   res.json({ susscess: true })

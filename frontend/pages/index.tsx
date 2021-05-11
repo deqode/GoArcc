@@ -1,16 +1,12 @@
 import { Grid, Paper, Typography } from '@material-ui/core'
 import Head from 'next/head'
-import { SERVER, sessionCongfig } from '../utils/constants'
-import { useContext } from 'react'
+import { sessionCongfig } from '../utils/constants'
 import { withIronSession } from 'next-iron-session'
-import { UserContext } from '../Contexts/UserContext'
+import { getLoginURL } from '../api/rest/fetchUrls'
+import { validateUser } from '../utils/user'
+import { ReactElement } from 'react'
 
-export default function Login(props: any) {
-  const { setUser } = useContext(UserContext)
-  const { auth, user } = props
-  console.log(user)
-  setUser(user)
-
+const Login = ({ url }: { url: string }): ReactElement => {
   return (
     <div>
       <Head>
@@ -30,7 +26,7 @@ export default function Login(props: any) {
         <Grid item>
           <div className="text-center">
             <div className="sign_up_head">Sign Up</div>
-            <a href={auth.url} className="btn github_btn">
+            <a href={url} className="btn github_btn">
               Login with github
               <img src="/assets/github_icon.png" alt="Login with github" />
             </a>
@@ -43,11 +39,16 @@ export default function Login(props: any) {
 }
 
 export const getServerSideProps = withIronSession(async ({ req }) => {
-  const result = await fetch(`${SERVER}/authentication/login`)
-  const data = await result.json()
-  const auth = data
-  if (!req.session.get('user')) {
-    return { props: { user: null, auth } }
+  if (!validateUser(req)) {
+    const res = await getLoginURL()
+    if (!res.error) return { props: { url: res.url } }
+    // todo:redirect to error page
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/error',
+      },
+    }
   }
   return {
     redirect: {
@@ -56,3 +57,5 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
     },
   }
 }, sessionCongfig)
+
+export default Login

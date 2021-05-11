@@ -57,14 +57,13 @@ export default function VerticalLinearStepper(props: any) {
   const steps = getSteps()
 
   useEffect(() => {
-    if (workflowID != '' && runID != '') {
+    if (workflowID !== '' && runID !== '') {
       setclonningState(0)
       checkClonningStatus()
     }
   }, [workflowID, runID])
 
   const checkClonningStatus = async (): Promise<void> => {
-    console.log('checkClonningStatus')
     const res = await fetch(
       `${SERVER}/git-service/get-cloning-status?workflow_id=${workflowID}&runId=${runID}`
     )
@@ -86,7 +85,7 @@ export default function VerticalLinearStepper(props: any) {
     <div className={classes.root} ref={scrollRef}>
       <Container fixed>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-          {clonningState == 2 ? (
+          {clonningState === 2 ? (
             <Alert severity="error">Repository Clonning Failed</Alert>
           ) : (
             <Stepper activeStep={clonningState} orientation="vertical">
@@ -96,7 +95,7 @@ export default function VerticalLinearStepper(props: any) {
                   <StepContent>
                     <Typography>{getStepContent(index)}</Typography>
                     <div className={classes.actionsContainer}>
-                      <div>{clonningState == 0 && <CircularProgress />}</div>
+                      <div>{clonningState === 0 && <CircularProgress />}</div>
                     </div>
                   </StepContent>
                 </Step>

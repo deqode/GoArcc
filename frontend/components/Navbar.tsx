@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import React, { useContext } from 'react'
-import { UserContext } from '../Contexts/UserContext'
+import { destroyUserSession } from '../api/rest/session'
+import UserContext from '../contexts/UserContext'
 
 function Navbar(): any {
   const { user } = useContext(UserContext)
@@ -18,20 +19,17 @@ function Navbar(): any {
             </Link>
           </Grid>
           <Grid item>
-            {user && user.idToken != '' ? (
+            {user.loggedIn ? (
               <Button
                 onClick={async () => {
-                  await fetch(`/api/session/destroy`, {
-                    method: 'POST',
-                    headers: {
-                      Accept: 'application/json',
-                      'Content-Type': 'application/json',
-                    },
-                  })
-                  router.push('/')
+                  const res = await destroyUserSession()
+                  if (!res.error) {
+                    router.reload()
+                  }
+                  // else{}
+                  //  todo:redirect to errorpage
                 }}
-                color="inherit"
-              >
+                color="inherit">
                 Logout
               </Button>
             ) : (

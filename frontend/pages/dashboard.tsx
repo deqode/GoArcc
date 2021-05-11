@@ -1,30 +1,38 @@
-import { Grid, Paper, Typography } from '@material-ui/core'
+import { CircularProgress, Grid, Paper, Typography } from '@material-ui/core'
 import Head from 'next/head'
-import { SERVER, sessionCongfig } from '../utils/constants'
+import { sessionCongfig } from '../utils/constants'
 import Link from 'next/link'
-import { useContext, useEffect, useState } from 'react'
+import { ReactElement, useContext, useEffect, useState } from 'react'
 import { withIronSession } from 'next-iron-session'
-import { UserContext } from '../Contexts/UserContext'
+import UserContext from '../contexts/UserContext'
 
-export default function Dashboard(props: any) {
+import { UserResponse } from '../interface'
+import { getGithubVCSConnection } from '../api/rest/fetchUrls'
+import { validateUser } from '../utils/user'
+import { useRouter } from 'next/router'
+
+export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
+  const [url, setUrl] = useState<string>('')
   const { setUser } = useContext(UserContext)
-  const { auth, user } = props
-  setUser(user)
-  const [repo, setrepo] = useState({ redirectUrl: '' })
+  const router = useRouter()
   useEffect(() => {
-    ;(async () => {
-      if (user.idToken != '') {
-        const res = await fetch(`${SERVER}/vcs-connection/authorize/GITHUB`, {
-          headers: new Headers({
-            Authorization: `Bearer ${user.idToken}`,
-          }),
-        })
-        const data = await res.json()
-        console.log(data.redirectUrl, '1111111')
-        setrepo(data)
-      }
-    })()
-  }, [user])
+    if (user.idToken !== '') {
+      setUser({
+        loggedIn: true,
+        idToken: user.idToken,
+      })
+      ;(async () => {
+        const res = await getGithubVCSConnection(user.idToken)
+        if (res.error) {
+          // todo: redirect to error page
+        } else {
+          setUrl(res.redirectUrl)
+        }
+      })()
+    } else {
+      router.push('/')
+    }
+  }, [])
 
   return (
     <div>
@@ -44,27 +52,18 @@ export default function Dashboard(props: any) {
         </Grid>
         <Grid item>
           <div className="text-center">
-            {user.idToken != '' ? (
-              <>
-                {' '}
-                <div className="sign_up_head">Connect</div>
-                <Link href={repo.redirectUrl}>
-                  <a className="btn github_btn">
-                    Connect with github
-                    <img src="/assets/github_icon.png" alt="Login with github" />
-                  </a>
-                </Link>{' '}
-              </>
+            <div className="sign_up_head">Connect</div>
+            {url === '' ? (
+              <CircularProgress />
             ) : (
-              <>
-                <div className="sign_up_head">Sign Up</div>
-                <a href={auth.url} className="btn github_btn">
-                  Login with github
+              <Link href={url}>
+                <a className="btn github_btn">
+                  Connect with github
                   <img src="/assets/github_icon.png" alt="Login with github" />
                 </a>
-              </>
+              </Link>
             )}
-          </div>{' '}
+          </div>
         </Grid>
       </Grid>
 
@@ -72,10 +71,8 @@ export default function Dashboard(props: any) {
     </div>
   )
 }
-
 export const getServerSideProps = withIronSession(async ({ req }) => {
-  console.log(req.session.get('user'))
-  if (req.session.get('user')) {
+  if (validateUser(req)) {
     return { props: { user: req.session.get('user') } }
   }
   return {
@@ -85,3 +82,5 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
     },
   }
 }, sessionCongfig)
+
+export default Dashboard
