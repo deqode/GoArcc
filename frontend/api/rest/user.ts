@@ -28,7 +28,7 @@ export const getAllUserAccounts = async (
       message: 'Network Error',
       accounts: [],
 
-      // todo : integrate with error message from backend
+      // TODO : integrate with error message from backend
     }
   }
 }

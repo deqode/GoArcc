@@ -1,6 +1,14 @@
 import Head from 'next/head'
+import { useRouter, withRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
-export default function ErrorPage() {
+const ErrorPage = () => {
+  const router = useRouter()
+  const [message, setMessage] = useState('')
+  useEffect(() => {
+    if (router.query.message && typeof router.query.message === 'string')
+      setMessage(router.query.message)
+  }, [router])
   return (
     <div>
       <Head>
@@ -13,6 +21,9 @@ export default function ErrorPage() {
             <div className="col-md-6">
               <h1 className="page-head">Alfred has encountered with error</h1>
             </div>
+            <div className="col-md-6">
+              <h1 className="page-head">{message || ''}</h1>
+            </div>
             <div className="col-md-6 my-auto login-right"></div>
           </div>
         </div>
@@ -20,3 +31,5 @@ export default function ErrorPage() {
     </div>
   )
 }
+
+export default withRouter(ErrorPage)

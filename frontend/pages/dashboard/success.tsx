@@ -1,7 +1,8 @@
 import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
-import { sessionCongfig } from '../utils/constants'
-import { validateUser } from '../utils/user'
+import { sessionCongfig } from '../../utils/constants'
+import { redirectToLandingPage } from '../../utils/redirects'
+import { validateUser } from '../../utils/user'
 
 export default function Success() {
   return (
@@ -27,10 +28,5 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
   if (validateUser(req)) {
     return { props: { user: req.session.get('user') } }
   }
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/',
-    },
-  }
+  return redirectToLandingPage()
 }, sessionCongfig)

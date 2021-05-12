@@ -26,7 +26,7 @@ export default function ShowRepos({
 
   useEffect(() => {
     // if(error)
-    // todo:pop error
+    // TODO:pop error
     if (data && data.repositories) setRepos(data.repositories.repositories || [])
   }, [data, error])
 

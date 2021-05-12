@@ -25,9 +25,9 @@ function Navbar(): any {
                   const res = await destroyUserSession()
                   if (!res.error) {
                     router.reload()
+                  } else {
+                    router.push('/error', { query: { message: 'Network Error' } })
                   }
-                  // else{}
-                  //  todo:redirect to errorpage
                 }}
                 color="inherit">
                 Logout

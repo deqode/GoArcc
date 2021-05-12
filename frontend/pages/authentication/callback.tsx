@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { getAuth0Callback } from '../../api/rest/callbacks'
 import { setUserSession } from '../../api/rest/session'
-const Callback = () => {
+const Callback = (): ReactElement => {
   const router = useRouter()
   const { query } = router
   useEffect(() => {

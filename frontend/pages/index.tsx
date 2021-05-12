@@ -5,6 +5,7 @@ import { withIronSession } from 'next-iron-session'
 import { getLoginURL } from '../api/rest/fetchUrls'
 import { validateUser } from '../utils/user'
 import { ReactElement } from 'react'
+import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
 
 const Login = ({ url }: { url: string }): ReactElement => {
   return (
@@ -30,7 +31,7 @@ const Login = ({ url }: { url: string }): ReactElement => {
               Login with github
               <img src="/assets/github_icon.png" alt="Login with github" />
             </a>
-          </div>{' '}
+          </div>
         </Grid>
       </Grid>
       <Paper />
@@ -42,20 +43,9 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
   if (!validateUser(req)) {
     const res = await getLoginURL()
     if (!res.error) return { props: { url: res.url } }
-    // todo:redirect to error page
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/error',
-      },
-    }
+    return redirectToErrorPage('Network Error')
   }
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/dashboard',
-    },
-  }
+  return redirectToDashboard()
 }, sessionCongfig)
 
 export default Login

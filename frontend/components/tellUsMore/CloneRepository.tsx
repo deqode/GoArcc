@@ -24,8 +24,6 @@ export default function CloneRepository({
   }
 
   useEffect(() => {
-    // if(error)
-    // todo:pop error
     if (!clonedData.loading && !clonedData.error && clonedData.data) {
       setCloneData({
         runId: clonedData.data.cloneRepository.run_id,

@@ -1,15 +1,16 @@
 import { CircularProgress, Grid, Paper, Typography } from '@material-ui/core'
 import Head from 'next/head'
-import { sessionCongfig } from '../utils/constants'
+import { sessionCongfig } from '../../utils/constants'
 import Link from 'next/link'
 import { ReactElement, useContext, useEffect, useState } from 'react'
 import { withIronSession } from 'next-iron-session'
-import UserContext from '../contexts/UserContext'
+import UserContext from '../../contexts/UserContext'
 
-import { UserResponse } from '../interface'
-import { getGithubVCSConnection } from '../api/rest/fetchUrls'
-import { validateUser } from '../utils/user'
+import { UserResponse } from '../../interface'
+import { getGithubVCSConnection } from '../../api/rest/fetchUrls'
+import { validateUser } from '../../utils/user'
 import { useRouter } from 'next/router'
+import { redirectToLandingPage } from '../../utils/redirects'
 
 export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
   const [url, setUrl] = useState<string>('')
@@ -24,7 +25,7 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
       ;(async () => {
         const res = await getGithubVCSConnection(user.idToken)
         if (res.error) {
-          // todo: redirect to error page
+          router.push('/error')
         } else {
           setUrl(res.redirectUrl)
         }
@@ -32,7 +33,7 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
     } else {
       router.push('/')
     }
-  }, [])
+  }, [user])
 
   return (
     <div>
@@ -75,12 +76,7 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
   if (validateUser(req)) {
     return { props: { user: req.session.get('user') } }
   }
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/',
-    },
-  }
+  return redirectToLandingPage()
 }, sessionCongfig)
 
 export default Dashboard

@@ -2,16 +2,17 @@ import { Paper } from '@material-ui/core'
 import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
 import { ReactElement, useContext, useEffect } from 'react'
-import { getOwnerName } from '../api/gql/vcs'
-import { getAllUserAccounts } from '../api/rest/user'
-import CloneRepository from '../components/tellUsMore/CloneRepository'
-import ShowBranches from '../components/tellUsMore/ShowBranches'
-import ShowRepos from '../components/tellUsMore/ShowRepos'
-import useGetTellUsMoreState from '../components/tellUsMore/useGetTellUsMoreState'
-import UserContext from '../contexts/UserContext'
-import { UserResponse } from '../interface'
-import { sessionCongfig } from '../utils/constants'
-import { validateUser } from '../utils/user'
+import { getOwnerName } from '../../api/gql/vcs'
+import { getAllUserAccounts } from '../../api/rest/user'
+import CloneRepository from '../../components/tellUsMore/CloneRepository'
+import ShowBranches from '../../components/tellUsMore/ShowBranches'
+import ShowRepos from '../../components/tellUsMore/ShowRepos'
+import useGetTellUsMoreState from '../../components/tellUsMore/useGetTellUsMoreState'
+import UserContext from '../../contexts/UserContext'
+import { UserResponse } from '../../interface'
+import { sessionCongfig } from '../../utils/constants'
+import { redirectToErrorPage, redirectToLandingPage } from '../../utils/redirects'
+import { validateUser } from '../../utils/user'
 
 const TellUsMore = ({
   user,
@@ -31,7 +32,7 @@ const TellUsMore = ({
         idToken: user.idToken,
       })
     }
-  }, [])
+  }, [user])
 
   const {
     currentRepo,
@@ -80,21 +81,10 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
     const res = await getAllUserAccounts(user.userId, user.idToken)
 
     if (res.error && res.accounts.length === 0) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/error',
-        },
-      }
+      return redirectToErrorPage('Network Error')
     }
     const resp = await getOwnerName({ idToken: user.idToken, accountId: res.accounts[0].id })
-    if (resp.error)
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/',
-        },
-      }
+    if (resp.error) return redirectToLandingPage()
     return {
       props: {
         userID: user.userId,
@@ -105,12 +95,7 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
     }
   }
 
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/',
-    },
-  }
+  return redirectToLandingPage()
 }, sessionCongfig)
 
 export default TellUsMore

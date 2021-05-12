@@ -24,7 +24,7 @@ export const getAuth0Callback = async (code: string, state: string): Promise<Use
           accessToken: '',
           error: true,
           message: 'Data Not found',
-          // todo : integrate with error message from backend
+          // TODO : integrate with error message from backend
         }
     } catch (e) {
       return {
@@ -33,7 +33,7 @@ export const getAuth0Callback = async (code: string, state: string): Promise<Use
         accessToken: '',
         error: true,
         message: 'Network Error',
-        // todo : integrate with error message from backend
+        // TODO : integrate with error message from backend
       }
     }
   else
@@ -43,7 +43,7 @@ export const getAuth0Callback = async (code: string, state: string): Promise<Use
       accessToken: '',
       error: true,
       message: 'Invalid types',
-      // todo : integrate with error message from backend
+      // TODO : integrate with error message from backend
     }
 }
 
@@ -67,20 +67,20 @@ export const getVCSConnectionGitHubCallback = async (
         return {
           error: true,
           message: 'Data Not found',
-          // todo : integrate with error message from backend
+          // TODO : integrate with error message from backend
         }
     } catch (e) {
       return {
         error: true,
         message: 'Network Error',
-        // todo : integrate with error message from backend
+        // TODO : integrate with error message from backend
       }
     }
   else
     return {
       error: true,
       message: 'Invalid types',
-      // todo : integrate with error message from backend
+      // TODO : integrate with error message from backend
     }
 }
 

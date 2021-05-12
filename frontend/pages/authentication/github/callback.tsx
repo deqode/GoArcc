@@ -16,13 +16,13 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
       ;(async () => {
         if (query.code && typeof query.code === 'string' && user.userId !== '') {
           const res = await getAllUserAccounts(user.userId, user.idToken)
-          // todo: gql
+          // TODO: gql
           const vcs = await getVCSConnectionGitHubCallback(
             query.code,
             res.accounts[0].id,
             user.idToken
           )
-          if (!vcs.error) router.push('/tell-us-more')
+          if (!vcs.error) router.push('/dashboard/tell-us-more')
         } else router.push('/dashboard')
       })()
     } else router.push('/')

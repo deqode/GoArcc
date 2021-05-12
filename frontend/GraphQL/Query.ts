@@ -9,7 +9,7 @@ export const GET_REPOSITORIES = gql`
     }
   }
 `
-// todo : gql file
+// TODO : gql file
 
 export const GET_BRANCHES = gql`
   query repository(

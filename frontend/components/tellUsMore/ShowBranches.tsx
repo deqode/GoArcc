@@ -24,7 +24,7 @@ export default function ShowBranches({
 
   useEffect(() => {
     // if(error)
-    // todo:pop error
+    // TODO:pop error
     if (data && data.repository) {
       setbranches(data.repository.branches || [])
       setCloneUrl(data.repository.clone_url)

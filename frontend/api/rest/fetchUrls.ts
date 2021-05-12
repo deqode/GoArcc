@@ -17,14 +17,14 @@ export const getLoginURL = async (): Promise<LoginURL> => {
         url: '',
         error: true,
         message: 'Data Not found',
-        // todo : integrate with error message from backend
+        // TODO : integrate with error message from backend
       }
   } catch (e) {
     return {
       url: '',
       error: true,
       message: 'Network Error',
-      // todo : integrate with error message from backend
+      // TODO : integrate with error message from backend
     }
   }
 }
@@ -45,14 +45,14 @@ export const getGithubVCSConnection = async (idToken: string): Promise<GithubVCS
         redirectUrl: '',
         error: true,
         message: 'Data Not found',
-        // todo : integrate with error message from backend
+        // TODO : integrate with error message from backend
       }
   } catch (e) {
     return {
       redirectUrl: '',
       error: true,
       message: 'Network Error',
-      // todo : integrate with error message from backend
+      // TODO : integrate with error message from backend
     }
   }
 }
