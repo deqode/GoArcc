@@ -1,90 +1,25 @@
-import { AppProps } from 'next/app';
-import { ApolloProvider } from "@apollo/client";
-import client from "../apollo-client";
-import '../styles/globals.css';
-import '../styles/bootstrap.min.css';
-import '../styles/fonts.css';
-import '../styles/alfred.css';
-import Navbar from '../components/Navbar';
-import { UserContext } from '../Contexts/UserContext';
-import { AppContext } from '../Contexts/AppContext'
-import { useEffect, useState } from 'react';
-import { getStorage, removeStorage, setStorage } from '../utils/localStorage';
-import { useRouter } from 'next/router';
-import Login from '.';
-import Success from './success';
-import Centrifuge from 'centrifuge';
-import { CENTRIFUGO } from '../utils/constants';
+import { AppProps } from 'next/app'
+import { ApolloProvider } from '@apollo/client'
+import client from '../apolloClient'
+import '../styles/globals.css'
+import '../styles/bootstrap.min.css'
+import '../styles/fonts.css'
+import '../styles/alfred.css'
+import UserContext, { useUserContext, defaultUser } from '../contexts/UserContext'
+import Navbar from '../components/Navbar'
+import { ReactElement } from 'react'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [user, setState] = useState({
-    accessToken: "",
-    idToken: "",
-    userId: "",
-    provider: "",
-    accounts: [],
-    state: 0,
-  });
+const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
+  const { user, setUser, removeUser } = useUserContext(defaultUser)
 
-  const [app, setAppState] = useState({
-    centrifuge: new Centrifuge(CENTRIFUGO),
-    subscribed: false
-  });
-
-  useEffect(() => {
-    if (getStorage("token"))
-      setState(getStorage("token"))
-    else setState({
-      accessToken: "",
-      idToken: "",
-      userId: "",
-      provider: "",
-      accounts: [],
-      state: -1,
-    })
-  }, [])
-
-  const setUser = (value) => {
-    setStorage("token", value)
-    setState(value)
-  }
-
-  const removeUser = () => {
-    removeStorage("token")
-    setState({
-      accessToken: "",
-      idToken: "",
-      userId: "",
-      provider: "",
-      accounts: [],
-      state: -1,
-    })
-  }
-
-  const setApp = (value) => {
-    setStorage("app", value)
-    setAppState(value)
-  }
-
-  const removeApp = () => {
-    removeStorage("app")
-    setAppState({
-        centrifuge: new Centrifuge(CENTRIFUGO),
-        subscribed: false
-      })
-  }
   return (
-    <ApolloProvider client={client}>
-      <UserContext.Provider value={{ user, setUser, removeUser }}>
-      <AppContext.Provider value={{ app, setApp, removeApp }}>
+    <UserContext.Provider value={{ user, setUser, removeUser }}>
+      <ApolloProvider client={client(user)}>
         <Navbar />
         <Component {...pageProps} />
-      </AppContext.Provider>
-      </UserContext.Provider>
-    </ApolloProvider >
-  );
+      </ApolloProvider>
+    </UserContext.Provider>
+  )
 }
 
 export default MyApp
-
-

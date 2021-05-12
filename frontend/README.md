@@ -1,34 +1,93 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Alfred UI
 
 ## Getting Started
 
-First, run the development server:
+- Install **nodejs** & **npm**
+- First, run the development server:
 
 ```bash
+cd frontend/
+npm install
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- To build for **Production**
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```bash
+ npm run build 
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- To Start server for **Production**
 
-## Learn More
+```bash
+ npm start 
+```
 
-To learn more about Next.js, take a look at the following resources:
+- To Perform linting and type check
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+ npm run lint
+ npm run type-check
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Make sure you have **.env.locals** & `SERVER, CENTRIFUGO, GRAPHQL` configured
 
-## Deploy on Vercel
+## Major libraries & framework  used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [next](https://nextjs.org/)
+- [react](https://reactjs.org/)
+- [@material-ui](http://material-ui.com/)
+- [@apollo/client](http://apollographql.com/)
+- [next-iron-session](https://www.npmjs.com/package/next-iron-session)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Development style guide
+
+- **Naming Conventions:-**
+  - Every  `Next Page Component` should use `PascalCase`  
+  - File Name of `Next Page Component` should follow [next naming conventions for routing](https://nextjs.org/docs/routing/introduction)
+  - (check) Every Hooks must start with `use`
+  - Every other custom component file name should follow `PascalCase` and name must be equal to `default export`
+  - All environment constants must follow `UPPER_CASE_SNAKE_CASE`
+  - All other helper files should be `camelCase` (non-component files)
+  - All the folder names should be `camelCase` (without overriding the next framework)
+  - All interfaces name should be `PascalCase`
+- **Tsx Style Conventions:-**
+  - Do not use inline styles
+  - Use only `material UI styles (makeStyles)` object
+  - all styles must be in `styles` folder
+  - `commonStyles.ts` should contains common styles
+  - (check)`pageNameStyles.ts` should contains page related styles
+  - Only Component specific styles must add or override in components itself.
+  - Use only Material UI components (Do not tamper by adding extra divs)
+  - Use constant Color Codes for Color swatch & theming
+  - Use material UI class and css handling mechanism
+- **imports in an order of :-**
+  - React import
+  - Library imports (Alphabetical order)
+  - Absolute imports from the project (Alphabetical order)
+  - Relative imports (Alphabetical order)
+- Don't use `any` as a type
+- Avoid setting of state outside of hooks
+- Use arrow function wherever possible
+- Use Custom Hooks to make code more precise (for subscription , lazyQuery, multiple fetching  etc )
+- Use interface & Define in same file (where it is used ) or in `interfaces.ts` if commonly used
+- Use `next/image` instead of `<img/>`
+- Use `next/link` instead of `<a/>`
+- Create individual files for `gql queries`
+- Use hashmaps instead of switch case
+- Use enums instead of hard-coded values
+- Use axios for fetching instead of fetch
+- use `Bearer header` in `gql, rest, centrifuge` middleware for **Authentication**
+- Use the DRY principle (Don't repeat yourself).
+  - Re-use components
+- Create multiple files instead of writing a big file
+- Review your code before creating a pull request or committing (use husky)
+- api folder (call rest and gql apis)
+  - rest & gql sub-folders
+- Use useReducer when useState becomes complex
+
+## Testing
+
+## Folder structure

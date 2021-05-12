@@ -1,36 +1,45 @@
-import {useQuery} from '@apollo/client';
-import {AppBar, Button, Grid, makeStyles, Toolbar, Typography} from '@material-ui/core'
+import { AppBar, Button, Grid, Toolbar } from '@material-ui/core'
 import Link from 'next/link'
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router'
 
-import React, {useContext} from 'react'
-import {UserContext} from '../Contexts/UserContext';
+import React, { useContext } from 'react'
+import { destroyUserSession } from '../api/rest/session'
+import UserContext from '../contexts/UserContext'
 
-function Navbar() {
-    const {user, removeUser} = useContext(UserContext)
-    const router = useRouter();
-
-    return (
-        <AppBar position="static" color="transparent">
-            <Toolbar>
-                <Grid justify="space-between" container>
-                    <Grid item>
-                        <Link href="/">
-                            <img src="/assets/logo.png" width="100px"/>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        {user.idToken != "" ?
-                            <Button onClick={() => {
-                                removeUser();
-                                router.push("/")
-                            }} color="inherit">Logout</Button>
-                            : ""}
-                    </Grid>
-                </Grid>
-            </Toolbar>
-        </AppBar>
-    )
+function Navbar(): any {
+  const { user } = useContext(UserContext)
+  const router = useRouter()
+  return (
+    <AppBar position="static" color="transparent">
+      <Toolbar>
+        <Grid justify="space-between" container>
+          <Grid item>
+            <Link href="/">
+              <img src="/assets/logo.png" width="100px" alt="logo" />
+            </Link>
+          </Grid>
+          <Grid item>
+            {user.loggedIn ? (
+              <Button
+                onClick={async () => {
+                  const res = await destroyUserSession()
+                  if (!res.error) {
+                    router.reload()
+                  } else {
+                    router.push('/error', { query: { message: 'Network Error' } })
+                  }
+                }}
+                color="inherit">
+                Logout
+              </Button>
+            ) : (
+              ''
+            )}
+          </Grid>
+        </Grid>
+      </Toolbar>
+    </AppBar>
+  )
 }
 
 export default Navbar

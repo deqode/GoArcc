@@ -1,3 +1,4 @@
-export const getStorage = (item) => (JSON.parse(sessionStorage.getItem(item)))
-export const setStorage = (item, data) => (sessionStorage.setItem(item, JSON.stringify(data)))
-export const removeStorage = (item) => (sessionStorage.removeItem(item))
+export const getStorage = (item: string) => JSON.parse(<string>sessionStorage.getItem(item))
+export const setStorage = (item: string, data: any) =>
+  sessionStorage.setItem(item, JSON.stringify(data))
+export const removeStorage = (item: string) => sessionStorage.removeItem(item)

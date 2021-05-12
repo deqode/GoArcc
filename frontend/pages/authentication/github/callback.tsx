@@ -1,59 +1,46 @@
-import React, { useContext, useEffect } from 'react'
-import { Router, useRouter } from 'next/router';
-import { UserContext } from '../../../Contexts/UserContext';
-import { SERVER } from '../../../utils/constants';
+import React, { ReactElement, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { sessionCongfig } from '../../../utils/constants'
+import { withIronSession } from 'next-iron-session'
+import { getVCSConnectionGitHubCallback } from '../../../api/rest/callbacks'
+import { validateUser } from '../../../utils/user'
+import { UserResponse } from '../../../interface'
+import { getAllUserAccounts } from '../../../api/rest/user'
 
-function callback() {
-    const router = useRouter();
-    const { setUser, user } = useContext(UserContext)
+function Callback({ user }: { user: UserResponse }): ReactElement {
+  const router = useRouter()
 
-    const { query } = router
-    useEffect(() => {
-        if (query.code && query.code.length > 0) {
-            (async () => {
-                console.log(query)
-                if (query.code && user.userId != "") {
+  const { query } = router
+  useEffect(() => {
+    if (query.code && query.code.length > 0) {
+      ;(async () => {
+        if (query.code && typeof query.code === 'string' && user.userId !== '') {
+          const res = await getAllUserAccounts(user.userId, user.idToken)
+          // TODO: gql
+          const vcs = await getVCSConnectionGitHubCallback(
+            query.code,
+            res.accounts[0].id,
+            user.idToken
+          )
+          if (!vcs.error) router.push('/dashboard/tell-us-more')
+        } else router.push('/dashboard')
+      })()
+    } else router.push('/')
+  }, [query, router, user])
 
-
-                    let res = await fetch(`${SERVER}/account/get-user-all-account/${user.userId}`, {
-                        headers: new Headers({
-                            'Authorization': `Bearer ${user.idToken}`,
-                        })
-                    })
-                    let data = await res.json()
-                    let newUser = user
-
-                    newUser.accounts = data.accounts || []
-
-                    // todo: gql
-                    res = await fetch(`${SERVER}/vcs-connection/GITHUB/callback?code=${query.code}&account_id=${newUser.accounts[0].id}`, {
-                        headers: new Headers({
-                            'Authorization': `Bearer ${user.idToken}`,
-                        })
-                    })
-                    data = await res.json()
-                    newUser.provider = data.provider
-
-                    console.log(newUser)
-                    setUser(newUser)
-                    router.push("/tell-us-more")
-                } else {
-                    router.push("/")
-                }
-
-            })()
-
-        }
-        // else
-        // router.push("/")
-    }, [router, user])
-
-    return (
-        <div>
-
-        </div>
-    )
+  return <div></div>
 }
 
-export default callback
+export default Callback
 
+export const getServerSideProps = withIronSession(async ({ req }) => {
+  if (validateUser(req)) {
+    return { props: { user: req.session.get('user') } }
+  }
+  return {
+    redirect: {
+      permanent: false,
+      destination: '/',
+    },
+  }
+}, sessionCongfig)
