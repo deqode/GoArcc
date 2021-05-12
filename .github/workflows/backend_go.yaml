@@ -34,6 +34,8 @@ jobs:
 
       - name: go get
         run:  go get
-      - run: make build
+
+      - name: build
+        run: go build -v ./...
 
 #      - run: npm install
