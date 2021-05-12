@@ -1,4 +1,4 @@
-name: Frontend NextJS CI
+name: Backend GO CI
 
 on:
   push:
