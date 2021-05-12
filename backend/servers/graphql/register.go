@@ -17,7 +17,7 @@ import (
   RegisterGraphqlModules: Mapping the services with the single graphql endpoint
 */
 func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	if err := userProfilePb.RegisterUserProfileServiceGraphqlHandler(mux, conn); err != nil {
+	if err := userProfilePb.RegisterUserProfilesGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

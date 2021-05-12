@@ -17,14 +17,12 @@ var (
 	gql__type_GetUserAccountsRequest   *graphql.Object      // message GetUserAccountsRequest in account.proto
 	gql__type_GetAccountRequest        *graphql.Object      // message GetAccountRequest in account.proto
 	gql__type_DeleteAccountRequest     *graphql.Object      // message DeleteAccountRequest in account.proto
-	gql__type_CreateAccountRequest     *graphql.Object      // message CreateAccountRequest in account.proto
 	gql__type_Account                  *graphql.Object      // message Account in account.proto
 	gql__input_UpdateAccountRequest    *graphql.InputObject // message UpdateAccountRequest in account.proto
 	gql__input_GetUserAccountsResponse *graphql.InputObject // message GetUserAccountsResponse in account.proto
 	gql__input_GetUserAccountsRequest  *graphql.InputObject // message GetUserAccountsRequest in account.proto
 	gql__input_GetAccountRequest       *graphql.InputObject // message GetAccountRequest in account.proto
 	gql__input_DeleteAccountRequest    *graphql.InputObject // message DeleteAccountRequest in account.proto
-	gql__input_CreateAccountRequest    *graphql.InputObject // message CreateAccountRequest in account.proto
 	gql__input_Account                 *graphql.InputObject // message Account in account.proto
 )
 
@@ -98,20 +96,6 @@ func Gql__type_DeleteAccountRequest() *graphql.Object {
 	return gql__type_DeleteAccountRequest
 }
 
-func Gql__type_CreateAccountRequest() *graphql.Object {
-	if gql__type_CreateAccountRequest == nil {
-		gql__type_CreateAccountRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_CreateAccountRequest",
-			Fields: graphql.Fields{
-				"account": &graphql.Field{
-					Type: Gql__type_Account(),
-				},
-			},
-		})
-	}
-	return gql__type_CreateAccountRequest
-}
-
 func Gql__type_Account() *graphql.Object {
 	if gql__type_Account == nil {
 		gql__type_Account = graphql.NewObject(graphql.ObjectConfig{
@@ -126,7 +110,7 @@ func Gql__type_Account() *graphql.Object {
 					Description: `multiple account identify by slug on ui`,
 				},
 				"user_id": &graphql.Field{
-					Type:        graphql.String,
+					Type:        graphql.NewNonNull(graphql.String),
 					Description: `userId of a user`,
 				},
 			},
@@ -205,20 +189,6 @@ func Gql__input_DeleteAccountRequest() *graphql.InputObject {
 	return gql__input_DeleteAccountRequest
 }
 
-func Gql__input_CreateAccountRequest() *graphql.InputObject {
-	if gql__input_CreateAccountRequest == nil {
-		gql__input_CreateAccountRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_CreateAccountRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"account": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_Account(),
-				},
-			},
-		})
-	}
-	return gql__input_CreateAccountRequest
-}
-
 func Gql__input_Account() *graphql.InputObject {
 	if gql__input_Account == nil {
 		gql__input_Account = graphql.NewInputObject(graphql.InputObjectConfig{
@@ -234,7 +204,7 @@ func Gql__input_Account() *graphql.InputObject {
 				},
 				"user_id": &graphql.InputObjectFieldConfig{
 					Description: `userId of a user`,
-					Type:        graphql.String,
+					Type:        graphql.NewNonNull(graphql.String),
 				},
 			},
 		})

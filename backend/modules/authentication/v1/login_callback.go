@@ -1,7 +1,9 @@
 package authentication
 
 import (
+	accountInPb "alfred/modules/account/v1/internals/pb"
 	"alfred/modules/authentication/v1/pb"
+	userProfileInPb "alfred/modules/user-profile/v1/internals/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	"fmt"
@@ -42,43 +44,49 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 	}
 
 	//get user_details
-	isCreateUserProfile := false
-	userID := ""
-	usr, err := s.userProfileClient.GetUserProfileBySub(ctx, &userProfilePb.GetUserProfileBySubRequest{
+	usr, err := s.userProfileServer.GetUserProfileBySub(ctx, &userProfilePb.GetUserProfileBySubRequest{
 		Sub: fmt.Sprintf("%s", profile["sub"]),
 	})
-	if err != nil {
-		code, _ := status.FromError(err)
-		if code.Code() == codes.NotFound {
-			isCreateUserProfile = true
-		} else {
-			return nil, err
-		}
+	if usr != nil {
+		return &pb.LoginCallbackResponse{
+			IdToken:     rawIDToken,
+			AccessToken: token.AccessToken,
+			UserId:      usr.Id,
+		}, nil
 	}
-	//store user details
-	if isCreateUserProfile {
-		user, err := s.userProfileClient.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
-			UserProfile: &userProfilePb.UserProfile{
-				Id:             "",
-				Sub:            fmt.Sprintf("%s", profile["sub"]),
-				Name:           fmt.Sprintf("%s", profile["name"]),
-				UserName:       fmt.Sprintf("%s", profile["nickname"]),
-				ProfilePicUrl:  fmt.Sprintf("%s", profile["picture"]),
-				ExternalSource: userProfilePb.SOURCE_GITHUB,
-				TokenValidTill: nil,
-			},
-		})
-		if err != nil {
-			return nil, err
-		}
-		userID = user.Id
-	} else {
-		userID = usr.Id
+	if err != nil {
+		return nil, err
 	}
 
+	//create User Profile
+	user, err := s.userProfileInServer.CreateUserProfile(ctx, &userProfileInPb.CreateUserProfileRequest{
+		UserProfile: &userProfileInPb.UserProfile{
+			Id:             "",
+			Sub:            fmt.Sprintf("%s", profile["sub"]),
+			Name:           fmt.Sprintf("%s", profile["name"]),
+			UserName:       fmt.Sprintf("%s", profile["nickname"]),
+			ProfilePicUrl:  fmt.Sprintf("%s", profile["picture"]),
+			ExternalSource: userProfileInPb.SOURCE_GITHUB,
+			TokenValidTill: nil,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	//create User Account
+	_, err = s.accountServer.CreateAccount(ctx, &accountInPb.CreateAccountRequest{
+		Account: &accountInPb.Account{
+			Slug:   user.Name + "_" + user.ExternalSource.String(),
+			UserId: user.Id,
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
 	return &pb.LoginCallbackResponse{
 		IdToken:     rawIDToken,
 		AccessToken: token.AccessToken,
-		UserId:      userID,
+		UserId:      usr.Id,
 	}, nil
 }

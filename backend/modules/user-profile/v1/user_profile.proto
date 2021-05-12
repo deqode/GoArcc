@@ -3,16 +3,11 @@ package alfred.user_profile.v1;
 
 option go_package = "pb/";
 
-import "google/protobuf/empty.proto";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
 
-service UserProfileService {
-    rpc CreateUserProfile(CreateUserProfileRequest) returns (UserProfile);
-
-    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UserProfile);
-
+service UserProfiles {
     rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile){
         option (google.api.http) = {
             get: "/v1/user-profile/get-user-profile/{id}"
@@ -23,23 +18,15 @@ service UserProfileService {
         };
     }
 
-    rpc GetUserProfileBySub(GetUserProfileBySubRequest) returns (UserProfile);
-
-    rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
-
-    rpc GetUserMe (google.protobuf.Empty) returns (UserProfile);
-}
-
-message CreateUserProfileRequest {
-    UserProfile user_profile = 1;
-}
-
-message DeleteUserProfileRequest {
-    string id = 1;
-}
-
-message UpdateUserProfileRequest {
-    UserProfile user_profile = 1;
+    rpc GetUserProfileBySub(GetUserProfileBySubRequest) returns (UserProfile){
+        option (google.api.http) = {
+            get: "/v1/user-profile/get-user-profile-by-sub/{sub}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "userBySub"
+        };
+    }
 }
 
 message GetUserProfileRequest {

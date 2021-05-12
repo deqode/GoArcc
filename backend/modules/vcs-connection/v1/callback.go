@@ -19,17 +19,13 @@ var (
 )
 
 func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackRequest) (*pb.AccountVCSConnection, error) {
+	if err := in.Validate(); err != nil {
+		return nil, err
+	}
 	// Getting required tokens and their expiry
 	var accessToken, refreshToken string
 	var accessTokenExpiry, refreshTokenExpiry time.Time
 	var user *githubClient.User
-
-	if in.Code == "" {
-		return nil, status.Error(codes.InvalidArgument, "Connection code not provided")
-	}
-	if in.AccountId == "" {
-		return nil, status.Error(codes.InvalidArgument, "account ID required")
-	}
 
 	vcs, err := s.internalVCSClient.GetVCSConnection(ctx, &internal_pb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,

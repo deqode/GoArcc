@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *userProfileServer) GetUserProfile(ctx context.Context, in *pb.GetUserProfileRequest) (*pb.UserProfile, error) {
+func (s *userProfilesServer) GetUserProfile(ctx context.Context, in *pb.GetUserProfileRequest) (*pb.UserProfile, error) {
 	profile := models.UserProfile{}
 	result := s.db.First(&profile, "id = ?", in.Id)
 	if result.Error != nil {
@@ -18,11 +18,11 @@ func (s *userProfileServer) GetUserProfile(ctx context.Context, in *pb.GetUserPr
 		return nil, status.Error(codes.NotFound, "No Record Found")
 	}
 	return &pb.UserProfile{
-		Id:             profile.ID,
-		ExternalSource: profile.Source,
-		Name:           profile.Name,
-		Email:          profile.Email,
-		Sub:            profile.Sub,
-		UserName:       profile.UserName,
+		Id: profile.ID,
+		//ExternalSource: profile.Source,
+		Name:     profile.Name,
+		Email:    profile.Email,
+		Sub:      profile.Sub,
+		UserName: profile.UserName,
 	}, nil
 }

@@ -31,7 +31,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_UserProfileService_GetUserProfile_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfileServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_UserProfiles_GetUserProfile_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfilesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetUserProfileRequest
 	var metadata runtime.ServerMetadata
 
@@ -57,7 +57,7 @@ func request_UserProfileService_GetUserProfile_0(ctx context.Context, marshaler 
 
 }
 
-func local_request_UserProfileService_GetUserProfile_0(ctx context.Context, marshaler runtime.Marshaler, server UserProfileServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_UserProfiles_GetUserProfile_0(ctx context.Context, marshaler runtime.Marshaler, server UserProfilesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetUserProfileRequest
 	var metadata runtime.ServerMetadata
 
@@ -83,24 +83,76 @@ func local_request_UserProfileService_GetUserProfile_0(ctx context.Context, mars
 
 }
 
-// RegisterUserProfileServiceHandlerServer registers the http handlers for service UserProfileService to "mux".
-// UnaryRPC     :call UserProfileServiceServer directly.
-// StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterUserProfileServiceHandlerFromEndpoint instead.
-func RegisterUserProfileServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server UserProfileServiceServer) error {
+func request_UserProfiles_GetUserProfileBySub_0(ctx context.Context, marshaler runtime.Marshaler, client UserProfilesClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetUserProfileBySubRequest
+	var metadata runtime.ServerMetadata
 
-	mux.Handle("GET", pattern_UserProfileService_GetUserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["sub"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sub")
+	}
+
+	protoReq.Sub, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sub", err)
+	}
+
+	msg, err := client.GetUserProfileBySub(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_UserProfiles_GetUserProfileBySub_0(ctx context.Context, marshaler runtime.Marshaler, server UserProfilesServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetUserProfileBySubRequest
+	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["sub"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sub")
+	}
+
+	protoReq.Sub, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sub", err)
+	}
+
+	msg, err := server.GetUserProfileBySub(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+// RegisterUserProfilesHandlerServer registers the http handlers for service UserProfiles to "mux".
+// UnaryRPC     :call UserProfilesServer directly.
+// StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterUserProfilesHandlerFromEndpoint instead.
+func RegisterUserProfilesHandlerServer(ctx context.Context, mux *runtime.ServeMux, server UserProfilesServer) error {
+
+	mux.Handle("GET", pattern_UserProfiles_GetUserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.user_profile.v1.UserProfileService/GetUserProfile")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.user_profile.v1.UserProfiles/GetUserProfile")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_UserProfileService_GetUserProfile_0(rctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_UserProfiles_GetUserProfile_0(rctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -108,16 +160,39 @@ func RegisterUserProfileServiceHandlerServer(ctx context.Context, mux *runtime.S
 			return
 		}
 
-		forward_UserProfileService_GetUserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserProfiles_GetUserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_UserProfiles_GetUserProfileBySub_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.user_profile.v1.UserProfiles/GetUserProfileBySub")
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_UserProfiles_GetUserProfileBySub_0(rctx, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_UserProfiles_GetUserProfileBySub_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterUserProfileServiceHandlerFromEndpoint is same as RegisterUserProfileServiceHandler but
+// RegisterUserProfilesHandlerFromEndpoint is same as RegisterUserProfilesHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterUserProfileServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterUserProfilesHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -137,39 +212,59 @@ func RegisterUserProfileServiceHandlerFromEndpoint(ctx context.Context, mux *run
 		}()
 	}()
 
-	return RegisterUserProfileServiceHandler(ctx, mux, conn)
+	return RegisterUserProfilesHandler(ctx, mux, conn)
 }
 
-// RegisterUserProfileServiceHandler registers the http handlers for service UserProfileService to "mux".
+// RegisterUserProfilesHandler registers the http handlers for service UserProfiles to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterUserProfileServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterUserProfileServiceHandlerClient(ctx, mux, NewUserProfileServiceClient(conn))
+func RegisterUserProfilesHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterUserProfilesHandlerClient(ctx, mux, NewUserProfilesClient(conn))
 }
 
-// RegisterUserProfileServiceHandlerClient registers the http handlers for service UserProfileService
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "UserProfileServiceClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "UserProfileServiceClient"
+// RegisterUserProfilesHandlerClient registers the http handlers for service UserProfiles
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "UserProfilesClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "UserProfilesClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "UserProfileServiceClient" to call the correct interceptors.
-func RegisterUserProfileServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UserProfileServiceClient) error {
+// "UserProfilesClient" to call the correct interceptors.
+func RegisterUserProfilesHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UserProfilesClient) error {
 
-	mux.Handle("GET", pattern_UserProfileService_GetUserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_UserProfiles_GetUserProfile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.user_profile.v1.UserProfileService/GetUserProfile")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.user_profile.v1.UserProfiles/GetUserProfile")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_UserProfileService_GetUserProfile_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UserProfiles_GetUserProfile_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_UserProfileService_GetUserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserProfiles_GetUserProfile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_UserProfiles_GetUserProfileBySub_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.user_profile.v1.UserProfiles/GetUserProfileBySub")
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_UserProfiles_GetUserProfileBySub_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_UserProfiles_GetUserProfileBySub_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -177,9 +272,13 @@ func RegisterUserProfileServiceHandlerClient(ctx context.Context, mux *runtime.S
 }
 
 var (
-	pattern_UserProfileService_GetUserProfile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "user-profile", "get-user-profile", "id"}, ""))
+	pattern_UserProfiles_GetUserProfile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "user-profile", "get-user-profile", "id"}, ""))
+
+	pattern_UserProfiles_GetUserProfileBySub_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "user-profile", "get-user-profile-by-sub", "sub"}, ""))
 )
 
 var (
-	forward_UserProfileService_GetUserProfile_0 = runtime.ForwardResponseMessage
+	forward_UserProfiles_GetUserProfile_0 = runtime.ForwardResponseMessage
+
+	forward_UserProfiles_GetUserProfileBySub_0 = runtime.ForwardResponseMessage
 )

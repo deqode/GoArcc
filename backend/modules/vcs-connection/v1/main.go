@@ -1,8 +1,6 @@
 package vcs_connection
 
 import (
-	cadenceAdapter "alfred/background/adapters/cadence"
-	background "alfred/background/config"
 	"alfred/config"
 	"alfred/modules/vcs-connection/v1/internals"
 	internal_pb "alfred/modules/vcs-connection/v1/internals/pb"
@@ -17,8 +15,6 @@ type vcsConnectionServer struct {
 	config            *config.Config
 	grpcClient        *grpc.ClientConn
 	internalVCSClient internal_pb.VCSConnectionInternalServer
-	cadenceConfig     *background.CadenceAppConfig
-	cadenceAdapter    *cadenceAdapter.CadenceAdapter
 }
 
 // NewVCSConnectionServer todo : AlWays add migration code for best practices
@@ -26,8 +22,7 @@ func NewVCSConnectionServer(
 	db *gorm.DB,
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
-	cadenceConfig *background.CadenceAppConfig,
-	cadenceAdapter *cadenceAdapter.CadenceAdapter) pb.VCSConnectionsServer {
+) pb.VCSConnectionsServer {
 
 	//initial migration of databases: schema migration
 	models.InitialMigrationVCSConnection(db)
@@ -37,7 +32,5 @@ func NewVCSConnectionServer(
 		config:            config,
 		grpcClient:        grpcClientConn,
 		internalVCSClient: internalVCSClient,
-		cadenceConfig:     cadenceConfig,
-		cadenceAdapter:    cadenceAdapter,
 	}
 }

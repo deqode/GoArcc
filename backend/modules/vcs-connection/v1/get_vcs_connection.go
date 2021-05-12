@@ -18,12 +18,12 @@ func (s *vcsConnectionServer) GetVCSConnection(ctx context.Context, in *pb.GetVC
 	if result.RowsAffected == 0 {
 		return nil, status.Error(codes.NotFound, "No Record Found")
 	}
-	accountVcsConnection := &pb.AccountVCSConnection{
+	accountVCSConnection := &pb.AccountVCSConnection{
 		Id:        record.ID,
 		Provider:  record.Provider,
 		AccountId: record.AccountID,
 		Label:     record.Label,
 		UserName:  record.UserName,
 	}
-	return accountVcsConnection, nil
+	return accountVCSConnection, nil
 }
