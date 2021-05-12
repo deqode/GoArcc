@@ -1,20 +1,19 @@
-package user_profile
+package internals
 
 import (
-	accountPb "alfred/modules/account/v1/pb"
+	"alfred/modules/user-profile/v1/internals/pb"
 	"alfred/modules/user-profile/v1/models"
-	"alfred/modules/user-profile/v1/pb"
 	"context"
 	"github.com/hashicorp/go-uuid"
 )
 
-func (s *userProfileServer) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
+func (s *userProfileInternalServer) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
 	id, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, err
 	}
 
-	VCSModel := &models.UserProfile{
+	usrProfile := &models.UserProfile{
 		ID:            id,
 		Name:          in.UserProfile.Name,
 		Email:         in.UserProfile.Email,
@@ -25,21 +24,11 @@ func (s *userProfileServer) CreateUserProfile(ctx context.Context, in *pb.Create
 		Source:        in.UserProfile.ExternalSource,
 	}
 
-	t := s.db.Create(VCSModel)
+	t := s.db.Create(usrProfile)
 	if t.Error != nil {
 		return nil, t.Error
 	}
 
-	// create a user account as well
-	_, err = s.accountClient.CreateAccount(ctx, &accountPb.CreateAccountRequest{
-		Account: &accountPb.Account{
-			Slug:   VCSModel.Name + "-" + in.UserProfile.ExternalSource.String(),
-			UserId: id,
-		},
-	})
-	if err != nil {
-		return nil, err
-	}
 	in.UserProfile.Id = id
 	return in.UserProfile, nil
 }

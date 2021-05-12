@@ -1,6 +1,7 @@
 package user_profile
 
 import (
+	"alfred/modules/user-profile/v1/internals"
 	"go.uber.org/fx"
 )
 
@@ -8,6 +9,6 @@ import (
 //module can use our client
 var Module = fx.Options(
 	fx.Provide(
-		NewUserProfileServer,
+		internals.NewUserProfileInternalServer,
 	),
 )

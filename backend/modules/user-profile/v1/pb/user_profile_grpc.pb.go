@@ -4,7 +4,6 @@ package pb
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -14,261 +13,117 @@ import (
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion7
 
-// UserProfileServiceClient is the client API for UserProfileService service.
+// UserProfilesClient is the client API for UserProfiles service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserProfileServiceClient interface {
-	CreateUserProfile(ctx context.Context, in *CreateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
-	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
+type UserProfilesClient interface {
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error)
-	DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error)
 }
 
-type userProfileServiceClient struct {
+type userProfilesClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserProfileServiceClient(cc grpc.ClientConnInterface) UserProfileServiceClient {
-	return &userProfileServiceClient{cc}
+func NewUserProfilesClient(cc grpc.ClientConnInterface) UserProfilesClient {
+	return &userProfilesClient{cc}
 }
 
-func (c *userProfileServiceClient) CreateUserProfile(ctx context.Context, in *CreateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
+func (c *userProfilesClient) GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/CreateUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfiles/GetUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userProfileServiceClient) UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
+func (c *userProfilesClient) GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/UpdateUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfiles/GetUserProfileBySub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userProfileServiceClient) GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
-	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserProfile", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userProfileServiceClient) GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error) {
-	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserProfileBySub", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userProfileServiceClient) DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/DeleteUserProfile", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userProfileServiceClient) GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error) {
-	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfileService/GetUserMe", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// UserProfileServiceServer is the server API for UserProfileService service.
-// All implementations should embed UnimplementedUserProfileServiceServer
+// UserProfilesServer is the server API for UserProfiles service.
+// All implementations should embed UnimplementedUserProfilesServer
 // for forward compatibility
-type UserProfileServiceServer interface {
-	CreateUserProfile(context.Context, *CreateUserProfileRequest) (*UserProfile, error)
-	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
+type UserProfilesServer interface {
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
 	GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error)
-	DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error)
-	GetUserMe(context.Context, *empty.Empty) (*UserProfile, error)
 }
 
-// UnimplementedUserProfileServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedUserProfileServiceServer struct {
+// UnimplementedUserProfilesServer should be embedded to have forward compatible implementations.
+type UnimplementedUserProfilesServer struct {
 }
 
-func (UnimplementedUserProfileServiceServer) CreateUserProfile(context.Context, *CreateUserProfileRequest) (*UserProfile, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateUserProfile not implemented")
-}
-func (UnimplementedUserProfileServiceServer) UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserProfile not implemented")
-}
-func (UnimplementedUserProfileServiceServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error) {
+func (UnimplementedUserProfilesServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
 }
-func (UnimplementedUserProfileServiceServer) GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error) {
+func (UnimplementedUserProfilesServer) GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfileBySub not implemented")
 }
-func (UnimplementedUserProfileServiceServer) DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserProfile not implemented")
-}
-func (UnimplementedUserProfileServiceServer) GetUserMe(context.Context, *empty.Empty) (*UserProfile, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserMe not implemented")
-}
 
-// UnsafeUserProfileServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserProfileServiceServer will
+// UnsafeUserProfilesServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserProfilesServer will
 // result in compilation errors.
-type UnsafeUserProfileServiceServer interface {
-	mustEmbedUnimplementedUserProfileServiceServer()
+type UnsafeUserProfilesServer interface {
+	mustEmbedUnimplementedUserProfilesServer()
 }
 
-func RegisterUserProfileServiceServer(s *grpc.Server, srv UserProfileServiceServer) {
-	s.RegisterService(&_UserProfileService_serviceDesc, srv)
+func RegisterUserProfilesServer(s *grpc.Server, srv UserProfilesServer) {
+	s.RegisterService(&_UserProfiles_serviceDesc, srv)
 }
 
-func _UserProfileService_CreateUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateUserProfileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileServiceServer).CreateUserProfile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/CreateUserProfile",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).CreateUserProfile(ctx, req.(*CreateUserProfileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserProfileService_UpdateUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserProfileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileServiceServer).UpdateUserProfile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/UpdateUserProfile",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).UpdateUserProfile(ctx, req.(*UpdateUserProfileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserProfileService_GetUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserProfiles_GetUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserProfileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserProfileServiceServer).GetUserProfile(ctx, in)
+		return srv.(UserProfilesServer).GetUserProfile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserProfile",
+		FullMethod: "/alfred.user_profile.v1.UserProfiles/GetUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).GetUserProfile(ctx, req.(*GetUserProfileRequest))
+		return srv.(UserProfilesServer).GetUserProfile(ctx, req.(*GetUserProfileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileService_GetUserProfileBySub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserProfiles_GetUserProfileBySub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserProfileBySubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserProfileServiceServer).GetUserProfileBySub(ctx, in)
+		return srv.(UserProfilesServer).GetUserProfileBySub(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserProfileBySub",
+		FullMethod: "/alfred.user_profile.v1.UserProfiles/GetUserProfileBySub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).GetUserProfileBySub(ctx, req.(*GetUserProfileBySubRequest))
+		return srv.(UserProfilesServer).GetUserProfileBySub(ctx, req.(*GetUserProfileBySubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileService_DeleteUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserProfileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileServiceServer).DeleteUserProfile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/DeleteUserProfile",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).DeleteUserProfile(ctx, req.(*DeleteUserProfileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserProfileService_GetUserMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileServiceServer).GetUserMe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfileService/GetUserMe",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileServiceServer).GetUserMe(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _UserProfileService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.user_profile.v1.UserProfileService",
-	HandlerType: (*UserProfileServiceServer)(nil),
+var _UserProfiles_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "alfred.user_profile.v1.UserProfiles",
+	HandlerType: (*UserProfilesServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateUserProfile",
-			Handler:    _UserProfileService_CreateUserProfile_Handler,
-		},
-		{
-			MethodName: "UpdateUserProfile",
-			Handler:    _UserProfileService_UpdateUserProfile_Handler,
-		},
-		{
 			MethodName: "GetUserProfile",
-			Handler:    _UserProfileService_GetUserProfile_Handler,
+			Handler:    _UserProfiles_GetUserProfile_Handler,
 		},
 		{
 			MethodName: "GetUserProfileBySub",
-			Handler:    _UserProfileService_GetUserProfileBySub_Handler,
-		},
-		{
-			MethodName: "DeleteUserProfile",
-			Handler:    _UserProfileService_DeleteUserProfile_Handler,
-		},
-		{
-			MethodName: "GetUserMe",
-			Handler:    _UserProfileService_GetUserMe_Handler,
+			Handler:    _UserProfiles_GetUserProfileBySub_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

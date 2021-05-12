@@ -18,7 +18,7 @@ import (
 //Todo: Remove local host from here
 func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
 	//opts := []grpc.DialOption{grpc.WithInsecure()}
-	if err := userProfilePb.RegisterUserProfileServiceHandler(ctx, mux, conn); err != nil {
+	if err := userProfilePb.RegisterUserProfilesHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

@@ -2,7 +2,7 @@ package models
 
 import (
 	"alfred/logger"
-	"alfred/modules/user-profile/v1/pb"
+	"alfred/modules/user-profile/v1/internals/pb"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"time"

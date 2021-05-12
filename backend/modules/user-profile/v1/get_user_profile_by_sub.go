@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *userProfileServer) GetUserProfileBySub(ctx context.Context, in *pb.GetUserProfileBySubRequest) (*pb.UserProfile, error) {
+func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.GetUserProfileBySubRequest) (*pb.UserProfile, error) {
 	profile := models.UserProfile{}
 	result := s.db.First(&profile, "sub = ?", in.Sub)
 
@@ -20,11 +20,11 @@ func (s *userProfileServer) GetUserProfileBySub(ctx context.Context, in *pb.GetU
 		return nil, status.Error(codes.Internal, result.Error.Error())
 	}
 	return &pb.UserProfile{
-		Id:             profile.ID,
-		ExternalSource: profile.Source,
-		Name:           profile.Name,
-		Email:          profile.Email,
-		Sub:            profile.Sub,
-		UserName:       profile.UserName,
+		Id: profile.ID,
+		//ExternalSource: profile.Source,
+		Name:     profile.Name,
+		Email:    profile.Email,
+		Sub:      profile.Sub,
+		UserName: profile.UserName,
 	}, nil
 }

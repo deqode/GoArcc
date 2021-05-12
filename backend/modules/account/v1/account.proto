@@ -1,18 +1,16 @@
 syntax = "proto3";
 package alfred.account.v1;
 
-option go_package = "pb/";
+option go_package = "/pb";
 
 import "google/protobuf/empty.proto";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
+//import "types/enums.proto";
 import "validate/validate.proto";
 
 // Users can have multiple Accounts
 service Accounts {
-    //CreateAccount create new account of a user
-    rpc CreateAccount(CreateAccountRequest) returns (Account);
-
     //UpdateAccount update existing account details
     rpc UpdateAccount(UpdateAccountRequest) returns (Account){
         option (google.api.http) = {
@@ -60,16 +58,13 @@ service Accounts {
     }
 }
 
-message CreateAccountRequest {
-    Account account = 1;
-}
-
 message DeleteAccountRequest {
     string id = 1;
 }
 
 message UpdateAccountRequest {
     Account account = 1;
+//    google.protobuf.FieldMask update_mask = 2 [(validate.rules).message.required = true];
 }
 
 message GetAccountRequest {
@@ -89,5 +84,5 @@ message Account {
     // multiple account identify by slug on ui
     string slug = 2;
     // userId of a user
-    string user_id = 3;
+    string user_id = 3 [(validate.rules).string.min_len = 3,(graphql.field) = {required: true}];
 }

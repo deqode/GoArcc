@@ -1,53 +1,51 @@
 package authentication
 
 import (
-	cadenceAdapter "alfred/background/adapters/cadence"
-	background "alfred/background/config"
 	"alfred/config"
+	accountIn "alfred/modules/account/v1/internals"
+	accountInPb "alfred/modules/account/v1/internals/pb"
 	"alfred/modules/authentication/v1/pb"
-	userProfilePb "alfred/modules/user-profile/v1/pb"
+	usrProfile "alfred/modules/user-profile/v1"
+	usrProfileIn "alfred/modules/user-profile/v1/internals"
+	usrProfileInPb "alfred/modules/user-profile/v1/internals/pb"
+	usrProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	oidc "github.com/coreos/go-oidc"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"log"
-	"time"
 )
 
 type authenticationServer struct {
-	db                *gorm.DB
-	config            *config.Config
-	grpcClient        *grpc.ClientConn
-	userProfileClient userProfilePb.UserProfileServiceClient
-	authenticator     *Authenticator
-	cadenceConfig     *background.CadenceAppConfig
-	cadenceAdapter    *cadenceAdapter.CadenceAdapter
+	db                  *gorm.DB
+	config              *config.Config
+	grpcClient          *grpc.ClientConn
+	userProfileServer   usrProfilePb.UserProfilesServer
+	userProfileInServer usrProfileInPb.UserProfileInternalServer
+	accountServer       accountInPb.AccountInternalServer
+	authenticator       *Authenticator
 }
-
-const (
-	secretKey     = "secret"
-	tokenDuration = 15 * time.Minute
-)
 
 // NewAuthenticationServer Service Implementation
 func NewAuthenticationServer(
 	db *gorm.DB,
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
-	cadenceConfig *background.CadenceAppConfig,
-	cadenceAdapter *cadenceAdapter.CadenceAdapter,
+
 ) pb.AuthenticationsServer {
-	userProfileCli := userProfilePb.NewUserProfileServiceClient(grpcClientConn)
+	userProfileSrv := usrProfile.NewUserProfilesServer(db, config, grpcClientConn)
+	userProfileInSrv := usrProfileIn.NewUserProfileInternalServer(db, config, grpcClientConn)
+	accountInSrv := accountIn.NewAccountInternalServer(db, config, grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
 	return &authenticationServer{
-		db:                db,
-		config:            config,
-		grpcClient:        grpcClientConn,
-		userProfileClient: userProfileCli,
-		authenticator:     authenticatorCli,
-		cadenceAdapter:    cadenceAdapter,
-		cadenceConfig:     cadenceConfig,
+		db:                  db,
+		config:              config,
+		grpcClient:          grpcClientConn,
+		userProfileServer:   userProfileSrv,
+		userProfileInServer: userProfileInSrv,
+		authenticator:       authenticatorCli,
+		accountServer:       accountInSrv,
 	}
 }
 
@@ -57,7 +55,7 @@ type Authenticator struct {
 	Ctx      context.Context
 }
 
-// TODO: Move this a Fx
+// NewAuthenticator TODO: Move this a Fx
 func NewAuthenticator(config *config.Config) (*Authenticator, error) {
 	ctx := context.Background()
 
