@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint --ext js,jsx,ts,tsx --fix .",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "test": "jest",
     "postinstall": "cd .. && husky install"
   },
   "dependencies": {
@@ -26,10 +27,14 @@
     "react-log-output": "^1.1.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@types/jest": "^26.0.23",
     "@types/node": "^15.0.0",
     "@types/react": "^17.0.4",
+    "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
+    "babel-jest": "^26.6.3",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -37,7 +42,11 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^6.0.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "jest-watch-typeahead": "^0.6.3",
     "prettier": "^2.2.1",
+    "react-test-renderer": "^17.0.2",
     "typescript": "^4.2.4"
   }
 }

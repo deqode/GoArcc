@@ -1,34 +1,25 @@
 import Head from 'next/head'
 import { useRouter, withRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { Fragment, ReactElement, useEffect, useState } from 'react'
+import BasicLayout from '../../components/tellUsMore/layouts/BasicLayout'
 
-const ErrorPage = () => {
+const ErrorPage = (): ReactElement => {
   const router = useRouter()
   const [message, setMessage] = useState('')
+
   useEffect(() => {
     if (router.query.message && typeof router.query.message === 'string')
       setMessage(router.query.message)
   }, [router])
+
   return (
-    <div>
+    <Fragment>
       <Head>
         <title>Error !!</title>
         <link rel="icon" href="assets/alfred.png" />
       </Head>
-      <section className="content_section">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <h1 className="page-head">Alfred has encountered with error</h1>
-            </div>
-            <div className="col-md-6">
-              <h1 className="page-head">{message || ''}</h1>
-            </div>
-            <div className="col-md-6 my-auto login-right"></div>
-          </div>
-        </div>
-      </section>
-    </div>
+      <BasicLayout heading={'Alfred has encountered with error'} component={message || ''} />
+    </Fragment>
   )
 }
 
