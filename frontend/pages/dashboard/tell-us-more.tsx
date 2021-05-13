@@ -1,4 +1,5 @@
 import { Paper } from '@material-ui/core'
+import { withSentry } from '@sentry/nextjs'
 import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
 import { ReactElement, useContext, useEffect } from 'react'
@@ -75,27 +76,29 @@ const TellUsMore = ({
     </Paper>
   )
 }
-export const getServerSideProps = withIronSession(async ({ req }) => {
-  if (validateUser(req)) {
-    const user = req.session.get('user')
-    const res = await getAllUserAccounts(user.userId, user.idToken)
+export const getServerSideProps = withSentry(
+  withIronSession(async ({ req }) => {
+    if (validateUser(req)) {
+      const user = req.session.get('user')
+      const res = await getAllUserAccounts(user.userId, user.idToken)
 
-    if (res.error && res.accounts.length === 0) {
-      return redirectToErrorPage('Network Error')
+      if (res.error && res.accounts.length === 0) {
+        return redirectToErrorPage('Network Error')
+      }
+      const resp = await getOwnerName({ idToken: user.idToken, accountId: res.accounts[0].id })
+      if (resp.error) return redirectToLandingPage()
+      return {
+        props: {
+          userID: user.userId,
+          accountId: res.accounts[0].id,
+          user,
+          ownerName: resp.ownerName,
+        },
+      }
     }
-    const resp = await getOwnerName({ idToken: user.idToken, accountId: res.accounts[0].id })
-    if (resp.error) return redirectToLandingPage()
-    return {
-      props: {
-        userID: user.userId,
-        accountId: res.accounts[0].id,
-        user,
-        ownerName: resp.ownerName,
-      },
-    }
-  }
 
-  return redirectToLandingPage()
-}, sessionCongfig)
+    return redirectToLandingPage()
+  }, sessionCongfig)
+)
 
 export default TellUsMore

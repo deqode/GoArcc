@@ -6,6 +6,7 @@ import { getVCSConnectionGitHubCallback } from '../../../api/rest/callbacks'
 import { validateUser } from '../../../utils/user'
 import { UserResponse } from '../../../interface'
 import { getAllUserAccounts } from '../../../api/rest/user'
+import { withSentry } from '@sentry/nextjs'
 
 function Callback({ user }: { user: UserResponse }): ReactElement {
   const router = useRouter()
@@ -16,7 +17,10 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
       ;(async () => {
         if (query.code && typeof query.code === 'string' && user.userId !== '') {
           const res = await getAllUserAccounts(user.userId, user.idToken)
-          // TODO: gql
+          if (res.error) {
+            router.push('/error?message=user not found')
+            return
+          }
           const vcs = await getVCSConnectionGitHubCallback(
             query.code,
             res.accounts[0].id,
@@ -33,14 +37,16 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
 
 export default Callback
 
-export const getServerSideProps = withIronSession(async ({ req }) => {
-  if (validateUser(req)) {
-    return { props: { user: req.session.get('user') } }
-  }
-  return {
-    redirect: {
-      permanent: false,
-      destination: '/',
-    },
-  }
-}, sessionCongfig)
+export const getServerSideProps = withSentry(
+  withIronSession(async ({ req }) => {
+    if (validateUser(req)) {
+      return { props: { user: req.session.get('user') } }
+    }
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    }
+  }, sessionCongfig)
+)

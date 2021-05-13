@@ -1,5 +1,7 @@
 import { withIronSession } from 'next-iron-session'
 import { sessionCongfig } from '../../../utils/constants'
+import { withSentry } from '@sentry/nextjs'
+
 // TODO: notify platform to invalidate
 // TODO:validate
 const handler = async (req: any, res: any) => {
@@ -7,4 +9,4 @@ const handler = async (req: any, res: any) => {
   res.json({ susscess: true })
 }
 
-export default withIronSession(handler, sessionCongfig)
+export default withSentry(withIronSession(handler, sessionCongfig))

@@ -18,7 +18,7 @@ const ErrorPage = (): ReactElement => {
         <title>Error !!</title>
         <link rel="icon" href="assets/alfred.png" />
       </Head>
-      <BasicLayout heading={'Alfred has encountered with error'} component={message || ''} />
+      <BasicLayout heading={'Alfred has encountered with'} component={message || ''} />
     </Fragment>
   )
 }
