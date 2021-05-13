@@ -12,9 +12,7 @@ import (
 
 //ListRepository List All the repository
 func (s *gitServer) ListRepository(ctx context.Context, in *pb.ListRepositoryRequest) (*pb.ListRepositoryResponse, error) {
-	in.Provider = types.GitProviders_GITHUB
-	//fetch the stored accessToken
-	vcs, err := s.vcsInternalServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
+	vcs, err := s.vcsInServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
 	})
@@ -28,10 +26,9 @@ func (s *gitServer) ListRepository(ctx context.Context, in *pb.ListRepositoryReq
 		return nil, status.Error(codes.NotFound, "Integration token not found")
 	}
 	switch in.Provider {
-	case types.GitProviders_GITHUB:
+	case types.VCSProviders_GITHUB:
 		client := githubService.NewGithubService(ctx, accessToken)
 		return client.ListRepository(ctx, in)
-		//return githubService.ListRepository(ctx, in)
 	}
 	return nil, nil
 }

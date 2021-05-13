@@ -72,12 +72,12 @@ func request_VCSConnections_Authorize_0(ctx context.Context, marshaler runtime.M
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, types.GitProviders_value)
+	e, err = runtime.Enum(val, types.VCSProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = types.GitProviders(e)
+	protoReq.Provider = types.VCSProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -108,12 +108,12 @@ func local_request_VCSConnections_Authorize_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, types.GitProviders_value)
+	e, err = runtime.Enum(val, types.VCSProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = types.GitProviders(e)
+	protoReq.Provider = types.VCSProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -148,12 +148,12 @@ func request_VCSConnections_Callback_0(ctx context.Context, marshaler runtime.Ma
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, types.GitProviders_value)
+	e, err = runtime.Enum(val, types.VCSProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = types.GitProviders(e)
+	protoReq.Provider = types.VCSProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -184,12 +184,12 @@ func local_request_VCSConnections_Callback_0(ctx context.Context, marshaler runt
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "provider")
 	}
 
-	e, err = runtime.Enum(val, types.GitProviders_value)
+	e, err = runtime.Enum(val, types.VCSProviders_value)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "provider", err)
 	}
 
-	protoReq.Provider = types.GitProviders(e)
+	protoReq.Provider = types.VCSProviders(e)
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)

@@ -16,7 +16,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 // AccountsClient is the client API for Accounts service.
 //
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+// For semantics around ctxhelper use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountsClient interface {
 	//UpdateAccount update existing account details
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)

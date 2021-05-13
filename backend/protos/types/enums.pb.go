@@ -7,11 +7,10 @@
 package types
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -21,24 +20,24 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GitProviders int32
+type VCSProviders int32
 
 const (
-	GitProviders_UNKNOWN   GitProviders = 0
-	GitProviders_GITHUB    GitProviders = 1
-	GitProviders_GITLAB    GitProviders = 2
-	GitProviders_BITBUCKET GitProviders = 3
+	VCSProviders_UNKNOWN   VCSProviders = 0
+	VCSProviders_GITHUB    VCSProviders = 1
+	VCSProviders_GITLAB    VCSProviders = 2
+	VCSProviders_BITBUCKET VCSProviders = 3
 )
 
-// Enum value maps for GitProviders.
+// Enum value maps for VCSProviders.
 var (
-	GitProviders_name = map[int32]string{
+	VCSProviders_name = map[int32]string{
 		0: "UNKNOWN",
 		1: "GITHUB",
 		2: "GITLAB",
 		3: "BITBUCKET",
 	}
-	GitProviders_value = map[string]int32{
+	VCSProviders_value = map[string]int32{
 		"UNKNOWN":   0,
 		"GITHUB":    1,
 		"GITLAB":    2,
@@ -46,30 +45,30 @@ var (
 	}
 )
 
-func (x GitProviders) Enum() *GitProviders {
-	p := new(GitProviders)
+func (x VCSProviders) Enum() *VCSProviders {
+	p := new(VCSProviders)
 	*p = x
 	return p
 }
 
-func (x GitProviders) String() string {
+func (x VCSProviders) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (GitProviders) Descriptor() protoreflect.EnumDescriptor {
+func (VCSProviders) Descriptor() protoreflect.EnumDescriptor {
 	return file_enums_proto_enumTypes[0].Descriptor()
 }
 
-func (GitProviders) Type() protoreflect.EnumType {
+func (VCSProviders) Type() protoreflect.EnumType {
 	return &file_enums_proto_enumTypes[0]
 }
 
-func (x GitProviders) Number() protoreflect.EnumNumber {
+func (x VCSProviders) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use GitProviders.Descriptor instead.
-func (GitProviders) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use VCSProviders.Descriptor instead.
+func (VCSProviders) EnumDescriptor() ([]byte, []int) {
 	return file_enums_proto_rawDescGZIP(), []int{0}
 }
 
@@ -77,8 +76,8 @@ var File_enums_proto protoreflect.FileDescriptor
 
 var file_enums_proto_rawDesc = []byte{
 	0x0a, 0x0b, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x61,
-	0x6c, 0x66, 0x72, 0x65, 0x64, 0x2e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2a, 0x42, 0x0a, 0x0c, 0x47,
-	0x69, 0x74, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x12, 0x0b, 0x0a, 0x07, 0x55,
+	0x6c, 0x66, 0x72, 0x65, 0x64, 0x2e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2a, 0x42, 0x0a, 0x0c, 0x56,
+	0x43, 0x53, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x73, 0x12, 0x0b, 0x0a, 0x07, 0x55,
 	0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x47, 0x49, 0x54, 0x48,
 	0x55, 0x42, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x47, 0x49, 0x54, 0x4c, 0x41, 0x42, 0x10, 0x02,
 	0x12, 0x0d, 0x0a, 0x09, 0x42, 0x49, 0x54, 0x42, 0x55, 0x43, 0x4b, 0x45, 0x54, 0x10, 0x03, 0x42,
@@ -100,7 +99,7 @@ func file_enums_proto_rawDescGZIP() []byte {
 
 var file_enums_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_enums_proto_goTypes = []interface{}{
-	(GitProviders)(0), // 0: alfred.types.GitProviders
+	(VCSProviders)(0), // 0: alfred.types.VCSProviders
 }
 var file_enums_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

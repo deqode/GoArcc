@@ -34,13 +34,13 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 
-	_ = types.GitProviders(0)
+	_ = types.VCSProviders(0)
 
-	_ = types.GitProviders(0)
+	_ = types.VCSProviders(0)
 
-	_ = types.GitProviders(0)
+	_ = types.VCSProviders(0)
 
-	_ = types.GitProviders(0)
+	_ = types.VCSProviders(0)
 )
 
 // Validate checks the field values on ListAllSupportedVCSProvidersResponse

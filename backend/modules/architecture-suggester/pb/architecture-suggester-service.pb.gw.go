@@ -100,7 +100,7 @@ func RegisterArchitectureSuggesterServiceHandlerServer(ctx context.Context, mux 
 }
 
 // RegisterArchitectureSuggesterServiceHandlerFromEndpoint is same as RegisterArchitectureSuggesterServiceHandler but
-// automatically dials to "endpoint" and closes the connection when "ctx" gets done.
+// automatically dials to "endpoint" and closes the connection when "ctxhelper" gets done.
 func RegisterArchitectureSuggesterServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {

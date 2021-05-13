@@ -62,7 +62,7 @@ message ListAllSupportedVCSProvidersResponse{
     repeated string providers = 1;
 }
 message AuthorizeRequest{
-    types.GitProviders provider = 1;
+    types.VCSProviders provider = 1;
     string label = 2;
 }
 message AuthorizeResponse{
@@ -71,7 +71,7 @@ message AuthorizeResponse{
 }
 
 message CallbackRequest{
-    types.GitProviders provider = 1;
+    types.VCSProviders provider = 1;
     string state = 2 [(validate.rules).string.min_len = 3];
     string code = 3  [(validate.rules).string.min_len = 3];
     string account_id = 4 [(validate.rules).string.min_len = 3];
@@ -79,7 +79,7 @@ message CallbackRequest{
 
 message AccountVCSConnection{
     string id = 1;
-    types.GitProviders provider = 2;
+    types.VCSProviders provider = 2;
     string account_id = 3;
     string label = 4;
     string user_name = 5 [(validate.rules).string = {
@@ -90,7 +90,7 @@ message AccountVCSConnection{
 
 message ListVCSConnectionRequest{
     string account_id = 1;
-    types.GitProviders provider = 2;
+    types.VCSProviders provider = 2;
 }
 
 message ListVCSConnectionResponse{

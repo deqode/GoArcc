@@ -12,7 +12,7 @@ import (
 func (s *vcsConnectionServer) ListVCSConnection(ctx context.Context, in *pb.ListVCSConnectionRequest) (*pb.ListVCSConnectionResponse, error) {
 	var record []models.VCSConnection
 	chain := s.db.Where("account_id = ?", in.AccountId)
-	if in.Provider != types.GitProviders_UNKNOWN {
+	if in.Provider != types.VCSProviders_UNKNOWN {
 		chain = chain.Where("provider = ?", in.Provider)
 	}
 	result := chain.Find(&record)

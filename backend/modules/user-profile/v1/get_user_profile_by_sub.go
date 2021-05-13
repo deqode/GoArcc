@@ -20,11 +20,11 @@ func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.Get
 		return nil, status.Error(codes.Internal, result.Error.Error())
 	}
 	return &pb.UserProfile{
-		Id: profile.ID,
-		//ExternalSource: profile.Source,
-		Name:     profile.Name,
-		Email:    profile.Email,
-		Sub:      profile.Sub,
-		UserName: profile.UserName,
+		Id:             profile.ID,
+		ExternalSource: profile.Source,
+		Name:           profile.Name,
+		Email:          profile.Email,
+		Sub:            profile.Sub,
+		UserName:       profile.UserName,
 	}, nil
 }

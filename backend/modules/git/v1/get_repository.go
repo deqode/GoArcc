@@ -10,10 +10,9 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+//GetRepository get a repository
 func (s *gitServer) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest) (*pb.Repository, error) {
-	//in.Provider = types.GitProviders_GITHUB
-	//in.RepoName = "chatbox"
-	vcs, err := s.vcsInternalServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
+	vcs, err := s.vcsInServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
 	})
@@ -24,10 +23,10 @@ func (s *gitServer) GetRepository(ctx context.Context, in *pb.GetRepositoryReque
 	if vcs.AccessToken != "" {
 		accessToken = vcs.AccessToken
 	} else {
-		return nil, status.Error(codes.NotFound, "Integration token not found")
+		return nil, status.Error(codes.NotFound, "Access token not found")
 	}
 	switch in.Provider {
-	case types.GitProviders_GITHUB:
+	case types.VCSProviders_GITHUB:
 		client := githubService.NewGithubService(ctx, accessToken)
 		return client.GetRepository(ctx, in)
 	}

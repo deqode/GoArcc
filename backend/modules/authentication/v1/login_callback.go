@@ -5,6 +5,7 @@ import (
 	"alfred/modules/authentication/v1/pb"
 	userProfileInPb "alfred/modules/user-profile/v1/internals/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
+	"alfred/protos/types"
 	"context"
 	"fmt"
 	"github.com/coreos/go-oidc"
@@ -55,7 +56,10 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 		}, nil
 	}
 	if err != nil {
-		return nil, err
+		code, _ := status.FromError(err)
+		if code.Code() != codes.NotFound {
+			return nil, err
+		}
 	}
 
 	//create User Profile
@@ -66,7 +70,7 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 			Name:           fmt.Sprintf("%s", profile["name"]),
 			UserName:       fmt.Sprintf("%s", profile["nickname"]),
 			ProfilePicUrl:  fmt.Sprintf("%s", profile["picture"]),
-			ExternalSource: userProfileInPb.SOURCE_GITHUB,
+			ExternalSource: types.VCSProviders_GITHUB,
 			TokenValidTill: nil,
 		},
 	})

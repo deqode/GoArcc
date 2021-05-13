@@ -16,7 +16,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 // ArchitectureSuggesterServiceClient is the client API for architecture-suggester service.
 //
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+// For semantics around ctxhelper use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ArchitectureSuggesterServiceClient interface {
 	GetArchitecture(ctx context.Context, in *GetArchitectureRequest, opts ...grpc.CallOption) (*GetArchitectureResponse, error)
 }

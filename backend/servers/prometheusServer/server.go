@@ -43,8 +43,8 @@ func PrometheusRunner(config *config.Config, grpcServer *grpc.Server, prometheus
 }
 
 // Started the prometheus server
-func RunPrometheusServer(ctx context.Context, config *config.Config, grpcServer *grpc.Server, prometheusConfig *PrometheusConfig) error {
-	ctx, cancel := context.WithCancel(ctx)
+func RunPrometheusServer(ctxhelper context.Context, config *config.Config, grpcServer *grpc.Server, prometheusConfig *PrometheusConfig) error {
+	ctxhelper, cancel := context.WithCancel(ctxhelper)
 	defer cancel()
 
 	srv := &http.Server{
@@ -65,10 +65,10 @@ func RunPrometheusServer(ctx context.Context, config *config.Config, grpcServer 
 		for range c {
 			// sig is a ^C, handle it
 		}
-		_, cancel := context.WithTimeout(ctx, 30*time.Second)
+		_, cancel := context.WithTimeout(ctxhelper, 30*time.Second)
 		defer cancel()
 		logger.Log.Info("graceful shutting down promthesius Server")
-		_ = srv.Shutdown(ctx)
+		_ = srv.Shutdown(ctxhelper)
 	}()
 
 	logger.Log.Info("starting prometheus server...")
