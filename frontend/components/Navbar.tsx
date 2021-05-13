@@ -12,7 +12,6 @@ import UserContext from '../contexts/UserContext'
 const useStyles = makeStyles({
   root: {
     width: '60px',
-    height: '60px',
   },
 })
 
@@ -26,7 +25,7 @@ function Navbar(): ReactElement {
         <Grid justify="space-between" container>
           <Grid item className={classes.root}>
             <Link href="/">
-              <Image src="/assets/logo.png" width={100} height={100} alt="logo" />
+              <Image src="/assets/logo.png" width={500} height={500} alt="logo" />
             </Link>
           </Grid>
           <Grid item>

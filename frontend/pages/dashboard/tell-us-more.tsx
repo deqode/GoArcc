@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { ReactElement, useContext, useEffect } from 'react'
 import { getOwnerName } from '../../api/gql/vcs'
 import { getAllUserAccounts } from '../../api/rest/user'
+import BasicLayout from '../../components/layouts/BasicLayout'
 import CloneRepository from '../../components/tellUsMore/CloneRepository'
 import ShowBranches from '../../components/tellUsMore/ShowBranches'
 import ShowRepos from '../../components/tellUsMore/ShowRepos'
@@ -46,32 +47,41 @@ const TellUsMore = ({
   } = useGetTellUsMoreState()
 
   return (
-    <Paper>
+    <Paper elevation={0}>
       <Head>
         <title>Tell Us More!</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ShowRepos
-        userId={user.userId}
-        accountId={accountId}
-        setCurrentRepo={setCurrentRepo}
-        provider={provider}
-      />
-      <ShowBranches
-        ownerName={ownerName}
-        repoName={currentRepo}
-        accountId={accountId}
-        provider={provider}
-        setBranchName={setBranchName}
-        setCloneUrl={setCloneUrl}
-      />
-      <CloneRepository
-        ownerName={ownerName}
-        accountId={accountId}
-        provider={provider}
-        branchName={branchName}
-        cloneURL={cloneUrl}
-        setCloneData={setCloneData}
+      <BasicLayout
+        heading={'Tell Us More'}
+        subHeading={'You have so many cool projects.Let me know the one you want to deploy today '}
+        // TODO:Transfer to new layout
+        component={
+          <Paper elevation={0}>
+            <ShowRepos
+              userId={user.userId}
+              accountId={accountId}
+              setCurrentRepo={setCurrentRepo}
+              provider={provider}
+            />
+            <ShowBranches
+              ownerName={ownerName}
+              repoName={currentRepo}
+              accountId={accountId}
+              provider={provider}
+              setBranchName={setBranchName}
+              setCloneUrl={setCloneUrl}
+            />
+            <CloneRepository
+              ownerName={ownerName}
+              accountId={accountId}
+              provider={provider}
+              branchName={branchName}
+              cloneURL={cloneUrl}
+              setCloneData={setCloneData}
+            />
+          </Paper>
+        }
       />
     </Paper>
   )

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useRouter, withRouter } from 'next/router'
 import { Fragment, ReactElement, useEffect, useState } from 'react'
-import BasicLayout from '../../components/tellUsMore/layouts/BasicLayout'
+import BasicLayout from '../../components/layouts/BasicLayout'
 
 const ErrorPage = (): ReactElement => {
   const router = useRouter()
@@ -18,7 +18,7 @@ const ErrorPage = (): ReactElement => {
         <title>Error !!</title>
         <link rel="icon" href="assets/alfred.png" />
       </Head>
-      <BasicLayout heading={'Alfred has encountered with'} component={message || ''} />
+      <BasicLayout heading={'Alfred has encountered with'} component={message || 'Error'} />
     </Fragment>
   )
 }
