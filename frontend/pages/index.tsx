@@ -7,7 +7,7 @@ import { validateUser } from '../utils/user'
 import { ReactElement } from 'react'
 import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
 
-const Login = ({ url }: { url: string }): ReactElement => {
+const Landing = ({ url }: { url: string }): ReactElement => {
   return (
     <div>
       <Head>
@@ -48,4 +48,4 @@ export const getServerSideProps = withIronSession(async ({ req }) => {
   return redirectToDashboard()
 }, sessionCongfig)
 
-export default Login
+export default Landing

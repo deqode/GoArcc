@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard page should match the snapshot 1`] = `
+<div>
+  <div
+    className="MuiPaper-root MuiPaper-elevation0 MuiPaper-rounded"
+    style={
+      Object {
+        "padding": "100px",
+      }
+    }
+  />
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
+    >
+      <h1
+        className="MuiTypography-root MuiTypography-h1"
+        style={
+          Object {
+            "fontSize": "50px",
+          }
+        }
+      >
+        Let us make your cloud work for you
+      </h1>
+      <h6
+        className="MuiTypography-root MuiTypography-subtitle2"
+        style={
+          Object {
+            "fontSize": "15px",
+          }
+        }
+      >
+        provide your repo, select your cloud, and let Alfred do the heavy lifting.
+      </h6>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item"
+    >
+      <div
+        className="text-center"
+      >
+        <div
+          className="sign_up_head"
+        >
+          Connect
+        </div>
+        <div
+          className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+          role="progressbar"
+          style={
+            Object {
+              "height": 40,
+              "width": 40,
+            }
+          }
+        >
+          <svg
+            className="MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+              cx={44}
+              cy={44}
+              fill="none"
+              r={20.2}
+              strokeWidth={3.6}
+              style={Object {}}
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+  />
+</div>
+`;
+
+exports[`Index page should match the snapshot 1`] = `
+<div>
+  <div
+    className="MuiPaper-root MuiPaper-elevation0 MuiPaper-rounded"
+    style={
+      Object {
+        "padding": "100px",
+      }
+    }
+  />
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
+    >
+      <h1
+        className="MuiTypography-root MuiTypography-h1"
+        style={
+          Object {
+            "fontSize": "50px",
+          }
+        }
+      >
+        Let us make your cloud work for you
+      </h1>
+      <h6
+        className="MuiTypography-root MuiTypography-subtitle2"
+        style={
+          Object {
+            "fontSize": "15px",
+          }
+        }
+      >
+        provide your repo, select your cloud, and let Alfred do the heavy lifting.
+      </h6>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item"
+    >
+      <div
+        className="text-center"
+      >
+        <div
+          className="sign_up_head"
+        >
+          Sign Up
+        </div>
+        <a
+          className="btn github_btn"
+          href="moc url"
+        >
+          Login with github
+          <img
+            alt="Login with github"
+            src="/assets/github_icon.png"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+  />
+</div>
+`;
+
+exports[`dashboard page should match the snapshot 1`] = `
+<div>
+  <div
+    className="MuiPaper-root MuiPaper-elevation0 MuiPaper-rounded"
+    style={
+      Object {
+        "padding": "100px",
+      }
+    }
+  />
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-md-4"
+    >
+      <h1
+        className="MuiTypography-root MuiTypography-h1"
+        style={
+          Object {
+            "fontSize": "50px",
+          }
+        }
+      >
+        Let us make your cloud work for you
+      </h1>
+      <h6
+        className="MuiTypography-root MuiTypography-subtitle2"
+        style={
+          Object {
+            "fontSize": "15px",
+          }
+        }
+      >
+        provide your repo, select your cloud, and let Alfred do the heavy lifting.
+      </h6>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item"
+    >
+      <div
+        className="text-center"
+      >
+        <div
+          className="sign_up_head"
+        >
+          Connect
+        </div>
+        <div
+          className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+          role="progressbar"
+          style={
+            Object {
+              "height": 40,
+              "width": 40,
+            }
+          }
+        >
+          <svg
+            className="MuiCircularProgress-svg"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+              cx={44}
+              cy={44}
+              fill="none"
+              r={20.2}
+              strokeWidth={3.6}
+              style={Object {}}
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+  />
+</div>
+`;
+
+exports[`dashboard/success page should match the snapshot 1`] = `
+<div>
+  <section
+    className="content_section"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-md-6"
+        >
+          <h1
+            className="page-head"
+          >
+            Alfred has cloned your app repository
+          </h1>
+        </div>
+        <div
+          className="col-md-6 my-auto login-right"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+`;

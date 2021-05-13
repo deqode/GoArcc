@@ -1,21 +1,32 @@
 import { AppBar, Button, Grid, Toolbar } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
-import React, { useContext } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { destroyUserSession } from '../api/rest/session'
 import UserContext from '../contexts/UserContext'
 
-function Navbar(): any {
+const useStyles = makeStyles({
+  root: {
+    width: '60px',
+    height: '60px',
+  },
+})
+
+function Navbar(): ReactElement {
   const { user } = useContext(UserContext)
   const router = useRouter()
+  const classes = useStyles()
   return (
     <AppBar position="static" color="transparent">
       <Toolbar>
         <Grid justify="space-between" container>
-          <Grid item>
+          <Grid item className={classes.root}>
             <Link href="/">
-              <img src="/assets/logo.png" width="100px" alt="logo" />
+              <Image src="/assets/logo.png" width={100} height={100} alt="logo" />
             </Link>
           </Grid>
           <Grid item>
