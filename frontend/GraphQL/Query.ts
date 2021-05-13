@@ -31,8 +31,8 @@ export const GET_BRANCHES = gql`
 `
 
 export const GET_OWNER_NAME = gql`
-  query VCSConnections($accountId: String!) {
-    VCSConnections(account_id: $accountId) {
+  query vcsConnections($accountId: String!) {
+    vcsConnections(account_id: $accountId) {
       vcs_connection {
         user_name
       }

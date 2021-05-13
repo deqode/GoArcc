@@ -261,12 +261,7 @@ func (m *CallbackRequest) Validate() error {
 
 	// no validation rules for Provider
 
-	if utf8.RuneCountInString(m.GetState()) < 3 {
-		return CallbackRequestValidationError{
-			field:  "State",
-			reason: "value length must be at least 3 runes",
-		}
-	}
+	// no validation rules for State
 
 	if utf8.RuneCountInString(m.GetCode()) < 3 {
 		return CallbackRequestValidationError{

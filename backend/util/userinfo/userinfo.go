@@ -62,6 +62,7 @@ func FromClaims(claims map[string]interface{}) (ui UserInfo) {
 
 	if v, ok := claims["sub"]; ok {
 		ui.Sub = v.(string)
+		ui.ID = v.(string)
 	}
 	if v, ok := claims["ext"]; ok {
 		if e, exist := v.(map[string]interface{})["email"]; exist {

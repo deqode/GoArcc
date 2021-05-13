@@ -7,7 +7,7 @@ export const getAllUserAccounts = async (
   idToken: string
 ): Promise<AllUserAccounts> => {
   try {
-    const response = await axios.get(`${SERVER}/account/get-user-all-account/${userId}`, {
+    const response = await axios.get(`${SERVER}/account/get-user-accounts/${userId}`, {
       headers: { Authorization: `Bearer ${idToken}` },
     })
     if (response.data && response.data.accounts) {
