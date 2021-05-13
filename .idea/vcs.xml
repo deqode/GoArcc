@@ -2,10 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/backend/repositories/Greetings-with-Props---Greetings-with-Props" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/backend/repositories/cadence" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/backend/repositories/flutter_practice" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/backend/repositories/nasa-media" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/backend/repositories/protoc-gen-validate" vcs="Git" />
   </component>
 </project>
