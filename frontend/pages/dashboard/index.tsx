@@ -1,7 +1,6 @@
-import { CircularProgress, Paper } from '@material-ui/core'
+import { Button, CircularProgress, Paper } from '@material-ui/core'
 import Head from 'next/head'
 import { sessionCongfig } from '../../utils/constants'
-import Link from 'next/link'
 import { ReactElement, useContext, useEffect, useState } from 'react'
 import { withIronSession } from 'next-iron-session'
 import UserContext from '../../contexts/UserContext'
@@ -46,7 +45,15 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
       <BasicLayout
         heading={'Let us make your cloud work for you'}
         subHeading={'Connect with Github '}
-        component={url === '' ? <CircularProgress /> : <Link href={url}>Connect with github</Link>}
+        component={
+          url === '' ? (
+            <CircularProgress />
+          ) : (
+            <Button variant="contained" color="primary" href={url}>
+              Connect with github
+            </Button>
+          )
+        }
       />
     </Paper>
   )

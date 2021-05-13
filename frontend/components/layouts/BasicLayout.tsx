@@ -33,11 +33,13 @@ const BasicLayout = ({
       className={classes.root}>
       <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
         <Paper className={classes.paper} elevation={0}>
-          <Typography variant="h3" component="h1">
+          <Typography color="primary" variant="h3" component="h1">
             {heading}
           </Typography>
           <br />
-          <Typography variant="h5">{subHeading}</Typography>
+          <Typography color="secondary" variant="h5">
+            {subHeading}
+          </Typography>
         </Paper>
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>

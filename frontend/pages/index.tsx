@@ -1,4 +1,4 @@
-import { Paper } from '@material-ui/core'
+import { Button, Paper } from '@material-ui/core'
 import Head from 'next/head'
 import { sessionCongfig } from '../utils/constants'
 import { withIronSession } from 'next-iron-session'
@@ -8,7 +8,6 @@ import { ReactElement } from 'react'
 import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
 import { withSentry } from '@sentry/nextjs'
 import BasicLayout from '../components/layouts/BasicLayout'
-import Link from 'next/link'
 
 const Landing = ({ url }: { url: string }): ReactElement => {
   return (
@@ -20,7 +19,11 @@ const Landing = ({ url }: { url: string }): ReactElement => {
       <BasicLayout
         heading={'Welcome to Alfred'}
         subHeading={'Provide your repo, Select your cloud, and let Alfred do the heavy lifting '}
-        component={<Link href={url}>SignUP</Link>}
+        component={
+          <Button variant="contained" color="primary" href={url}>
+            SignUP
+          </Button>
+        }
       />
     </Paper>
   )

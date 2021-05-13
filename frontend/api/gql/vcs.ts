@@ -18,7 +18,7 @@ export const getOwnerName = async ({
     if (!response.error)
       return {
         error: false,
-        ownerName: response.data.VCSConnections.vcs_connection[0].user_name,
+        ownerName: response.data.vcsConnections.vcs_connection[0].user_name,
       }
     return {
       error: true,

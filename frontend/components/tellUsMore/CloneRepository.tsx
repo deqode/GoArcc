@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import { Button } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import React, { Dispatch, ReactElement, SetStateAction, useEffect } from 'react'
 import { CLONE_REPOSITORY } from '../../GraphQL/Query'
 export default function CloneRepository({
@@ -33,9 +33,11 @@ export default function CloneRepository({
   }, [clonedData])
 
   return (
-    <Button variant="contained" color="primary" onClick={cloneRepo}>
-      Go Fetch
-    </Button>
+    <Grid item xs={12} md={12}>
+      <Button variant="contained" color="primary" onClick={cloneRepo}>
+        Go Fetch
+      </Button>
+    </Grid>
   )
 }
 

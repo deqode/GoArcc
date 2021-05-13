@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_REPOSITORIES = gql`
-  query repositories($userId: String!, $accountId: String!, $provider: Types_Enum_GitProviders!) {
+  query repositories($userId: String!, $accountId: String!, $provider: Types_Enum_VCSProviders!) {
     repositories(provider: $provider, user_id: $userId, account_id: $accountId) {
       repositories {
         name
@@ -16,7 +16,7 @@ export const GET_BRANCHES = gql`
     $ownerName: String!
     $repoName: String!
     $accountId: String!
-    $provider: Types_Enum_GitProviders!
+    $provider: Types_Enum_VCSProviders!
   ) {
     repository(
       owner_name: $ownerName
@@ -42,7 +42,7 @@ export const GET_OWNER_NAME = gql`
 
 export const CLONE_REPOSITORY = gql`
   mutation cloneRepository(
-    $provider: Types_Enum_GitProviders!
+    $provider: Types_Enum_VCSProviders!
     $accountId: String!
     $cloneURL: String!
     $branchName: String!

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 
 import { getAuth0Callback } from '../../api/rest/callbacks'
 import { setUserSession } from '../../api/rest/session'
+import BasicLayout from '../../components/layouts/BasicLayout'
+import { CircularProgress } from '@material-ui/core'
 const Callback = (): ReactElement => {
   const router = useRouter()
   const { query } = router
@@ -22,6 +24,6 @@ const Callback = (): ReactElement => {
     })()
   }, [router, query])
 
-  return <div></div>
+  return <BasicLayout heading={'You are Logging-In to Alfred'} component={<CircularProgress />} />
 }
 export default Callback

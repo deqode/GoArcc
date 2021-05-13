@@ -1,7 +1,15 @@
 import { useQuery } from '@apollo/client'
-import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
+import {
+  CircularProgress,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@material-ui/core'
 import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
 import { GET_REPOSITORIES } from '../../GraphQL/Query'
+import { useSelectStyles } from '../../styles/commonStyles'
 
 export default function ShowRepos({
   userId,
@@ -23,6 +31,7 @@ export default function ShowRepos({
   })
 
   const [repos, setRepos] = useState([])
+  const classes = useSelectStyles()
 
   useEffect(() => {
     // if(error)
@@ -41,26 +50,28 @@ export default function ShowRepos({
   }
 
   return (
-    <FormControl variant="outlined">
-      <InputLabel id="demo-simple-select-outlined-label">Repo Name</InputLabel>
-      <Select
-        labelId="demo-simple-select-outlined-label"
-        id="demo-simple-select-outlined"
-        label="Repo Name"
-        disabled={!(repos.length > 0)}
-        onChange={selectRepo}
-        autoWidth>
-        {loading && (
-          <MenuItem value="">
-            <CircularProgress color="secondary" />
-          </MenuItem>
-        )}
-        {repos.map((r: { name: string }) => (
-          <MenuItem key={r.name} value={r.name}>
-            {r.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Grid item xs={12} md={12}>
+      <FormControl variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Repo Name</InputLabel>
+        <Select
+          className={classes.root}
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label="Repo Name"
+          disabled={!(repos.length > 0)}
+          onChange={selectRepo}>
+          {loading && (
+            <MenuItem value="">
+              <CircularProgress color="secondary" />
+            </MenuItem>
+          )}
+          {repos.map((r: { name: string }) => (
+            <MenuItem key={r.name} value={r.name}>
+              {r.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Grid>
   )
 }

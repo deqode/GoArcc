@@ -1,4 +1,4 @@
-import { Paper } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import { withSentry } from '@sentry/nextjs'
 import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
@@ -57,7 +57,7 @@ const TellUsMore = ({
         subHeading={'You have so many cool projects.Let me know the one you want to deploy today '}
         // TODO:Transfer to new layout
         component={
-          <Paper elevation={0}>
+          <Grid container alignItems="flex-start" spacing={2}>
             <ShowRepos
               userId={user.userId}
               accountId={accountId}
@@ -80,7 +80,7 @@ const TellUsMore = ({
               cloneURL={cloneUrl}
               setCloneData={setCloneData}
             />
-          </Paper>
+          </Grid>
         }
       />
     </Paper>

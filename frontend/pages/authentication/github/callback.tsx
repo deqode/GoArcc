@@ -7,6 +7,8 @@ import { validateUser } from '../../../utils/user'
 import { UserResponse } from '../../../interface'
 import { getAllUserAccounts } from '../../../api/rest/user'
 import { withSentry } from '@sentry/nextjs'
+import BasicLayout from '../../../components/layouts/BasicLayout'
+import { CircularProgress } from '@material-ui/core'
 
 function Callback({ user }: { user: UserResponse }): ReactElement {
   const router = useRouter()
@@ -32,7 +34,7 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
     } else router.push('/')
   }, [query, router, user])
 
-  return <div></div>
+  return <BasicLayout heading={'Alfred connecting to github'} component={<CircularProgress />} />
 }
 
 export default Callback

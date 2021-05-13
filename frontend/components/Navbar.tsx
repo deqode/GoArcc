@@ -10,7 +10,7 @@ import { destroyUserSession } from '../api/rest/session'
 import UserContext from '../contexts/UserContext'
 
 const useStyles = makeStyles({
-  root: {
+  logo: {
     width: '60px',
   },
 })
@@ -20,10 +20,10 @@ function Navbar(): ReactElement {
   const router = useRouter()
   const classes = useStyles()
   return (
-    <AppBar position="static" color="transparent">
+    <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar>
         <Grid justify="space-between" container>
-          <Grid item className={classes.root}>
+          <Grid item className={classes.logo}>
             <Link href="/">
               <Image src="/assets/logo.png" width={500} height={500} alt="logo" />
             </Link>
@@ -31,6 +31,8 @@ function Navbar(): ReactElement {
           <Grid item>
             {user.loggedIn ? (
               <Button
+                color="secondary"
+                variant="contained"
                 onClick={async () => {
                   const res = await destroyUserSession()
                   if (!res.error) {
@@ -38,8 +40,7 @@ function Navbar(): ReactElement {
                   } else {
                     router.push('/error', { query: { message: 'Network Error' } })
                   }
-                }}
-                color="inherit">
+                }}>
                 Logout
               </Button>
             ) : (

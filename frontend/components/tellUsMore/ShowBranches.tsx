@@ -1,7 +1,15 @@
 import { useQuery } from '@apollo/client'
-import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
+import {
+  CircularProgress,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@material-ui/core'
 import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
 import { GET_BRANCHES } from '../../GraphQL/Query'
+import { useSelectStyles } from '../../styles/commonStyles'
 
 export default function ShowBranches({
   ownerName,
@@ -12,6 +20,7 @@ export default function ShowBranches({
   setCloneUrl,
 }: ShowBranchesInput): ReactElement {
   const [branches, setbranches] = useState([])
+  const classes = useSelectStyles()
 
   const { loading, error, data } = useQuery(GET_BRANCHES, {
     variables: {
@@ -41,26 +50,28 @@ export default function ShowBranches({
     else setBranchName('')
   }
   return (
-    <FormControl variant="outlined">
-      <InputLabel id="demo-simple-select-outlined-label">Branch Name</InputLabel>
-      <Select
-        labelId="demo-simple-select-outlined-label"
-        id="demo-simple-select-outlined"
-        onChange={selectBranch}
-        label="Repo Name"
-        disabled={!(branches.length > 0)}>
-        {loading && (
-          <MenuItem value="">
-            <CircularProgress color="secondary" />
-          </MenuItem>
-        )}
-        {branches.map((r: string) => (
-          <MenuItem key={r} value={r}>
-            {r}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Grid item xs={12} md={12}>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <FormControl variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Branch Name</InputLabel>
+          <Select
+            className={classes.root}
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            onChange={selectBranch}
+            label="Repo Name"
+            disabled={!(branches.length > 0)}>
+            {branches.map((r: string) => (
+              <MenuItem key={r} value={r}>
+                {r}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
+    </Grid>
   )
 }
 interface ShowBranchesInput {
