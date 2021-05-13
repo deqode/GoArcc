@@ -10,7 +10,6 @@ import Head from 'next/head'
 
 const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
   const { user, setUser, removeUser } = useUserContext(defaultUser)
-
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side')

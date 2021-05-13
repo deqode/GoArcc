@@ -1,8 +1,17 @@
-export const SERVER = process.env.SERVER
-export const CENTRIFUGO = process.env.CENTRIFUGO
-export const GQLHTTP = process.env.GQLHTTP
+export const SERVER = process.env.NEXT_PUBLIC_SERVER
+export const CENTRIFUGO = process.env.NEXT_PUBLIC_CENTRIFUGO
+export const GQLHTTP = process.env.NEXT_PUBLIC_GQLHTTP
+declare let process: {
+  env: {
+    NODE_ENV: string
+    NEXT_PUBLIC_SESSION_PASSWORD: string
+    NEXT_PUBLIC_GQLHTTP: string
+    NEXT_PUBLIC_CENTRIFUGO: string
+    NEXT_PUBLIC_SERVER: string
+  }
+}
 export const sessionCongfig = {
-  password: 'complex_password_at_least_32_characters_long',
+  password: process.env.NEXT_PUBLIC_SESSION_PASSWORD,
   cookieName: 'alfred',
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',

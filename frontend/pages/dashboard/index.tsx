@@ -11,6 +11,7 @@ import { getGithubVCSConnection } from '../../api/rest/fetchUrls'
 import { validateUser } from '../../utils/user'
 import { useRouter } from 'next/router'
 import { redirectToLandingPage } from '../../utils/redirects'
+import { withSentry } from '@sentry/nextjs'
 
 export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
   const [url, setUrl] = useState<string>('')
@@ -58,10 +59,7 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
               <CircularProgress />
             ) : (
               <Link href={url}>
-                <a className="btn github_btn">
-                  Connect with github
-                  <img src="/assets/github_icon.png" alt="Login with github" />
-                </a>
+                <a className="btn github_btn">Connect with github</a>
               </Link>
             )}
           </div>
@@ -72,11 +70,14 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
     </div>
   )
 }
-export const getServerSideProps = withIronSession(async ({ req }) => {
-  if (validateUser(req)) {
-    return { props: { user: req.session.get('user') } }
-  }
-  return redirectToLandingPage()
-}, sessionCongfig)
 
+// TODO:Create common for withSentry & withIronSession
+export const getServerSideProps = withSentry(
+  withIronSession(async ({ req }) => {
+    if (validateUser(req)) {
+      return { props: { user: req.session.get('user') } }
+    }
+    return redirectToLandingPage()
+  }, sessionCongfig)
+)
 export default Dashboard

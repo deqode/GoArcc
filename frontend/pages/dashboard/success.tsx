@@ -1,3 +1,4 @@
+import { withSentry } from '@sentry/nextjs'
 import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
 import { sessionCongfig } from '../../utils/constants'
@@ -24,9 +25,11 @@ export default function Success() {
     </div>
   )
 }
-export const getServerSideProps = withIronSession(async ({ req }) => {
-  if (validateUser(req)) {
-    return { props: { user: req.session.get('user') } }
-  }
-  return redirectToLandingPage()
-}, sessionCongfig)
+export const getServerSideProps = withSentry(
+  withIronSession(async ({ req }) => {
+    if (validateUser(req)) {
+      return { props: { user: req.session.get('user') } }
+    }
+    return redirectToLandingPage()
+  }, sessionCongfig)
+)
