@@ -17,7 +17,7 @@ func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeReq
 
 	var redirectURL string
 	switch in.Provider {
-	case types.GitProviders_GITHUB:
+	case types.VCSProviders_GITHUB:
 		conf := s.config.VCSConfig
 		// Format required field in url
 		mp := map[string]string{

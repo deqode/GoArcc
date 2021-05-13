@@ -14,18 +14,18 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"alfred/util/userinfo"
 )
 
 const (
 	id                       = "id"
 	email                    = "email"
-	userKey        key       = iota
 	claimsKeyValue claimsKey = 0
 )
 
 type (
 	claimsKey int
-	key       int
 )
 
 type Config struct {
@@ -65,8 +65,6 @@ func AuthMiddleware(ctx context.Context) (context.Context, error) {
 			break
 		}
 	}
-
-	authRequired = false
 	if authRequired {
 		token := md.Get("authorization")
 		if len(token) < 1 {
@@ -156,7 +154,8 @@ func NewJWTUnaryInterceptor(ctx context.Context, ks *jose.JSONWebKeySet, token s
 	if err != nil {
 		return nil, status.Error(codes.Unauthenticated, "Unable to verify User")
 	}
-	ui := fromClaims(claims)
+
+	ui := userinfo.FromClaims(claims)
 	if ui.ID != "" {
 		ctx = metadata.AppendToOutgoingContext(ctx, id, ui.ID, email, ui.Email)
 	}
@@ -170,8 +169,11 @@ func VerifyToken(t, iss string, aud []string, ks *jose.JSONWebKeySet) (map[strin
 	}
 
 	claims := jwt.Claims{}
-	cmap := make(map[string]interface{})
-	token.Claims(ks, &claims, &cmap)
+	claimMap := make(map[string]interface{})
+	err = token.Claims(ks, &claims, &claimMap)
+	if err != nil {
+		return nil, err
+	}
 	if err := claims.Validate(jwt.Expected{
 		Issuer:   iss,
 		Time:     time.Now(),
@@ -180,46 +182,9 @@ func VerifyToken(t, iss string, aud []string, ks *jose.JSONWebKeySet) (map[strin
 		return nil, err
 	}
 
-	return cmap, nil
+	return claimMap, nil
 }
 
 func WithClaims(ctx context.Context, c map[string]interface{}) context.Context {
 	return context.WithValue(ctx, claimsKeyValue, c)
-}
-
-func fromClaims(claims map[string]interface{}) (ui UserInfo) {
-	if claims == nil {
-		return
-	}
-
-	if v, ok := claims["sub"]; ok {
-		ui.ID = v.(string)
-	}
-	if v, ok := claims["ext"]; ok {
-		if e, exist := v.(map[string]interface{})["email"]; exist {
-			ui.Email = e.(string)
-		}
-	}
-
-	if v, ok := claims["exp"]; ok {
-		tm := time.Unix(int64(v.(float64)), 0)
-		ui.TokenExpiry = tm
-	}
-
-	return
-}
-
-type UserInfo struct {
-	ID          string
-	Email       string
-	TokenExpiry time.Time
-}
-
-// FromContext returns the User value stored in ctx, if any.
-func FromContext(ctx context.Context) UserInfo {
-	if u, ok := ctx.Value(userKey).(UserInfo); ok {
-		return u
-	}
-
-	return UserInfo{}
 }

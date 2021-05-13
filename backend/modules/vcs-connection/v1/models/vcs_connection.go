@@ -10,7 +10,7 @@ import (
 
 type VCSConnection struct {
 	ID                 string
-	Provider           types.GitProviders
+	Provider           types.VCSProviders
 	ConnectionID       string
 	AccessToken        string
 	RefreshToken       string

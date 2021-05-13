@@ -6,28 +6,28 @@ import (
 )
 
 var (
-	gql__enum_GitProviders *graphql.Enum // enum GitProviders in enums.proto
+	gql__enum_VCSProviders *graphql.Enum // enum VCSProviders in enums.proto
 )
 
-func Gql__enum_GitProviders() *graphql.Enum {
-	if gql__enum_GitProviders == nil {
-		gql__enum_GitProviders = graphql.NewEnum(graphql.EnumConfig{
-			Name: "Types_Enum_GitProviders",
+func Gql__enum_VCSProviders() *graphql.Enum {
+	if gql__enum_VCSProviders == nil {
+		gql__enum_VCSProviders = graphql.NewEnum(graphql.EnumConfig{
+			Name: "Types_Enum_VCSProviders",
 			Values: graphql.EnumValueConfigMap{
 				"UNKNOWN": &graphql.EnumValueConfig{
-					Value: GitProviders(0),
+					Value: VCSProviders(0),
 				},
 				"GITHUB": &graphql.EnumValueConfig{
-					Value: GitProviders(1),
+					Value: VCSProviders(1),
 				},
 				"GITLAB": &graphql.EnumValueConfig{
-					Value: GitProviders(2),
+					Value: VCSProviders(2),
 				},
 				"BITBUCKET": &graphql.EnumValueConfig{
-					Value: GitProviders(3),
+					Value: VCSProviders(3),
 				},
 			},
 		})
 	}
-	return gql__enum_GitProviders
+	return gql__enum_VCSProviders
 }

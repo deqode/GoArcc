@@ -16,7 +16,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 // ValidateLoginServiceClient is the client API for ValidateLoginService service.
 //
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+// For semantics around ctxhelper use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ValidateLoginServiceClient interface {
 	ValidateUserLogin(ctx context.Context, in *ValidateUserLoginRequest, opts ...grpc.CallOption) (*ValidateUserLoginResponse, error)
 }
@@ -97,7 +97,7 @@ var _ValidateLoginService_serviceDesc = grpc.ServiceDesc{
 
 // AuthenticationsClient is the client API for Authentications service.
 //
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+// For semantics around ctxhelper use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthenticationsClient interface {
 	// Login provide a url of External OAuth login endpoint (Auth0)
 	Login(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*LoginResponse, error)

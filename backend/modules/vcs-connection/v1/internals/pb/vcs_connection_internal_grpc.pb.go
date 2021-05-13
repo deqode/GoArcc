@@ -38,7 +38,7 @@ func NewVCSConnectionInternalClient(cc grpc.ClientConnInterface) VCSConnectionIn
 
 func (c *vCSConnectionInternalClient) GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error) {
 	out := new(VCSConnection)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/GetVCSConnection", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/GetVCSConnection", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *vCSConnectionInternalClient) GetVCSConnection(ctx context.Context, in *
 
 func (c *vCSConnectionInternalClient) CreateVCSConnection(ctx context.Context, in *CreateVCSConnectionRequest, opts ...grpc.CallOption) (*VCSConnection, error) {
 	out := new(VCSConnection)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/CreateVCSConnection", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/CreateVCSConnection", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *vCSConnectionInternalClient) CreateVCSConnection(ctx context.Context, i
 
 func (c *vCSConnectionInternalClient) RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/RevokeVCSToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/RevokeVCSToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *vCSConnectionInternalClient) RevokeVCSToken(ctx context.Context, in *Re
 
 func (c *vCSConnectionInternalClient) RenewVCSToken(ctx context.Context, in *RenewVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/RenewVCSToken", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/RenewVCSToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func _VCSConnectionInternal_GetVCSConnection_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/GetVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/GetVCSConnection",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServer).GetVCSConnection(ctx, req.(*GetVCSConnectionRequest))
@@ -142,7 +142,7 @@ func _VCSConnectionInternal_CreateVCSConnection_Handler(srv interface{}, ctx con
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/CreateVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/CreateVCSConnection",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServer).CreateVCSConnection(ctx, req.(*CreateVCSConnectionRequest))
@@ -160,7 +160,7 @@ func _VCSConnectionInternal_RevokeVCSToken_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/RevokeVCSToken",
+		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/RevokeVCSToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServer).RevokeVCSToken(ctx, req.(*RevokeVCSTokenRequest))
@@ -178,7 +178,7 @@ func _VCSConnectionInternal_RenewVCSToken_Handler(srv interface{}, ctx context.C
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.internals.VCSConnectionInternal/RenewVCSToken",
+		FullMethod: "/alfred.vcs_connection.v1.internal.VCSConnectionInternal/RenewVCSToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(VCSConnectionInternalServer).RenewVCSToken(ctx, req.(*RenewVCSTokenRequest))
@@ -187,7 +187,7 @@ func _VCSConnectionInternal_RenewVCSToken_Handler(srv interface{}, ctx context.C
 }
 
 var _VCSConnectionInternal_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.vcs_connection.v1.internals.VCSConnectionInternal",
+	ServiceName: "alfred.vcs_connection.v1.internal.VCSConnectionInternal",
 	HandlerType: (*VCSConnectionInternalServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

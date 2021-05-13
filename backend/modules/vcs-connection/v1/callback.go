@@ -39,7 +39,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 		}, nil
 	}
 	switch in.Provider {
-	case types.GitProviders_GITHUB:
+	case types.VCSProviders_GITHUB:
 		//config
 		conf := s.config.VCSConfig
 		githubOauthConfig := &oauth2.Config{
@@ -52,7 +52,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 
 		gToken, err := githubOauthConfig.Exchange(ctx, in.Code)
 		if err != nil {
-			//ctxzap.Extract(ctx).Error("Unable to get token", zap.Error(err))
+			//ctxzap.Extract(ctxhelper).Error("Unable to get token", zap.Error(err))
 			return nil, status.Error(codes.Internal, "INTERNAL ERROR")
 		}
 		oauthClient := githubOauthConfig.Client(oauth2.NoContext, gToken)

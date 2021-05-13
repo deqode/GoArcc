@@ -13,7 +13,7 @@ import (
 
 var (
 	ErrNotFound         = errors.New("Not found")
-	ErrNoCtxMetaData    = errors.New("No ctx metadata")
+	ErrNoCtxMetaData    = errors.New("No ctxhelper metadata")
 	ErrInvalidSessionID = errors.New("Invalid session id")
 	ErrEmailExists      = errors.New("Email already exists")
 )

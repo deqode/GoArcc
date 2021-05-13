@@ -106,7 +106,7 @@ func Gql__type_ListRepositoryRequest() *graphql.Object {
 			Name: "Pb_Type_ListRepositoryRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"user_id": &graphql.Field{
 					Type: graphql.String,
@@ -129,7 +129,7 @@ func Gql__type_GetRepositoryRequest() *graphql.Object {
 			Name: "Pb_Type_GetRepositoryRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"repo_name": &graphql.Field{
 					Type: graphql.String,
@@ -200,7 +200,7 @@ func Gql__type_CloneRepositoryRequest() *graphql.Object {
 			Name: "Pb_Type_CloneRepositoryRequest",
 			Fields: graphql.Fields{
 				"provider": &graphql.Field{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"account_id": &graphql.Field{
 					Type: graphql.String,
@@ -293,7 +293,7 @@ func Gql__input_ListRepositoryRequest() *graphql.InputObject {
 			Name: "Pb_Input_ListRepositoryRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"user_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -316,7 +316,7 @@ func Gql__input_GetRepositoryRequest() *graphql.InputObject {
 			Name: "Pb_Input_GetRepositoryRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"repo_name": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -387,7 +387,7 @@ func Gql__input_CloneRepositoryRequest() *graphql.InputObject {
 			Name: "Pb_Input_CloneRepositoryRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"provider": &graphql.InputObjectFieldConfig{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"account_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -453,7 +453,7 @@ func (x *graphql__resolver_Gits) GetQueries(conn *grpc.ClientConn) graphql.Field
 			Type: Gql__type_ListRepositoryResponse(),
 			Args: graphql.FieldConfigArgument{
 				"provider": &graphql.ArgumentConfig{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"user_id": &graphql.ArgumentConfig{
 					Type: graphql.String,
@@ -482,7 +482,7 @@ func (x *graphql__resolver_Gits) GetQueries(conn *grpc.ClientConn) graphql.Field
 			Type: Gql__type_Repository(),
 			Args: graphql.FieldConfigArgument{
 				"provider": &graphql.ArgumentConfig{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"repo_name": &graphql.ArgumentConfig{
 					Type: graphql.String,
@@ -540,7 +540,7 @@ func (x *graphql__resolver_Gits) GetMutations(conn *grpc.ClientConn) graphql.Fie
 			Type: Gql__type_CloneRepositoryResponse(),
 			Args: graphql.FieldConfigArgument{
 				"provider": &graphql.ArgumentConfig{
-					Type: types.Gql__enum_GitProviders(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"account_id": &graphql.ArgumentConfig{
 					Type: graphql.String,

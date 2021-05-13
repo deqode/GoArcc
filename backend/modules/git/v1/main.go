@@ -2,7 +2,6 @@ package git
 
 import (
 	"alfred/config"
-	"alfred/modules/git/v1/github"
 	"alfred/modules/git/v1/pb"
 	vcsinternal "alfred/modules/vcs-connection/v1/internals"
 	vcsinternalPb "alfred/modules/vcs-connection/v1/internals/pb"
@@ -11,11 +10,10 @@ import (
 )
 
 type gitServer struct {
-	db                *gorm.DB
-	config            *config.Config
-	grpcClient        *grpc.ClientConn
-	vcsInternalServer vcsinternalPb.VCSConnectionInternalServer
-	githubService     github.Service
+	db          *gorm.DB
+	config      *config.Config
+	grpcClient  *grpc.ClientConn
+	vcsInServer vcsinternalPb.VCSConnectionInternalServer
 }
 
 // NewGitServer todo : AlWays add migration code for best practices
@@ -26,11 +24,11 @@ func NewGitServer(
 ) pb.GitsServer {
 
 	//initial migration of databases: schema migration
-	vcsInternalSrv := vcsinternal.NewVCSConnectionInternalServer(db, config, grpcClientConn)
+	vcsInSrv := vcsinternal.NewVCSConnectionInternalServer(db, config, grpcClientConn)
 	return &gitServer{
-		db:                db,
-		config:            config,
-		grpcClient:        grpcClientConn,
-		vcsInternalServer: vcsInternalSrv,
+		db:          db,
+		config:      config,
+		grpcClient:  grpcClientConn,
+		vcsInServer: vcsInSrv,
 	}
 }

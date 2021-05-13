@@ -5,6 +5,7 @@ import (
 	"alfred/modules/authentication/v1/pb"
 	userProfileInPb "alfred/modules/user-profile/v1/internals/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
+	"alfred/protos/types"
 	"context"
 	"fmt"
 	"github.com/coreos/go-oidc"
@@ -12,29 +13,26 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-var ErrNotFound = status.Error(codes.NotFound, "No Record Found")
+const tokenKey = "id_token"
 
 func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCallbackRequest) (*pb.LoginCallbackResponse, error) {
-
 	token, err := s.authenticator.Config.Exchange(ctx, in.Code)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, err.Error())
 	}
 
-	rawIDToken, ok := token.Extra("id_token").(string)
+	rawIDToken, ok := token.Extra(tokenKey).(string)
 	if !ok {
 		return nil, status.Error(codes.Internal, "No id_token field in oauth2 token")
 	}
 
-	// TODO: Move this code outside of function
 	oidcConfig := &oidc.Config{
 		ClientID: s.config.Auth.Auth0ClientID,
 	}
 
 	idToken, err := s.authenticator.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
-
 	if err != nil {
-		return nil, status.Error(codes.Internal, "Failed to verify ID Token: "+err.Error())
+		return nil, status.Error(codes.Internal, "Failed to verify ID Token")
 	}
 
 	// Getting now the userInfo
@@ -55,18 +53,21 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 		}, nil
 	}
 	if err != nil {
-		return nil, err
+		code, _ := status.FromError(err)
+		if code.Code() != codes.NotFound {
+			return nil, err
+		}
 	}
 
 	//create User Profile
 	user, err := s.userProfileInServer.CreateUserProfile(ctx, &userProfileInPb.CreateUserProfileRequest{
 		UserProfile: &userProfileInPb.UserProfile{
-			Id:             "",
+			Id:             fmt.Sprintf("%s", profile["sub"]),
 			Sub:            fmt.Sprintf("%s", profile["sub"]),
 			Name:           fmt.Sprintf("%s", profile["name"]),
 			UserName:       fmt.Sprintf("%s", profile["nickname"]),
 			ProfilePicUrl:  fmt.Sprintf("%s", profile["picture"]),
-			ExternalSource: userProfileInPb.SOURCE_GITHUB,
+			ExternalSource: types.VCSProviders_GITHUB,
 			TokenValidTill: nil,
 		},
 	})

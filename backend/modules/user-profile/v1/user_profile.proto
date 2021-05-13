@@ -6,6 +6,7 @@ option go_package = "pb/";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
+import "types/enums.proto";
 
 service UserProfiles {
     rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile){
@@ -43,15 +44,8 @@ message UserProfile {
     string user_name = 4; // a username provided by external application
     string email = 5; //email of user
     string phone_number = 6; // phone of user
-    SOURCE external_source = 7;
+    types.VCSProviders external_source = 7;
     string profile_pic_url = 8;
     google.protobuf.Timestamp token_valid_till = 9;
 }
 
-enum SOURCE {
-    UNKNOWN = 0;
-    GITHUB = 1;
-    GITLAB = 2;
-    BITBUCKET = 3;
-    EMAIL_PASSWORD = 4;
-}

@@ -2,12 +2,13 @@
 package pb
 
 import (
+	types "alfred/protos/types"
 	"github.com/graphql-go/graphql"
+
 	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
 )
 
 var (
-	gql__enum_SOURCE                      *graphql.Enum        // enum SOURCE in user_profile_internal.proto
 	gql__type_UserProfile                 *graphql.Object      // message UserProfile in user_profile_internal.proto
 	gql__type_UpdateUserProfileRequest    *graphql.Object      // message UpdateUserProfileRequest in user_profile_internal.proto
 	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in user_profile_internal.proto
@@ -19,32 +20,6 @@ var (
 	gql__input_DeleteUserProfileRequest   *graphql.InputObject // message DeleteUserProfileRequest in user_profile_internal.proto
 	gql__input_CreateUserProfileRequest   *graphql.InputObject // message CreateUserProfileRequest in user_profile_internal.proto
 )
-
-func Gql__enum_SOURCE() *graphql.Enum {
-	if gql__enum_SOURCE == nil {
-		gql__enum_SOURCE = graphql.NewEnum(graphql.EnumConfig{
-			Name: "Pb_Enum_SOURCE",
-			Values: graphql.EnumValueConfigMap{
-				"UNKNOWN": &graphql.EnumValueConfig{
-					Value: SOURCE(0),
-				},
-				"GITHUB": &graphql.EnumValueConfig{
-					Value: SOURCE(1),
-				},
-				"GITLAB": &graphql.EnumValueConfig{
-					Value: SOURCE(2),
-				},
-				"BITBUCKET": &graphql.EnumValueConfig{
-					Value: SOURCE(3),
-				},
-				"EMAIL_PASSWORD": &graphql.EnumValueConfig{
-					Value: SOURCE(4),
-				},
-			},
-		})
-	}
-	return gql__enum_SOURCE
-}
 
 func Gql__type_UserProfile() *graphql.Object {
 	if gql__type_UserProfile == nil {
@@ -76,7 +51,7 @@ func Gql__type_UserProfile() *graphql.Object {
 					Description: `phone of user`,
 				},
 				"external_source": &graphql.Field{
-					Type: Gql__enum_SOURCE(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"profile_pic_url": &graphql.Field{
 					Type: graphql.String,
@@ -176,7 +151,7 @@ func Gql__input_UserProfile() *graphql.InputObject {
 					Type:        graphql.String,
 				},
 				"external_source": &graphql.InputObjectFieldConfig{
-					Type: Gql__enum_SOURCE(),
+					Type: types.Gql__enum_VCSProviders(),
 				},
 				"profile_pic_url": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
