@@ -33,9 +33,9 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: go get
-        run:  go get
+        run:  cd cmd/api && go get
 
       - name: build
-        run: go build -v ./...
+        run: cd cmd/api && go build -v ./...
 
 #      - run: npm install
