@@ -3,9 +3,11 @@ module alfred
 go 1.16
 
 require (
+	alfred.sh/common v1.0.0
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
 	github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible
+	github.com/cweill/gotests v1.6.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
 	github.com/envoyproxy/protoc-gen-validate v0.6.1
@@ -63,3 +65,5 @@ require (
 )
 
 replace github.com/apache/thrift => github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02
+
+replace alfred.sh/common => ./../common

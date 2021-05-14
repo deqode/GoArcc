@@ -11,6 +11,7 @@ services:
     build: .
     volumes:
       - .:/app
+      - ./../common:/common
       - go_mod:/go/pkg/mod
     env_file:
       - ./envs/dev.env
