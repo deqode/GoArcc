@@ -54,6 +54,7 @@ func InitJaeger(config *config.Config) (io.Closer, opentracing.Tracer) {
 		logger.Log.Fatal("cannot create tracer", zap.Error(err))
 		panic(err)
 	}
+
 	logger.Log.Info("Jaeger tracer initiated")
 	//global tracer setup , opentracing
 	opentracing.SetGlobalTracer(tracer)

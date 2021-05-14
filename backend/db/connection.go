@@ -21,10 +21,13 @@ func NewConnection(config *config.Config) *gorm.DB {
 		DSN:                  psqlInfo,
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
 	}), &gorm.Config{})
+
 	if err != nil {
-		logger.Log.Fatal("connection failed in db", zap.Error(err))
+		logger.Log.Fatal("GORM connection failed", zap.Error(err))
+		panic(err)
 	}
-	defer logger.Log.Info("connection established with the database")
+
+	logger.Log.Info("connection established with the database")
 	//No need to close the connection because we have a single pool of connection
 	return db
 }

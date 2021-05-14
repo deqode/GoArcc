@@ -21,10 +21,10 @@ func InitGrpcBeforeServing(config *config.Config, tracer opentracing.Tracer) (*g
 	listen, err := net.Listen("tcp", config.Grpc.Host+":"+config.Grpc.Port)
 	if err != nil {
 		logger.Log.Fatal("not able to initialize grpc server", zap.Error(err))
-		return nil, nil
+		panic(err)
 	}
-	// gRPC server statup options
-	opts := []grpc.ServerOption{}
+	// gRPC server setup options
+	var opts []grpc.ServerOption
 	// add logging middleware
 	opts = middleware.AddInterceptors(logger.Log, tracer, opts)
 	// register service
@@ -41,14 +41,17 @@ func RunGRPCServer(lc fx.Lifecycle, server *grpc.Server, listener net.Listener) 
 				grpc_prometheus.EnableHandlingTimeHistogram()
 				grpc_prometheus.Register(server)
 				http.Handle("/metrics", promhttp.Handler())
-				logger.Log.Info("starting HTTP2/gRPC server...")
+
+				logger.Log.Info("Prom metrics endpoint registered on /metrics")
+
+				logger.Log.Info("Starting HTTP2/gRPC server...")
 				// start gRPC server
 				go server.Serve(listener)
 				return nil
 			},
 			OnStop: func(ctx context.Context) error {
 				// start gRPC server
-				logger.Log.Info("stopping  gRPC server...")
+				logger.Log.Info("Stopping  gRPC server...")
 				server.GracefulStop()
 				return nil
 			},
