@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
 	github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02 // indirect
+	github.com/blang/semver v3.6.1+incompatible // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
@@ -29,6 +30,7 @@ require (
 	github.com/kyoh86/xdg v1.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/mattn/go-colorable v0.1.8 // indirect
+	github.com/mgechev/revive v1.0.6 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/pborman/uuid v1.2.0 // indirect
@@ -60,6 +62,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.21.9
+	k8s.io/klog v1.0.0 // indirect
 )
 
 replace github.com/apache/thrift => github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02

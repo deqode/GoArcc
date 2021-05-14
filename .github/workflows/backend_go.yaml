@@ -35,6 +35,9 @@ jobs:
       - name: go mod download
         run:  go mod download
 
+      - name: Lint
+        run: make run-linter
+
       - name: test
         run: make test
 
