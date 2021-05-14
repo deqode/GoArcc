@@ -27,8 +27,8 @@ logger:
 postgres:
     PostgresqlHost: localhost
     PostgresqlPort: 5432
-    PostgresqlUser: postgres
-    PostgresqlPassword: root
+    PostgresqlUser: atul
+    PostgresqlPassword: atul
     PostgresqlDbname: alfred
     PostgresqlSslmode: false
     PgDriver: pgx
@@ -48,13 +48,13 @@ auth:
   Auth0ClientSecret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
   Auth0CallbackUrl : http://localhost:3000/authentication/callback
 
-VCSConfig:
-  github:
-    itype: 1
-    provider: GITHUB
-    urlTemplate: https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}
-    clientid: 34c9188e9de51cfd07aa
-    redirecturi: http://localhost:3000/authentication/github/callback
-    scope: user%20gist%20repo%20repo_deployment%20repo_hook
-    responsetype: code
-    clientsecret: 1069dcdbae399023baf4fa7eacf6ec4bbd652e2a
+githubVCSConfig:
+  name: github
+  itype: 1
+  provider: GITHUB
+  urlTemplate: https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}
+  clientid: 34c9188e9de51cfd07aa
+  redirecturi: http://localhost:3000/authentication/github/callback
+  scope: user%20gist%20repo%20repo_deployment%20repo_hook
+  responsetype: code
+  clientsecret: 1069dcdbae399023baf4fa7eacf6ec4bbd652e2a

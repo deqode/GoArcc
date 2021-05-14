@@ -40,12 +40,11 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 	}
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:
-		//config
-		conf := s.config.VCSConfig
+		githubConfig := s.config.GithubVCSConfig
 		githubOauthConfig := &oauth2.Config{
-			RedirectURL:  conf["github"].RedirectURI,
-			ClientID:     conf["github"].ClientID,
-			ClientSecret: conf["github"].ClientSecret,
+			RedirectURL:  githubConfig.RedirectURI,
+			ClientID:     githubConfig.ClientID,
+			ClientSecret: githubConfig.ClientSecret,
 			Scopes:       GithubOAuthScope,
 			Endpoint:     github.Endpoint,
 		}

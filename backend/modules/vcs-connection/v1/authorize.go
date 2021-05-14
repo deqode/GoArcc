@@ -18,16 +18,16 @@ func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeReq
 	var redirectURL string
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:
-		conf := s.config.VCSConfig
+		githubConfig := s.config.GithubVCSConfig
 		// Format required field in url
 		mp := map[string]string{
-			"scope":         conf["github"].Scope,
-			"client_id":     conf["github"].ClientID,
-			"redirect_uri":  conf["github"].RedirectURI,
-			"response_type": conf["github"].ResponseType,
+			"scope":         githubConfig.Scope,
+			"client_id":     githubConfig.ClientID,
+			"redirect_uri":  githubConfig.RedirectURI,
+			"response_type": githubConfig.ResponseType,
 		}
 		reg := regexp.MustCompile(`[{}]`)
-		fields := reg.Split(conf["github"].URLTemplate, -1)
+		fields := reg.Split(githubConfig.URLTemplate, -1)
 		for i := 1; i < len(fields); i = i + 2 {
 			val, ok := mp[fields[i]]
 			if ok {

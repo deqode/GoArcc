@@ -7,12 +7,8 @@ import (
 )
 
 func (s *vcsConnectionServer) ListAllSupportedVCSProviders(context.Context, *empty.Empty) (*pb.ListAllSupportedVCSProvidersResponse, error) {
-	conf := s.config.VCSConfig
-	var providers []string
-	for _, vcs := range conf {
-		providers = append(providers, vcs.Provider)
-	}
+	conf := s.config.SupportedVcsConfig
 	return &pb.ListAllSupportedVCSProvidersResponse{
-		Providers: providers,
+		Providers: conf,
 	}, nil
 }

@@ -2,24 +2,33 @@ package config
 
 import (
 	"alfred/logger"
+	"github.com/kelseyhightower/envconfig"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"log"
 	"os"
 )
 
+type FileInformation struct {
+	Path string
+	Name string
+}
+
 //Config : including all the configuration
 type Config struct {
-	Grpc        GraphqlServerConfig
-	Graphql     GraphqlServerConfig
-	Rest        RestServerConfig
-	HealthCheck HealthCheckServerConfig
-	Logger      LoggerConfig
-	Postgres    PostgresConfig
-	Metrics     MetricsConfig
-	Jaeger      JaegerServerConfig
-	Auth        AuthConfig
-	VCSConfig   map[string]VCSSConfig
+	Grpc               GrpcServerConfig
+	Graphql            GraphqlServerConfig
+	Rest               RestServerConfig
+	HealthCheck        HealthCheckServerConfig
+	Logger             LoggerConfig
+	Postgres           PostgresConfig
+	Metrics            MetricsConfig
+	Jaeger             JaegerServerConfig
+	Auth               AuthConfig
+	GithubVCSConfig    VCSSConfig
+	SupportedVcsConfig []string `ignored:"true"`
+	ConfigLocal        bool
 }
 
 // GrpcServerConfig GrpcServerConfig: gRPC  server configuration
@@ -100,13 +109,24 @@ type VCSSConfig struct {
 	Scope        string
 	ResponseType string
 	ClientSecret string
+	Name         string
+}
+
+//GetVcsConfig : will give the particular vcs config
+func GetVcsConfig(name string, vcsConfig []VCSSConfig) *VCSSConfig {
+	for _, v := range vcsConfig {
+		if v.Name == name {
+			return &v
+		}
+	}
+	return nil
 }
 
 // LoadConfig config file from given path
-func LoadConfig(filename string) (*viper.Viper, error) {
+func LoadConfig(filename, path string) (*viper.Viper, error) {
 	v := viper.New()
 	v.SetConfigName(filename)
-	v.AddConfigPath(".")
+	v.AddConfigPath(path)
 	v.AutomaticEnv()
 	if err := v.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
@@ -130,25 +150,49 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 }
 
 // GetConfigPath get the path from local or docker
-func GetConfigPath(configPath string) string {
-	if configPath == "docker" {
+func GetConfigPath(configFileName string) string {
+	if configFileName == "docker" {
 		return "config_docker"
 	}
 	return "config_local"
 }
 
 // GetConfig : will get the config
-func GetConfig() *Config {
-	configPath := GetConfigPath(os.Getenv("config"))
-	cfgFile, err := LoadConfig(configPath)
+func GetConfig(fileInformation *FileInformation) *Config {
+	var config Config
+	err := envconfig.Process("API", &config)
 	if err != nil {
-		logger.Log.Fatal("unable to get config", zap.Error(err))
-		return nil
+		log.Fatal(err.Error())
 	}
-	cfg, err := ParseConfig(cfgFile)
-	if err != nil {
-		logger.Log.Fatal("unable to get config", zap.Error(err))
-		return nil
+	if config.ConfigLocal {
+		configFileName := GetConfigPath(os.Getenv("config"))
+		cfgFile, err := LoadConfig(configFileName, ".")
+		if err != nil {
+			logger.Log.Fatal("unable to get config", zap.Error(err))
+			return nil
+		}
+		cfg, err := ParseConfig(cfgFile)
+		if err != nil {
+			logger.Log.Fatal("unable to get config", zap.Error(err))
+			return nil
+		}
+		cfg.SupportedVcsConfig = supportedVcsConfig()
+		return cfg
 	}
-	return cfg
+	config.SupportedVcsConfig = supportedVcsConfig()
+	return &config
+}
+
+//GetFileInformation : will get the information of file
+func GetFileInformation() *FileInformation {
+	return &FileInformation{
+		Name: "config_local",
+		Path: ".",
+	}
+}
+
+// SupportedVcsConfig todo
+// SupportedVcsConfig add supported type from here.
+func supportedVcsConfig() []string {
+	return []string{"github"}
 }

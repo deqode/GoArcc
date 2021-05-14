@@ -25,6 +25,7 @@ require (
 	github.com/inconshreveable/log15 v0.0.0-20201112154412-8562bdadbbac
 	github.com/julienschmidt/httprouter v1.2.0
 	github.com/justinas/alice v1.2.0
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/mattn/go-colorable v0.1.8 // indirect

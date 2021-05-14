@@ -31,3 +31,8 @@ vendor
 ./tests
 
 config_local.yml
+
+#test file
+coverage.out
+.cover
+cover

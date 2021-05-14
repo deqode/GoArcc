@@ -9,7 +9,7 @@ import (
 
 func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Empty, error) {
 	//TODO - Implement Token based logout
-	domain := config.GetConfig().Auth.Auth0Domain
+	domain := config.GetConfig(config.GetFileInformation()).Auth.Auth0Domain
 
 	logoutURL, err := url.Parse("http://" + domain)
 
@@ -30,7 +30,7 @@ func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Emp
 		return nil, err
 	}
 	parameters.Add("returnTo", returnTo.String())
-	parameters.Add("client_id", config.GetConfig().Auth.Auth0ClientID)
+	parameters.Add("client_id", config.GetConfig(config.GetFileInformation()).Auth.Auth0ClientID)
 	logoutURL.RawQuery = parameters.Encode()
 
 	return &empty.Empty{}, nil

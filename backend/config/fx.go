@@ -6,5 +6,6 @@ import "go.uber.org/fx"
 var ProviderFx = fx.Options(
 	fx.Provide(
 		GetConfig,
+		GetFileInformation,
 	),
 )
