@@ -35,7 +35,7 @@ config.yml
 #test file
 coverage.out
 .cover
-cover
+cover/
 
 # Build artifacts
 bin/

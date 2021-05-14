@@ -22,8 +22,8 @@ run-all-linter: get-linter get-fmt run-linter run-fmt tidy
 #Get the test coverage
 test:
 	go test -cover ./...
-	go test -coverprofile=coverage.out ./...
-	go tool cover -html=coverage.out
+	go test -coverprofile=cover/coverage.out ./...
+	go tool cover -html=coverage.out -o cover/coverage.html
 
 build-api:
 	go build -o bin/backend_api cmd/api/*.go
