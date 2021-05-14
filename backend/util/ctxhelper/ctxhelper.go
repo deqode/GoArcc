@@ -1,11 +1,9 @@
 package ctxhelper
 
 import (
+	"context"
+	"go.uber.org/zap"
 	"time"
-
-	log "github.com/inconshreveable/log15"
-	"github.com/julienschmidt/httprouter"
-	"golang.org/x/net/context"
 )
 
 type ctxKey int
@@ -13,7 +11,6 @@ type ctxKey int
 const (
 	ctxKeyComponent ctxKey = iota
 	ctxKeyLogger
-	ctxKeyParams
 	ctxKeyReqID
 	ctxKeyStartTime
 )
@@ -32,25 +29,13 @@ func ComponentNameFromContext(ctx context.Context) (componentName string, ok boo
 
 // NewContextLogger creates a new context that carries the provided logger
 // value.
-func NewContextLogger(ctx context.Context, logger log.Logger) context.Context {
+func NewContextLogger(ctx context.Context, logger *zap.Logger) context.Context {
 	return context.WithValue(ctx, ctxKeyLogger, logger)
 }
 
 // LoggerFromContext extracts a logger from a context.
-func LoggerFromContext(ctx context.Context) (logger log.Logger, ok bool) {
-	logger, ok = ctx.Value(ctxKeyLogger).(log.Logger)
-	return
-}
-
-// NewContextParams creates a new context that carries the provided params
-// value.
-func NewContextParams(ctx context.Context, params httprouter.Params) context.Context {
-	return context.WithValue(ctx, ctxKeyParams, params)
-}
-
-// ParamsFromContext extracts params from a context.
-func ParamsFromContext(ctx context.Context) (params httprouter.Params, ok bool) {
-	params, ok = ctx.Value(ctxKeyParams).(httprouter.Params)
+func LoggerFromContext(ctx context.Context) (logger *zap.Logger, ok bool) {
+	logger, ok = ctx.Value(ctxKeyLogger).(*zap.Logger)
 	return
 }
 

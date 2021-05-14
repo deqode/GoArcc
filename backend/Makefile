@@ -1,7 +1,24 @@
 get-linter:
 	go get github.com/mgechev/revive
 
-run-linter:
+get-richgo:
+	go get -u github.com/kyoh86/richgo
+
+get-dupl:
+	go get -u github.com/mibk/dupl
+
+get-errcheck:
+	go get -u github.com/kisielk/errcheck
+
+run-errcheck: get-errcheck
+	errcheck ./...
+
+run-dupl:
+	dupl */**.go
+
+
+
+run-linter: get-linter
 	revive -formatter friendly ./...
 
 get-fmt:
@@ -9,7 +26,6 @@ get-fmt:
 
 run-fmt:
 	go fmt ./...
-
 
 tidy:
 	go mod tidy
@@ -19,9 +35,8 @@ tidy:
 run-all-linter: get-linter get-fmt run-linter run-fmt tidy
 
 #Get the test coverage
-#Get the test coverage
-test:
-	go test -cover ./...
+test: get-richgo
+	richgo test -cover ./...
 	go test -coverprofile=cover/coverage.out ./...
 	go tool cover -html=coverage.out -o cover/coverage.html
 

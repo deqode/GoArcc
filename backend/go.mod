@@ -22,10 +22,8 @@ require (
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.4.0
 	github.com/hashicorp/go-uuid v1.0.2
-	github.com/inconshreveable/log15 v0.0.0-20201112154412-8562bdadbbac
-	github.com/julienschmidt/httprouter v1.2.0
 	github.com/justinas/alice v1.2.0
-	github.com/kelseyhightower/envconfig v1.4.0
+	github.com/kisielk/errcheck v1.6.0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/mattn/go-colorable v0.1.8 // indirect
@@ -48,12 +46,14 @@ require (
 	go.uber.org/thriftrw v1.25.0 // indirect
 	go.uber.org/yarpc v1.42.1
 	go.uber.org/zap v1.16.0
-	golang.org/x/net v0.0.0-20210316092652-d523dce5a7f4
 	golang.org/x/oauth2 v0.0.0-20210427180440-81ed05c6b58c
+	golang.org/x/sys v0.0.0-20210514084401-e8d321eab015 // indirect
+	golang.org/x/tools v0.1.1 // indirect
 	google.golang.org/genproto v0.0.0-20210427215850-f767ed18ee4d
 	google.golang.org/grpc v1.37.0
 	google.golang.org/protobuf v1.26.0
 	gopkg.in/square/go-jose.v2 v2.5.1
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.21.9
 )

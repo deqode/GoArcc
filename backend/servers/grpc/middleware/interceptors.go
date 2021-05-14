@@ -31,7 +31,7 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 		grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
 		//Adding prothesis monitoring
-		grpc_prometheus.UnaryServerInterceptor,
+		//grpc_prometheus.UnaryServerInterceptor,
 		//zap logger implementation
 		grpc_zap.UnaryServerInterceptor(logger),
 
