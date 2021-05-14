@@ -25,5 +25,5 @@ test:
 	go test -coverprofile=coverage.out ./...
 	go tool cover -html=coverage.out
 
-
-
+build-api:
+	go build -o bin/backend_api cmd/api/*.go

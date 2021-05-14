@@ -36,3 +36,6 @@ config_local.yml
 coverage.out
 .cover
 cover
+
+# Build artifacts
+bin/
