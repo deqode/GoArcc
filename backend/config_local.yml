@@ -1,60 +1,61 @@
 grpc:
-    Port: 8000
-    Host: localhost
-    RequestTimeout: 20
+    port: 8000
+    host: localhost
+    request_timeout: 20
 
 graphql:
-    Port: 8081
-    Host: localhost
-    RequestTimeout: 20
+    port: 8081
+    host: localhost
+    request_Timeout: 20
 
 rest:
-    Port: 8082
-    Host: localhost
-    RequestTimeout: 20
+    port: 8082
+    host: localhost
+    request_timeout: 20
 
-healthcheck:
-    Port: 8083
-    Host: localhost
+health_check:
+    port: 8083
+    host: localhost
 
 promthesius:
-    Port: 8084
-    Host: localhost
+    port: 8084
+    host: localhost
 
 logger:
-    LogLevel: -1
+    log_level: -1
 
 postgres:
-    PostgresqlHost: localhost
-    PostgresqlPort: 5432
-    PostgresqlUser: atul
-    PostgresqlPassword: atul
-    PostgresqlDbname: alfred
-    PostgresqlSslmode: false
-    PgDriver: pgx
+    postgresql_host: localhost
+    postgresql_port: 5432
+    postgresql_user: atul
+    postgresql_password: atul
+    postgresql_db_name: alfred
+    postgresql_ssl_mode: true
+    postgresql_pg_driver: pgx
 
 metrics:
-    Url: 0.0.0.0:7070
-    ServiceName: AlfredMetrics
+    url: 0.0.0.0:7070
+    service_name: AlfredMetrics
 
 jaeger:
-    Host: localhost
-    Port: 6831
-    ServiceName: AlfredTracing
-    LogSpans: false
-auth:
-  Auth0ClientId    : BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ
-  Auth0Domain      : alfred-sh.us.auth0.com
-  Auth0ClientSecret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
-  Auth0CallbackUrl : http://localhost:3000/authentication/callback
+    host: localhost
+    port: 6831
+    service_name: AlfredTracing
+    log_spans: false
 
-githubVCSConfig:
+auth:
+  auth0_client_id    : BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ
+  auth0_domain      : alfred-sh.us.auth0.com
+  auth0_client_secret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
+  auth0_call_back_url : http://localhost:3000/authentication/callback
+
+github_vcs_config:
   name: github
   itype: 1
   provider: GITHUB
-  urlTemplate: https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}
-  clientid: 34c9188e9de51cfd07aa
-  redirecturi: http://localhost:3000/authentication/github/callback
+  url_Template: https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}
+  client_id: 34c9188e9de51cfd07aa
+  redirect_uri: http://localhost:3000/authentication/github/callback
   scope: user%20gist%20repo%20repo_deployment%20repo_hook
-  responsetype: code
-  clientsecret: 1069dcdbae399023baf4fa7eacf6ec4bbd652e2a
+  response_type: code
+  client_secret: 1069dcdbae399023baf4fa7eacf6ec4bbd652e2a
