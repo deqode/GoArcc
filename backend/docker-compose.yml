@@ -15,7 +15,7 @@ services:
       - go_mod:/go/pkg/mod
     env_file:
       - ./envs/dev.env
-    command: bin/backend_api
+    command: bin/api
 
   jaeger:
     image: jaegertracing/all-in-one:latest

@@ -49,8 +49,8 @@ jobs:
           retention-days: 5
           path: backend/cover/
 
-      - name: build api
-        run: make build-api
+      - name: build
+        run: make build
 
       - name: Upload binaries
         uses: actions/upload-artifact@v2

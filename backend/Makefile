@@ -47,5 +47,5 @@ test: get-richgo
 	go test -coverprofile=cover/coverage.out ./...
 	go tool cover -html=cover/coverage.out -o cover/coverage.html
 
-build-api:
-	go build -o bin/backend_api cmd/api/*.go
+build:
+	go build -o bin -buildmode pie ./cmd/api ./cmd/workflow_worker
