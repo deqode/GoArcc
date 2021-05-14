@@ -144,18 +144,22 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 
 // GetConfigName get the path from local or docker
 func GetConfigName() string {
-	fileName := os.Getenv("CONFIG_FILE_NAME")
+	fileName := os.Getenv("CONFIG_NAME")
 	if fileName != "" {
 		return fileName
 	}
+
+	// TODO: Remove default
 	return "config_dev"
 }
 
 func GetConfigDirectory() string {
-	filePath := os.Getenv("CONFIG_FILE_PATH")
+	filePath := os.Getenv("CONFIG_DIRECTORY")
 	if filePath != "" {
 		return filePath
 	}
+
+	// TODO: Remove default
 	return "."
 }
 
