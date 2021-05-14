@@ -10,10 +10,16 @@ get-dupl:
 get-errcheck:
 	go get -u github.com/kisielk/errcheck
 
+get-gocritic:
+	go get -u github.com/go-critic/go-critic/cmd/gocritic
+
+run-gocritic:
+	gocritic check ./...
+
 run-errcheck: get-errcheck
 	errcheck ./...
 
-run-dupl:
+run-dupl: get-dupl
 	dupl */**.go
 
 
