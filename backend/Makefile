@@ -44,7 +44,9 @@ run-all-linter: get-linter get-fmt run-linter run-fmt tidy
 test: get-richgo
 	richgo test -cover ./...
 	mkdir -p cover
+	ls cover -l
 	go test -coverprofile=cover/coverage.out ./...
+	ls cover -l
 	go tool cover -html=coverage.out -o cover/coverage.html
 
 build-api:
