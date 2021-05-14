@@ -32,10 +32,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: go get
-        run:  cd cmd/api && go get
+      - name: go mod download
+        run:  go mod download
 
-      - name: build
-        run: cd cmd/api && go build -v ./...
+      - name: test
+        run: make test
+
+      - name: build api
+        run: make build-api
 
 #      - run: npm install
