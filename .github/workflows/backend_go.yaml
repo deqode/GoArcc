@@ -41,7 +41,9 @@ jobs:
       - name: test
         run: make test
 
-      - uses: actions/upload-artifact@v2
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v2
         with:
           name: backend-coverage
           retention-days: 5
@@ -50,7 +52,8 @@ jobs:
       - name: build api
         run: make build-api
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload binaries
+        uses: actions/upload-artifact@v2
         with:
           name: backend-binaries
           retention-days: 5
