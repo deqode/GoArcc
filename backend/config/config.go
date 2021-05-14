@@ -167,7 +167,7 @@ func GetConfigDirectory() string {
 func GetConfig() *Config {
 	configFileName := GetConfigName()
 	configFileDirectory := GetConfigDirectory()
-	logger.Log.Info("Config file path and name", zap.String("configFileDirectory", configFileDirectory), zap.String( "configFileName",  configFileName) )
+	logger.Log.Info("Config Details", zap.String("configFileDirectory", configFileDirectory), zap.String( "configFileName",  configFileName) )
 
 	cfgFile, configFileLoadError := LoadConfig(configFileName, configFileDirectory)
 	if configFileLoadError != nil {
