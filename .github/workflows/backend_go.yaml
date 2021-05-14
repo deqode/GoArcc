@@ -47,7 +47,7 @@ jobs:
         with:
           name: backend-coverage
           retention-days: 5
-          path: cover/
+          path: ${{ github.workspace }}/cover/
 
       - name: build api
         run: make build-api
@@ -57,4 +57,4 @@ jobs:
         with:
           name: backend-binaries
           retention-days: 5
-          path: bin/
+          path: ${{ github.workspace }}/bin/
