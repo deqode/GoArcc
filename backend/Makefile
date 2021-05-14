@@ -43,6 +43,7 @@ run-all-linter: get-linter get-fmt run-linter run-fmt tidy
 #Get the test coverage
 test: get-richgo
 	richgo test -cover ./...
+    mkdir -p cover
 	go test -coverprofile=cover/coverage.out ./...
 	go tool cover -html=coverage.out -o cover/coverage.html
 
