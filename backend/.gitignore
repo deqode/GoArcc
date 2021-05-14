@@ -30,7 +30,7 @@ vendor
 # temporary remove for production
 ./tests
 
-config_local.yml
+config_dev.yml
 
 #test file
 coverage.out

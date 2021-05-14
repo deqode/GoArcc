@@ -146,18 +146,28 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 	return &c, nil
 }
 
-// GetConfigPath get the path from local or docker
-func GetConfigPath(configFileName string) string {
-	if configFileName == "docker" {
-		return "config_docker"
+// GetConfigName get the path from local or docker
+func GetConfigName() string {
+	fileName := os.Getenv("CONFIG_FILE_NAME")
+	if fileName == "" {
+		return fileName
 	}
-	return "config_local"
+	return "config_dev"
+}
+
+func GetConfigPath() string {
+	filePath := os.Getenv("CONFIG_FILE_PATH")
+	if filePath == "" {
+		return filePath
+	}
+	return "."
 }
 
 // GetConfig : will get the config
-func GetConfig(fileInformation *FileInformation) *Config {
-	configFileName := GetConfigPath(os.Getenv("config"))
-	cfgFile, err := LoadConfig(configFileName, ".")
+func GetConfig() *Config {
+	configFileName := GetConfigName()
+	configFilePath := GetConfigPath()
+	cfgFile, err := LoadConfig(configFileName, configFilePath)
 	if err != nil {
 		logger.Log.Fatal("unable to get config", zap.Error(err))
 		return nil
@@ -167,16 +177,10 @@ func GetConfig(fileInformation *FileInformation) *Config {
 		logger.Log.Fatal("unable to get config", zap.Error(err))
 		return nil
 	}
+
+	// Remove this logic from here
 	cfg.SupportedVcsConfig = supportedVcsConfig()
 	return cfg
-}
-
-//GetFileInformation : will get the information of file
-func GetFileInformation() *FileInformation {
-	return &FileInformation{
-		Name: "config_local",
-		Path: ".",
-	}
 }
 
 // SupportedVcsConfig todo
