@@ -150,7 +150,7 @@ func GetConfigName() string {
 	}
 
 	// TODO: Remove default
-	return "config_dev"
+	return "config"
 }
 
 func GetConfigDirectory() string {
