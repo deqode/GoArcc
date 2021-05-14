@@ -1,7 +1,6 @@
 package main
 
 import (
-	"alfred/cmd"
 	"alfred/logger"
 )
 
@@ -10,5 +9,5 @@ import (
 func main() {
 	//logger initialize before app starts because in provider we need logger
 	logger.InitLogger()
-	cmd.GetApp().Run()
+	GetApp().Run()
 }

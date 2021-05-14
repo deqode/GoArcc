@@ -98,6 +98,6 @@ func reader(wg *sync.WaitGroup, closer io.ReadCloser) {
 		}
 	}
 	if err := in.Err(); err != nil {
-		log.Println("error: %s", err)
+		log.Println("error:", err)
 	}
 }
