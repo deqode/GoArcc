@@ -12,7 +12,9 @@ services:
     volumes:
       - .:/app
       - go_mod:/go/pkg/mod
-    command: ./bin/backend_api
+    env_file:
+      - ./envs/dev.env
+    command: bin/backend_api
 
   jaeger:
     image: jaegertracing/all-in-one:latest

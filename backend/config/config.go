@@ -2,7 +2,6 @@ package config
 
 import (
 	"alfred/logger"
-	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"os"
@@ -126,9 +125,6 @@ func LoadConfig(filename, path string) (*viper.Viper, error) {
 	v.AddConfigPath(path)
 	v.AutomaticEnv()
 	if err := v.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			return nil, errors.New("config file not found")
-		}
 		return nil, err
 	}
 
@@ -149,15 +145,15 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 // GetConfigName get the path from local or docker
 func GetConfigName() string {
 	fileName := os.Getenv("CONFIG_FILE_NAME")
-	if fileName == "" {
+	if fileName != "" {
 		return fileName
 	}
 	return "config_dev"
 }
 
-func GetConfigPath() string {
+func GetConfigDirectory() string {
 	filePath := os.Getenv("CONFIG_FILE_PATH")
-	if filePath == "" {
+	if filePath != "" {
 		return filePath
 	}
 	return "."
@@ -166,19 +162,22 @@ func GetConfigPath() string {
 // GetConfig : will get the config
 func GetConfig() *Config {
 	configFileName := GetConfigName()
-	configFilePath := GetConfigPath()
-	cfgFile, err := LoadConfig(configFileName, configFilePath)
-	if err != nil {
-		logger.Log.Fatal("unable to get config", zap.Error(err))
-		return nil
-	}
-	cfg, err := ParseConfig(cfgFile)
-	if err != nil {
-		logger.Log.Fatal("unable to get config", zap.Error(err))
-		return nil
+	configFileDirectory := GetConfigDirectory()
+	logger.Log.Info("Config file path and name", zap.String("configFileDirectory", configFileDirectory), zap.String( "configFileName",  configFileName) )
+
+	cfgFile, configFileLoadError := LoadConfig(configFileName, configFileDirectory)
+	if configFileLoadError != nil {
+		logger.Log.Fatal("unable to get config", zap.Error(configFileLoadError))
+		panic(configFileLoadError)
 	}
 
-	// Remove this logic from here
+	cfg, parseError := ParseConfig(cfgFile)
+	if parseError != nil {
+		logger.Log.Fatal("unable to get config", zap.Error(parseError))
+		panic(parseError)
+	}
+
+	// TODO: Remove this logic from here
 	cfg.SupportedVcsConfig = supportedVcsConfig()
 	return cfg
 }
