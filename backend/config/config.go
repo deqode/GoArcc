@@ -1,7 +1,7 @@
 package config
 
 import (
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"os"

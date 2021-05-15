@@ -33,8 +33,9 @@ func customTimeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 // timeFormat - custom time format for logger of empty string to use default
 func Init(config Config) (*zap.Logger, error) {
 
-	logger, _ := zap.NewProduction()
-	return logger, nil
+	//logger, _ := zap.NewProduction()
+	//Log = logger
+	//return logger, nil
 
 	if Log != nil {
 		Log.Fatal("Logger already initialized once, No need to do it multiple times")

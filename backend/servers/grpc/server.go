@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"alfred/config"
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"alfred/servers/grpc/middleware"
 	"context"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"

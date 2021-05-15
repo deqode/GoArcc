@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	accPb "alfred/modules/account/v1/pb"
 	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
 	authPb "alfred/modules/authentication/v1/pb"

@@ -2,7 +2,7 @@ package grpcClient
 
 import (
 	"alfred/config"
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"alfred/servers/openTracing/tracer/jaeger"
 	"context"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
