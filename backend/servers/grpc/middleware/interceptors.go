@@ -70,5 +70,5 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 
 //grpcPanicsRecovery: is responsible to convert panic to the custom message
 func grpcPanicsRecovery(in interface{}) error {
-	return status.Errorf(codes.Unknown, "panic triggered: %v", in)
+	return status.Errorf(codes.Unknown, "Unknown error")
 }
