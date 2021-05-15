@@ -14,7 +14,8 @@ services:
       - ./../common:/common
       - go_mod:/go/pkg/mod
     env_file:
-      - ./envs/dev.env
+      - envs/common.env
+      - envs/backend_api.env
     command: bin/api
     depends_on:
       - postgres

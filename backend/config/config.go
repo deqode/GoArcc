@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"os"
+	"strings"
 )
 
 type FileInformation struct {
@@ -63,13 +64,13 @@ type LoggerConfig struct {
 
 // PostgresConfig PostgresConfig: detail config about the postgres database
 type PostgresConfig struct {
-	PostgresqlHost     string `mapstructure:"POSTGRESQL_HOST"`
-	PostgresqlPort     string `mapstructure:"POSTGRESQL_PORT"`
-	PostgresqlUser     string `mapstructure:"POSTGRESQL_USER"`
-	PostgresqlPassword string `mapstructure:"POSTGRESQL_PASSWORD"`
-	PostgresqlDbName   string `mapstructure:"POSTGRESQL_DB_NAME"`
-	PostgresqlSslMode  string `mapstructure:"POSTGRESQL_SSL_MODE"`
-	PgDriver           string `mapstructure:"POSTGRESQL_PG_DRIVER"`
+	Host     string `mapstructure:"HOST"`
+	Port     string `mapstructure:"PORT"`
+	User     string `mapstructure:"USER"`
+	Password string `mapstructure:"PASSWORD"`
+	DbName   string `mapstructure:"DB_NAME"`
+	SslMode  string `mapstructure:"SSL_MODE"`
+	Driver   string `mapstructure:"PG_DRIVER"`
 }
 
 //MetricsConfig : detail config about the Metrics
@@ -121,9 +122,10 @@ func GetVcsConfig(name string, vcsConfig []VCSSConfig) *VCSSConfig {
 // LoadConfig config file from given path
 func LoadConfig(filename, path string) (*viper.Viper, error) {
 	v := viper.New()
-	v.SetConfigName(filename)
 	v.AddConfigPath(path)
+	v.SetConfigName(filename)
 	v.AutomaticEnv()
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	if err := v.ReadInConfig(); err != nil {
 		return nil, err
 	}

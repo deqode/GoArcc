@@ -14,7 +14,7 @@ import (
 func NewConnection(config *config.Config) *gorm.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable Timezone=Asia/Shanghai",
-		config.Postgres.PostgresqlHost, config.Postgres.PostgresqlPort, config.Postgres.PostgresqlUser, config.Postgres.PostgresqlPassword, config.Postgres.PostgresqlDbName)
+		config.Postgres.Host, config.Postgres.Port, config.Postgres.User, config.Postgres.Password, config.Postgres.DbName)
 
 	// https://github.com/go-gorm/postgres
 	db, err := gorm.Open(postgres.New(postgres.Config{
