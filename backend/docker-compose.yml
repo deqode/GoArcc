@@ -16,6 +16,8 @@ services:
     env_file:
       - ./envs/dev.env
     command: bin/api
+    depends_on:
+      - postgres
 
   jaeger:
     image: jaegertracing/all-in-one:latest
