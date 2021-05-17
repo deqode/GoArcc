@@ -33,8 +33,8 @@ logger:
 postgres:
     host: localhost
     port: 5432
-    user: atul
-    password: atul
+    user: postgres
+    password: root
     db_name: alfred
     ssl_mode: true
     pg_driver: pgx

@@ -12,8 +12,6 @@ import (
 	. "github.com/onsi/gomega"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 	"log"
 )
@@ -23,13 +21,13 @@ var _ = Describe("Describe:GetAccount", func() {
 		accountServer pb.AccountsServer
 	)
 	//now init logger
-	logger.Init(&logger.Config{
+	logger.Init(logger.Config{
 		LogLevel:    zap.DebugLevel, // TODO: Take this level from config
 		Development: false,
 	})
 
 	//getting config
-	cfgFile, err := config.LoadConfig("config", "/home/deq/Desktop/deqodeEnviroment/platform/backend")
+	cfgFile, err := config.LoadConfig("config", "/home/deq/Desktop/platform/backend")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -52,7 +50,7 @@ var _ = Describe("Describe:GetAccount", func() {
 		Context("Context:When id is empty", func() {
 			It("It:Error must be returned", func() {
 				_, err := accountServer.GetAccount(context.Background(), &pb.GetAccountRequest{Id: ""})
-				Expect(err).Should(Equal(status.Error(codes.NotFound, "record not found")))
+				Expect(err).Should(Equal(gorm.ErrRecordNotFound))
 			})
 		})
 	})

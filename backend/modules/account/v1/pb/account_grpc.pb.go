@@ -16,8 +16,9 @@ const _ = grpc.SupportPackageIsVersion7
 
 // AccountsClient is the client API for Accounts service.
 //
-// For semantics around ctxhelper use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountsClient interface {
+	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	//UpdateAccount update existing account details
 	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	//GetAccount get account details by its unique id
@@ -35,6 +36,15 @@ type accountsClient struct {
 
 func NewAccountsClient(cc grpc.ClientConnInterface) AccountsClient {
 	return &accountsClient{cc}
+}
+
+func (c *accountsClient) CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error) {
+	out := new(Account)
+	err := c.cc.Invoke(ctx, "/alfred.account.v1.Accounts/CreateAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *accountsClient) UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*Account, error) {
@@ -77,6 +87,7 @@ func (c *accountsClient) DeleteAccount(ctx context.Context, in *DeleteAccountReq
 // All implementations should embed UnimplementedAccountsServer
 // for forward compatibility
 type AccountsServer interface {
+	CreateAccount(context.Context, *CreateAccountRequest) (*Account, error)
 	//UpdateAccount update existing account details
 	UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error)
 	//GetAccount get account details by its unique id
@@ -92,6 +103,9 @@ type AccountsServer interface {
 type UnimplementedAccountsServer struct {
 }
 
+func (UnimplementedAccountsServer) CreateAccount(context.Context, *CreateAccountRequest) (*Account, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAccount not implemented")
+}
 func (UnimplementedAccountsServer) UpdateAccount(context.Context, *UpdateAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
 }
@@ -114,6 +128,24 @@ type UnsafeAccountsServer interface {
 
 func RegisterAccountsServer(s *grpc.Server, srv AccountsServer) {
 	s.RegisterService(&_Accounts_serviceDesc, srv)
+}
+
+func _Accounts_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountsServer).CreateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.account.v1.Accounts/CreateAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountsServer).CreateAccount(ctx, req.(*CreateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Accounts_UpdateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -192,6 +224,10 @@ var _Accounts_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.account.v1.Accounts",
 	HandlerType: (*AccountsServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateAccount",
+			Handler:    _Accounts_CreateAccount_Handler,
+		},
 		{
 			MethodName: "UpdateAccount",
 			Handler:    _Accounts_UpdateAccount_Handler,

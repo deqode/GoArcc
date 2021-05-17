@@ -2,7 +2,7 @@ package account
 
 import (
 	"alfred/config"
-	"alfred/modules/account/v1/models"
+	model "alfred/modules/account/v1/internal/models"
 	"alfred/modules/account/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -12,6 +12,7 @@ type accountsServer struct {
 	db         *gorm.DB
 	config     *config.Config
 	grpcClient *grpc.ClientConn
+	store      model.AccountStore
 }
 
 // NewAccountsServer todo : AlWays add migration code for best practices
@@ -22,10 +23,12 @@ func NewAccountsServer(
 ) pb.AccountsServer {
 
 	//initial migration of databases: schema migration
-	models.InitialMigrationAccount(db)
+	model.InitialMigrationAccount(db)
+	accountStore := model.NewAccountStore(db)
 	return &accountsServer{
 		db:         db,
 		config:     config,
 		grpcClient: grpcClientConn,
+		store:      accountStore,
 	}
 }

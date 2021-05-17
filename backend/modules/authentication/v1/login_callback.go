@@ -1,7 +1,7 @@
 package authentication
 
 import (
-	accountInPb "alfred/modules/account/v1/internals/pb"
+	accountInPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
 	userProfileInPb "alfred/modules/user-profile/v1/internals/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"

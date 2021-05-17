@@ -2,8 +2,8 @@ package authentication
 
 import (
 	"alfred/config"
-	accountIn "alfred/modules/account/v1/internals"
-	accountInPb "alfred/modules/account/v1/internals/pb"
+	account "alfred/modules/account/v1"
+	accountPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
 	usrProfile "alfred/modules/user-profile/v1"
 	usrProfileIn "alfred/modules/user-profile/v1/internals"
@@ -23,7 +23,7 @@ type authenticationServer struct {
 	grpcClient          *grpc.ClientConn
 	userProfileServer   usrProfilePb.UserProfilesServer
 	userProfileInServer usrProfileInPb.UserProfileInternalServer
-	accountServer       accountInPb.AccountInternalServer
+	accountServer       accountPb.AccountsServer
 	authenticator       *Authenticator
 }
 
@@ -36,7 +36,7 @@ func NewAuthenticationServer(
 ) pb.AuthenticationsServer {
 	userProfileSrv := usrProfile.NewUserProfilesServer(db, config, grpcClientConn)
 	userProfileInSrv := usrProfileIn.NewUserProfileInternalServer(db, config, grpcClientConn)
-	accountInSrv := accountIn.NewAccountInternalServer(db, config, grpcClientConn)
+	accountSrv := account.NewAccountsServer(db, config, grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
 	return &authenticationServer{
 		db:                  db,
@@ -45,7 +45,7 @@ func NewAuthenticationServer(
 		userProfileServer:   userProfileSrv,
 		userProfileInServer: userProfileInSrv,
 		authenticator:       authenticatorCli,
-		accountServer:       accountInSrv,
+		accountServer:       accountSrv,
 	}
 }
 
