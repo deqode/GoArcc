@@ -93,3 +93,4 @@ envs:
     POSTGRES_PORT: "5432"
     POSTGRES_USER: postgres
     POSTGRES_DB_NAME: postgres
+    CADENCE_CONFIG_HOST: cadence-frontend.cadence

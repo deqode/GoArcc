@@ -23,7 +23,13 @@ data:
 
     health_check:
       port: 8083
+      host: 0.0.0.0
+
+    cadence_config:
+      domain: simple-domain
+      port: 7933
       host: localhost
+      service:  cadence-frontend
 
     promthesius:
       port: 8084
@@ -35,11 +41,11 @@ data:
     postgres:
       host: localhost
       port: 5432
-      user: atul
-      password: atul
+      user: postgres
+      password: root
       db_name: alfred
       ssl_mode: true
-      driver: pgx
+      pg_driver: pgx
 
     metrics:
       url: 0.0.0.0:7070
