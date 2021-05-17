@@ -47,21 +47,21 @@ spec:
 
   {{- range $configName, $confgValue := .Values.envs.configs }}
             - name: {{ $configName }}
-              value: {{ $confgValue | toString }}
+              value: {{ $confgValue | toString | quote }}
   {{- end }}
 
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+#          livenessProbe:
+#            httpGet:
+#              path: /health
+#              port: 8083
+#          readinessProbe:
+#            httpGet:
+#              path: /health
+#              port: 8083
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

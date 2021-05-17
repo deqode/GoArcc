@@ -85,9 +85,11 @@ affinity: {}
 envs:
   secrets:
     POSTGRES_PASSWORD: postgres
-    POSTGRES_PORT: 4321
 
   configs:
     POSTGRES_HOST: postgres
     CONFIG_NAME: config
     CONFIG_DIRECTORY: /app/
+    POSTGRES_PORT: "5432"
+    POSTGRES_USER: postgres
+    POSTGRES_DB_NAME: postgres
