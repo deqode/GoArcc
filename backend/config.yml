@@ -17,6 +17,12 @@ health_check:
     port: 8083
     host: localhost
 
+cadence_config:
+  domain: simple-domain
+  port: 7933
+  host: localhost
+  service:  cadence-frontend
+
 promthesius:
     port: 8084
     host: localhost

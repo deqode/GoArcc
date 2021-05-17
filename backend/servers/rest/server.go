@@ -1,8 +1,8 @@
 package rest
 
 import (
-	"alfred/config"
 	"alfred.sh/common/logger"
+	"alfred/config"
 	"alfred/servers/rest/middleware"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"

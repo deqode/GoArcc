@@ -1,8 +1,8 @@
 package jaeger
 
 import (
-	"alfred/config"
 	"alfred.sh/common/logger"
+	"alfred/config"
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	jaegerconfig "github.com/uber/jaeger-client-go/config"

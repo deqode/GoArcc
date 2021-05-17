@@ -7,7 +7,6 @@ require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.0 // indirect
 	github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible
-	github.com/cweill/gotests v1.6.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimiro1/health v0.0.0-20191019130555-c5cbb4d46ffc
 	github.com/envoyproxy/protoc-gen-validate v0.6.1
@@ -27,11 +26,8 @@ require (
 	github.com/justinas/alice v1.2.0
 	github.com/kisielk/errcheck v1.6.0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
-	github.com/kyoh86/richgo v0.3.6 // indirect
-	github.com/kyoh86/xdg v1.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/mattn/go-colorable v0.1.8 // indirect
-	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1
@@ -44,7 +40,6 @@ require (
 	github.com/uber/jaeger-client-go v2.27.0+incompatible
 	github.com/uber/jaeger-lib v2.4.1+incompatible
 	github.com/uber/tchannel-go v1.16.0 // indirect
-	github.com/wacul/ptr v1.0.0 // indirect
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
 	go.uber.org/cadence v0.17.0
 	go.uber.org/fx v1.13.1

@@ -1,18 +1,21 @@
 package cmd
 
 import (
+	"alfred.sh/common/logger"
 	cadenceAdapter "alfred/background/adapters/cadence"
 	"alfred/background/config"
 	"alfred/background/workers/workflows"
-	"alfred.sh/common/logger"
+	"alfred/config"
 	"context"
 	"go.uber.org/fx"
 )
 
 //CadenceSetup :
-func CadenceSetup() (*background.CadenceAppConfig, *cadenceAdapter.CadenceAdapter) {
+func CadenceSetup(config *config.Config) (*background.CadenceAppConfig, *cadenceAdapter.CadenceAdapter) {
 	logger.Log.Info("Cadence Setup started....")
-	var cadenceAppConfig background.CadenceAppConfig
+	cadenceAppConfig := background.CadenceAppConfig{
+		Cadence: config.CadenceConfig,
+	}
 	cadenceAppConfig.Setup()
 	var cadenceClient cadenceAdapter.CadenceAdapter
 	cadenceClient.CadenceSetup(&cadenceAppConfig.Cadence)
