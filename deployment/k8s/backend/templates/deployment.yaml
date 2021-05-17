@@ -34,6 +34,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /cnb/process/api
           env:
   {{- range $secretKey, $v := .Values.envs.secrets }}
             - name: {{ $secretKey }}
@@ -43,7 +45,7 @@ spec:
                   key: {{ $secretKey }}
   {{- end }}
 
-  {{- range $configName, $confgValue := .Values.configs }}
+  {{- range $configName, $confgValue := .Values.envs.configs }}
             - name: {{ $configName }}
               value: {{ $confgValue | toString }}
   {{- end }}
@@ -62,6 +64,15 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: "/app"
+      volumes:
+        # You set volumes at the Pod level, then mount them into containers inside that Pod
+        - name: config
+          configMap:
+            # Provide the name of the ConfigMap you want to mount.
+            name: {{ $fullname }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -74,3 +85,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
