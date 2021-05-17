@@ -1,11 +1,11 @@
 package config
 
 import (
-	"alfred/logger"
-	"github.com/pkg/errors"
+	"alfred.sh/common/logger"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"os"
+	"strings"
 )
 
 type FileInformation struct {
@@ -64,13 +64,13 @@ type LoggerConfig struct {
 
 // PostgresConfig PostgresConfig: detail config about the postgres database
 type PostgresConfig struct {
-	PostgresqlHost     string `mapstructure:"POSTGRESQL_HOST"`
-	PostgresqlPort     string `mapstructure:"POSTGRESQL_PORT"`
-	PostgresqlUser     string `mapstructure:"POSTGRESQL_USER"`
-	PostgresqlPassword string `mapstructure:"POSTGRESQL_PASSWORD"`
-	PostgresqlDbName   string `mapstructure:"POSTGRESQL_DB_NAME"`
-	PostgresqlSslMode  string `mapstructure:"POSTGRESQL_SSL_MODE"`
-	PgDriver           string `mapstructure:"POSTGRESQL_PG_DRIVER"`
+	Host     string `mapstructure:"HOST"`
+	Port     string `mapstructure:"PORT"`
+	User     string `mapstructure:"USER"`
+	Password string `mapstructure:"PASSWORD"`
+	DbName   string `mapstructure:"DB_NAME"`
+	SslMode  string `mapstructure:"SSL_MODE"`
+	Driver   string `mapstructure:"PG_DRIVER"`
 }
 
 //MetricsConfig : detail config about the Metrics
@@ -122,13 +122,11 @@ func GetVcsConfig(name string, vcsConfig []VCSSConfig) *VCSSConfig {
 // LoadConfig config file from given path
 func LoadConfig(filename, path string) (*viper.Viper, error) {
 	v := viper.New()
-	v.SetConfigName(filename)
 	v.AddConfigPath(path)
+	v.SetConfigName(filename)
 	v.AutomaticEnv()
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	if err := v.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			return nil, errors.New("config file not found")
-		}
 		return nil, err
 	}
 
@@ -146,37 +144,48 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 	return &c, nil
 }
 
-// GetConfigPath get the path from local or docker
-func GetConfigPath(configFileName string) string {
-	if configFileName == "docker" {
-		return "config_docker"
+// GetConfigName get the path from local or docker
+func GetConfigName() string {
+	fileName := os.Getenv("CONFIG_NAME")
+	if fileName != "" {
+		return fileName
 	}
-	return "config_local"
+
+	// TODO: Remove default
+	return "config"
+}
+
+func GetConfigDirectory() string {
+	filePath := os.Getenv("CONFIG_DIRECTORY")
+	if filePath != "" {
+		return filePath
+	}
+
+	// TODO: Remove default
+	return "."
 }
 
 // GetConfig : will get the config
-func GetConfig(fileInformation *FileInformation) *Config {
-	configFileName := GetConfigPath(os.Getenv("config"))
-	cfgFile, err := LoadConfig(configFileName, ".")
-	if err != nil {
-		logger.Log.Fatal("unable to get config", zap.Error(err))
-		return nil
+func GetConfig() *Config {
+	configFileName := GetConfigName()
+	configFileDirectory := GetConfigDirectory()
+	logger.Log.Info("Config Details", zap.String("configFileDirectory", configFileDirectory), zap.String( "configFileName",  configFileName) )
+
+	cfgFile, configFileLoadError := LoadConfig(configFileName, configFileDirectory)
+	if configFileLoadError != nil {
+		logger.Log.Fatal("unable to get config", zap.Error(configFileLoadError))
+		panic(configFileLoadError)
 	}
-	cfg, err := ParseConfig(cfgFile)
-	if err != nil {
-		logger.Log.Fatal("unable to get config", zap.Error(err))
-		return nil
+
+	cfg, parseError := ParseConfig(cfgFile)
+	if parseError != nil {
+		logger.Log.Fatal("unable to get config", zap.Error(parseError))
+		panic(parseError)
 	}
+
+	// TODO: Remove this logic from here
 	cfg.SupportedVcsConfig = supportedVcsConfig()
 	return cfg
-}
-
-//GetFileInformation : will get the information of file
-func GetFileInformation() *FileInformation {
-	return &FileInformation{
-		Name: "config_local",
-		Path: ".",
-	}
 }
 
 // SupportedVcsConfig todo

@@ -1,3 +1,13 @@
+Production Container build
+```
+pack build backend_api -D backend_api \
+    --tag backend_api:latest \
+    --path backend/ \
+    --buildpack gcr.io/paketo-buildpacks/go \
+    --builder paketobuildpacks/builder:tiny \
+    --volume "$(pwd)/common:/common"
+```
+
 **Jaeger UI:**
 
 http://localhost:16686
@@ -27,5 +37,5 @@ http://localhost:8081
 http://localhost:8082
 
 
-ngrok http https://localhost:8443 
+ngrok http https://localhost:8443
 

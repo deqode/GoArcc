@@ -1,7 +1,7 @@
 package cleanup
 
 import (
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"context"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"

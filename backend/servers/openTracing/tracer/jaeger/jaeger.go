@@ -2,7 +2,7 @@ package jaeger
 
 import (
 	"alfred/config"
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	jaegerconfig "github.com/uber/jaeger-client-go/config"
@@ -25,7 +25,7 @@ var (
 )
 
 // InitJaeger todo close the connection
-//InitJaeger is responsible for initialising the jaeger tracing instance.
+// InitJaeger is responsible for initialising the jaeger tracing instance.
 func InitJaeger(config *config.Config) (io.Closer, opentracing.Tracer) {
 	//conversion string val to bool
 	logSpan, _ := strconv.ParseBool(config.Jaeger.LogSpans)
@@ -52,8 +52,10 @@ func InitJaeger(config *config.Config) (io.Closer, opentracing.Tracer) {
 	)
 	if err != nil {
 		logger.Log.Fatal("cannot create tracer", zap.Error(err))
+		panic(err)
 	}
-	logger.Log.Info("Jaeger Connected successfully")
+
+	logger.Log.Info("Jaeger tracer initiated")
 	//global tracer setup , opentracing
 	opentracing.SetGlobalTracer(tracer)
 	return closer, tracer

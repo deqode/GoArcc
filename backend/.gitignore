@@ -30,12 +30,13 @@ vendor
 # temporary remove for production
 ./tests
 
-config_local.yml
+config.yml
 
 #test file
 coverage.out
+coverage.html
 .cover
-cover
+#cover/
 
 # Build artifacts
 bin/

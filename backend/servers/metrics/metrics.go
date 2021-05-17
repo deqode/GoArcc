@@ -2,7 +2,7 @@ package metrics
 
 import (
 	"alfred/config"
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"github.com/labstack/echo/v4"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"

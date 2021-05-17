@@ -25,13 +25,13 @@ logger:
     log_level: -1
 
 postgres:
-    postgresql_host: localhost
-    postgresql_port: 5432
-    postgresql_user: atul
-    postgresql_password: atul
-    postgresql_db_name: alfred
-    postgresql_ssl_mode: true
-    postgresql_pg_driver: pgx
+    host: localhost
+    port: 5432
+    user: atul
+    password: atul
+    db_name: alfred
+    ssl_mode: true
+    driver: pgx
 
 metrics:
     url: 0.0.0.0:7070

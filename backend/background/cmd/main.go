@@ -4,7 +4,7 @@ import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	"alfred/background/config"
 	"alfred/background/workers/workflows"
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"context"
 	"go.uber.org/fx"
 )

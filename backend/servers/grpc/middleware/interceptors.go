@@ -27,8 +27,12 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 
 	// Add unary interceptor
 	opts = append(opts, grpc_middleware.WithUnaryServerChain(
+		//turns grpc panics into unknown error
+		grpc_recovery.UnaryServerInterceptor(recoveryOptions...),
 		//for context tags
+
 		grpc_ctxtags.UnaryServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
+
 		grpc_opentracing.UnaryServerInterceptor(grpc_opentracing.WithTracer(tracer)),
 		//Adding prothesis monitoring
 		grpc_prometheus.UnaryServerInterceptor,
@@ -36,16 +40,15 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		grpc_zap.UnaryServerInterceptor(logger),
 
 		grpc_auth.UnaryServerInterceptor(AuthMiddleware),
+
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.UnaryServerInterceptor(),
-		//turns grpc panics into unknown error
-		grpc_recovery.UnaryServerInterceptor(recoveryOptions...),
-	),
-	)
+	))
 
 	// Add stream interceptor (added as an example here)
 	opts = append(opts, grpc_middleware.WithStreamServerChain(
+		grpc_recovery.StreamServerInterceptor(recoveryOptions...),
 		//context tag implementation
 		grpc_ctxtags.StreamServerInterceptor(grpc_ctxtags.WithFieldExtractor(grpc_ctxtags.CodeGenRequestFieldExtractor)),
 		//open tracing implementation
@@ -55,10 +58,11 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		grpc_auth.StreamServerInterceptor(AuthMiddleware),
 		//zap implementation
 		grpc_zap.StreamServerInterceptor(logger),
+
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.StreamServerInterceptor(),
-		grpc_recovery.StreamServerInterceptor(recoveryOptions...),
+
 	))
 
 	return opts
@@ -66,5 +70,5 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 
 //grpcPanicsRecovery: is responsible to convert panic to the custom message
 func grpcPanicsRecovery(in interface{}) error {
-	return status.Errorf(codes.Unknown, "panic triggered: %v", in)
+	return status.Errorf(codes.Unknown, "Unknown error")
 }

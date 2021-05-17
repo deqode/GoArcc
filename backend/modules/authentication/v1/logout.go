@@ -1,7 +1,6 @@
 package authentication
 
 import (
-	"alfred/config"
 	"context"
 	"github.com/golang/protobuf/ptypes/empty"
 	"net/url"
@@ -9,7 +8,7 @@ import (
 
 func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Empty, error) {
 	//TODO - Implement Token based logout
-	domain := config.GetConfig(config.GetFileInformation()).Auth.Auth0Domain
+	domain := s.config.Auth.Auth0Domain
 
 	logoutURL, err := url.Parse("http://" + domain)
 
@@ -24,13 +23,14 @@ func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Emp
 	var scheme string
 	scheme = "http"
 
+	// TODO: Remove this hardcoded URL
 	returnTo, err := url.Parse(scheme + "://" + "http://localhost:8082")
 	if err != nil {
 		//http.Error(w, err.Error(), http.StatusInternalServerError)
 		return nil, err
 	}
 	parameters.Add("returnTo", returnTo.String())
-	parameters.Add("client_id", config.GetConfig(config.GetFileInformation()).Auth.Auth0ClientID)
+	parameters.Add("client_id", s.config.Auth.Auth0ClientID)
 	logoutURL.RawQuery = parameters.Encode()
 
 	return &empty.Empty{}, nil

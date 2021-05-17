@@ -32,10 +32,29 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: go get
-        run:  cd cmd/api && go get
+      - name: go mod download
+        run:  go mod download
+
+      - name: Lint
+        run: make run-linter
+
+      - name: test
+        run: make test
+
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-coverage
+          retention-days: 5
+          path: backend/cover/
 
       - name: build
-        run: cd cmd/api && go build -v ./...
+        run: make build
 
-#      - run: npm install
+      - name: Upload binaries
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-binaries
+          retention-days: 5
+          path: backend/bin/

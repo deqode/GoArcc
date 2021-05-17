@@ -1,7 +1,7 @@
 package models
 
 import (
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )

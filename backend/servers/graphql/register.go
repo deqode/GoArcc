@@ -1,7 +1,7 @@
 package graphql
 
 import (
-	"alfred/logger"
+	"alfred.sh/common/logger"
 	accPb "alfred/modules/account/v1/pb"
 	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
 	gitPb "alfred/modules/git/v1/pb"
