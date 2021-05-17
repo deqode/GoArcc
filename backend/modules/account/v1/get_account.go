@@ -11,7 +11,7 @@ func (s *accountsServer) GetAccount(ctx context.Context, in *pb.GetAccountReques
 	account := pb.Account{}
 	result := s.db.First(&account, "id = ?", in.Id)
 	if result.Error != nil {
-		return nil, status.Error(codes.Internal, result.Error.Error())
+		return nil, status.Error(codes.NotFound, result.Error.Error())
 	}
 	if result.RowsAffected == 0 {
 		return nil, status.Error(codes.NotFound, "No Record Found")

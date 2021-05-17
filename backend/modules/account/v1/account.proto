@@ -9,6 +9,8 @@ import "include/graphql.proto";
 //import "types/enums.proto";
 import "validate/validate.proto";
 
+// mockgen -source=account_grpc.pb.go -destination=account_mock.go -package=pb
+
 // Users can have multiple Accounts
 service Accounts {
     //UpdateAccount update existing account details

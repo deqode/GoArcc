@@ -14,6 +14,7 @@ require (
 	github.com/go-redis/redis/v8 v8.8.2
 	github.com/gogo/googleapis v1.3.2 // indirect
 	github.com/gogo/status v1.1.0 // indirect
+	github.com/golang/mock v1.4.4 // indirect
 	github.com/golang/protobuf v1.5.2
 	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-github/v34 v34.0.0
@@ -26,8 +27,13 @@ require (
 	github.com/justinas/alice v1.2.0
 	github.com/kisielk/errcheck v1.6.0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
+	github.com/kyoh86/richgo v0.3.6 // indirect
+	github.com/kyoh86/xdg v1.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.2
 	github.com/mattn/go-colorable v0.1.8 // indirect
+	github.com/morikuni/aec v1.0.0 // indirect
+	github.com/onsi/ginkgo v1.16.2 // indirect
+	github.com/onsi/gomega v1.12.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1
@@ -40,6 +46,7 @@ require (
 	github.com/uber/jaeger-client-go v2.27.0+incompatible
 	github.com/uber/jaeger-lib v2.4.1+incompatible
 	github.com/uber/tchannel-go v1.16.0 // indirect
+	github.com/wacul/ptr v1.0.0 // indirect
 	github.com/ysugimoto/grpc-graphql-gateway v0.20.0
 	go.uber.org/cadence v0.17.0
 	go.uber.org/fx v1.13.1

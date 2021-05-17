@@ -62,7 +62,6 @@ func AddInterceptors(logger *zap.Logger, tracer opentracing.Tracer, opts []grpc.
 		//validate the incoming request - inbound in proto file
 		//If request is not correct the error will be sent to client
 		grpc_validator.StreamServerInterceptor(),
-
 	))
 
 	return opts

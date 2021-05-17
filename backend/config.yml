@@ -37,7 +37,7 @@ postgres:
     password: atul
     db_name: alfred
     ssl_mode: true
-    driver: pgx
+    pg_driver: pgx
 
 metrics:
     url: 0.0.0.0:7070

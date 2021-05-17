@@ -21,3 +21,5 @@ func (h *CadenceAppConfig) Setup() {
 	h.Logger = logger
 	logger.Debug("Finished loading Configuration!")
 }
+
+//mockgen -source=account_internal_grpc.pb.go -destination=account_internal_mock.go -package=pb

@@ -9,7 +9,7 @@ import (
 // main : entry point
 func main() {
 	//logger initialize before app starts because in provider we need logger
-	logger.Init(logger.Config{
+	logger.Init(&logger.Config{
 		LogLevel:    zap.DebugLevel, // TODO: Take this level from config
 		Development: false,
 	})
