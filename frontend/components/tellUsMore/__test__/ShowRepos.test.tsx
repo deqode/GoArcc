@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing'
 import { act, create, ReactTestRenderer } from 'react-test-renderer'
 import { GET_REPOSITORIES } from '../../../GraphQL/Query'
 import ShowRepos from '../ShowRepos'
+import waitForExpect from 'wait-for-expect'
 
 const mocks = [
   {
@@ -35,16 +36,20 @@ describe('PSAButton', () => {
   let wrapper: ReactTestRenderer
 
   beforeEach(async () => {
-    await act(async () => {
-      wrapper = create(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <ShowRepos {...props} />
-        </MockedProvider>
-      )
-    })
+    wrapper = create(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <ShowRepos {...props} />
+      </MockedProvider>
+    )
   })
 
   it('renders correctly', async () => {
-    expect(wrapper.toJSON()).toMatchSnapshot()
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0))
+
+      await waitForExpect(() => {
+        expect(wrapper.toJSON()).toMatchSnapshot()
+      })
+    })
   })
 })

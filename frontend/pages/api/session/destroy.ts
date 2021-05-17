@@ -4,7 +4,7 @@ import { withSentry } from '@sentry/nextjs'
 
 // TODO: notify platform to invalidate
 // TODO:validate
-const handler = async (req: any, res: any) => {
+export const handler = async (req: any, res: any) => {
   req.session.destroy('user')
   res.json({ susscess: true })
 }

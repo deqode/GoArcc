@@ -1,6 +1,5 @@
 export const validateUser = (req: any): boolean => {
-  if (!req.session.get('user')) {
-    return false
-  }
-  return true
+  return req.session.get('user')
+  // TODO : add try catch
+  // TODO: need to add validation
 }

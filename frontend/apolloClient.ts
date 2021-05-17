@@ -8,7 +8,7 @@ const httpLink = createHttpLink({
 })
 
 const client = (user: User): ApolloClient<NormalizedCacheObject> => {
-  if (user && user.idToken) {
+  if (user && user.idToken !== '') {
     const authLink = setContext((_, { headers }) => {
       return {
         headers: {
