@@ -15,4 +15,4 @@ WORKDIR /app
 #
 #RUN make build-api
 
-RUN ls bin
+#RUN ls bin

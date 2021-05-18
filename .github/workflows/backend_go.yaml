@@ -33,10 +33,10 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: go mod download
-        run:  go mod download
+        run:  docker-compose run --rm backend_api go mod download
 
       - name: Lint
-        run: make run-linter
+        run: docker-compose run --rm backend_api make run-linter
 
       - name: Test In Docker
         run: docker-compose run --rm backend_api make test
@@ -49,7 +49,7 @@ jobs:
           path: backend/cover/
 
       - name: build
-        run: make build
+        run: docker-compose run --rm backend_api make build
 
       - name: Upload binaries
         uses: actions/upload-artifact@v2
