@@ -34,8 +34,19 @@ jobs:
       - run: pack build backend_api --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
       - run: gcloud info
 
-      - run: docker tag backend_api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:latest
-      - run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:latest
+      - name: Tag Image
+        run: docker tag backend_api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:latest
+      - name: Push Image
+        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:latest
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.0
+
+      - run: gcloud container clusters get-credentials common --zone us-central1-c --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - run: helm upgrade --install backend deployment/k8s/backend/ --set image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend  --set image.tag=latest --create-namespace --namespace development
 #      - name: Install Go
 #        uses: actions/setup-go@v2
 #        with:
