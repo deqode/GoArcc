@@ -38,10 +38,6 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.11
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
-        with:
-          key: ${{ runner.os }}-go-${{ hashFiles('**/docker-compose.yaml') }}-${{ hashFiles('**/Dockerfile') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
 
       - name: go mod download
         run:  docker-compose run backend_api go mod download
