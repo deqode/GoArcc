@@ -38,10 +38,6 @@ jobs:
       - name: Lint
         run: make run-linter
 
-      - name: test
-        run: make test
-
-
       - name: Test In Docker
         uses: sudo-bot/action-docker-compose@latest
         with:
