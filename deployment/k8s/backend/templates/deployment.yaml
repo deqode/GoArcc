@@ -67,14 +67,14 @@ spec:
               containerPort: 8083
               protocol: TCP
 
-#          livenessProbe:
-#            httpGet:
-#              path: /health/
-#              port: 8083
-#          readinessProbe:
-#            httpGet:
-#              path: /health/
-#              port: 8083
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: 8083
+          readinessProbe:
+            httpGet:
+              path: /health/
+              port: 8083
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
