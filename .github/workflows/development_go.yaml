@@ -31,13 +31,13 @@ jobs:
       - run: sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
       - run: sudo apt-get update
       - run: sudo apt-get install pack-cli
-      - run: pack build backend_api --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
+      - run: pack build backend_api --tag backend_api:${{ github.sha }} --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
       - run: gcloud info
 
       - name: Tag Image
-        run: docker tag backend_api:latest gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:latest
+        run: docker tag backend_api:${{ github.sha }} gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:${{ github.sha }}
       - name: Push Image
-        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:latest
+        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:${{ github.sha }}
 
       - name: Install Helm
         uses: azure/setup-helm@v1
@@ -46,7 +46,7 @@ jobs:
 
       - run: gcloud container clusters get-credentials common --zone us-central1-c --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - run: helm upgrade --install backend deployment/k8s/backend/ --set image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api  --set image.tag=latest --create-namespace --namespace development
+      - run: helm upgrade --install backend deployment/k8s/backend/ --set image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api  --set image.tag=${{ github.sha }} --create-namespace --namespace development
 #      - name: Install Go
 #        uses: actions/setup-go@v2
 #        with:
