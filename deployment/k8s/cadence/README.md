@@ -1,5 +1,5 @@
 ```
-helm install cadence --set cassandra.config.cluster_size=1 banzaicloud-stable/cadence --create-namespace --namespace cadence
+helm install cadence --set cassandra.config.cluster_size=1 banzaicloud-stable/cadence --create-namespace --namespace cadence -f deployment/k8s/cadence/values.override.yaml
 ```
 
 ```
