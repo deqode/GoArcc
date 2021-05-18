@@ -115,4 +115,4 @@ jobs:
 
       - run: gcloud container clusters get-credentials common --zone us-central1-c --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - run: helm upgrade --install backend deployment/k8s/backend/ --set image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api  --set image.tag=${{ github.sha }} --create-namespace --namespace development
+      - run: helm upgrade --install backend deployment/k8s/backend/ --set image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api  --set image.tag=${{ github.sha }} --create-namespace --namespace development --debug
