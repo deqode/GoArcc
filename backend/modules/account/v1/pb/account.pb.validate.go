@@ -41,6 +41,13 @@ func (m *CreateAccountRequest) Validate() error {
 		return nil
 	}
 
+	if m.GetAccount() == nil {
+		return CreateAccountRequestValidationError{
+			field:  "Account",
+			reason: "value is required",
+		}
+	}
+
 	if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateAccountRequestValidationError{
@@ -118,7 +125,12 @@ func (m *DeleteAccountRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Id
+	if utf8.RuneCountInString(m.GetId()) < 3 {
+		return DeleteAccountRequestValidationError{
+			field:  "Id",
+			reason: "value length must be at least 3 runes",
+		}
+	}
 
 	return nil
 }

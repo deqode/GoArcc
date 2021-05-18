@@ -45,9 +45,11 @@ require (
 	google.golang.org/grpc v1.36.0
 	google.golang.org/grpc/examples v0.0.0-20210514222045-a12250e98f97 // indirect
 	google.golang.org/protobuf v1.25.0
+	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0
 	gopkg.in/square/go-jose.v2 v2.5.1
+	gorm.io/driver/mysql v1.1.0
 	gorm.io/driver/postgres v1.0.8
-	gorm.io/gorm v1.20.12
+	gorm.io/gorm v1.21.9
 )
 
 replace github.com/apache/thrift => github.com/apache/thrift v0.0.0-20190309152529-a9b748bb0e02

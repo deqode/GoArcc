@@ -39,11 +39,10 @@ func (s *accountPgStore) CreateAccount(ctx context.Context, in *pb.CreateAccount
 
 func (s *accountPgStore) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
 	account := pb.Account{}
-	err := s.db.First(&account, "id = ?", in.Id).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, gorm.ErrRecordNotFound
-	}
-	if err.Error != nil {
+	if err := s.db.First(&account, "id = ?", in.Id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, gorm.ErrRecordNotFound
+		}
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 	return &account, nil
@@ -51,12 +50,11 @@ func (s *accountPgStore) GetAccount(ctx context.Context, in *pb.GetAccountReques
 
 func (s *accountPgStore) GetUserAccounts(ctx context.Context, in *pb.GetUserAccountsRequest) (*pb.GetUserAccountsResponse, error) {
 	var accounts []*pb.Account
-	result := s.db.First(&accounts, "user_id = ?", in.UserId)
-	if result.Error != nil {
-		return nil, status.Error(codes.Internal, result.Error.Error())
-	}
-	if result.RowsAffected == 0 {
-		return nil, status.Error(codes.NotFound, "No Record Found")
+	if err := s.db.First(&accounts, "user_id = ?", in.UserId).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, gorm.ErrRecordNotFound
+		}
+		return nil, status.Error(codes.Internal, err.Error())
 	}
 	return &pb.GetUserAccountsResponse{
 		Accounts: accounts,
@@ -74,6 +72,9 @@ func (s *accountPgStore) UpdateAccount(ctx context.Context, in *pb.UpdateAccount
 	return in.Account, nil
 }
 
-func (s *accountPgStore) DeleteAccount(context.Context, *pb.DeleteAccountRequest) (*empty.Empty, error) {
+func (s *accountPgStore) DeleteAccount(ctx context.Context, in *pb.DeleteAccountRequest) (*empty.Empty, error) {
+	if err := s.db.Delete(&Account{ID: in.Id}).Error; err != nil {
+		return nil, err
+	}
 	return nil, nil
 }

@@ -14,9 +14,9 @@ import (
 	"log"
 )
 
-var _ = Describe("CreateAccount", func() {
+var _ = Describe("GetUserAccounts", func() {
 	var (
-		accountServer pb.AccountInternalServer
+		accountServer pb.AccountsServer
 		cfg           *config.Config
 	)
 	BeforeEach(func() {
@@ -41,24 +41,20 @@ var _ = Describe("CreateAccount", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		accountServer = account.NewAccountsInServer(fields.db, fields.config, fields.grpcClient)
+		accountServer = account.NewAccountsServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid user_id", func() {
+	Describe("Describe:Categorizing with invalid id", func() {
 		Context("Context:When user_id is empty", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.CreateAccount(context.Background(), &pb.CreateAccountRequest{Account: &pb.Account{
-					Id:     "",
-					Slug:   "",
-					UserId: "",
-				}})
-				Expect(err.(pb.CreateAccountRequestValidationError).Cause().(pb.AccountValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
+				_, err := accountServer.GetUserAccounts(context.Background(), &pb.GetUserAccountsRequest{UserId: ""})
+				Expect(err.(pb.GetUserAccountsRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 			})
 		})
-		Context("Context:When request is nil", func() {
+		Context("Context:When user_id is wrong", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.CreateAccount(context.Background(), &pb.CreateAccountRequest{Account: nil})
-				Expect(err.(pb.CreateAccountRequestValidationError).Reason()).Should(Equal("value is required"))
+				_, err := accountServer.GetUserAccounts(context.Background(), &pb.GetUserAccountsRequest{UserId: "wrongID"})
+				Expect(gorm.ErrRecordNotFound).Should(Equal(err))
 			})
 		})
 	})

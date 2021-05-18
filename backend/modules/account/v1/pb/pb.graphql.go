@@ -90,7 +90,7 @@ func Gql__type_DeleteAccountRequest() *graphql.Object {
 			Name: "Pb_Type_DeleteAccountRequest",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -197,7 +197,7 @@ func Gql__input_DeleteAccountRequest() *graphql.InputObject {
 			Name: "Pb_Input_DeleteAccountRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -330,7 +330,8 @@ func (x *graphql__resolver_Accounts) GetQueries(conn *grpc.ClientConn) graphql.F
 			Type: gql_ptypes_empty.Gql__type_Empty(),
 			Args: graphql.FieldConfigArgument{
 				"id": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

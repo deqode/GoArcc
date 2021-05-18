@@ -6,8 +6,7 @@ import (
 )
 
 func (s *accountsInServer) CreateAccount(ctx context.Context, in *pb.CreateAccountRequest) (*pb.Account, error) {
-	err := in.Validate()
-	if err != nil {
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
 	return s.store.CreateAccount(ctx, in)

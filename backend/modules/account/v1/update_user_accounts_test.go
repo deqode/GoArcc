@@ -10,13 +10,15 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 	"log"
 )
 
-var _ = Describe("CreateAccount", func() {
+var _ = Describe("UpdateUserAccounts", func() {
 	var (
-		accountServer pb.AccountInternalServer
+		accountServer pb.AccountsServer
 		cfg           *config.Config
 	)
 	BeforeEach(func() {
@@ -41,24 +43,24 @@ var _ = Describe("CreateAccount", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		accountServer = account.NewAccountsInServer(fields.db, fields.config, fields.grpcClient)
+		accountServer = account.NewAccountsServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid user_id", func() {
-		Context("Context:When user_id is empty", func() {
+	Describe("Describe:Categorizing with invalid id", func() {
+		Context("Context:When account id is empty", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.CreateAccount(context.Background(), &pb.CreateAccountRequest{Account: &pb.Account{
+				_, err := accountServer.UpdateAccount(context.Background(), &pb.UpdateAccountRequest{Account: &pb.Account{
 					Id:     "",
 					Slug:   "",
 					UserId: "",
 				}})
-				Expect(err.(pb.CreateAccountRequestValidationError).Cause().(pb.AccountValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
+				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Account Id is not provided")))
 			})
 		})
-		Context("Context:When request is nil", func() {
+		Context("Context:When account is nil", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.CreateAccount(context.Background(), &pb.CreateAccountRequest{Account: nil})
-				Expect(err.(pb.CreateAccountRequestValidationError).Reason()).Should(Equal("value is required"))
+				_, err := accountServer.UpdateAccount(context.Background(), &pb.UpdateAccountRequest{Account: nil})
+				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Account to update is not provided")))
 			})
 		})
 	})
