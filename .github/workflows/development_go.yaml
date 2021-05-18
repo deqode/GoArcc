@@ -33,7 +33,15 @@ jobs:
       - run: sudo apt-get install pack-cli
       - run: pack build backend_api --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
       - run: gcloud info
-
+      - name: Docker push
+        uses: raccoondev/push-docker-gcr
+        with:
+          gcr_host: gcr.io
+          image_name: backend_api
+          image_tag: latest
+          env:
+            GCLOUD_SERVICE_KEY: ${{ secrets.GCP_SA_KEY }}
+            GOOGLE_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
 #      - name: Install Go
 #        uses: actions/setup-go@v2
