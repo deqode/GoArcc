@@ -61,10 +61,10 @@ ingress:
           serviceName: backend
           servicePort: 8081
 
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    - secretName: ingress-tls
+      hosts:
+        - alfred.sh
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

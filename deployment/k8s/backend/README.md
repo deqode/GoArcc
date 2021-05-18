@@ -6,3 +6,10 @@ helm upgrade --install backend deployment/k8s/backend/ \
     --namespace development
 
 ```
+
+```
+kubectl create secret tls ingress-tls \
+    --namespace development \
+    --key tls.key \
+    --cert tls.crt
+```
