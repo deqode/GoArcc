@@ -25,12 +25,19 @@ jobs:
           go-version: 1.16.x
       - uses: actions/checkout@v2
 
-      - uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}-
-          restore-keys: |
-            ${{ runner.os }}-go-
+  #      - uses: actions/cache@v2
+  #        with:
+  #          path: /tmp/.buildx-cache
+  #          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}-
+  #          restore-keys: |
+  #            ${{ runner.os }}-go-
+
+      # In this step, this action saves a list of existing images,
+      # the cache is created without them in the post run.
+      # It also restores the cache if it exists.
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
 
       - name: go mod download
         run:  docker-compose run backend_api go mod download
@@ -79,11 +86,21 @@ jobs:
           SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
           HOST: 'gcr.io'
 
+      # In this step, this action saves a list of existing images,
+      # the cache is created without them in the post run.
+      # It also restores the cache if it exists.
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+
       - run: sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
       - run: sudo apt-get update
       - run: sudo apt-get install pack-cli
-      - run: pack build backend_api --tag backend_api:${{ github.sha }} --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
-      - run: gcloud info
+
+
+
+      - name: build image via pack
+        run: pack build backend_api --tag backend_api:${{ github.sha }} --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
 
       - name: Tag Image
         run: docker tag backend_api:${{ github.sha }} gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:${{ github.sha }}
