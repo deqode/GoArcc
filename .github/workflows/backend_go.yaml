@@ -39,10 +39,7 @@ jobs:
         run: make run-linter
 
       - name: Test In Docker
-        uses: sudo-bot/action-docker-compose@latest
-        with:
-          # https://docs.docker.com/compose/reference/overview/
-          cli-args: run --rm backend_api make test
+        run: docker-compose run --rm backend_api make test
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v2
