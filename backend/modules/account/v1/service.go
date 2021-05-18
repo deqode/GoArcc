@@ -32,3 +32,25 @@ func NewAccountsServer(
 		store:      accountStore,
 	}
 }
+
+//Account Internal Server Configuration
+type accountsInServer struct {
+	db         *gorm.DB
+	config     *config.Config
+	grpcClient *grpc.ClientConn
+	store      model.AccountStore
+}
+
+func NewAccountsInServer(
+	db *gorm.DB,
+	config *config.Config,
+	grpcClientConn *grpc.ClientConn,
+) pb.AccountInternalServer {
+	accountStore := model.NewAccountStore(db)
+	return &accountsInServer{
+		db:         db,
+		config:     config,
+		grpcClient: grpcClientConn,
+		store:      accountStore,
+	}
+}

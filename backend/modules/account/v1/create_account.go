@@ -5,6 +5,10 @@ import (
 	"context"
 )
 
-func (s *accountsServer) CreateAccount(ctx context.Context, in *pb.CreateAccountRequest) (*pb.Account, error) {
+func (s *accountsInServer) CreateAccount(ctx context.Context, in *pb.CreateAccountRequest) (*pb.Account, error) {
+	err := in.Validate()
+	if err != nil {
+		return nil, err
+	}
 	return s.store.CreateAccount(ctx, in)
 }

@@ -1,7 +1,7 @@
 package git
 
 import (
-	githubService "alfred/modules/git/v1/github"
+	"alfred/modules/git/v1/internal/github"
 	"alfred/modules/git/v1/pb"
 	vcsinternalPb "alfred/modules/vcs-connection/v1/internals/pb"
 	"alfred/protos/types"
@@ -12,6 +12,11 @@ import (
 
 //ListRepository List All the repository
 func (s *gitServer) ListRepository(ctx context.Context, in *pb.ListRepositoryRequest) (*pb.ListRepositoryResponse, error) {
+	//Validate request
+	err := in.Validate()
+	if err != nil {
+		return nil, err
+	}
 	vcs, err := s.vcsInServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
@@ -27,7 +32,7 @@ func (s *gitServer) ListRepository(ctx context.Context, in *pb.ListRepositoryReq
 	}
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:
-		client := githubService.NewGithubService(ctx, accessToken)
+		client := github.NewGithubService(ctx, accessToken)
 		return client.ListRepository(ctx, in)
 	}
 	return nil, nil

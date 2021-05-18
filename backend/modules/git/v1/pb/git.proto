@@ -3,10 +3,10 @@ package alfred.git.v1;
 
 option go_package = "/pb";
 
-import "google/protobuf/timestamp.proto";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "types/enums.proto";
+import "validate/validate.proto";
 
 service Gits {
     //listRepository list all repository of user's account
@@ -56,40 +56,29 @@ service Gits {
 
 message CloneRepositoryRequest {
     types.VCSProviders provider = 1;
-    string account_id = 2;
-    string repository_url = 3;
-    string branch_name = 4;
-    string user_name = 5;
+    string account_id = 2 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+    string repository_url = 3 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+    string branch_name = 4 [(validate.rules).string.min_len = 1, (graphql.field) = {required: true}];
+    string user_name = 5 [(validate.rules).string.min_len = 1, (graphql.field) = {required: true}];
 }
 
 message  CloneRepositoryResponse {
-    string workflow_id = 1;
-    string run_id = 2;
+    string workflow_id = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+    string run_id = 2 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
 }
 
-
-//todo: rename git url to generic name
 message Repository{
     int64 id = 1;
-    string node_id = 2;
-    string name = 3;
-    string full_name = 4;
-    string default_branch = 6;
-    string master_branch = 7;
-    google.protobuf.Timestamp created_at = 8;
-    google.protobuf.Timestamp pushed_at = 9;
-    google.protobuf.Timestamp updated_at = 10;
-    string clone_url = 11;
-    string git_url = 12;
-    int32 size = 13;
-    bool private = 14;
-    repeated string branches = 15;
+    string name = 2 [(validate.rules).string={min_len: 1 max_len: 100}, (graphql.field) = {required: true}];
+    string repo_url = 4 [(validate.rules).string={min_len: 1 max_len: 100}, (graphql.field) = {required: true}];
+    bool private = 5;
+    repeated string branches = 6;
 }
 
 message ListRepositoryRequest{
     types.VCSProviders provider = 1;
-    string user_id = 2;
-    string account_id = 3;
+    string user_id = 2 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+    string account_id = 3 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
     string label = 4;
 }
 message ListRepositoryResponse{
@@ -98,9 +87,9 @@ message ListRepositoryResponse{
 
 message GetRepositoryRequest{
     types.VCSProviders provider = 1;
-    string repo_name = 2;
-    string account_id = 3;
-    string owner_name = 4;
+    string repo_name = 2 [(validate.rules).string.min_len = 1, (graphql.field) = {required: true}];
+    string account_id = 3 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+    string owner_name = 4 [(validate.rules).string.min_len = 1, (graphql.field) = {required: true}];
 }
 
 message GetCloningStatusRequest{

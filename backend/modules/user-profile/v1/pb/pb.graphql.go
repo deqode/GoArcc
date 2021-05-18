@@ -14,12 +14,18 @@ import (
 )
 
 var (
-	gql__type_UserProfile                 *graphql.Object      // message UserProfile in user_profile.proto
-	gql__type_GetUserProfileRequest       *graphql.Object      // message GetUserProfileRequest in user_profile.proto
-	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in user_profile.proto
-	gql__input_UserProfile                *graphql.InputObject // message UserProfile in user_profile.proto
-	gql__input_GetUserProfileRequest      *graphql.InputObject // message GetUserProfileRequest in user_profile.proto
-	gql__input_GetUserProfileBySubRequest *graphql.InputObject // message GetUserProfileBySubRequest in user_profile.proto
+	gql__type_UserProfile                 *graphql.Object      // message UserProfile in pb/user_profile.proto
+	gql__type_UpdateUserProfileRequest    *graphql.Object      // message UpdateUserProfileRequest in pb/user_profile.proto
+	gql__type_GetUserProfileRequest       *graphql.Object      // message GetUserProfileRequest in pb/user_profile.proto
+	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in pb/user_profile.proto
+	gql__type_DeleteUserProfileRequest    *graphql.Object      // message DeleteUserProfileRequest in pb/user_profile.proto
+	gql__type_CreateUserProfileRequest    *graphql.Object      // message CreateUserProfileRequest in pb/user_profile.proto
+	gql__input_UserProfile                *graphql.InputObject // message UserProfile in pb/user_profile.proto
+	gql__input_UpdateUserProfileRequest   *graphql.InputObject // message UpdateUserProfileRequest in pb/user_profile.proto
+	gql__input_GetUserProfileRequest      *graphql.InputObject // message GetUserProfileRequest in pb/user_profile.proto
+	gql__input_GetUserProfileBySubRequest *graphql.InputObject // message GetUserProfileBySubRequest in pb/user_profile.proto
+	gql__input_DeleteUserProfileRequest   *graphql.InputObject // message DeleteUserProfileRequest in pb/user_profile.proto
+	gql__input_CreateUserProfileRequest   *graphql.InputObject // message CreateUserProfileRequest in pb/user_profile.proto
 )
 
 func Gql__type_UserProfile() *graphql.Object {
@@ -31,19 +37,24 @@ func Gql__type_UserProfile() *graphql.Object {
 					Type: graphql.String,
 				},
 				"sub": &graphql.Field{
-					Type: graphql.String,
+					Type:        graphql.NewNonNull(graphql.String),
+					Description: `external unique_id provided by vcs provider`,
 				},
 				"name": &graphql.Field{
-					Type: graphql.String,
+					Type:        graphql.NewNonNull(graphql.String),
+					Description: `name of the user`,
 				},
 				"user_name": &graphql.Field{
-					Type: graphql.String,
+					Type:        graphql.String,
+					Description: `a username provided by vcs provider`,
 				},
 				"email": &graphql.Field{
-					Type: graphql.String,
+					Type:        graphql.String,
+					Description: `email of user`,
 				},
 				"phone_number": &graphql.Field{
-					Type: graphql.String,
+					Type:        graphql.String,
+					Description: `phone of user`,
 				},
 				"external_source": &graphql.Field{
 					Type: types.Gql__enum_VCSProviders(),
@@ -60,13 +71,27 @@ func Gql__type_UserProfile() *graphql.Object {
 	return gql__type_UserProfile
 }
 
+func Gql__type_UpdateUserProfileRequest() *graphql.Object {
+	if gql__type_UpdateUserProfileRequest == nil {
+		gql__type_UpdateUserProfileRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_UpdateUserProfileRequest",
+			Fields: graphql.Fields{
+				"user_profile": &graphql.Field{
+					Type: Gql__type_UserProfile(),
+				},
+			},
+		})
+	}
+	return gql__type_UpdateUserProfileRequest
+}
+
 func Gql__type_GetUserProfileRequest() *graphql.Object {
 	if gql__type_GetUserProfileRequest == nil {
 		gql__type_GetUserProfileRequest = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Pb_Type_GetUserProfileRequest",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -80,12 +105,40 @@ func Gql__type_GetUserProfileBySubRequest() *graphql.Object {
 			Name: "Pb_Type_GetUserProfileBySubRequest",
 			Fields: graphql.Fields{
 				"sub": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
 	}
 	return gql__type_GetUserProfileBySubRequest
+}
+
+func Gql__type_DeleteUserProfileRequest() *graphql.Object {
+	if gql__type_DeleteUserProfileRequest == nil {
+		gql__type_DeleteUserProfileRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_DeleteUserProfileRequest",
+			Fields: graphql.Fields{
+				"id": &graphql.Field{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__type_DeleteUserProfileRequest
+}
+
+func Gql__type_CreateUserProfileRequest() *graphql.Object {
+	if gql__type_CreateUserProfileRequest == nil {
+		gql__type_CreateUserProfileRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_CreateUserProfileRequest",
+			Fields: graphql.Fields{
+				"user_profile": &graphql.Field{
+					Type: Gql__type_UserProfile(),
+				},
+			},
+		})
+	}
+	return gql__type_CreateUserProfileRequest
 }
 
 func Gql__input_UserProfile() *graphql.InputObject {
@@ -97,19 +150,24 @@ func Gql__input_UserProfile() *graphql.InputObject {
 					Type: graphql.String,
 				},
 				"sub": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Description: `external unique_id provided by vcs provider`,
+					Type:        graphql.NewNonNull(graphql.String),
 				},
 				"name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Description: `name of the user`,
+					Type:        graphql.NewNonNull(graphql.String),
 				},
 				"user_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Description: `a username provided by vcs provider`,
+					Type:        graphql.String,
 				},
 				"email": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Description: `email of user`,
+					Type:        graphql.String,
 				},
 				"phone_number": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Description: `phone of user`,
+					Type:        graphql.String,
 				},
 				"external_source": &graphql.InputObjectFieldConfig{
 					Type: types.Gql__enum_VCSProviders(),
@@ -126,13 +184,27 @@ func Gql__input_UserProfile() *graphql.InputObject {
 	return gql__input_UserProfile
 }
 
+func Gql__input_UpdateUserProfileRequest() *graphql.InputObject {
+	if gql__input_UpdateUserProfileRequest == nil {
+		gql__input_UpdateUserProfileRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_UpdateUserProfileRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"user_profile": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_UserProfile(),
+				},
+			},
+		})
+	}
+	return gql__input_UpdateUserProfileRequest
+}
+
 func Gql__input_GetUserProfileRequest() *graphql.InputObject {
 	if gql__input_GetUserProfileRequest == nil {
 		gql__input_GetUserProfileRequest = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Pb_Input_GetUserProfileRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -146,12 +218,40 @@ func Gql__input_GetUserProfileBySubRequest() *graphql.InputObject {
 			Name: "Pb_Input_GetUserProfileBySubRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"sub": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
 	}
 	return gql__input_GetUserProfileBySubRequest
+}
+
+func Gql__input_DeleteUserProfileRequest() *graphql.InputObject {
+	if gql__input_DeleteUserProfileRequest == nil {
+		gql__input_DeleteUserProfileRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_DeleteUserProfileRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+			},
+		})
+	}
+	return gql__input_DeleteUserProfileRequest
+}
+
+func Gql__input_CreateUserProfileRequest() *graphql.InputObject {
+	if gql__input_CreateUserProfileRequest == nil {
+		gql__input_CreateUserProfileRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_CreateUserProfileRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"user_profile": &graphql.InputObjectFieldConfig{
+					Type: Gql__input_UserProfile(),
+				},
+			},
+		})
+	}
+	return gql__input_CreateUserProfileRequest
 }
 
 // graphql__resolver_UserProfiles is a struct for making query, mutation and resolve fields.
@@ -200,7 +300,8 @@ func (x *graphql__resolver_UserProfiles) GetQueries(conn *grpc.ClientConn) graph
 			Type: Gql__type_UserProfile(),
 			Args: graphql.FieldConfigArgument{
 				"id": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -220,7 +321,8 @@ func (x *graphql__resolver_UserProfiles) GetQueries(conn *grpc.ClientConn) graph
 			Type: Gql__type_UserProfile(),
 			Args: graphql.FieldConfigArgument{
 				"sub": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

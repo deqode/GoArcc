@@ -32,15 +32,11 @@ func (s *Service) ListRepository(ctx context.Context, in *pb.ListRepositoryReque
 	for _, repo := range repos {
 		if !*repo.Private {
 			Repository := &pb.Repository{
-				Id:            *repo.ID,
-				NodeId:        *repo.NodeID,
-				Name:          *repo.Name,
-				FullName:      *repo.FullName,
-				DefaultBranch: *repo.DefaultBranch,
-				CloneUrl:      *repo.CloneURL,
-				GitUrl:        *repo.GitURL,
-				Private:       *repo.Private,
-				Branches:      nil,
+				Id:       *repo.ID,
+				Name:     *repo.Name,
+				RepoUrl:  *repo.GitURL,
+				Private:  *repo.Private,
+				Branches: nil,
 			}
 			repositories = append(repositories, Repository)
 		}
@@ -67,15 +63,11 @@ func (s *Service) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest
 		branches = append(branches, *br.Name)
 	}
 	Repository := &pb.Repository{
-		Id:            *repo.ID,
-		NodeId:        *repo.NodeID,
-		Name:          *repo.Name,
-		FullName:      *repo.FullName,
-		DefaultBranch: *repo.DefaultBranch,
-		CloneUrl:      *repo.CloneURL,
-		GitUrl:        *repo.GitURL,
-		Private:       *repo.Private,
-		Branches:      branches,
+		Id:       *repo.ID,
+		Name:     *repo.Name,
+		RepoUrl:  *repo.GitURL,
+		Private:  *repo.Private,
+		Branches: branches,
 	}
 	return Repository, nil
 }

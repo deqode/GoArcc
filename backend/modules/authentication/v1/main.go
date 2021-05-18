@@ -6,8 +6,6 @@ import (
 	accountPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
 	usrProfile "alfred/modules/user-profile/v1"
-	usrProfileIn "alfred/modules/user-profile/v1/internals"
-	usrProfileInPb "alfred/modules/user-profile/v1/internals/pb"
 	usrProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	oidc "github.com/coreos/go-oidc"
@@ -22,8 +20,8 @@ type authenticationServer struct {
 	config              *config.Config
 	grpcClient          *grpc.ClientConn
 	userProfileServer   usrProfilePb.UserProfilesServer
-	userProfileInServer usrProfileInPb.UserProfileInternalServer
-	accountServer       accountPb.AccountsServer
+	userProfileInServer usrProfilePb.UserProfileInternalServer
+	accountInServer     accountPb.AccountInternalServer
 	authenticator       *Authenticator
 }
 
@@ -35,8 +33,8 @@ func NewAuthenticationServer(
 
 ) pb.AuthenticationsServer {
 	userProfileSrv := usrProfile.NewUserProfilesServer(db, config, grpcClientConn)
-	userProfileInSrv := usrProfileIn.NewUserProfileInternalServer(db, config, grpcClientConn)
-	accountSrv := account.NewAccountsServer(db, config, grpcClientConn)
+	userProfileInSrv := usrProfile.NewUserProfileInServer(db, config, grpcClientConn)
+	accountInSrv := account.NewAccountsInServer(db, config, grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
 	return &authenticationServer{
 		db:                  db,
@@ -45,7 +43,7 @@ func NewAuthenticationServer(
 		userProfileServer:   userProfileSrv,
 		userProfileInServer: userProfileInSrv,
 		authenticator:       authenticatorCli,
-		accountServer:       accountSrv,
+		accountInServer:     accountInSrv,
 	}
 }
 

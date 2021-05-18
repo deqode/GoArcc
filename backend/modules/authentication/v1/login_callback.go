@@ -3,7 +3,6 @@ package authentication
 import (
 	accountInPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
-	userProfileInPb "alfred/modules/user-profile/v1/internals/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
 	"context"
@@ -58,10 +57,21 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 			return nil, err
 		}
 	}
+	usr.Id, err = s.CreateUserAndAccount(ctx, profile)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.LoginCallbackResponse{
+		IdToken:     rawIDToken,
+		AccessToken: token.AccessToken,
+		UserId:      usr.Id,
+	}, nil
+}
 
+func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile map[string]interface{}) (string, error) {
 	//create User Profile
-	user, err := s.userProfileInServer.CreateUserProfile(ctx, &userProfileInPb.CreateUserProfileRequest{
-		UserProfile: &userProfileInPb.UserProfile{
+	user, err := s.userProfileInServer.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
+		UserProfile: &userProfilePb.UserProfile{
 			Id:             fmt.Sprintf("%s", profile["sub"]),
 			Sub:            fmt.Sprintf("%s", profile["sub"]),
 			Name:           fmt.Sprintf("%s", profile["name"]),
@@ -72,22 +82,18 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 		},
 	})
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	//create User Account
-	_, err = s.accountServer.CreateAccount(ctx, &accountInPb.CreateAccountRequest{
+	_, err = s.accountInServer.CreateAccount(ctx, &accountInPb.CreateAccountRequest{
 		Account: &accountInPb.Account{
 			Slug:   user.Name + "_" + user.ExternalSource.String(),
 			UserId: user.Id,
 		},
 	})
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return &pb.LoginCallbackResponse{
-		IdToken:     rawIDToken,
-		AccessToken: token.AccessToken,
-		UserId:      usr.Id,
-	}, nil
+	return user.GetId(), nil
 }

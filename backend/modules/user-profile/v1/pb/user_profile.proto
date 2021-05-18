@@ -1,0 +1,85 @@
+syntax = "proto3";
+package alfred.user_profile.v1;
+
+option go_package = "/pb";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotation.proto";
+import "include/graphql.proto";
+import "google/protobuf/timestamp.proto";
+import "types/enums.proto";
+import "validate/validate.proto";
+
+//Public Service - Requires Authentication
+service UserProfiles {
+
+    // GetUserProfile return a profile of a user
+    rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile){
+        option (google.api.http) = {
+            get: "/v1/user-profile/get-user-profile/{id}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "user"
+        };
+    }
+
+    //GetUserProfileBySub return a user profile by its unique sub provided by vcs
+    rpc GetUserProfileBySub(GetUserProfileBySubRequest) returns (UserProfile){
+        option (google.api.http) = {
+            get: "/v1/user-profile/get-user-profile-by-sub/{sub}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "userBySub"
+        };
+    }
+}
+
+//Private Service - Requires Authentication
+service UserProfileInternal {
+    rpc CreateUserProfile(CreateUserProfileRequest) returns (UserProfile);
+
+    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UserProfile);
+
+    rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
+
+    rpc GetUserMe (google.protobuf.Empty) returns (UserProfile);
+}
+
+message CreateUserProfileRequest {
+    UserProfile user_profile = 1;
+}
+
+message DeleteUserProfileRequest {
+    string id = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+}
+
+message UpdateUserProfileRequest {
+    UserProfile user_profile = 1 [(validate.rules).message.required = true];
+}
+
+message GetUserProfileRequest {
+    string id = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+}
+
+message GetUserProfileBySubRequest{
+    string sub = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+}
+message UserProfile {
+    string id = 1;
+    // external unique_id provided by vcs provider
+    string sub = 2 [(validate.rules).string = {min_len: 3 max_len: 100}, (graphql.field) = {required: true}];
+    // name of the user
+    string name = 3 [(validate.rules).string={min_len: 1 max_len: 100}, (graphql.field) = {required: true}];
+    // a username provided by vcs provider
+    string user_name = 4;
+    //email of user
+    string email = 5 [(validate.rules).string.email = true];
+    // phone of user
+    string phone_number = 6;
+    types.VCSProviders external_source = 7;
+    string profile_pic_url = 8;
+    google.protobuf.Timestamp token_valid_till = 9;
+}
+
