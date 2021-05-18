@@ -40,3 +40,6 @@ coverage.html
 
 # Build artifacts
 bin/
+
+cache
+.docker/
