@@ -46,7 +46,7 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
         heading={'Let us make your cloud work for you'}
         subHeading={'Connect with Github '}
         component={
-          url === '' ? (
+          !url.length ? (
             <CircularProgress />
           ) : (
             <Button variant="contained" color="primary" href={url}>

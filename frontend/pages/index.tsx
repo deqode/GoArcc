@@ -31,12 +31,12 @@ const Landing = ({ url }: { url: string }): ReactElement => {
 
 export const getServerSideProps = withSentry(
   withIronSession(async ({ req }) => {
-    if (!validateUser(req)) {
-      const res = await getLoginURL()
-      if (!res.error) return { props: { url: res.url } }
-      return redirectToErrorPage('Network Error')
+    if (validateUser(req)) {
+      return redirectToDashboard()
     }
-    return redirectToDashboard()
+    const res = await getLoginURL()
+    if (!res.error) return { props: { url: res.url } }
+    return redirectToErrorPage('Network Error')
   }, sessionCongfig)
 )
 

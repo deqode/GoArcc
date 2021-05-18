@@ -1,5 +1,6 @@
+import TestRenderer from 'react-test-renderer'
 import { MockedProvider } from '@apollo/client/testing'
-import { act, create, ReactTestRenderer } from 'react-test-renderer'
+import { waitFor } from '@testing-library/react'
 import { GET_BRANCHES } from '../../../GraphQL/Query'
 import ShowBranches from '../ShowBranches'
 
@@ -8,7 +9,7 @@ const mocks = [
     request: {
       query: GET_BRANCHES,
       variables: {
-        provider: 'provider',
+        provider: 'GITHUB',
         ownerName: 'ownerName',
         repoName: 'repoName,',
         accountId: 'accountId',
@@ -17,9 +18,9 @@ const mocks = [
     result: {
       data: {
         repository: {
-          branches: ['Branch1', 'Branch1'],
+          branches: ['Branch1', 'Branch2'],
+          clone_url: 'Mockclone_url',
         },
-        clone_url: 'Mockclone_url',
       },
     },
   },
@@ -34,20 +35,21 @@ const props = {
   setCloneUrl: jest.fn(),
 }
 
-describe('PSAButton', () => {
-  let wrapper: ReactTestRenderer
+it('should render branches list', async () => {
+  let component: any
+  const { act } = TestRenderer
 
-  beforeEach(() => {
-    act(() => {
-      wrapper = create(
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <ShowBranches {...props} />
-        </MockedProvider>
-      )
-    })
+  await new Promise((resolve) => setTimeout(resolve, 0))
+
+  await act(async () => {
+    component = TestRenderer.create(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <ShowBranches {...props} />
+      </MockedProvider>
+    )
   })
 
-  it('renders correctly', async () => {
-    expect(wrapper.toJSON()).toMatchSnapshot()
+  await waitFor(() => {
+    expect(component.toJSON()).toMatchSnapshot()
   })
 })
