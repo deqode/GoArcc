@@ -41,11 +41,13 @@ service:
 
 ingress:
   enabled: true
-  annotations: {}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: lvh.me
+    - host: dev.alfred.sh
       paths:
       - path: /v1
         pathType: Prefix
@@ -94,7 +96,7 @@ envs:
     POSTGRES_PASSWORD: postgres
 
   configs:
-    POSTGRES_HOST: postgres
+    POSTGRES_HOST: postgres.postgres
     CONFIG_NAME: config
     CONFIG_DIRECTORY: /app/
     POSTGRES_PORT: "5432"

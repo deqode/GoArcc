@@ -1,3 +1,3 @@
 ```
-helm install postgres bitnami/postgresql -f deployment/k8s/postgres/values.override.yaml
+helm install postgres bitnami/postgresql -f deployment/k8s/postgres/values.override.yaml --create-namespace --namespace postgres
 ```
