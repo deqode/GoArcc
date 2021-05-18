@@ -49,6 +49,7 @@ export default function ShowBranches({
     if (typeof e.target.value === 'string') setBranchName(e.target.value)
     else setBranchName('')
   }
+
   return (
     <Grid item xs={12} md={12}>
       {loading ? (

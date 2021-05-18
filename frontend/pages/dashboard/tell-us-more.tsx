@@ -90,23 +90,26 @@ export const getServerSideProps = withSentry(
   withIronSession(async ({ req }) => {
     if (validateUser(req)) {
       const user = req.session.get('user')
-      const res = await getAllUserAccounts(user.userId, user.idToken)
+      const responseGetAllUserAccounts = await getAllUserAccounts(user.userId, user.idToken)
 
-      if (res.error && res.accounts.length === 0) {
+      if (responseGetAllUserAccounts.error && !responseGetAllUserAccounts.accounts.length) {
         return redirectToErrorPage('Network Error')
       }
-      const resp = await getOwnerName({ idToken: user.idToken, accountId: res.accounts[0].id })
-      if (resp.error) return redirectToLandingPage()
+      const responseGetOwnerName = await getOwnerName({
+        idToken: user.idToken,
+        accountId: responseGetAllUserAccounts.accounts[0].id,
+      })
+
+      if (responseGetOwnerName.error) return redirectToLandingPage()
       return {
         props: {
           userID: user.userId,
-          accountId: res.accounts[0].id,
+          accountId: responseGetAllUserAccounts.accounts[0].id,
           user,
-          ownerName: resp.ownerName,
+          ownerName: responseGetOwnerName.ownerName,
         },
       }
     }
-
     return redirectToLandingPage()
   }, sessionCongfig)
 )

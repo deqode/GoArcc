@@ -21,7 +21,7 @@ const BasicLayout = ({
 }: {
   heading: string
   subHeading?: string
-  component: ReactElement | string
+  component: ReactElement | string | string[]
 }): ReactElement => {
   const classes = useStyles()
   return (

@@ -10,7 +10,7 @@ export const setUserSession = async (data: UserResponse): Promise<ResponseError>
         'Content-Type': 'application/json',
       },
     })
-    if (response.data.susscess) {
+    if (response.data.success) {
       return {
         error: false,
         message: '',
@@ -18,7 +18,7 @@ export const setUserSession = async (data: UserResponse): Promise<ResponseError>
     } else
       return {
         error: true,
-        message: 'Data Not found',
+        message: 'Server Error',
         // TODO : integrate with error message from backend
       }
   } catch (e) {
@@ -42,7 +42,7 @@ export const destroyUserSession = async (): Promise<ResponseError> => {
         },
       }
     )
-    if (response.data.susscess) {
+    if (response.data.success) {
       return {
         error: false,
         message: '',
@@ -50,7 +50,7 @@ export const destroyUserSession = async (): Promise<ResponseError> => {
     } else
       return {
         error: true,
-        message: 'Data Not found',
+        message: 'Server Error',
         //  : integrate with error message from backend
       }
   } catch (e) {
