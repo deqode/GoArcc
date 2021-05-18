@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: build binaries
+    name: Test Code
     defaults:
       run:
         working-directory: ./backend
