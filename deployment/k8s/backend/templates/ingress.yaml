@@ -32,6 +32,7 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ .path }}
+            pathType: {{ .pathType }}
             backend:
               serviceName: {{ .backend.serviceName }}
               servicePort: {{ .backend.servicePort }}
