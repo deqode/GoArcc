@@ -33,12 +33,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      # In this step, this action saves a list of existing images,
-      # the cache is created without them in the post run.
-      # It also restores the cache if it exists.
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-        # Ignore the failure of a step and avoid terminating the job.
-        continue-on-error: true
+#      # In this step, this action saves a list of existing images,
+#      # the cache is created without them in the post run.
+#      # It also restores the cache if it exists.
+#      - uses: satackey/action-docker-layer-caching@v0.0.11
+#        # Ignore the failure of a step and avoid terminating the job.
+#        continue-on-error: true
 
       - name: go mod download
         run:  docker-compose run backend_api go mod download
@@ -87,12 +87,12 @@ jobs:
           SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
           HOST: 'gcr.io'
 
-      # In this step, this action saves a list of existing images,
-      # the cache is created without them in the post run.
-      # It also restores the cache if it exists.
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-        # Ignore the failure of a step and avoid terminating the job.
-        continue-on-error: true
+#      # In this step, this action saves a list of existing images,
+#      # the cache is created without them in the post run.
+#      # It also restores the cache if it exists.
+#      - uses: satackey/action-docker-layer-caching@v0.0.11
+#        # Ignore the failure of a step and avoid terminating the job.
+#        continue-on-error: true
 
       - run: sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
       - run: sudo apt-get update
