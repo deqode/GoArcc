@@ -8,17 +8,17 @@ data:
   config.yaml: |-
     grpc:
       port: 8000
-      host: localhost
+      host: 0.0.0.0
       request_timeout: 20
 
     graphql:
       port: 8081
-      host: localhost
+      host: 0.0.0.0
       request_Timeout: 20
 
     rest:
       port: 8082
-      host: localhost
+      host: 0.0.0.0
       request_timeout: 20
 
     health_check:

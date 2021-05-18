@@ -51,9 +51,22 @@ spec:
   {{- end }}
 
           ports:
-            - name: http
-              containerPort: 80
+            - name: graphql
+              containerPort: 8081
               protocol: TCP
+
+            - name: rest
+              containerPort: 8082
+              protocol: TCP
+
+            - name: grpc
+              containerPort: 8000
+              protocol: TCP
+
+            - name: health
+              containerPort: 8083
+              protocol: TCP
+
           livenessProbe:
             httpGet:
               path: /health/

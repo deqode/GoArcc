@@ -7,9 +7,25 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 8080
+      targetPort: grpc
       protocol: TCP
-      name: http
+      name: grpc
+
+    - port: 8081
+      targetPort: graphql
+      protocol: TCP
+      name: graphql
+
+    - port: 8082
+      targetPort: rest
+      protocol: TCP
+      name: rest
+
+    - port: 8083
+      targetPort: health
+      protocol: TCP
+      name: health
+
   selector:
     {{- include "backend.selectorLabels" . | nindent 4 }}

@@ -15,7 +15,7 @@ rest:
 
 health_check:
     port: 8083
-    host: localhost
+    host: 0.0.0.0
 
 cadence_config:
   domain: simple-domain
