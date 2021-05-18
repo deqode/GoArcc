@@ -61,6 +61,7 @@ jobs:
       - run: docker-compose down
 
   deploy:
+    needs: build
     if: ${{ github.ref == 'refs/heads/development' }}
     name: build image and deploy
     runs-on: ubuntu-latest
