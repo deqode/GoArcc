@@ -12,7 +12,7 @@ const ErrorPage = (): ReactElement => {
         <link rel="icon" href="assets/alfred.png" />
       </Head>
       <BasicLayout
-        heading={'Alfred has encountered wit h'}
+        heading={'Alfred has encountered with'}
         component={router.query.message || 'Error'}
       />
     </Fragment>
