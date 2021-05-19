@@ -6,7 +6,7 @@ import { withSentry } from '@sentry/nextjs'
 // TODO:validate
 export const handler = async (req: any, res: any) => {
   req.session.destroy('user')
-  res.json({ susscess: true })
+  res.json({ success: true })
 }
 
 export default withSentry(withIronSession(handler, sessionCongfig))
