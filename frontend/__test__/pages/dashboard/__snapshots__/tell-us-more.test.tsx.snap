@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Check TellUsMore indexPage page snapshot should match the snapshot 1`] = `
+exports[`dashboard/tell-us-more page tests should match the snapshot 1`] = `
 <div
   className="MuiPaper-root MuiPaper-elevation0 MuiPaper-rounded"
 >

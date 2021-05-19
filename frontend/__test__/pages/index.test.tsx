@@ -8,27 +8,31 @@ jest.mock('../../api/rest/fetchUrls', () => {
         url: 'mockUrl',
         error: false,
       })
-    ),
+    )
   }
 })
 
-describe('Check Landing page snapshot', () => {
+
+
+describe('Landing page tests', () => {
+
   it('should match the snapshot', () => {
     const tree = renderer.create(<Landing url={'moc url'} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('should match url', async () => {
+  it('should get login url if user session not available', async () => {
     const req = {
       session: { get: jest.fn(() => undefined), save: jest.fn() },
     }
     const response = await handler({ req })
     expect(response).toStrictEqual({ props: { url: 'mockUrl' } })
   })
-  it('should not have session', async () => {
+  it('should redirect to dashboard if user session available', async () => {
     const req = {
       session: { get: jest.fn().mockImplementation(() => true), save: jest.fn() },
     }
     const response = await handler({ req })
     expect(response).toStrictEqual({ redirect: { permanent: false, destination: '/dashboard' } })
   })
+  
 })

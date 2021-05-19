@@ -39,7 +39,7 @@ const props = {
 }
 // TODO need to wait for load
 
-it('should render repo list', async () => {
+it('should render repo list and match the snapshot', async () => {
   let component: any
   const { act } = TestRenderer
 
@@ -54,7 +54,6 @@ it('should render repo list', async () => {
   })
 
   await waitFor(() => {
-    // expect(p.children.join('')).toContain('Buck is a poodle')
     expect(component.toJSON()).toMatchSnapshot()
   })
 })

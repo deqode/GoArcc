@@ -35,7 +35,7 @@ const props = {
   setCloneUrl: jest.fn(),
 }
 
-it('should render branches list', async () => {
+it('should render branches list and match snapshot', async () => {
   let component: any
   const { act } = TestRenderer
 

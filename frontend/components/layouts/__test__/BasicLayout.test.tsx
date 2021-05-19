@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core'
 import renderer from 'react-test-renderer'
 import BasicLayout from '../BasicLayout'
 
-describe('Check Basic Layout  snapshot', () => {
+describe('basic layout component tests', () => {
   it('should match the snapshot', () => {
     const tree = renderer
       .create(

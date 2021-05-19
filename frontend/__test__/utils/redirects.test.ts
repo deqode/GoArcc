@@ -4,8 +4,8 @@ import {
   redirectToErrorPage,
 } from '../../utils/redirects'
 
-describe('test redirects', () => {
-  it('test redirectToDashboard', () => {
+describe('redirect utils test', () => {
+  it('should redirect to dashboard', () => {
     expect(redirectToDashboard()).toEqual({
       redirect: {
         permanent: false,
@@ -14,7 +14,7 @@ describe('test redirects', () => {
     })
   })
 
-  it('test redirectToLandingPage', () => {
+  it('should redirect to landing page', () => {
     expect(redirectToLandingPage()).toEqual({
       redirect: {
         permanent: false,
@@ -23,7 +23,7 @@ describe('test redirects', () => {
     })
   })
 
-  it('test redirectToErrorPage', () => {
+  it('should redirect to error page', () => {
     const message = 'Network error'
     expect(redirectToErrorPage(message)).toEqual({
       redirect: {

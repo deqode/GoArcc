@@ -47,7 +47,8 @@ const mocks = [
   },
 ]
 
-describe('Check TellUsMore indexPage page snapshot', () => {
+//TODO: check if gql queries are mocked
+describe('dashboard/tell-us-more page tests', () => {
   let wrapper: ReactTestRenderer
 
   beforeEach(() => {

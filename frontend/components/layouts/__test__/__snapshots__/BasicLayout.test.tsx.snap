@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Check Basic Layout  snapshot should match the snapshot 1`] = `
+exports[`basic layout component tests should match the snapshot 1`] = `
 <div
   className="MuiGrid-root makeStyles-root-1 MuiGrid-container MuiGrid-align-items-xs-center MuiGrid-justify-xs-space-around"
 >

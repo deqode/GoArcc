@@ -9,7 +9,7 @@ jest.mock('next/router', () => ({
   })),
 }))
 
-describe('Check Error page snapshot', () => {
+describe('error page tests', () => {
   it('should match the snapshot', () => {
     const tree = renderer.create(<ErrorPage />).toJSON()
     expect(tree).toMatchSnapshot()

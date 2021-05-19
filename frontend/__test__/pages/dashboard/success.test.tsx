@@ -1,12 +1,12 @@
 import renderer from 'react-test-renderer'
 import Success, { handler } from '../../../pages/dashboard/success'
 
-describe('Check Success  page snapshot', () => {
+describe('dashboard/success page tests', () => {
   it('should match the snapshot', () => {
     const tree = renderer.create(<Success />).toJSON()
     expect(tree).toMatchSnapshot()
   })
-  it('should return to /', async () => {
+  it('should return to landing page if session not available', async () => {
     const req = {
       session: { get: jest.fn(() => undefined), save: jest.fn() },
     }
@@ -18,7 +18,7 @@ describe('Check Success  page snapshot', () => {
       },
     })
   })
-  it('should return user', async () => {
+  it('should return user if session is available', async () => {
     const req = {
       session: { get: jest.fn(() => 'MockUser'), save: jest.fn() },
     }

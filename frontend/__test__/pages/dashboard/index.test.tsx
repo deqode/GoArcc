@@ -2,7 +2,7 @@ import renderer from 'react-test-renderer'
 import { UserResponse } from '../../../interface'
 import Dashboard, { handler } from '../../../pages/dashboard'
 
-describe('Check Dashboard indexPage page snapshot', () => {
+describe('dashboard/index page tests', () => {
   const mockUser: UserResponse = {
     accessToken: 'mockAccessToken',
     idToken: 'mockidToken',
@@ -13,7 +13,7 @@ describe('Check Dashboard indexPage page snapshot', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('should return to /', async () => {
+  it('should return to landing page if session not available', async () => {
     const req = {
       session: { get: jest.fn(() => undefined), save: jest.fn() },
     }
@@ -25,7 +25,7 @@ describe('Check Dashboard indexPage page snapshot', () => {
       },
     })
   })
-  it('should return user', async () => {
+  it('should return user if session is available', async () => {
     const req = {
       session: { get: jest.fn(() => 'MockUser'), save: jest.fn() },
     }
