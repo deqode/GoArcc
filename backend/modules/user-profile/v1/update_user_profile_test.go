@@ -6,11 +6,14 @@ import (
 	"alfred/db"
 	"alfred/modules/account/v1"
 	"alfred/modules/account/v1/pb"
+	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
+	"log"
 )
 
 var _ = Describe("UpdateUserProfile", func() {

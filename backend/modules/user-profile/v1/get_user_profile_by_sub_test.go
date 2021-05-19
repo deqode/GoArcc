@@ -48,13 +48,7 @@ var _ = Describe("GetUserProfileBySub", func() {
 		Context("Context:When id is empty", func() {
 			It("It:Error must be returned", func() {
 				_, err := UserProfileServer.GetUserProfileBySub(context.Background(), &pb.GetUserProfileBySubRequest{Sub: ""})
-				Expect(err.(pb.GetUserProfileRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
-			})
-		})
-		Context("Context:When id is wrong", func() {
-			It("It:Error must be returned", func() {
-				_, err := UserProfileServer.GetUserProfileBySub(context.Background(), &pb.GetUserProfileBySubRequest{Sub: "wrongID"})
-				Expect(gorm.ErrRecordNotFound).Should(Equal(err))
+				Expect(err.(pb.GetUserProfileBySubRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 			})
 		})
 	})
