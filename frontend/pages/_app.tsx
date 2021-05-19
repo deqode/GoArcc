@@ -21,7 +21,7 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
   return (
     <UserContext.Provider value={{ user, setUser, removeUser }}>
       <Head>
-        <title>My page</title>
+        <title>Alfred</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ApolloProvider client={client(user)}>
