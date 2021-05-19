@@ -10,6 +10,7 @@ import (
 	"github.com/coreos/go-oidc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 const tokenKey = "id_token"
@@ -41,6 +42,7 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 	}
 
 	//get user_details
+	var userId string
 	usr, err := s.userProfileServer.GetUserProfileBySub(ctx, &userProfilePb.GetUserProfileBySubRequest{
 		Sub: fmt.Sprintf("%s", profile["sub"]),
 	})
@@ -52,19 +54,18 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 		}, nil
 	}
 	if err != nil {
-		code, _ := status.FromError(err)
-		if code.Code() != codes.NotFound {
+		if err != gorm.ErrRecordNotFound {
 			return nil, err
 		}
 	}
-	usr.Id, err = s.CreateUserAndAccount(ctx, profile)
+	userId, err = s.CreateUserAndAccount(ctx, profile)
 	if err != nil {
 		return nil, err
 	}
 	return &pb.LoginCallbackResponse{
 		IdToken:     rawIDToken,
 		AccessToken: token.AccessToken,
-		UserId:      usr.Id,
+		UserId:      userId,
 	}, nil
 }
 

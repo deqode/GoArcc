@@ -3,6 +3,7 @@ package models
 import (
 	"alfred/modules/user-profile/v1/pb"
 	"context"
+	"errors"
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/hashicorp/go-uuid"
 	"google.golang.org/grpc/codes"
@@ -64,12 +65,12 @@ func (s userProfilePgStore) GetUserProfile(ctx context.Context, in *pb.GetUserPr
 
 func (s userProfilePgStore) GetUserProfileBySub(ctx context.Context, in *pb.GetUserProfileBySubRequest) (*pb.UserProfile, error) {
 	profile := UserProfile{}
-	result := s.db.First(&profile, "sub = ?", in.Sub)
-	if result.Error != nil {
-		return nil, status.Error(codes.Internal, result.Error.Error())
-	}
-	if result.RowsAffected == 0 {
-		return nil, status.Error(codes.NotFound, "No Record Found")
+	err := s.db.First(&profile, "sub = ?", in.Sub).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, gorm.ErrRecordNotFound
+		}
+		return nil, err
 	}
 	return &pb.UserProfile{
 		Id:             profile.ID,
