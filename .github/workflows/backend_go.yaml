@@ -49,12 +49,12 @@ jobs:
       - name: Test In Docker
         run: docker-compose run backend_api make test
 
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: backend-coverage
-          retention-days: 5
-          path: backend/cover/
+#      - name: Upload coverage reports
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: backend-coverage
+#          retention-days: 5
+#          path: backend/cover/
 
       - name: build
         run: docker-compose run backend_api make build
