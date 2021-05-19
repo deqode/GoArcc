@@ -44,6 +44,7 @@ run-all-linter: get-linter get-fmt run-linter run-fmt tidy
 test: get-richgo
 	go test -cover ./...
 	go test -coverprofile=./cover/coverage.out ./...
+	cat cover/coverage.out
 	go tool cover -html=./cover/coverage.out
 
 build:
