@@ -9,70 +9,40 @@ import (
 	"github.com/pkg/errors"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"google.golang.org/grpc"
-
-	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
 )
 
 var (
-	gql__type_Repository                *graphql.Object      // message Repository in git.proto
-	gql__type_ListRepositoryResponse    *graphql.Object      // message ListRepositoryResponse in git.proto
-	gql__type_ListRepositoryRequest     *graphql.Object      // message ListRepositoryRequest in git.proto
-	gql__type_GetRepositoryRequest      *graphql.Object      // message GetRepositoryRequest in git.proto
-	gql__type_GetCloningStatusResponse  *graphql.Object      // message GetCloningStatusResponse in git.proto
-	gql__type_GetCloningStatusRequest   *graphql.Object      // message GetCloningStatusRequest in git.proto
-	gql__type_CloneRepositoryResponse   *graphql.Object      // message CloneRepositoryResponse in git.proto
-	gql__type_CloneRepositoryRequest    *graphql.Object      // message CloneRepositoryRequest in git.proto
-	gql__input_Repository               *graphql.InputObject // message Repository in git.proto
-	gql__input_ListRepositoryResponse   *graphql.InputObject // message ListRepositoryResponse in git.proto
-	gql__input_ListRepositoryRequest    *graphql.InputObject // message ListRepositoryRequest in git.proto
-	gql__input_GetRepositoryRequest     *graphql.InputObject // message GetRepositoryRequest in git.proto
-	gql__input_GetCloningStatusResponse *graphql.InputObject // message GetCloningStatusResponse in git.proto
-	gql__input_GetCloningStatusRequest  *graphql.InputObject // message GetCloningStatusRequest in git.proto
-	gql__input_CloneRepositoryResponse  *graphql.InputObject // message CloneRepositoryResponse in git.proto
-	gql__input_CloneRepositoryRequest   *graphql.InputObject // message CloneRepositoryRequest in git.proto
+	gql__type_Repository                *graphql.Object      // message Repository in pb/git.proto
+	gql__type_ListRepositoryResponse    *graphql.Object      // message ListRepositoryResponse in pb/git.proto
+	gql__type_ListRepositoryRequest     *graphql.Object      // message ListRepositoryRequest in pb/git.proto
+	gql__type_GetRepositoryRequest      *graphql.Object      // message GetRepositoryRequest in pb/git.proto
+	gql__type_GetCloningStatusResponse  *graphql.Object      // message GetCloningStatusResponse in pb/git.proto
+	gql__type_GetCloningStatusRequest   *graphql.Object      // message GetCloningStatusRequest in pb/git.proto
+	gql__type_CloneRepositoryResponse   *graphql.Object      // message CloneRepositoryResponse in pb/git.proto
+	gql__type_CloneRepositoryRequest    *graphql.Object      // message CloneRepositoryRequest in pb/git.proto
+	gql__input_Repository               *graphql.InputObject // message Repository in pb/git.proto
+	gql__input_ListRepositoryResponse   *graphql.InputObject // message ListRepositoryResponse in pb/git.proto
+	gql__input_ListRepositoryRequest    *graphql.InputObject // message ListRepositoryRequest in pb/git.proto
+	gql__input_GetRepositoryRequest     *graphql.InputObject // message GetRepositoryRequest in pb/git.proto
+	gql__input_GetCloningStatusResponse *graphql.InputObject // message GetCloningStatusResponse in pb/git.proto
+	gql__input_GetCloningStatusRequest  *graphql.InputObject // message GetCloningStatusRequest in pb/git.proto
+	gql__input_CloneRepositoryResponse  *graphql.InputObject // message CloneRepositoryResponse in pb/git.proto
+	gql__input_CloneRepositoryRequest   *graphql.InputObject // message CloneRepositoryRequest in pb/git.proto
 )
 
 func Gql__type_Repository() *graphql.Object {
 	if gql__type_Repository == nil {
 		gql__type_Repository = graphql.NewObject(graphql.ObjectConfig{
-			Name:        "Pb_Type_Repository",
-			Description: `todo: rename git url to generic name`,
+			Name: "Pb_Type_Repository",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
 					Type: graphql.Int,
 				},
-				"node_id": &graphql.Field{
-					Type: graphql.String,
-				},
 				"name": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
-				"full_name": &graphql.Field{
-					Type: graphql.String,
-				},
-				"default_branch": &graphql.Field{
-					Type: graphql.String,
-				},
-				"master_branch": &graphql.Field{
-					Type: graphql.String,
-				},
-				"created_at": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"pushed_at": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"updated_at": &graphql.Field{
-					Type: gql_ptypes_timestamp.Gql__type_Timestamp(),
-				},
-				"clone_url": &graphql.Field{
-					Type: graphql.String,
-				},
-				"git_url": &graphql.Field{
-					Type: graphql.String,
-				},
-				"size": &graphql.Field{
-					Type: graphql.Int,
+				"repo_url": &graphql.Field{
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"private": &graphql.Field{
 					Type: graphql.Boolean,
@@ -109,10 +79,10 @@ func Gql__type_ListRepositoryRequest() *graphql.Object {
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"user_id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"account_id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"label": &graphql.Field{
 					Type: graphql.String,
@@ -132,13 +102,13 @@ func Gql__type_GetRepositoryRequest() *graphql.Object {
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"repo_name": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"account_id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"owner_name": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -183,10 +153,10 @@ func Gql__type_CloneRepositoryResponse() *graphql.Object {
 			Name: "Pb_Type_CloneRepositoryResponse",
 			Fields: graphql.Fields{
 				"workflow_id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"run_id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -203,16 +173,16 @@ func Gql__type_CloneRepositoryRequest() *graphql.Object {
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"account_id": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"repository_url": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"branch_name": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"user_name": &graphql.Field{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -228,38 +198,11 @@ func Gql__input_Repository() *graphql.InputObject {
 				"id": &graphql.InputObjectFieldConfig{
 					Type: graphql.Int,
 				},
-				"node_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
 				"name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
-				"full_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"default_branch": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"master_branch": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"created_at": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"pushed_at": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"updated_at": &graphql.InputObjectFieldConfig{
-					Type: gql_ptypes_timestamp.Gql__input_Timestamp(),
-				},
-				"clone_url": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"git_url": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"size": &graphql.InputObjectFieldConfig{
-					Type: graphql.Int,
+				"repo_url": &graphql.InputObjectFieldConfig{
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"private": &graphql.InputObjectFieldConfig{
 					Type: graphql.Boolean,
@@ -296,10 +239,10 @@ func Gql__input_ListRepositoryRequest() *graphql.InputObject {
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"user_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"account_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"label": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
@@ -319,13 +262,13 @@ func Gql__input_GetRepositoryRequest() *graphql.InputObject {
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"repo_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"account_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"owner_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -370,10 +313,10 @@ func Gql__input_CloneRepositoryResponse() *graphql.InputObject {
 			Name: "Pb_Input_CloneRepositoryResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"workflow_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"run_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -390,16 +333,16 @@ func Gql__input_CloneRepositoryRequest() *graphql.InputObject {
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"account_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"repository_url": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"branch_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 				"user_name": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
+					Type: graphql.NewNonNull(graphql.String),
 				},
 			},
 		})
@@ -456,10 +399,12 @@ func (x *graphql__resolver_Gits) GetQueries(conn *grpc.ClientConn) graphql.Field
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"user_id": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"account_id": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"label": &graphql.ArgumentConfig{
 					Type: graphql.String,
@@ -485,13 +430,16 @@ func (x *graphql__resolver_Gits) GetQueries(conn *grpc.ClientConn) graphql.Field
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"repo_name": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"account_id": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"owner_name": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -543,16 +491,20 @@ func (x *graphql__resolver_Gits) GetMutations(conn *grpc.ClientConn) graphql.Fie
 					Type: types.Gql__enum_VCSProviders(),
 				},
 				"account_id": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"repository_url": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"branch_name": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 				"user_name": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type:         graphql.NewNonNull(graphql.String),
+					DefaultValue: "",
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

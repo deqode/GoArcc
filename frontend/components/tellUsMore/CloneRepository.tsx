@@ -34,7 +34,7 @@ export default function CloneRepository({
 
   return (
     <Grid item xs={12} md={12}>
-      <Button variant="contained" color="primary" onClick={cloneRepo}>
+      <Button variant="contained" color="primary" onClick={cloneRepo} disabled={true}>
         Go Fetch
       </Button>
     </Grid>

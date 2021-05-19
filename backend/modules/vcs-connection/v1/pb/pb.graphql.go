@@ -14,22 +14,22 @@ import (
 )
 
 var (
-	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in vcs_connection.proto
-	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in vcs_connection.proto
-	gql__type_ListAllSupportedVCSProvidersResponse  *graphql.Object      // message ListAllSupportedVCSProvidersResponse in vcs_connection.proto
-	gql__type_GetVCSConnectionRequest               *graphql.Object      // message GetVCSConnectionRequest in vcs_connection.proto
-	gql__type_CallbackRequest                       *graphql.Object      // message CallbackRequest in vcs_connection.proto
-	gql__type_AuthorizeResponse                     *graphql.Object      // message AuthorizeResponse in vcs_connection.proto
-	gql__type_AuthorizeRequest                      *graphql.Object      // message AuthorizeRequest in vcs_connection.proto
-	gql__type_AccountVCSConnection                  *graphql.Object      // message AccountVCSConnection in vcs_connection.proto
-	gql__input_ListVCSConnectionResponse            *graphql.InputObject // message ListVCSConnectionResponse in vcs_connection.proto
-	gql__input_ListVCSConnectionRequest             *graphql.InputObject // message ListVCSConnectionRequest in vcs_connection.proto
-	gql__input_ListAllSupportedVCSProvidersResponse *graphql.InputObject // message ListAllSupportedVCSProvidersResponse in vcs_connection.proto
-	gql__input_GetVCSConnectionRequest              *graphql.InputObject // message GetVCSConnectionRequest in vcs_connection.proto
-	gql__input_CallbackRequest                      *graphql.InputObject // message CallbackRequest in vcs_connection.proto
-	gql__input_AuthorizeResponse                    *graphql.InputObject // message AuthorizeResponse in vcs_connection.proto
-	gql__input_AuthorizeRequest                     *graphql.InputObject // message AuthorizeRequest in vcs_connection.proto
-	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in vcs_connection.proto
+	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in pb/vcs_connection.proto
+	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in pb/vcs_connection.proto
+	gql__type_ListAllSupportedVCSProvidersResponse  *graphql.Object      // message ListAllSupportedVCSProvidersResponse in pb/vcs_connection.proto
+	gql__type_GetVCSConnectionRequest               *graphql.Object      // message GetVCSConnectionRequest in pb/vcs_connection.proto
+	gql__type_CallbackRequest                       *graphql.Object      // message CallbackRequest in pb/vcs_connection.proto
+	gql__type_AuthorizeResponse                     *graphql.Object      // message AuthorizeResponse in pb/vcs_connection.proto
+	gql__type_AuthorizeRequest                      *graphql.Object      // message AuthorizeRequest in pb/vcs_connection.proto
+	gql__type_AccountVCSConnection                  *graphql.Object      // message AccountVCSConnection in pb/vcs_connection.proto
+	gql__input_ListVCSConnectionResponse            *graphql.InputObject // message ListVCSConnectionResponse in pb/vcs_connection.proto
+	gql__input_ListVCSConnectionRequest             *graphql.InputObject // message ListVCSConnectionRequest in pb/vcs_connection.proto
+	gql__input_ListAllSupportedVCSProvidersResponse *graphql.InputObject // message ListAllSupportedVCSProvidersResponse in pb/vcs_connection.proto
+	gql__input_GetVCSConnectionRequest              *graphql.InputObject // message GetVCSConnectionRequest in pb/vcs_connection.proto
+	gql__input_CallbackRequest                      *graphql.InputObject // message CallbackRequest in pb/vcs_connection.proto
+	gql__input_AuthorizeResponse                    *graphql.InputObject // message AuthorizeResponse in pb/vcs_connection.proto
+	gql__input_AuthorizeRequest                     *graphql.InputObject // message AuthorizeRequest in pb/vcs_connection.proto
+	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in pb/vcs_connection.proto
 )
 
 func Gql__type_ListVCSConnectionResponse() *graphql.Object {

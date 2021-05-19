@@ -1,8 +1,8 @@
 package db
 
 import (
-	"alfred/config"
 	"alfred.sh/common/logger"
+	"alfred/config"
 	"fmt"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"

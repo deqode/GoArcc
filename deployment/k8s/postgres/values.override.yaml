@@ -1,0 +1,4 @@
+nameOverride: postgres
+postgresqlPostgresPassword: postgres
+postgresqlPassword: postgres
+postgresqlDatabase: postgres

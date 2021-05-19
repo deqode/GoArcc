@@ -6,13 +6,13 @@ FROM golang:1.16.4-stretch
 
 WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
+#COPY go.mod .
+#COPY go.sum .
+#
+#RUN go mod download
+#
+#COPY . .
+#
+#RUN make build-api
 
-RUN go mod download
-
-COPY . .
-
-RUN make build-api
-
-RUN ls bin
+#RUN ls bin

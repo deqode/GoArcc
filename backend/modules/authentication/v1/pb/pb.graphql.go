@@ -6,16 +6,16 @@ import (
 )
 
 var (
-	gql__type_ValidateUserLoginResponse  *graphql.Object      // message ValidateUserLoginResponse in authentication.proto
-	gql__type_ValidateUserLoginRequest   *graphql.Object      // message ValidateUserLoginRequest in authentication.proto
-	gql__type_LoginResponse              *graphql.Object      // message LoginResponse in authentication.proto
-	gql__type_LoginCallbackResponse      *graphql.Object      // message LoginCallbackResponse in authentication.proto
-	gql__type_LoginCallbackRequest       *graphql.Object      // message LoginCallbackRequest in authentication.proto
-	gql__input_ValidateUserLoginResponse *graphql.InputObject // message ValidateUserLoginResponse in authentication.proto
-	gql__input_ValidateUserLoginRequest  *graphql.InputObject // message ValidateUserLoginRequest in authentication.proto
-	gql__input_LoginResponse             *graphql.InputObject // message LoginResponse in authentication.proto
-	gql__input_LoginCallbackResponse     *graphql.InputObject // message LoginCallbackResponse in authentication.proto
-	gql__input_LoginCallbackRequest      *graphql.InputObject // message LoginCallbackRequest in authentication.proto
+	gql__type_ValidateUserLoginResponse  *graphql.Object      // message ValidateUserLoginResponse in pb/authentication.proto
+	gql__type_ValidateUserLoginRequest   *graphql.Object      // message ValidateUserLoginRequest in pb/authentication.proto
+	gql__type_LoginResponse              *graphql.Object      // message LoginResponse in pb/authentication.proto
+	gql__type_LoginCallbackResponse      *graphql.Object      // message LoginCallbackResponse in pb/authentication.proto
+	gql__type_LoginCallbackRequest       *graphql.Object      // message LoginCallbackRequest in pb/authentication.proto
+	gql__input_ValidateUserLoginResponse *graphql.InputObject // message ValidateUserLoginResponse in pb/authentication.proto
+	gql__input_ValidateUserLoginRequest  *graphql.InputObject // message ValidateUserLoginRequest in pb/authentication.proto
+	gql__input_LoginResponse             *graphql.InputObject // message LoginResponse in pb/authentication.proto
+	gql__input_LoginCallbackResponse     *graphql.InputObject // message LoginCallbackResponse in pb/authentication.proto
+	gql__input_LoginCallbackRequest      *graphql.InputObject // message LoginCallbackRequest in pb/authentication.proto
 )
 
 func Gql__type_ValidateUserLoginResponse() *graphql.Object {

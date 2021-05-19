@@ -36,7 +36,7 @@ export default function ShowBranches({
     // TODO:pop error
     if (data && data.repository) {
       setbranches(data.repository.branches || [])
-      setCloneUrl(data.repository.clone_url)
+      setCloneUrl(data.repository.repo_url)
     }
   }, [data, error])
 
@@ -49,6 +49,7 @@ export default function ShowBranches({
     if (typeof e.target.value === 'string') setBranchName(e.target.value)
     else setBranchName('')
   }
+
   return (
     <Grid item xs={12} md={12}>
       {loading ? (

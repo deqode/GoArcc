@@ -1,7 +1,8 @@
 package cadenceAdapter
 
 import (
-	bConfig "alfred/background/config"
+	commonLogger "alfred.sh/common/logger"
+	"alfred/config"
 	"context"
 	"github.com/uber-go/tally"
 	"go.uber.org/cadence/.gen/go/cadence/workflowserviceclient"
@@ -18,7 +19,7 @@ type (
 		ServiceClient  workflowserviceclient.Interface
 		Scope          tally.Scope
 		Logger         *zap.Logger
-		Config         bConfig.CadenceConfig
+		Config         config.CadenceConfig
 		Builder        *WorkflowClientBuilder
 		DataConverter  encoded.DataConverter
 		CtxPropagators []workflow.ContextPropagator
@@ -26,15 +27,14 @@ type (
 )
 
 // CadenceSetup Setup setup the config for the code run
-func (h *CadenceAdapter) CadenceSetup(config *bConfig.CadenceConfig) {
+func (h *CadenceAdapter) CadenceSetup(config *config.CadenceConfig) {
 	if h.CadenceClient != nil {
 		return
 	}
 	logger, _ := zap.NewDevelopment()
 	h.Logger = logger
 	h.Config = *config
-
-	hostPort := h.Config.HostPort
+	hostPort := h.Config.Host + ":" + h.Config.Port
 	domainName := h.Config.Domain
 
 	h.Builder = NewBuilder(logger, hostPort, domainName)
@@ -56,8 +56,8 @@ func (h *CadenceAdapter) CadenceSetup(config *bConfig.CadenceConfig) {
 	domainClient, _ := h.Builder.BuildCadenceDomainClient()
 	_, err = domainClient.Describe(context.Background(), domainName)
 	if err != nil {
-		logger.Info("Domain doesn't exist", zap.String("Domain", domainName), zap.String("HostPort", hostPort), zap.Error(err))
+		commonLogger.Log.Info("Domain doesn't exist", zap.String("Domain", domainName), zap.String("HostPort", hostPort), zap.Error(err))
 	} else {
-		logger.Info("Domain successfully registered.", zap.String("Domain", domainName), zap.String("HostPort", hostPort))
+		commonLogger.Log.Info("Domain successfully registered.", zap.String("Domain", domainName), zap.String("HostPort", hostPort))
 	}
 }

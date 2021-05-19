@@ -1,8 +1,8 @@
+import TestRenderer from 'react-test-renderer'
 import { MockedProvider } from '@apollo/client/testing'
-import { act, create, ReactTestRenderer } from 'react-test-renderer'
+import { waitFor } from '@testing-library/react'
 import { GET_REPOSITORIES } from '../../../GraphQL/Query'
 import ShowRepos from '../ShowRepos'
-import waitForExpect from 'wait-for-expect'
 
 const mocks = [
   {
@@ -17,7 +17,14 @@ const mocks = [
     result: {
       data: {
         repositories: {
-          repositories: ['REPO1', 'REPO2'],
+          repositories: [
+            {
+              name: 'REPO1',
+            },
+            {
+              name: 'REPO2',
+            },
+          ],
         },
       },
     },
@@ -32,24 +39,22 @@ const props = {
 }
 // TODO need to wait for load
 
-describe('PSAButton', () => {
-  let wrapper: ReactTestRenderer
+it('should render repo list', async () => {
+  let component: any
+  const { act } = TestRenderer
 
-  beforeEach(async () => {
-    wrapper = create(
+  await new Promise((resolve) => setTimeout(resolve, 0))
+
+  await act(async () => {
+    component = TestRenderer.create(
       <MockedProvider mocks={mocks} addTypename={false}>
         <ShowRepos {...props} />
       </MockedProvider>
     )
   })
 
-  it('renders correctly', async () => {
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 0))
-
-      await waitForExpect(() => {
-        expect(wrapper.toJSON()).toMatchSnapshot()
-      })
-    })
+  await waitFor(() => {
+    // expect(p.children.join('')).toContain('Buck is a poodle')
+    expect(component.toJSON()).toMatchSnapshot()
   })
 })

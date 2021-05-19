@@ -246,5 +246,5 @@ var _VCSConnections_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "vcs_connection.proto",
+	Metadata: "pb/vcs_connection.proto",
 }

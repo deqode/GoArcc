@@ -25,7 +25,7 @@ export const GET_BRANCHES = gql`
       account_id: $accountId
     ) {
       branches
-      clone_url
+      repo_url
     }
   }
 `

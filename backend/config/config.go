@@ -25,7 +25,15 @@ type Config struct {
 	Jaeger             JaegerServerConfig      `mapstructure:"JAEGER"`
 	Auth               AuthConfig              `mapstructure:"AUTH"`
 	GithubVCSConfig    VCSSConfig              `mapstructure:"GITHUB_VCS_CONFIG"`
+	CadenceConfig      CadenceConfig           `mapstructure:"CADENCE_CONFIG"`
 	SupportedVcsConfig []string
+}
+
+type CadenceConfig struct {
+	Domain  string `mapstructure:"DOMAIN"`
+	Service string `mapstructure:"SERVICE"`
+	Port    string `mapstructure:"PORT"`
+	Host    string `mapstructure:"HOST"`
 }
 
 // GrpcServerConfig GrpcServerConfig: gRPC  server configuration
@@ -150,7 +158,6 @@ func GetConfigName() string {
 	if fileName != "" {
 		return fileName
 	}
-
 	// TODO: Remove default
 	return "config"
 }
@@ -162,14 +169,14 @@ func GetConfigDirectory() string {
 	}
 
 	// TODO: Remove default
-	return "."
+	return "./../../"
 }
 
 // GetConfig : will get the config
 func GetConfig() *Config {
 	configFileName := GetConfigName()
 	configFileDirectory := GetConfigDirectory()
-	logger.Log.Info("Config Details", zap.String("configFileDirectory", configFileDirectory), zap.String( "configFileName",  configFileName) )
+	logger.Log.Info("Config Details", zap.String("configFileDirectory", configFileDirectory), zap.String("configFileName", configFileName))
 
 	cfgFile, configFileLoadError := LoadConfig(configFileName, configFileDirectory)
 	if configFileLoadError != nil {

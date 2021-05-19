@@ -1,18 +1,18 @@
 package account
 
 import (
-	"alfred/modules/account/v1/models"
 	"alfred/modules/account/v1/pb"
 	"context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func (s *accountsServer) UpdateAccount(ctx context.Context, in *pb.UpdateAccountRequest) (*pb.Account, error) {
-	account := &models.Account{
-		Slug: in.GetAccount().GetSlug(),
+	if in.Account == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Account to update is not provided")
 	}
-	t := s.db.Model(&account).Where("id ="+in.Account.Id, true).Update("slug", in.Account.Slug)
-	if t.Error != nil {
-		return nil, t.Error
+	if len(in.GetAccount().GetId()) < 3 {
+		return nil, status.Error(codes.FailedPrecondition, "Account Id is not provided")
 	}
-	return in.Account, nil
+	return s.store.UpdateAccount(ctx, in)
 }

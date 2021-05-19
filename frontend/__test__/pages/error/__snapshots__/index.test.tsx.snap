@@ -13,7 +13,7 @@ exports[`Check Error page snapshot should match the snapshot 1`] = `
       <h1
         className="MuiTypography-root MuiTypography-h3 MuiTypography-colorPrimary"
       >
-        Alfred has encountered wit h
+        Alfred has encountered with
       </h1>
       <br />
       <h5

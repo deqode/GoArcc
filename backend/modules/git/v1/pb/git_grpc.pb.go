@@ -207,5 +207,5 @@ var _Gits_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "git.proto",
+	Metadata: "pb/git.proto",
 }

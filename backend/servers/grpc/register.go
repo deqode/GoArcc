@@ -38,5 +38,5 @@ func RegisterGrpcModules(srv *grpc.Server,
 	authPb.RegisterAuthenticationsServer(srv, auth.NewAuthenticationServer(db, config, grpcClientConnection))
 	vcsPb.RegisterVCSConnectionsServer(srv, vcs.NewVCSConnectionServer(db, config, grpcClientConnection))
 	accPb.RegisterAccountsServer(srv, acc.NewAccountsServer(db, config, grpcClientConnection))
-	gitPb.RegisterGitsServer(srv, git.NewGitServer(db, config, grpcClientConnection))
+	gitPb.RegisterGitsServer(srv, git.NewGitServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 }

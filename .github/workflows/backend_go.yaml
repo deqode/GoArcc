@@ -8,10 +8,11 @@ on:
       - common
       - protos/backend
       - protos/agent
+      - deployment/**
 
 jobs:
   build:
-    name: build binaries
+    name: Test Code
     defaults:
       run:
         working-directory: ./backend
@@ -27,34 +28,91 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          path: /tmp/docker_cache/go_mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}-
           restore-keys: |
             ${{ runner.os }}-go-
 
+#      # In this step, this action saves a list of existing images,
+#      # the cache is created without them in the post run.
+#      # It also restores the cache if it exists.
+#      - uses: satackey/action-docker-layer-caching@v0.0.11
+#        # Ignore the failure of a step and avoid terminating the job.
+#        continue-on-error: true
+
       - name: go mod download
-        run:  go mod download
+        run:  docker-compose run backend_api go mod download
 
       - name: Lint
-        run: make run-linter
+        run: docker-compose run backend_api make run-linter
 
-      - name: test
-        run: make test
+      - name: Test In Docker
+        run: docker-compose run backend_api make test
 
-
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: backend-coverage
-          retention-days: 5
-          path: backend/cover/
+#      - name: Upload coverage reports
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: backend-coverage
+#          retention-days: 5
+#          path: backend/cover/
 
       - name: build
-        run: make build
+        run: docker-compose run backend_api make build
 
-      - name: Upload binaries
-        uses: actions/upload-artifact@v2
+#      - name: Upload binaries
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: backend-binaries
+#          retention-days: 5
+#          path: backend/bin/
+
+      - run: docker-compose down
+
+  deploy:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/development' }}
+    name: build image and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
         with:
-          name: backend-binaries
-          retention-days: 5
-          path: backend/bin/
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+      - name: Login Docker
+        uses: lagren/docker-gcr-action@master
+        with:
+          SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SA_KEY }}
+          HOST: 'gcr.io'
+
+#      # In this step, this action saves a list of existing images,
+#      # the cache is created without them in the post run.
+#      # It also restores the cache if it exists.
+#      - uses: satackey/action-docker-layer-caching@v0.0.11
+#        # Ignore the failure of a step and avoid terminating the job.
+#        continue-on-error: true
+
+      - run: sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+      - run: sudo apt-get update
+      - run: sudo apt-get install pack-cli
+
+
+
+      - name: build image via pack
+        run: pack build backend_api --tag backend_api:${{ github.sha }} --tag backend_api:latest --path backend/ --buildpack gcr.io/paketo-buildpacks/go --builder paketobuildpacks/builder:tiny --volume "$(pwd)/common:/common"
+
+      - name: Tag Image
+        run: docker tag backend_api:${{ github.sha }} gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:${{ github.sha }}
+      - name: Push Image
+        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api:${{ github.sha }}
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.0
+
+      - run: gcloud container clusters get-credentials common --zone us-central1-c --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - run: helm upgrade --install backend deployment/k8s/backend/ --set image.repository=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend_api  --set image.tag=${{ github.sha }} --create-namespace --namespace development --debug
