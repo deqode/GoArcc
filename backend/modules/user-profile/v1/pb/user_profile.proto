@@ -77,9 +77,9 @@ message UserProfile {
     //email of user
     string email = 5 [(validate.rules).string.email = true];
     // phone of user
-    string phone_number = 6;
+    string phone_number = 6 [(validate.rules).string.len = 10];
     types.VCSProviders external_source = 7;
-    string profile_pic_url = 8;
+    string profile_pic_url = 8 [(validate.rules).string.uri = true];
     google.protobuf.Timestamp token_valid_till = 9;
 }
 

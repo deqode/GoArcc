@@ -10,8 +10,5 @@ func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.Get
 	if err != nil {
 		return nil, err
 	}
-	request := &pb.GetUserProfileRequest{
-		Id: in.Sub,
-	}
-	return s.store.GetUserProfile(ctx, request)
+	return s.store.GetUserProfileBySub(ctx, in)
 }

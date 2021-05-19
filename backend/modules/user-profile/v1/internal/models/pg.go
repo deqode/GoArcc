@@ -62,6 +62,25 @@ func (s userProfilePgStore) GetUserProfile(ctx context.Context, in *pb.GetUserPr
 	}, nil
 }
 
+func (s userProfilePgStore) GetUserProfileBySub(ctx context.Context, in *pb.GetUserProfileBySubRequest) (*pb.UserProfile, error) {
+	profile := UserProfile{}
+	result := s.db.First(&profile, "sub = ?", in.Sub)
+	if result.Error != nil {
+		return nil, status.Error(codes.Internal, result.Error.Error())
+	}
+	if result.RowsAffected == 0 {
+		return nil, status.Error(codes.NotFound, "No Record Found")
+	}
+	return &pb.UserProfile{
+		Id:             profile.ID,
+		ExternalSource: profile.Source,
+		Name:           profile.Name,
+		Email:          profile.Email,
+		Sub:            profile.Sub,
+		UserName:       profile.UserName,
+	}, nil
+}
+
 func (s userProfilePgStore) UpdateUserProfile(ctx context.Context, request *pb.UpdateUserProfileRequest) (*pb.UserProfile, error) {
 	panic("implement me")
 }

@@ -23,8 +23,8 @@ alfred
 go_build_alfred
 go_build_platform
 go_build_backend_
-repositories/
-repositories
+cmd/api/repositories/
+cmd/api/repositories
 vendor
 
 # temporary remove for production

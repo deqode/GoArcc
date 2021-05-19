@@ -454,11 +454,28 @@ func (m *UserProfile) Validate() error {
 		}
 	}
 
-	// no validation rules for PhoneNumber
+	if utf8.RuneCountInString(m.GetPhoneNumber()) != 10 {
+		return UserProfileValidationError{
+			field:  "PhoneNumber",
+			reason: "value length must be 10 runes",
+		}
+
+	}
 
 	// no validation rules for ExternalSource
 
-	// no validation rules for ProfilePicUrl
+	if uri, err := url.Parse(m.GetProfilePicUrl()); err != nil {
+		return UserProfileValidationError{
+			field:  "ProfilePicUrl",
+			reason: "value must be a valid URI",
+			cause:  err,
+		}
+	} else if !uri.IsAbs() {
+		return UserProfileValidationError{
+			field:  "ProfilePicUrl",
+			reason: "value must be absolute",
+		}
+	}
 
 	if v, ok := interface{}(m.GetTokenValidTill()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {

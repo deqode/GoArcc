@@ -36,7 +36,7 @@ export default function ShowBranches({
     // TODO:pop error
     if (data && data.repository) {
       setbranches(data.repository.branches || [])
-      setCloneUrl(data.repository.clone_url)
+      setCloneUrl(data.repository.repo_url)
     }
   }, [data, error])
 
