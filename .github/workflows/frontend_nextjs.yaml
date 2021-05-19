@@ -39,5 +39,5 @@ jobs:
         with:
           name: Coverage Reports
           retention-days: 5
-          path: coverage/
+          path: frontend/coverage/
       - run: npm run build
