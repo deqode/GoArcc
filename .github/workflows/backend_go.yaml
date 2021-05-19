@@ -59,12 +59,12 @@ jobs:
       - name: build
         run: docker-compose run backend_api make build
 
-      - name: Upload binaries
-        uses: actions/upload-artifact@v2
-        with:
-          name: backend-binaries
-          retention-days: 5
-          path: backend/bin/
+#      - name: Upload binaries
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: backend-binaries
+#          retention-days: 5
+#          path: backend/bin/
 
       - run: docker-compose down
 
