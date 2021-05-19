@@ -104,4 +104,5 @@ envs:
     POSTGRES_USER: postgres
     POSTGRES_DB_NAME: postgres
     CADENCE_CONFIG_HOST: cadence-frontend.cadence
-#    GITHUB_VCS_CONFIG_REDIRECT_URI: https://dev.alfred.sh/authentication/github/callback
+    GITHUB_VCS_CONFIG_REDIRECT_URI: https://development.alfred.sh/authentication/github/callback
+    AUTH_AUTH0_CALL_BACK_URL: https://development.alfred.sh/authentication/callback
