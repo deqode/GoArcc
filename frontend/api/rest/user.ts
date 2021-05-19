@@ -33,6 +33,6 @@ export const getAllUserAccounts = async (
   }
 }
 
-interface AllUserAccounts extends ResponseError {
+export interface AllUserAccounts extends ResponseError {
   accounts: Array<UserAccount>
 }

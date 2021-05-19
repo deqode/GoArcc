@@ -1,11 +1,10 @@
 import { Paper } from '@material-ui/core'
 import { withSentry } from '@sentry/nextjs'
-import { withIronSession } from 'next-iron-session'
 import Head from 'next/head'
 import BasicLayout from '../../components/layouts/BasicLayout'
-import { sessionCongfig } from '../../utils/constants'
+import { IronSessionRequest } from '../../interface'
 import { redirectToLandingPage } from '../../utils/redirects'
-import { validateUser } from '../../utils/user'
+import { sessionPropsWrapper, validateUser } from '../../utils/user'
 
 export default function Success() {
   return (
@@ -22,11 +21,12 @@ export default function Success() {
     </Paper>
   )
 }
-export const getServerSideProps = withSentry(
-  withIronSession(async ({ req }) => {
-    if (validateUser(req)) {
-      return { props: { user: req.session.get('user') } }
-    }
-    return redirectToLandingPage()
-  }, sessionCongfig)
-)
+
+export const handler = async ({ req }: { req: IronSessionRequest }) => {
+  if (validateUser(req)) {
+    return { props: { user: req.session.get('user') } }
+  }
+  return redirectToLandingPage()
+}
+
+export const getServerSideProps = withSentry(sessionPropsWrapper(handler))

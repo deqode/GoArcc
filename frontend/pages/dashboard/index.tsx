@@ -1,17 +1,15 @@
 import { Button, CircularProgress, Paper } from '@material-ui/core'
 import Head from 'next/head'
-import { sessionCongfig } from '../../utils/constants'
 import { ReactElement, useContext, useEffect, useState } from 'react'
-import { withIronSession } from 'next-iron-session'
 import UserContext from '../../contexts/UserContext'
 
-import { UserResponse } from '../../interface'
+import { IronSessionRequest, UserResponse } from '../../interface'
 import { getGithubVCSConnection } from '../../api/rest/fetchUrls'
-import { validateUser } from '../../utils/user'
+import { validateUser, sessionPropsWrapper } from '../../utils/user'
 import { useRouter } from 'next/router'
 import { redirectToLandingPage } from '../../utils/redirects'
-import { withSentry } from '@sentry/nextjs'
 import BasicLayout from '../../components/layouts/BasicLayout'
+import { withSentry } from '@sentry/nextjs'
 
 export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
   const [url, setUrl] = useState<string>('')
@@ -59,13 +57,12 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
   )
 }
 
-// TODO:Create common for withSentry & withIronSession
-export const getServerSideProps = withSentry(
-  withIronSession(async ({ req }) => {
-    if (validateUser(req)) {
-      return { props: { user: req.session.get('user') } }
-    }
-    return redirectToLandingPage()
-  }, sessionCongfig)
-)
+export const handler = async ({ req }: { req: IronSessionRequest }) => {
+  if (validateUser(req)) {
+    return { props: { user: req.session.get('user') } }
+  }
+  return redirectToLandingPage()
+}
+
+export const getServerSideProps = withSentry(sessionPropsWrapper(handler))
 export default Dashboard

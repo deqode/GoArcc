@@ -1,13 +1,12 @@
 import { Button, Paper } from '@material-ui/core'
 import Head from 'next/head'
-import { sessionCongfig } from '../utils/constants'
-import { withIronSession } from 'next-iron-session'
 import { getLoginURL } from '../api/rest/fetchUrls'
-import { validateUser } from '../utils/user'
+import { sessionPropsWrapper, validateUser } from '../utils/user'
 import { ReactElement } from 'react'
 import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
-import { withSentry } from '@sentry/nextjs'
 import BasicLayout from '../components/layouts/BasicLayout'
+import { NextApiRequest } from 'next'
+import { withSentry } from '@sentry/nextjs'
 
 const Landing = ({ url }: { url: string }): ReactElement => {
   return (
@@ -29,15 +28,15 @@ const Landing = ({ url }: { url: string }): ReactElement => {
   )
 }
 
-export const getServerSideProps = withSentry(
-  withIronSession(async ({ req }) => {
-    if (!validateUser(req)) {
-      const res = await getLoginURL()
-      if (!res.error) return { props: { url: res.url } }
-      return redirectToErrorPage('Network Error')
-    }
-    return redirectToDashboard()
-  }, sessionCongfig)
-)
+export const handler = async ({ req }: { req: NextApiRequest }) => {
+  if (!validateUser(req)) {
+    const res = await getLoginURL()
+    if (!res.error) return { props: { url: res.url } }
+    return redirectToErrorPage('Network Error')
+  }
+  return redirectToDashboard()
+}
+
+export const getServerSideProps = withSentry(sessionPropsWrapper(handler))
 
 export default Landing
