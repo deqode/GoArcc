@@ -36,6 +36,10 @@ service UserProfiles {
     }
 }
 
+// TODO -  internal proto seperate defined
+// TODO - public exposed endpoint and authenticated endpoint at service root
+// TODO - Separate folder for implementing internal services
+// TODO -
 //Private Service - Requires Authentication
 service UserProfileInternal {
     rpc CreateUserProfile(CreateUserProfileRequest) returns (UserProfile);

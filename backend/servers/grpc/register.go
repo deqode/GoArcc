@@ -4,8 +4,8 @@ import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	acc "alfred/modules/account/v1"
-	accPb "alfred/modules/account/v1/pb"
+	"alfred/modules/account/v1/external-svc"
+	"alfred/modules/account/v1/external-svc/pb"
 	"alfred/modules/architecture-suggester"
 	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
 	auth "alfred/modules/authentication/v1"
@@ -37,6 +37,6 @@ func RegisterGrpcModules(srv *grpc.Server,
 	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, architecture_suggester.NewArchitectureSuggesterService(cadenceConfig, cadenceAdapter))
 	authPb.RegisterAuthenticationsServer(srv, auth.NewAuthenticationServer(db, config, grpcClientConnection))
 	vcsPb.RegisterVCSConnectionsServer(srv, vcs.NewVCSConnectionServer(db, config, grpcClientConnection))
-	accPb.RegisterAccountsServer(srv, acc.NewAccountsServer(db, config, grpcClientConnection))
+	pb.RegisterAccountsServer(srv, external_svc.NewAccountExtServer(db, config, grpcClientConnection))
 	gitPb.RegisterGitsServer(srv, git.NewGitServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 }

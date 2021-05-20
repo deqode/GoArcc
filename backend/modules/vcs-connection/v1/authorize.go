@@ -41,8 +41,7 @@ func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeReq
 
 	// todo - find account id to identify user account
 	return &pb.AuthorizeResponse{
-		RedirectUrl:  redirectURL,
-		TempJwtToken: "",
+		RedirectUrl: redirectURL,
 	}, nil
 }
 

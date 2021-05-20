@@ -44,12 +44,22 @@ var _ = Describe("GetUserProfileBySub", func() {
 		UserProfileServer = userProfile.NewUserProfilesServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid id", func() {
-		Context("Context:When id is empty", func() {
-			It("It:Error must be returned", func() {
-				_, err := UserProfileServer.GetUserProfileBySub(context.Background(), &pb.GetUserProfileBySubRequest{Sub: ""})
-				Expect(err.(pb.GetUserProfileBySubRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
-			})
+	Describe("Get a user-profile", func() {
+		By("internal or external call")
+		Context("Get an error when id is empty", func() {
+			_, err := UserProfileServer.GetUserProfileBySub(context.Background(), &pb.GetUserProfileBySubRequest{Sub: ""})
+			Expect(err.(pb.GetUserProfileBySubRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 		})
+	})
+
+	Context("Get an error when id is wrong", func() {
+		It("should return not found error", func() {
+			_, err := UserProfileServer.GetUserProfileBySub(context.Background(), &pb.GetUserProfileBySubRequest{Sub: "wrongID"})
+			Expect(gorm.ErrRecordNotFound).Should(Equal(err))
+		})
+	})
+
+	Context("Get a record when id is provided", func() {
+		It("should return requested field in the object", func() {})
 	})
 })

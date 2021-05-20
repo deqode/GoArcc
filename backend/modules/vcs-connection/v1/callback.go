@@ -1,7 +1,6 @@
 package vcs_connection
 
 import (
-	internal_pb "alfred/modules/vcs-connection/v1/internals/pb"
 	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
 	"context"
@@ -27,7 +26,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 	var accessTokenExpiry, refreshTokenExpiry time.Time
 	var user *githubClient.User
 
-	vcs, err := s.internalVCSClient.GetVCSConnection(ctx, &internal_pb.GetVCSConnectionRequest{
+	vcs, err := s.GetVCSConnection(ctx, &pb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
 	})
@@ -77,7 +76,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 	}
 
 	label := in.Provider.String() + "-" + *user.Name
-	vcsObj := &internal_pb.VCSConnection{
+	vcsObj := &pb.VCSConnection{
 		Provider:           in.Provider,
 		ConnectionId:       *user.Login,
 		AccessToken:        accessToken,
@@ -89,7 +88,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 		UserName:           *user.Login,
 		Label:              label,
 	}
-	_, err = s.internalVCSClient.CreateVCSConnection(ctx, &internal_pb.CreateVCSConnectionRequest{
+	_, err = s.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
 		VcsConnection: vcsObj,
 	})
 	if err != nil {

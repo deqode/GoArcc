@@ -2,7 +2,7 @@ package graphql
 
 import (
 	"alfred.sh/common/logger"
-	accPb "alfred/modules/account/v1/pb"
+	"alfred/modules/account/v1/external-svc/pb"
 	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
 	gitPb "alfred/modules/git/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
@@ -34,7 +34,7 @@ func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error 
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
-	if err := accPb.RegisterAccountsGraphqlHandler(mux, conn); err != nil {
+	if err := pb.RegisterAccountsGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

@@ -4,8 +4,8 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/account/v1"
-	"alfred/modules/account/v1/pb"
+	"alfred/modules/account/v1/external-svc"
+	pb2 "alfred/modules/account/v1/external-svc/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -18,7 +18,7 @@ import (
 
 var _ = Describe("UpdateUserProfile", func() {
 	var (
-		accountServer pb.AccountsServer
+		accountServer pb2.AccountsServer
 		cfg           *config.Config
 	)
 	BeforeEach(func() {
@@ -43,13 +43,13 @@ var _ = Describe("UpdateUserProfile", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		accountServer = account.NewAccountsServer(fields.db, fields.config, fields.grpcClient)
+		accountServer = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
 	})
 
 	Describe("Describe:Categorizing with invalid id", func() {
 		Context("Context:When account id is empty", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.UpdateAccount(context.Background(), &pb.UpdateAccountRequest{Account: &pb.Account{
+				_, err := accountServer.UpdateAccount(context.Background(), &pb2.UpdateAccountRequest{Account: &pb2.Account{
 					Id:     "",
 					Slug:   "",
 					UserId: "",
@@ -59,7 +59,7 @@ var _ = Describe("UpdateUserProfile", func() {
 		})
 		Context("Context:When account is nil", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.UpdateAccount(context.Background(), &pb.UpdateAccountRequest{Account: nil})
+				_, err := accountServer.UpdateAccount(context.Background(), &pb2.UpdateAccountRequest{Account: nil})
 				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Account to update is not provided")))
 			})
 		})

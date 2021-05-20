@@ -4,8 +4,8 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/account/v1"
-	"alfred/modules/account/v1/pb"
+	"alfred/modules/account/v1/external-svc"
+	pb2 "alfred/modules/account/v1/external-svc/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -16,7 +16,7 @@ import (
 
 var _ = Describe("GetUserProfile", func() {
 	var (
-		accountServer pb.AccountsServer
+		accountServer pb2.AccountsServer
 		cfg           *config.Config
 	)
 	BeforeEach(func() {
@@ -41,21 +41,26 @@ var _ = Describe("GetUserProfile", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		accountServer = account.NewAccountsServer(fields.db, fields.config, fields.grpcClient)
+		accountServer = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid id", func() {
-		Context("Context:When id is empty", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.GetAccount(context.Background(), &pb.GetAccountRequest{Id: ""})
-				Expect(err.(pb.GetAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
+	Describe("Get a user-profile", func() {
+		By("internal or external call")
+		Context("Get an error when id is empty", func() {
+			It("it should return validation error", func() {
+				_, err := accountServer.GetAccount(context.Background(), &pb2.GetAccountRequest{Id: ""})
+				Expect(err.(pb2.GetAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 			})
 		})
-		Context("Context:When id is wrong", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.GetAccount(context.Background(), &pb.GetAccountRequest{Id: "wrongID"})
+		Context("Get an error when id is wrong", func() {
+			It("should return not found error", func() {
+				_, err := accountServer.GetAccount(context.Background(), &pb2.GetAccountRequest{Id: "wrongID"})
 				Expect(gorm.ErrRecordNotFound).Should(Equal(err))
 			})
+		})
+
+		Context("Get a record when id is provided", func() {
+			It("should return requested field in the object", func() {})
 		})
 	})
 })

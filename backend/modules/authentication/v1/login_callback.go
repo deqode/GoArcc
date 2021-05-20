@@ -1,7 +1,7 @@
 package authentication
 
 import (
-	accountInPb "alfred/modules/account/v1/pb"
+	intAcc "alfred/modules/account/v1/internal-svc/pb"
 	"alfred/modules/authentication/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
@@ -87,8 +87,8 @@ func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile
 	}
 
 	//create User Account
-	_, err = s.accountInServer.CreateAccount(ctx, &accountInPb.CreateAccountRequest{
-		Account: &accountInPb.Account{
+	_, err = s.accountInServer.CreateAccount(ctx, &intAcc.CreateAccountRequest{
+		Account: &intAcc.Account{
 			Slug:   user.Name + "_" + user.ExternalSource.String(),
 			UserId: user.Id,
 		},

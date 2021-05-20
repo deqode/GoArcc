@@ -44,12 +44,25 @@ var _ = Describe("DeleteUserProfile", func() {
 		UserProfileServer = userProfile.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid id", func() {
-		Context("Context:When id is empty", func() {
-			It("It:Error must be returned", func() {
+	Describe("Deleting a user profile", func() {
+		By("By an internal RPC Call")
+		Context("Get an error when no user_id provided", func() {
+			It("Should return validation error", func() {
 				_, err := UserProfileServer.DeleteUserProfile(context.Background(), &pb.DeleteUserProfileRequest{Id: ""})
 				Expect(err.(pb.DeleteUserProfileRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 			})
+		})
+
+		Context("Get an error when request is nil", func() {
+			It("should return error ", func() {})
+		})
+
+		Context("Return nil when wrong user_id provided", func() {
+			It("should not perform any action in DB and return nil", func() {})
+		})
+
+		Context("Return confirmation when record soft deleted inn DB", func() {
+			It("should return a boolean value", func() {})
 		})
 	})
 

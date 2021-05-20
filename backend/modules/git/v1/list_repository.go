@@ -3,7 +3,7 @@ package git
 import (
 	"alfred/modules/git/v1/internal/github"
 	"alfred/modules/git/v1/pb"
-	vcsinternalPb "alfred/modules/vcs-connection/v1/internals/pb"
+	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
 	"context"
 	"google.golang.org/grpc/codes"
@@ -17,7 +17,7 @@ func (s *gitServer) ListRepository(ctx context.Context, in *pb.ListRepositoryReq
 	if err != nil {
 		return nil, err
 	}
-	vcs, err := s.vcsInServer.GetVCSConnection(ctx, &vcsinternalPb.GetVCSConnectionRequest{
+	vcs, err := s.vcsInServer.GetVCSConnection(ctx, &vcsPb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
 	})

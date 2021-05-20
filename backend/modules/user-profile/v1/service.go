@@ -2,7 +2,7 @@ package user_profile
 
 import (
 	"alfred/config"
-	accountPb "alfred/modules/account/v1/pb"
+	pb2 "alfred/modules/account/v1/external-svc/pb"
 	model "alfred/modules/user-profile/v1/internal/models"
 	"alfred/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
@@ -13,7 +13,7 @@ type userProfilesServer struct {
 	db            *gorm.DB
 	config        *config.Config
 	grpcClient    *grpc.ClientConn
-	accountClient accountPb.AccountsServer
+	accountClient pb2.AccountsServer
 	store         model.UserProfileStore
 }
 
@@ -40,7 +40,7 @@ type userProfileInServer struct {
 	db            *gorm.DB
 	config        *config.Config
 	grpcClient    *grpc.ClientConn
-	accountClient accountPb.AccountsServer
+	accountClient pb2.AccountsServer
 	store         model.UserProfileStore
 }
 

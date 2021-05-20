@@ -59,19 +59,59 @@ var _ = Describe("CreateUserProfile", func() {
 		UserProfileServer = userProfile.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid user_id", func() {
-		Context("Context:When sub is empty", func() {
-			It("It:Error must be returned", func() {
+	Describe("Creating an user profile", func() {
+		By("By a internal RPC Call")
+		Context("Get an error when nil User provided", func() {
+			It("should return nil exception", func() {
+				_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: nil})
+				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "UserProfile not provided")))
+			})
+		})
+
+		Context("Create a user when sub is empty", func() {
+			It("It should return validation error", func() {
 				request := Profile
 				request.Sub = ""
 				_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
 				Expect(err.(pb.CreateUserProfileRequestValidationError).Cause().(pb.UserProfileValidationError).Field()).Should(Equal("Sub"))
 			})
 		})
-		Context("Context:When request is nil", func() {
-			It("It:Error must be returned", func() {
-				_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: nil})
-				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "UserProfile not provided")))
+
+		Context("Get an error when user created with wrong email", func() {
+			It("if email is not provided then ignore because its a non required field", func() {})
+			It("Should return validation error when email is provided but not formatted", func() {})
+		})
+
+		Context("Get an error when user created with wrong Phone", func() {
+			It("if phone is not provided then ignore because its a non required field", func() {})
+			It("Should return validation error when phone number is not in proper", func() {})
+		})
+
+		Context("Get an error when name of user not provided", func() {
+			It("if name is nil", func() {})
+			It("if name length exceed maximum upto 100 character", func() {})
+		})
+
+		Context("Get an error when user-name of user not provided", func() {
+			It("if user-name is nil return error", func() {})
+			It("if user-name length exceed maximum upto 100 character return error", func() {})
+		})
+
+		Context("Return proper error when user is creating from unknown source", func() {
+			It("should return error if user is from unknown source", func() {})
+		})
+
+		Context("Get an error when wrong profile-address provided", func() {
+			It("if not a valid url return error", func() {})
+
+		})
+		Context("Get an error when user create with already existing sub", func() {
+			It("should return already exists error", func() {})
+		})
+
+		Context("It must return a user id when user created into DB", func() {
+			It("should return user_id as uuid", func() {
+
 			})
 		})
 	})
