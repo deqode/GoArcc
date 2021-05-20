@@ -49,8 +49,6 @@ export default function ShowRepos({
     else setCurrentRepo('')
   }
 
-  console.log(loading, error, data, "+++++++++++++++++++++++++++++++")
-
   return (
     <Grid item xs={12} md={12}>
       <FormControl variant="outlined">

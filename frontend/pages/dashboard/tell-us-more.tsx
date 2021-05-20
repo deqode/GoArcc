@@ -13,7 +13,11 @@ import useGetTellUsMoreState from '../../components/tellUsMore/useGetTellUsMoreS
 import UserContext from '../../contexts/UserContext'
 import { UserResponse } from '../../interface'
 import { sessionCongfig } from '../../utils/constants'
-import { redirectToDashboard, redirectToErrorPage, redirectToLandingPage } from '../../utils/redirects'
+import {
+  redirectToDashboard,
+  redirectToErrorPage,
+  redirectToLandingPage,
+} from '../../utils/redirects'
 import { validateUser } from '../../utils/user'
 
 const TellUsMore = ({

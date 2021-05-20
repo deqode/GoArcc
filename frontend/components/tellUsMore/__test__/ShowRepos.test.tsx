@@ -26,9 +26,8 @@ const props = {
 }
 // TODO need to wait for load
 
-it('should show circular progress and match snapshot if repo list is not available yet', async() =>{
-
-})
+it('should show circular progress and match snapshot if repo list is not available yet', async () =>
+  null)
 
 it('should render repo list and match the snapshot if repo list is available', async () => {
   let component: any
@@ -49,6 +48,4 @@ it('should render repo list and match the snapshot if repo list is available', a
   })
 })
 
-it('should set current repo on select', async() => {
-  
-})
+it('should set current repo on select', async () => null)

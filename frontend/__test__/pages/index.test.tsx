@@ -8,14 +8,11 @@ jest.mock('../../api/rest/fetchUrls', () => {
         url: 'mockUrl',
         error: false,
       })
-    )
+    ),
   }
 })
 
-
-
 describe('Landing page tests', () => {
-
   it('should match the snapshot', () => {
     const tree = renderer.create(<Landing url={'moc url'} />).toJSON()
     expect(tree).toMatchSnapshot()
@@ -35,12 +32,7 @@ describe('Landing page tests', () => {
     expect(response).toStrictEqual({ redirect: { permanent: false, destination: '/dashboard' } })
   })
 
-  it('should redirect to error page if network error', async() => {
-    
-  })
+  it('should redirect to error page if network error', async () => null)
 
-  it('should redirect to github sign up page on Sing Up button click', async() => {
-    
-  })
-  
+  it('should redirect to github sign up page on Sing Up button click', async () => null)
 })

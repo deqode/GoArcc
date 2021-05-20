@@ -28,13 +28,10 @@ const props = {
   setCloneUrl: jest.fn(),
 }
 
-it('should show circular progress and match snapshot, if branch list is not available yet', async() =>{
+it('should show circular progress and match snapshot, if branch list is not available yet', async () =>
+  null)
 
-})
-
-it('should not show any branch to select if repo name not yet set', async() =>{
-
-})
+it('should not show any branch to select if repo name not yet set', async () => null)
 
 it('should render branches list and match snapshot if repo name is set', async () => {
   let component: any
@@ -55,6 +52,4 @@ it('should render branches list and match snapshot if repo name is set', async (
   })
 })
 
-it('should set current branch on select', async() => {
-  
-})
+it('should set current branch on select', async () => null)
