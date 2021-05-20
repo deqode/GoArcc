@@ -40,19 +40,22 @@ export const getAuth0Callback = async (code: string, state: string): Promise<Use
     }
 }
 
+interface AccounID {
+  accountId: string
+}
 export const getVCSConnectionGitHubCallback = async (
   code: string,
   accountId: string,
   idToken: string
-): Promise<ResponseError<any>> => {
+): Promise<ResponseError<AccounID>> => {
   //TODO:any?
   if (code !== '' && accountId !== '') {
-    const response = await get<ResponseError<any>>(
+    const response = await get<AccounID>(
       `${SERVER}/vcs-connection/GITHUB/callback?code=${code}&account_id=${accountId}`,
       { Authorization: `Bearer ${idToken}` }
     )
     if (response.error) return response
-    if (response.data?.data) {
+    if (response.data && response.data.accountId) {
       return {
         error: false,
         message: '',

@@ -11,7 +11,7 @@ const mockresult: ApolloQueryResult<any> = {
   },
 }
 
-jest.mock('../../../apolloClient', () => {
+jest.mock('../../../services/apollo/apolloClient', () => {
   const mApolloClient = { query: jest.fn().mockImplementation(() => Promise.resolve(mockresult)) }
   return { client: jest.fn().mockImplementation(() => Promise.resolve(() => mApolloClient)) }
 })
