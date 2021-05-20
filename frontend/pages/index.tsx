@@ -1,20 +1,18 @@
 import { Button, Paper } from '@material-ui/core'
-import Head from 'next/head'
-import { getLoginURL } from '../api/rest/fetchUrls'
-import { sessionPropsWrapper, validateUser } from '../utils/user'
-import { ReactElement } from 'react'
-import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
-import BasicLayout from '../components/layouts/BasicLayout'
-import { NextApiRequest } from 'next'
 import { withSentry } from '@sentry/nextjs'
+import { NextApiRequest } from 'next'
+import { ReactElement } from 'react'
+
+import { getLoginURL } from '../api/rest/fetchUrls'
+import BasicLayout from '../components/layouts/BasicLayout'
+import PageHead, { Titles } from '../components/PageHead'
+import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
+import { sessionPropsWrapper, validateUser } from '../utils/user'
 
 const Landing = ({ url }: { url: string }): ReactElement => {
   return (
     <Paper elevation={0}>
-      <Head>
-        <title>Login to Alfred</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <PageHead title={Titles.WELCOME} />
       <BasicLayout
         heading={'Welcome to Alfred'}
         subHeading={'Provide your repo, Select your cloud, and let Alfred do the heavy lifting '}

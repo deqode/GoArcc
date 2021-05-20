@@ -1,7 +1,9 @@
 import axios from 'axios'
-import { ResponseError, UserResponse } from '../../interface'
 
+import { ResponseError, UserResponse } from '../../interface'
 import { SERVER } from '../../utils/constants'
+
+interface UserAuthResponse extends ResponseError, UserResponse {}
 
 export const getAuth0Callback = async (code: string, state: string): Promise<UserAuthResponse> => {
   if (code !== '' && state !== '')
@@ -83,5 +85,3 @@ export const getVCSConnectionGitHubCallback = async (
       // TODO : integrate with error message from backend
     }
 }
-
-interface UserAuthResponse extends ResponseError, UserResponse {}

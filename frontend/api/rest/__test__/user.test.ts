@@ -1,5 +1,7 @@
 import mockAxios from 'axios'
+
 import { getAllUserAccounts } from '../user'
+
 describe('call getAllUserAccounts', () => {
   afterEach(() => {
     jest.clearAllMocks()

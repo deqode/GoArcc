@@ -1,10 +1,14 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 
+interface Ids {
+  runId: string
+  workflowId: string
+}
 const useGetTellUsMoreState = (): InitTellUSMore => {
-  const [currentRepo, setCurrentRepo] = useState('')
-  const [branchName, setBranchName] = useState('')
-  const [cloneUrl, setCloneUrl] = useState('')
-  const [cloneData, setCloneData] = useState({ runId: '', workflowId: '' })
+  const [currentRepo, setCurrentRepo] = useState<string>('')
+  const [branchName, setBranchName] = useState<string>('')
+  const [cloneUrl, setCloneUrl] = useState<string>('')
+  const [cloneData, setCloneData] = useState<Ids>({ runId: '', workflowId: '' })
   return {
     currentRepo,
     setCurrentRepo,
@@ -28,12 +32,7 @@ interface InitTellUSMore {
     runId: string
     workflowId: string
   }
-  setCloneData: Dispatch<
-    SetStateAction<{
-      runId: string
-      workflowId: string
-    }>
-  >
+  setCloneData: Dispatch<SetStateAction<Ids>>
 }
 
 export default useGetTellUsMoreState

@@ -1,7 +1,9 @@
 import { MockedProvider } from '@apollo/client/testing'
 import { act, create, ReactTestRenderer } from 'react-test-renderer'
+
 import { GET_BRANCHES, GET_REPOSITORIES } from '../../../GraphQL/Query'
 import TellUsMore from '../../../pages/dashboard/tell-us-more'
+
 const props = {
   user: { accessToken: 'accessToken', idToken: 'idToken', userId: 'userId' },
   accountId: 'accountId',

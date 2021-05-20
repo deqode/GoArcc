@@ -1,4 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client'
+
 import { getOwnerName } from '../vcs'
 
 const mockresult: ApolloQueryResult<any> = {

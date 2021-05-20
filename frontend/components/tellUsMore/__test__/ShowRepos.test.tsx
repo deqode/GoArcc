@@ -1,6 +1,7 @@
-import TestRenderer from 'react-test-renderer'
 import { MockedProvider } from '@apollo/client/testing'
 import { waitFor } from '@testing-library/react'
+import TestRenderer from 'react-test-renderer'
+
 import { GET_REPOSITORIES } from '../../../GraphQL/Query'
 import ShowRepos from '../ShowRepos'
 

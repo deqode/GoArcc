@@ -1,4 +1,5 @@
 import mockAxios from 'axios'
+
 import { UserResponse } from '../../../interface'
 import { destroyUserSession, setUserSession } from '../session'
 

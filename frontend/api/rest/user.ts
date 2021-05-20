@@ -1,6 +1,11 @@
 import axios from 'axios'
+
 import { ResponseError, UserAccount } from '../../interface'
 import { SERVER } from '../../utils/constants'
+
+export interface AllUserAccounts extends ResponseError {
+  accounts: Array<UserAccount>
+}
 
 export const getAllUserAccounts = async (
   userId: string,
@@ -31,8 +36,4 @@ export const getAllUserAccounts = async (
       // TODO : integrate with error message from backend
     }
   }
-}
-
-export interface AllUserAccounts extends ResponseError {
-  accounts: Array<UserAccount>
 }

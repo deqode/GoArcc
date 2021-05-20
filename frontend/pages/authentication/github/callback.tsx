@@ -1,14 +1,16 @@
-import React, { ReactElement, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { sessionCongfig } from '../../../utils/constants'
-import { withIronSession } from 'next-iron-session'
-import { getVCSConnectionGitHubCallback } from '../../../api/rest/callbacks'
-import { validateUser } from '../../../utils/user'
-import { UserResponse } from '../../../interface'
-import { getAllUserAccounts } from '../../../api/rest/user'
-import { withSentry } from '@sentry/nextjs'
-import BasicLayout from '../../../components/layouts/BasicLayout'
 import { CircularProgress } from '@material-ui/core'
+import { withSentry } from '@sentry/nextjs'
+import { withIronSession } from 'next-iron-session'
+import { useRouter } from 'next/router'
+import React, { Fragment, ReactElement, useEffect } from 'react'
+
+import { getVCSConnectionGitHubCallback } from '../../../api/rest/callbacks'
+import { getAllUserAccounts } from '../../../api/rest/user'
+import BasicLayout from '../../../components/layouts/BasicLayout'
+import PageHead, { Titles } from '../../../components/PageHead'
+import { UserResponse } from '../../../interface'
+import { sessionCongfig } from '../../../utils/constants'
+import { validateUser } from '../../../utils/user'
 
 function Callback({ user }: { user: UserResponse }): ReactElement {
   const router = useRouter()
@@ -17,15 +19,15 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
   useEffect(() => {
     if (query.code && query.code.length > 0) {
       ;(async () => {
-        if (query.code && typeof query.code === 'string' && user.userId !== '') {
+        if (query.code && query.code && user.userId !== '') {
           const res = await getAllUserAccounts(user.userId, user.idToken)
           if (res.error) {
             router.push('/error?message=user not found')
             return
           }
           const vcs = await getVCSConnectionGitHubCallback(
-            query.code,
-            res.accounts[0].id,
+            query.code as string,
+            res.accounts[0].id as string,
             user.idToken
           )
           if (!vcs.error) router.push('/dashboard/tell-us-more')
@@ -34,7 +36,12 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
     } else router.push('/')
   }, [query, router, user])
 
-  return <BasicLayout heading={'Alfred connecting to github'} component={<CircularProgress />} />
+  return (
+    <Fragment>
+      <PageHead title={Titles.LOADING} />
+      <BasicLayout heading={'Alfred connecting to github'} component={<CircularProgress />} />
+    </Fragment>
+  )
 }
 
 export default Callback

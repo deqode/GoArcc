@@ -1,12 +1,12 @@
-import { AppProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
-import client from '../apolloClient'
-import UserContext, { useUserContext, defaultUser } from '../contexts/UserContext'
-import Navbar from '../components/Navbar'
-import { ReactElement, useEffect } from 'react'
 import { ThemeProvider } from '@material-ui/styles'
+import { AppProps } from 'next/app'
+import { ReactElement, useEffect } from 'react'
+
+import client from '../apolloClient'
+import Navbar from '../components/Navbar'
+import UserContext, { useUserContext, defaultUser } from '../contexts/UserContext'
 import theme from '../styles/Theme'
-import Head from 'next/head'
 
 const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
   const { user, setUser, removeUser } = useUserContext(defaultUser)
@@ -17,13 +17,20 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
       jssStyles.parentElement.removeChild(jssStyles)
     }
   }, [])
-
+  useEffect(() => {
+    if (pageProps.user && pageProps.user.idToken.length)
+      setUser({
+        idToken: pageProps.user.idToken,
+        loggedIn: true,
+      })
+    else
+      setUser({
+        idToken: '',
+        loggedIn: false,
+      })
+  }, [pageProps])
   return (
     <UserContext.Provider value={{ user, setUser, removeUser }}>
-      <Head>
-        <title>My page</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-      </Head>
       <ApolloProvider client={client(user)}>
         <ThemeProvider theme={theme}>
           <Navbar />

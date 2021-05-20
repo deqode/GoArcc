@@ -1,7 +1,14 @@
 import axios from 'axios'
-import { ResponseError } from '../../interface'
 
+import { ResponseError } from '../../interface'
 import { SERVER } from '../../utils/constants'
+
+interface GithubVCSConnection extends ResponseError {
+  redirectUrl: string
+}
+interface LoginURL extends ResponseError {
+  url: string
+}
 
 export const getLoginURL = async (): Promise<LoginURL> => {
   try {
@@ -55,11 +62,4 @@ export const getGithubVCSConnection = async (idToken: string): Promise<GithubVCS
       // TODO : integrate with error message from backend
     }
   }
-}
-
-interface GithubVCSConnection extends ResponseError {
-  redirectUrl: string
-}
-interface LoginURL extends ResponseError {
-  url: string
 }

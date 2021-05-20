@@ -1,4 +1,5 @@
 import { Handler, withIronSession } from 'next-iron-session'
+
 import { sessionCongfig } from './constants'
 
 export const validateUser = (req: any): boolean => {

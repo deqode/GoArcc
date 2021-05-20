@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { ResponseError, UserResponse } from '../../interface'
 
 export const setUserSession = async (data: UserResponse): Promise<ResponseError> => {

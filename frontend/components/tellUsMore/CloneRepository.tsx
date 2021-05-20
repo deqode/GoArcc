@@ -1,15 +1,31 @@
 import { useMutation } from '@apollo/client'
 import { Button, Grid } from '@material-ui/core'
 import React, { Dispatch, ReactElement, SetStateAction, useEffect } from 'react'
+
 import { CLONE_REPOSITORY } from '../../GraphQL/Query'
-export default function CloneRepository({
+
+interface CloneRepositoryInput {
+  cloneURL: string
+  branchName: string
+  accountId: string
+  provider: string
+  ownerName: string
+  setCloneData: Dispatch<
+    SetStateAction<{
+      runId: string
+      workflowId: string
+    }>
+  >
+}
+
+const CloneRepository = ({
   cloneURL,
   branchName,
   accountId,
   provider,
   ownerName,
   setCloneData,
-}: CloneRepositoryInput): ReactElement {
+}: CloneRepositoryInput): ReactElement => {
   const [callCloneRepo, clonedData] = useMutation(CLONE_REPOSITORY)
   const cloneRepo = () => {
     callCloneRepo({
@@ -41,16 +57,4 @@ export default function CloneRepository({
   )
 }
 
-interface CloneRepositoryInput {
-  cloneURL: string
-  branchName: string
-  accountId: string
-  provider: string
-  ownerName: string
-  setCloneData: Dispatch<
-    SetStateAction<{
-      runId: string
-      workflowId: string
-    }>
-  >
-}
+export default CloneRepository

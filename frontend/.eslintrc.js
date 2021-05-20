@@ -12,7 +12,14 @@ module.exports = {
   }, // to enable features such as async/await
   ignorePatterns: ['node_modules/*', '.next/*', '.out/*', '!.prettierrc.js'], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
   extends: ['eslint:recommended',],
-
+  plugins: ["simple-import-sort", "import"],
+  rules: {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error"
+  },
   overrides: [
     // This configuration will apply only to TypeScript files
     {
@@ -59,6 +66,8 @@ module.exports = {
         "eqeqeq": "error", // must have !== & ===
         "no-console": "error", //no console.log
         "prefer-arrow-callback": "error",
+        "simple-import-sort/imports": "off",
+        "import/order": ["error", { "newlines-between": "always" ,"alphabetize": {"order": "asc", "caseInsensitive": true}}],
       },
     },
   ],

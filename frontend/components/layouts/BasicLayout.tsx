@@ -1,5 +1,6 @@
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
 import React, { ReactElement } from 'react'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: 100,

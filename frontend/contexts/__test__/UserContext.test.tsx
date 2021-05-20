@@ -1,5 +1,6 @@
-import { useUserContext, defaultUser, UserContext, defaultUserContext } from '../UserContext'
 import { render, cleanup, act } from '@testing-library/react'
+
+import { useUserContext, defaultUser, UserContext, defaultUserContext } from '../UserContext'
 
 const User = ({ children }) => children(useUserContext(defaultUser))
 const setup = (): UserContext => {

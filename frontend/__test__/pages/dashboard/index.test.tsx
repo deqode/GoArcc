@@ -1,4 +1,5 @@
 import renderer from 'react-test-renderer'
+
 import { UserResponse } from '../../../interface'
 import Dashboard, { handler } from '../../../pages/dashboard'
 

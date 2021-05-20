@@ -1,6 +1,7 @@
-import { withIronSession } from 'next-iron-session'
-import { sessionCongfig } from '../../../utils/constants'
 import { withSentry } from '@sentry/nextjs'
+import { withIronSession } from 'next-iron-session'
+
+import { sessionCongfig } from '../../../utils/constants'
 
 // TODO:validate
 export const handler = async (req: any, res: any) => {

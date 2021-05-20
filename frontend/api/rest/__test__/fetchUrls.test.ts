@@ -1,5 +1,6 @@
-import { getGithubVCSConnection, getLoginURL } from '../fetchUrls'
 import mockAxios from 'axios'
+
+import { getGithubVCSConnection, getLoginURL } from '../fetchUrls'
 
 describe('call getLoginURL', () => {
   afterEach(() => {

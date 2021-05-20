@@ -8,8 +8,18 @@ import {
   Select,
 } from '@material-ui/core'
 import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
+
 import { GET_BRANCHES } from '../../GraphQL/Query'
 import { useSelectStyles } from '../../styles/commonStyles'
+
+interface ShowBranchesInput {
+  ownerName: string
+  repoName: string
+  accountId: string
+  provider: string
+  setBranchName: Dispatch<SetStateAction<string>>
+  setCloneUrl: Dispatch<SetStateAction<string>>
+}
 
 export default function ShowBranches({
   ownerName,
@@ -19,7 +29,7 @@ export default function ShowBranches({
   setBranchName,
   setCloneUrl,
 }: ShowBranchesInput): ReactElement {
-  const [branches, setbranches] = useState([])
+  const [branches, setbranches] = useState<Array<string>>([])
   const classes = useSelectStyles()
 
   const { loading, error, data } = useQuery(GET_BRANCHES, {
@@ -46,8 +56,7 @@ export default function ShowBranches({
       value: unknown
     }>
   ): void => {
-    if (typeof e.target.value === 'string') setBranchName(e.target.value)
-    else setBranchName('')
+    setBranchName(e.target.value as string)
   }
 
   return (
@@ -64,9 +73,9 @@ export default function ShowBranches({
             onChange={selectBranch}
             label="Repo Name"
             disabled={!(branches.length > 0)}>
-            {branches.map((r: string) => (
-              <MenuItem key={r} value={r}>
-                {r}
+            {branches.map((name: string) => (
+              <MenuItem key={name} value={name}>
+                {name}
               </MenuItem>
             ))}
           </Select>
@@ -74,12 +83,4 @@ export default function ShowBranches({
       )}
     </Grid>
   )
-}
-interface ShowBranchesInput {
-  ownerName: string
-  repoName: string
-  accountId: string
-  provider: string
-  setBranchName: Dispatch<SetStateAction<string>>
-  setCloneUrl: Dispatch<SetStateAction<string>>
 }

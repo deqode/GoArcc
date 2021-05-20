@@ -1,6 +1,7 @@
-import TestRenderer from 'react-test-renderer'
 import { MockedProvider } from '@apollo/client/testing'
 import { waitFor } from '@testing-library/react'
+import TestRenderer from 'react-test-renderer'
+
 import { GET_BRANCHES } from '../../../GraphQL/Query'
 import ShowBranches from '../ShowBranches'
 

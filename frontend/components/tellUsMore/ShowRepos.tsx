@@ -8,6 +8,7 @@ import {
   Select,
 } from '@material-ui/core'
 import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
+
 import { GET_REPOSITORIES } from '../../GraphQL/Query'
 import { useSelectStyles } from '../../styles/commonStyles'
 
@@ -29,8 +30,10 @@ export default function ShowRepos({
       accountId,
     },
   })
-
-  const [repos, setRepos] = useState([])
+  interface Repos {
+    name: string
+  }
+  const [repos, setRepos] = useState<Array<Repos>>([])
   const classes = useSelectStyles()
 
   useEffect(() => {
@@ -45,8 +48,7 @@ export default function ShowRepos({
       value: unknown
     }>
   ): void => {
-    if (typeof e.target.value === 'string') setCurrentRepo(e.target.value)
-    else setCurrentRepo('')
+    setCurrentRepo(e.target.value as string)
   }
 
   return (
@@ -65,9 +67,9 @@ export default function ShowRepos({
               <CircularProgress color="secondary" />
             </MenuItem>
           )}
-          {repos.map((r: { name: string }) => (
-            <MenuItem key={r.name} value={r.name}>
-              {r.name}
+          {repos.map((repo: Repos) => (
+            <MenuItem key={repo.name} value={repo.name}>
+              {repo.name}
             </MenuItem>
           ))}
         </Select>

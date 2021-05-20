@@ -1,16 +1,14 @@
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Fragment, ReactElement } from 'react'
+
 import BasicLayout from '../../components/layouts/BasicLayout'
+import PageHead, { Titles } from '../../components/PageHead'
 
 const ErrorPage = (): ReactElement => {
   const router = useRouter()
   return (
     <Fragment>
-      <Head>
-        <title>Error !!</title>
-        <link rel="icon" href="assets/alfred.png" />
-      </Head>
+      <PageHead title={Titles.ERROR} />
       <BasicLayout
         heading={'Alfred has encountered with'}
         component={router.query.message || 'Error'}

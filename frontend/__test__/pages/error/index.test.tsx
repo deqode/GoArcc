@@ -1,4 +1,5 @@
 import renderer from 'react-test-renderer'
+
 import ErrorPage from '../../../pages/error/index'
 
 jest.mock('next/router', () => ({

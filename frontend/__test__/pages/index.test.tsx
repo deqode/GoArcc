@@ -1,4 +1,5 @@
 import renderer from 'react-test-renderer'
+
 import Landing, { handler } from '../../pages'
 
 jest.mock('../../api/rest/fetchUrls', () => {
@@ -8,14 +9,11 @@ jest.mock('../../api/rest/fetchUrls', () => {
         url: 'mockUrl',
         error: false,
       })
-    )
+    ),
   }
 })
 
-
-
 describe('Landing page tests', () => {
-
   it('should match the snapshot', () => {
     const tree = renderer.create(<Landing url={'moc url'} />).toJSON()
     expect(tree).toMatchSnapshot()
@@ -34,5 +32,4 @@ describe('Landing page tests', () => {
     const response = await handler({ req })
     expect(response).toStrictEqual({ redirect: { permanent: false, destination: '/dashboard' } })
   })
-  
 })

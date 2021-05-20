@@ -1,3 +1,10 @@
+interface RedirectReturn {
+  redirect: {
+    permanent: boolean
+    destination: string
+  }
+}
+
 export const redirectToDashboard = (): RedirectReturn => {
   return {
     redirect: {
@@ -22,12 +29,5 @@ export const redirectToErrorPage = (message?: string): RedirectReturn => {
       permanent: false,
       destination: `/error${message ? `?message=${message}` : ''}`,
     },
-  }
-}
-
-interface RedirectReturn {
-  redirect: {
-    permanent: boolean
-    destination: string
   }
 }

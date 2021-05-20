@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import StepLabel from '@material-ui/core/StepLabel'
-import StepContent from '@material-ui/core/StepContent'
 import Box from '@material-ui/core/Box'
-import Alert from '@material-ui/lab/Alert'
-import Container from '@material-ui/core/Container'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Container from '@material-ui/core/Container'
+import Step from '@material-ui/core/Step'
+import StepContent from '@material-ui/core/StepContent'
+import StepLabel from '@material-ui/core/StepLabel'
+import Stepper from '@material-ui/core/Stepper'
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import Alert from '@material-ui/lab/Alert'
+import React, { useEffect, useRef, useState } from 'react'
+
 import { SERVER } from '../utils/constants'
 
 const useStyles = makeStyles((theme: Theme) =>

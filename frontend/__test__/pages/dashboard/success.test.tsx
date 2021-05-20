@@ -1,4 +1,5 @@
 import renderer from 'react-test-renderer'
+
 import Success, { handler } from '../../../pages/dashboard/success'
 
 describe('dashboard/success page tests', () => {

@@ -1,5 +1,6 @@
-import { getAuth0Callback, getVCSConnectionGitHubCallback } from '../callbacks'
 import mockAxios from 'axios'
+
+import { getAuth0Callback, getVCSConnectionGitHubCallback } from '../callbacks'
 
 describe('call getAuth0Callback', () => {
   afterEach(() => {
