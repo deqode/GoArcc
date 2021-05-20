@@ -45,6 +45,7 @@ var _ = Describe("GetUserProfileBySub", func() {
 	})
 
 	Describe("Get a user-profile", func() {
+		//Negative Test Cases
 		By("internal or external call")
 		Context("Get an error when id is empty", func() {
 			_, err := UserProfileServer.GetUserProfileBySub(context.Background(), &pb.GetUserProfileBySubRequest{Sub: ""})
@@ -59,7 +60,7 @@ var _ = Describe("GetUserProfileBySub", func() {
 		})
 	})
 
-	Context("Get a record when id is provided", func() {
+	Context("Get a record when  correct id is provided", func() {
 		It("should return requested field in the object", func() {})
 	})
 })

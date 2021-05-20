@@ -45,6 +45,7 @@ var _ = Describe("DeleteUserProfile", func() {
 	})
 
 	Describe("Deleting a user profile", func() {
+		//Negative Cases
 		By("By an internal RPC Call")
 		Context("Get an error when no user_id provided", func() {
 			It("Should return validation error", func() {
@@ -61,7 +62,8 @@ var _ = Describe("DeleteUserProfile", func() {
 			It("should not perform any action in DB and return nil", func() {})
 		})
 
-		Context("Return confirmation when record soft deleted inn DB", func() {
+		//Positive Test Cases
+		Context("Return confirmation when record soft deleted in DB", func() {
 			It("should return a boolean value", func() {})
 		})
 	})

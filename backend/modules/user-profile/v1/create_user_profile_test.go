@@ -60,6 +60,8 @@ var _ = Describe("CreateUserProfile", func() {
 	})
 
 	Describe("Creating an user profile", func() {
+
+		//Negative Test Cases
 		By("By a internal RPC Call")
 		Context("Get an error when nil User provided", func() {
 			It("should return nil exception", func() {
@@ -68,7 +70,7 @@ var _ = Describe("CreateUserProfile", func() {
 			})
 		})
 
-		Context("Create a user when sub is empty", func() {
+		Context("Create a user when subject is empty", func() {
 			It("It should return validation error", func() {
 				request := Profile
 				request.Sub = ""
@@ -93,7 +95,7 @@ var _ = Describe("CreateUserProfile", func() {
 		})
 
 		Context("Get an error when user-name of user not provided", func() {
-			It("if user-name is nil return error", func() {})
+			It("if user-name is empty return an error", func() {})
 			It("if user-name length exceed maximum upto 100 character return error", func() {})
 		})
 
@@ -109,10 +111,11 @@ var _ = Describe("CreateUserProfile", func() {
 			It("should return already exists error", func() {})
 		})
 
-		Context("It must return a user id when user created into DB", func() {
+		//Positive Test Cases
+		Context("Create a user profile", func() {
 			It("should return user_id as uuid", func() {
-
 			})
 		})
+
 	})
 })

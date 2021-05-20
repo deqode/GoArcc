@@ -6,12 +6,8 @@ import (
 	"alfred/db"
 	"alfred/modules/account/v1/external-svc"
 	pb2 "alfred/modules/account/v1/external-svc/pb"
-	"context"
 	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 	"log"
 )
@@ -46,21 +42,44 @@ var _ = Describe("UpdateUserProfile", func() {
 		accountServer = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid id", func() {
-		Context("Context:When account id is empty", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.UpdateAccount(context.Background(), &pb2.UpdateAccountRequest{Account: &pb2.Account{
-					Id:     "",
-					Slug:   "",
-					UserId: "",
-				}})
-				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Account Id is not provided")))
+	Describe("Update a user profile", func() {
+		//Negative Test Cases
+		By("By a internal RPC Call")
+		Context("Get an error when request object is nil", func() {
+			It("should return nil exception", func() {
 			})
 		})
-		Context("Context:When account is nil", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.UpdateAccount(context.Background(), &pb2.UpdateAccountRequest{Account: nil})
-				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Account to update is not provided")))
+
+		Context("Get an error when user profile object is nil", func() {
+			It("should return nil exception", func() {
+			})
+		})
+
+		Context("Get an error when update mask is incorrect ", func() {
+			It("should return failed precondition error", func() {
+			})
+		})
+
+		Context("Get an error when update mask contain id ", func() {
+			It("should return failed precondition error", func() {
+			})
+		})
+		Context("Get an error when id is incorrect", func() {
+			It("should return failed precondition error", func() {
+			})
+		})
+		Context("Get an error when user profile does not exist", func() {
+			It("should return failed precondition error when profile not exist", func() {
+			})
+		})
+
+		Context("Update user profile when update mask is correct and id is correct", func() {
+			It("user profile should be updated successfully", func() {
+			})
+		})
+
+		Context("Update user profile when update mask is correct and id is correct", func() {
+			It("check the response of object that user profile is updated or not", func() {
 			})
 		})
 	})
