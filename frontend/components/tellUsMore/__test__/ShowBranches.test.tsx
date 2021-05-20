@@ -9,33 +9,34 @@ const mocks = [
     request: {
       query: GET_BRANCHES,
       variables: {
-        provider: 'GITHUB',
+        provider: 'provider',
         ownerName: 'ownerName',
-        repoName: 'repoName,',
+        repoName: 'repoName',
         accountId: 'accountId',
       },
     },
-    result: {
-      data: {
-        repository: {
-          branches: ['Branch1', 'Branch2'],
-          clone_url: 'Mockclone_url',
-        },
-      },
-    },
+    error: new Error('An error occurred'),
   },
 ]
 
 const props = {
   accountId: 'accountId',
   provider: 'GITHUB',
-  ownerName: 'MockownerName',
-  repoName: 'MockrepoName',
+  ownerName: 'ownerName',
+  repoName: 'repoName',
   setBranchName: jest.fn(),
   setCloneUrl: jest.fn(),
 }
 
-it('should render branches list and match snapshot', async () => {
+it('should show circular progress and match snapshot, if branch list is not available yet', async() =>{
+
+})
+
+it('should not show any branch to select if repo name not yet set', async() =>{
+
+})
+
+it('should render branches list and match snapshot if repo name is set', async () => {
   let component: any
   const { act } = TestRenderer
 
@@ -52,4 +53,8 @@ it('should render branches list and match snapshot', async () => {
   await waitFor(() => {
     expect(component.toJSON()).toMatchSnapshot()
   })
+})
+
+it('should set current branch on select', async() => {
+  
 })

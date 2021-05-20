@@ -50,6 +50,8 @@ export default function ShowBranches({
     else setBranchName('')
   }
 
+  console.log(loading, error, data, "+++++++++++++++++++++++++++++++")
+
   return (
     <Grid item xs={12} md={12}>
       {loading ? (

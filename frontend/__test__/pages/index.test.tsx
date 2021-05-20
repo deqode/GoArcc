@@ -34,5 +34,13 @@ describe('Landing page tests', () => {
     const response = await handler({ req })
     expect(response).toStrictEqual({ redirect: { permanent: false, destination: '/dashboard' } })
   })
+
+  it('should redirect to error page if network error', async() => {
+    
+  })
+
+  it('should redirect to github sign up page on Sing Up button click', async() => {
+    
+  })
   
 })

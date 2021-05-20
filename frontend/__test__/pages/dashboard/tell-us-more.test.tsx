@@ -60,7 +60,25 @@ describe('dashboard/tell-us-more page tests', () => {
       )
     })
   })
+
   it('should match the snapshot', () => {
     expect(wrapper.toJSON()).toMatchSnapshot()
   })
+
+  it('should return to landing page if session not available', async () => {
+
+  })
+
+  it('should redirect to error page if get all user accounts fails', async() => {
+
+  })
+
+  it('should redirect to dashboard if get owner fails', async() => {
+
+  })
+
+  it('should match the snapshot if nothing fails', async() => {
+    
+  })
+
 })
