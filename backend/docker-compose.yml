@@ -7,7 +7,8 @@ volumes:
 services:
 
   backend_api:
-    build: .
+    image: golang:1.16.4-stretch
+    working_dir: /app
     volumes:
       - .:/app
       - ./../common:/common
@@ -59,14 +60,6 @@ services:
     volumes:
       - scylla:/var/lib/scylla
 
-  statsd:
-    image: graphiteapp/graphite-statsd
-    ports:
-      - "8080:80"
-      - "2003:2003"
-      - "8125:8125"
-      - "8126:8126"
-
   cadence:
     image: ubercadence/server:master-auto-setup
     ports:
@@ -75,13 +68,17 @@ services:
       - "7935:7935"
       - "7939:7939"
     environment:
-      - "DB=scylla"
-      - "CASSANDRA_SEEDS=scylla"
-      - "STATSD_ENDPOINT=statsd:8125"
-      - "DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development.yaml"
+      DB: scylla
+      CASSANDRA_SEEDS: scylla
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development.yaml
+      LOG_LEVEL: info
+      PROMETHEUS_ENDPOINT: 0.0.0.0:8001
+#      PROMETHEUS_ENDPOINT_0: Frontend
+#      PROMETHEUS_ENDPOINT_1: Matching
+#      PROMETHEUS_ENDPOINT_2: History
+#      PROMETHEUS_ENDPOINT_3: Worker
     depends_on:
       - scylla
-      - statsd
 
   cadence-web:
     image: ubercadence/web:latest

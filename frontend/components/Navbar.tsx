@@ -33,7 +33,7 @@ function Navbar(): ReactElement {
         <Grid justify="space-between" container>
           <Grid item className={classes.logo}>
             <Link href="/">
-              <Image src="/assets/logo.png" width={500} height={500} alt="logo" />
+              <Image src="/assets/logo.png" width={500} height={300} alt="logo" />
             </Link>
           </Grid>
           <Grid item>
