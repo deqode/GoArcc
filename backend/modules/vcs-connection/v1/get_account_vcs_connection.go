@@ -10,6 +10,7 @@ import (
 
 func (s *vcsConnectionServer) GetAccountVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.AccountVCSConnection, error) {
 	var record models2.VCSConnection
+	//todo : by default why there is  and condition
 	chain := s.db.Where("account_id = ?", in.AccountId).Where("id = ?", in.Id)
 	result := chain.Find(&record)
 	if result.Error != nil {
