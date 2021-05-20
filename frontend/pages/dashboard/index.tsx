@@ -6,7 +6,7 @@ import { ReactElement, useEffect, useState } from 'react'
 import { getGithubVCSConnection } from '../../api/rest/fetchUrls'
 import BasicLayout from '../../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../../components/PageHead'
-import { IronSessionRequest, UserResponse } from '../../interface'
+import { IronSessionRequest, UserResponse } from '../../intefaces/interface'
 import { redirectToLandingPage } from '../../utils/redirects'
 import { validateUser, sessionPropsWrapper } from '../../utils/user'
 

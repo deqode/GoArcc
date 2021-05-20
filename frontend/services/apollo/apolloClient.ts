@@ -1,8 +1,8 @@
-import { ApolloClient, createHttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
-import { User } from './contexts/UserContext'
-import { GQLHTTP } from './utils/constants'
+import { User } from '../../contexts/UserContext'
+import { GQLHTTP } from '../../utils/constants'
 
 const httpLink = createHttpLink({
   uri: GQLHTTP,
@@ -10,14 +10,12 @@ const httpLink = createHttpLink({
 
 const client = (user: User): ApolloClient<NormalizedCacheObject> => {
   if (user && user.idToken !== '') {
-    const authLink = setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${user.idToken}`,
-        },
-      }
-    })
+    const authLink = setContext((_, { headers }) => ({
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${user.idToken}`,
+      },
+    }))
     return new ApolloClient({
       link: authLink.concat(httpLink),
       cache: new InMemoryCache(),

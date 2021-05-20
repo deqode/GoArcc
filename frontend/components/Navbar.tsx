@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 })
 
-function Navbar(): ReactElement {
+const Navbar = (): ReactElement => {
   const { user } = useContext(UserContext)
   const router = useRouter()
   const classes = useStyles()

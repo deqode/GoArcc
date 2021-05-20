@@ -1,44 +1,35 @@
-import axios from 'axios'
-
-import { ResponseError, UserResponse } from '../../interface'
+import { ResponseError, UserResponse } from '../../intefaces/interface'
+import { get } from '../../services/rest/get'
 import { SERVER } from '../../utils/constants'
 
-interface UserAuthResponse extends ResponseError, UserResponse {}
+interface UserAuthResponse extends ResponseError<UserAuthResponse>, UserResponse {}
 
 export const getAuth0Callback = async (code: string, state: string): Promise<UserAuthResponse> => {
-  if (code !== '' && state !== '')
-    try {
-      const response = await axios.get(
-        `${SERVER}/authentication/callback?code=${code}&state=${state}`
-      )
-      if (response.data && response.data.userId) {
-        return {
-          userId: response.data.userId,
-          idToken: response.data.idToken,
-          accessToken: response.data.idToken,
-          error: false,
-          message: '',
-        }
-      } else
-        return {
-          userId: '',
-          idToken: '',
-          accessToken: '',
-          error: true,
-          message: 'Data Not found',
-          // TODO : integrate with error message from backend
-        }
-    } catch (e) {
+  if (code !== '' && state !== '') {
+    const response = await get<UserAuthResponse>(
+      `${SERVER}/authentication/callback?code=${code}&state=${state}`
+    )
+    if (response.error) {
+      return { accessToken: '', idToken: '', userId: 'string', ...response }
+    }
+    if (response.data && response.data.userId) {
+      return {
+        userId: response.data.userId,
+        idToken: response.data.idToken,
+        accessToken: response.data.idToken,
+        error: false,
+        message: '',
+      }
+    } else
       return {
         userId: '',
         idToken: '',
         accessToken: '',
         error: true,
-        message: 'Network Error',
+        message: 'Data Not found',
         // TODO : integrate with error message from backend
       }
-    }
-  else
+  } else
     return {
       userId: '',
       idToken: '',
@@ -53,32 +44,26 @@ export const getVCSConnectionGitHubCallback = async (
   code: string,
   accountId: string,
   idToken: string
-): Promise<ResponseError> => {
-  if (code !== '' && accountId !== '')
-    try {
-      const response = await axios.get(
-        `${SERVER}/vcs-connection/GITHUB/callback?code=${code}&account_id=${accountId}`,
-        { headers: { Authorization: `Bearer ${idToken}` } }
-      )
-      if (response.data && response.data.accountId) {
-        return {
-          error: false,
-          message: '',
-        }
-      } else
-        return {
-          error: true,
-          message: 'Data Not found',
-          // TODO : integrate with error message from backend
-        }
-    } catch (e) {
+): Promise<ResponseError<any>> => {
+  //TODO:any?
+  if (code !== '' && accountId !== '') {
+    const response = await get<ResponseError<any>>(
+      `${SERVER}/vcs-connection/GITHUB/callback?code=${code}&account_id=${accountId}`,
+      { Authorization: `Bearer ${idToken}` }
+    )
+    if (response.error) return response
+    if (response.data?.data) {
+      return {
+        error: false,
+        message: '',
+      }
+    } else
       return {
         error: true,
-        message: 'Network Error',
+        message: 'Data Not found',
         // TODO : integrate with error message from backend
       }
-    }
-  else
+  } else
     return {
       error: true,
       message: 'Invalid types',

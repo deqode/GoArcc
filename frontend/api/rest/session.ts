@@ -1,64 +1,42 @@
-import axios from 'axios'
+import { ResponseError, UserResponse } from '../../intefaces/interface'
+import { post } from '../../services/rest/post'
 
-import { ResponseError, UserResponse } from '../../interface'
-
-export const setUserSession = async (data: UserResponse): Promise<ResponseError> => {
+interface Session {
+  success: boolean
+}
+export const setUserSession = async (data: UserResponse): Promise<ResponseError<Session>> => {
   // TODO:handle data
-  try {
-    const response = await axios.post(`/api/session/set`, data, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    if (response.data.success) {
-      return {
-        error: false,
-        message: '',
-      }
-    } else
-      return {
-        error: true,
-        message: 'Server Error',
-        // TODO : integrate with error message from backend
-      }
-  } catch (e) {
+  const response = await post<Session, UserResponse>(`/api/session/set`, data)
+  if (response.error) {
+    return { ...response }
+  }
+  if (response.data && response.data.success) {
+    return {
+      error: false,
+      message: '',
+    }
+  } else
     return {
       error: true,
-      message: 'Network Error',
+      message: 'Server Error',
       // TODO : integrate with error message from backend
     }
-  }
 }
 
-export const destroyUserSession = async (): Promise<ResponseError> => {
-  try {
-    const response = await axios.post(
-      `/api/session/destroy`,
-      {},
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    if (response.data.success) {
-      return {
-        error: false,
-        message: '',
-      }
-    } else
-      return {
-        error: true,
-        message: 'Server Error',
-        //  : integrate with error message from backend
-      }
-  } catch (e) {
+export const destroyUserSession = async (): Promise<ResponseError<Session>> => {
+  const response = await post<Session, null>(`/api/session/destroy`, null)
+  if (response.error) {
+    return { ...response }
+  }
+  if (response.data && response.data.success) {
+    return {
+      error: false,
+      message: '',
+    }
+  } else
     return {
       error: true,
-      message: 'Network Error',
+      message: 'Server Error',
       // TODO : integrate with error message from backend
     }
-  }
 }

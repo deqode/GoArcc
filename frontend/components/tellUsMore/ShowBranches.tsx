@@ -21,14 +21,14 @@ interface ShowBranchesInput {
   setCloneUrl: Dispatch<SetStateAction<string>>
 }
 
-export default function ShowBranches({
+const ShowBranches = ({
   ownerName,
   repoName,
   accountId,
   provider,
   setBranchName,
   setCloneUrl,
-}: ShowBranchesInput): ReactElement {
+}: ShowBranchesInput): ReactElement => {
   const [branches, setbranches] = useState<Array<string>>([])
   const classes = useSelectStyles()
 
@@ -84,3 +84,5 @@ export default function ShowBranches({
     </Grid>
   )
 }
+
+export default ShowBranches

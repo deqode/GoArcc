@@ -3,9 +3,9 @@ import { ThemeProvider } from '@material-ui/styles'
 import { AppProps } from 'next/app'
 import { ReactElement, useEffect } from 'react'
 
-import client from '../apolloClient'
 import Navbar from '../components/Navbar'
 import UserContext, { useUserContext, defaultUser } from '../contexts/UserContext'
+import client from '../services/apollo/apolloClient'
 import theme from '../styles/Theme'
 
 const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
@@ -18,7 +18,7 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
     }
   }, [])
   useEffect(() => {
-    if (pageProps.user && pageProps.user.idToken.length)
+    if (pageProps.user?.idToken?.length)
       setUser({
         idToken: pageProps.user.idToken,
         loggedIn: true,

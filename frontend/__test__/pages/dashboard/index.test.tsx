@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer'
 
-import { UserResponse } from '../../../interface'
+import { UserResponse } from '../../../intefaces/interface'
 import Dashboard, { handler } from '../../../pages/dashboard'
 
 describe('dashboard/index page tests', () => {

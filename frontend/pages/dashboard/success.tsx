@@ -1,13 +1,14 @@
 import { Paper } from '@material-ui/core'
 import { withSentry } from '@sentry/nextjs'
+import { ReactElement } from 'react'
 
 import BasicLayout from '../../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../../components/PageHead'
-import { IronSessionRequest } from '../../interface'
+import { IronSessionRequest } from '../../intefaces/interface'
 import { redirectToLandingPage } from '../../utils/redirects'
 import { sessionPropsWrapper, validateUser } from '../../utils/user'
 
-export default function Success() {
+const Success = (): ReactElement => {
   return (
     <Paper elevation={0}>
       <PageHead title={Titles.DASHBOARD} />
@@ -29,3 +30,4 @@ export const handler = async ({ req }: { req: IronSessionRequest }) => {
 }
 
 export const getServerSideProps = withSentry(sessionPropsWrapper(handler))
+export default Success

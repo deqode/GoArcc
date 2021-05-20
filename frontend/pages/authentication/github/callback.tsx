@@ -8,11 +8,11 @@ import { getVCSConnectionGitHubCallback } from '../../../api/rest/callbacks'
 import { getAllUserAccounts } from '../../../api/rest/user'
 import BasicLayout from '../../../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../../../components/PageHead'
-import { UserResponse } from '../../../interface'
+import { UserResponse } from '../../../intefaces/interface'
 import { sessionCongfig } from '../../../utils/constants'
 import { validateUser } from '../../../utils/user'
 
-function Callback({ user }: { user: UserResponse }): ReactElement {
+const Callback = ({ user }: { user: UserResponse }): ReactElement => {
   const router = useRouter()
 
   const { query } = router
@@ -44,8 +44,6 @@ function Callback({ user }: { user: UserResponse }): ReactElement {
   )
 }
 
-export default Callback
-
 export const getServerSideProps = withSentry(
   withIronSession(async ({ req }) => {
     if (validateUser(req)) {
@@ -59,3 +57,5 @@ export const getServerSideProps = withSentry(
     }
   }, sessionCongfig)
 )
+
+export default Callback

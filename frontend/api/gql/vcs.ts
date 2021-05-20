@@ -1,5 +1,5 @@
-import client from '../../apolloClient'
 import { GET_OWNER_NAME } from '../../GraphQL/Query'
+import client from '../../services/apollo/apolloClient'
 
 export const getOwnerName = async ({
   idToken,

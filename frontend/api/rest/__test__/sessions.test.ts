@@ -1,6 +1,6 @@
 import mockAxios from 'axios'
 
-import { UserResponse } from '../../../interface'
+import { UserResponse } from '../../../intefaces/interface'
 import { destroyUserSession, setUserSession } from '../session'
 
 describe('call setUserSession', () => {

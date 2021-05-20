@@ -12,7 +12,7 @@ import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } fr
 import { GET_REPOSITORIES } from '../../GraphQL/Query'
 import { useSelectStyles } from '../../styles/commonStyles'
 
-export default function ShowRepos({
+const ShowRepos = ({
   userId,
   accountId,
   setCurrentRepo,
@@ -22,7 +22,7 @@ export default function ShowRepos({
   accountId: string
   setCurrentRepo: Dispatch<SetStateAction<string>>
   provider: string
-}): ReactElement {
+}): ReactElement => {
   const { loading, error, data } = useQuery(GET_REPOSITORIES, {
     variables: {
       provider: provider,
@@ -77,3 +77,5 @@ export default function ShowRepos({
     </Grid>
   )
 }
+
+export default ShowRepos

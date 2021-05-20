@@ -6,9 +6,10 @@ export interface UserResponse {
   userId: string
 }
 
-export interface ResponseError {
+export interface ResponseError<T> {
   error: boolean
   message: string
+  data?: T | null
 }
 
 export interface UserAccount {
