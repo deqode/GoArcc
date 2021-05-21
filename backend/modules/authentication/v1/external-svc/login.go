@@ -15,8 +15,9 @@ func (s *authenticationServer) Login(ctx context.Context, in *empty.Empty) (*pb.
 		return nil, err
 	}
 	state := base64.StdEncoding.EncodeToString(b)
+	url := s.authenticator.Config.AuthCodeURL(state)
 
 	return &pb.LoginResponse{
-		Url: s.authenticator.Config.AuthCodeURL(state),
+		Url: url,
 	}, nil
 }

@@ -1,4 +1,4 @@
-package vcs_connection
+package external_svc
 
 import (
 	"alfred/modules/vcs-connection/v1/pb"

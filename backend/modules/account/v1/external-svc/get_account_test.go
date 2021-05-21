@@ -5,10 +5,8 @@ import (
 	"alfred/config"
 	"alfred/db"
 	"alfred/modules/account/v1/external-svc"
-	"alfred/modules/account/v1/pb"
-	"context"
+	pb2 "alfred/modules/account/v1/pb"
 	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"log"
@@ -16,7 +14,7 @@ import (
 
 var _ = Describe("Describe:GetAccount", func() {
 	var (
-		accountServer pb.AccountsServer
+		accountServer pb2.AccountsServer
 		cfg           *config.Config
 	)
 	BeforeEach(func() {
@@ -44,18 +42,21 @@ var _ = Describe("Describe:GetAccount", func() {
 		accountServer = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
 	})
 
-	Describe("Describe:Categorizing with invalid id", func() {
-		Context("Context:When id is empty", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.GetAccount(context.Background(), &pb.GetAccountRequest{Id: ""})
-				Expect(err.(pb.GetAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
+	Describe("Get an account", func() {
+		By("internal or external call")
+		Context("Get an error when id is empty", func() {
+			It("it should return validation error", func() {
+
 			})
 		})
-		Context("Context:When id is wrong", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.GetAccount(context.Background(), &pb.GetAccountRequest{Id: "wrongID"})
-				Expect(gorm.ErrRecordNotFound).Should(Equal(err))
+		Context("Get an error when id is wrong", func() {
+			It("should return not found error", func() {
+
 			})
+		})
+
+		Context("Get a record when id is provided", func() {
+			It("should return requested field in the object", func() {})
 		})
 	})
 })

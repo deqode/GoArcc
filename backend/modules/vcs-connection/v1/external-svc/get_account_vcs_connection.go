@@ -1,7 +1,7 @@
-package vcs_connection
+package external_svc
 
 import (
-	models2 "alfred/modules/vcs-connection/v1/internal/models"
+	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"context"
 	"google.golang.org/grpc/codes"
@@ -9,7 +9,8 @@ import (
 )
 
 func (s *vcsConnectionServer) GetAccountVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.AccountVCSConnection, error) {
-	var record models2.VCSConnection
+
+	var record models.VCSConnection
 	//todo : by default why there is  and condition
 	chain := s.db.Where("account_id = ?", in.AccountId).Where("id = ?", in.Id)
 	result := chain.Find(&record)

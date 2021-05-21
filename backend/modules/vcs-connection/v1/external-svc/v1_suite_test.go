@@ -1,4 +1,4 @@
-package vcs_connection_test
+package external_svc_test
 
 import (
 	"alfred.sh/common/logger"

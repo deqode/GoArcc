@@ -1,4 +1,4 @@
-package vcs_connection_test
+package internal_svc_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -38,7 +38,12 @@ var _ = Describe("Get Vcs Connection Test", func() {
 		})
 
 		Context("When Request object is valid", func() {
-			It("Fail in case username is not present in response", func() {
+			It("Fail in case provider is not present in response", func() {
+			})
+		})
+
+		Context("When Request object is valid", func() {
+			It("Fail in case access token is not present in response", func() {
 			})
 		})
 	})

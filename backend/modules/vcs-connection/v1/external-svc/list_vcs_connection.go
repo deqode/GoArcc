@@ -1,7 +1,7 @@
-package vcs_connection
+package external_svc
 
 import (
-	models2 "alfred/modules/vcs-connection/v1/internal/models"
+	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
 	"context"
@@ -10,7 +10,8 @@ import (
 )
 
 func (s *vcsConnectionServer) ListVCSConnection(ctx context.Context, in *pb.ListVCSConnectionRequest) (*pb.ListVCSConnectionResponse, error) {
-	var record []models2.VCSConnection
+
+	var record []models.VCSConnection
 	chain := s.db.Where("account_id = ?", in.AccountId)
 	if in.Provider != types.VCSProviders_UNKNOWN {
 		chain = chain.Where("provider = ?", in.Provider)

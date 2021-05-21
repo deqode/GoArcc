@@ -1,4 +1,4 @@
-package vcs_connection_test
+package internal_svc_test
 
 import (
 	. "github.com/onsi/ginkgo"

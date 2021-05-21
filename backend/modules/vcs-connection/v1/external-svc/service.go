@@ -1,8 +1,8 @@
-package vcs_connection
+package external_svc
 
 import (
 	"alfred/config"
-	model "alfred/modules/vcs-connection/v1/internal/models"
+	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -21,7 +21,7 @@ func NewVCSConnectionServer(
 	grpcClientConn *grpc.ClientConn,
 ) pb.VCSConnectionsServer {
 	//initial migration of databases: schema migration
-	model.InitialMigrationVCSConnection(db)
+	models.InitialMigrationVCSConnection(db)
 	return &vcsConnectionServer{
 		db:         db,
 		config:     config,

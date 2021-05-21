@@ -1,14 +1,15 @@
-package vcs_connection
+package internal_svc
 
 import (
-	models2 "alfred/modules/vcs-connection/v1/internal/models"
+	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"context"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/hashicorp/go-uuid"
 )
 
-func (s *vcsConnectionServer) CreateVCSConnection(ctx context.Context, in *pb.CreateVCSConnectionRequest) (*pb.VCSConnection, error) {
+func (s *vcsConnectionIntServer) CreateVCSConnection(ctx context.Context, in *pb.CreateVCSConnectionRequest) (*pb.VCSConnection, error) {
+	// TODO - validate user belongs to that user account
 	id, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, err
@@ -21,7 +22,7 @@ func (s *vcsConnectionServer) CreateVCSConnection(ctx context.Context, in *pb.Cr
 	if err != nil {
 		return nil, err
 	}
-	VCSModel := &models2.VCSConnection{
+	VCSModel := &models.VCSConnection{
 		ID:                 id,
 		Provider:           in.VcsConnection.Provider,
 		ConnectionID:       in.VcsConnection.ConnectionId,

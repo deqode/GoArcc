@@ -3,7 +3,7 @@ package external_svc
 import (
 	"alfred/config"
 	"alfred/modules/account/v1/internal-svc"
-	accountpb "alfred/modules/account/v1/pb"
+	accountPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
 	"alfred/modules/user-profile/v1/external-svc"
 	usrProfilePb "alfred/modules/user-profile/v1/pb"
@@ -21,7 +21,7 @@ type authenticationServer struct {
 	grpcClient          *grpc.ClientConn
 	userProfileServer   usrProfilePb.UserProfilesServer
 	userProfileInServer usrProfilePb.UserProfileInternalServer
-	accountInServer     accountpb.AccountInternalServer
+	accountInServer     accountPb.AccountInternalServer
 	authenticator       *Authenticator
 }
 

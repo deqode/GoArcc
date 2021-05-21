@@ -1,7 +1,7 @@
 package external_svc
 
 import (
-	accountpb "alfred/modules/account/v1/pb"
+	accountPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
@@ -87,8 +87,8 @@ func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile
 	}
 
 	//create User Account
-	_, err = s.accountInServer.CreateAccount(ctx, &accountpb.CreateAccountRequest{
-		Account: &accountpb.Account{
+	_, err = s.accountInServer.CreateAccount(ctx, &accountPb.CreateAccountRequest{
+		Account: &accountPb.Account{
 			Slug:   user.Name + "_" + user.ExternalSource.String(),
 			UserId: user.Id,
 		},

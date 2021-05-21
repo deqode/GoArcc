@@ -4,12 +4,14 @@ import (
 	databaseHelper "alfred.sh/common/database/helper"
 	model "alfred/modules/account/v1/models"
 	"alfred/modules/account/v1/pb"
+	"alfred/util/userinfo"
 	"context"
 )
 
 // GetAccount Information with id
 func (s accountExtServer) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
 
+	userId := userinfo.FromContext(ctx).Sub
 	err := in.Validate()
 	if err != nil {
 		return nil, err
@@ -18,9 +20,9 @@ func (s accountExtServer) GetAccount(ctx context.Context, in *pb.GetAccountReque
 	account := model.Account{}
 	gormDb := s.db
 	//ie: Select * from account where id = in.id
-	tx := gormDb.First(&account, in.Id)
+	tx := gormDb.Where(&account, in.Id).Where("user_id = ", userId)
 	if err := databaseHelper.ValidateResult(tx); err != nil {
-		return nil , err
+		return nil, err
 	}
 	return &pb.Account{
 		Id:     account.ID,
