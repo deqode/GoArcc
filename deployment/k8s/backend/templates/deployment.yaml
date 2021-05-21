@@ -81,16 +81,16 @@ spec:
             - name: config
               mountPath: "/app"
 
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - {{ $fullname }}
-              topologyKey: "kubernetes.io/hostname"
+#      affinity:
+#        podAntiAffinity:
+#          preferredDuringSchedulingIgnoredDuringExecution:
+#            - labelSelector:
+#                matchExpressions:
+#                  - key: app.kubernetes.io/name
+#                    operator: In
+#                    values:
+#                      - {{ $fullname }}
+#              topologyKey: "kubernetes.io/hostname"
 
       volumes:
         # You set volumes at the Pod level, then mount them into containers inside that Pod
