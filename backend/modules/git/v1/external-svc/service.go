@@ -5,7 +5,7 @@ import (
 	background "alfred/background/config"
 	"alfred/config"
 	"alfred/modules/git/v1/pb"
-	vcs "alfred/modules/vcs-connection/v1"
+	vcsInternal "alfred/modules/vcs-connection/v1/internal-svc"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -15,7 +15,7 @@ type gitServer struct {
 	db             *gorm.DB
 	config         *config.Config
 	grpcClient     *grpc.ClientConn
-	vcsInServer    vcsPb.VCSConnectionsServer
+	vcsInServer    vcsPb.VCSConnectionInternalServer
 	cadenceConfig  *background.CadenceAppConfig
 	cadenceAdapter *cadenceAdapter.CadenceAdapter
 }
@@ -30,7 +30,7 @@ func NewGitServer(
 ) pb.GitsServer {
 
 	//initial migration of databases: schema migration
-	vcsInSrv := vcs.NewVCSConnectionServer(db, config, grpcClientConn)
+	vcsInSrv := vcsInternal.NewVCSConnectionIntServer(db, config, grpcClientConn)
 	return &gitServer{
 		db:             db,
 		config:         config,

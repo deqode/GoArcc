@@ -26,7 +26,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 	var accessTokenExpiry, refreshTokenExpiry time.Time
 	var user *githubClient.User
 
-	vcs, err := s.GetVCSConnection(ctx, &pb.GetVCSConnectionRequest{
+	vcs, err := s.vcsConnectionIntServer.GetVCSConnection(ctx, &pb.GetVCSConnectionRequest{
 		AccountId: in.AccountId,
 		Provider:  in.Provider,
 	})
@@ -88,7 +88,7 @@ func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackReque
 		UserName:           *user.Login,
 		Label:              label,
 	}
-	_, err = s.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
+	_, err = s.vcsConnectionIntServer.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
 		VcsConnection: vcsObj,
 	})
 	if err != nil {

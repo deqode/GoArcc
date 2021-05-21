@@ -1,7 +1,7 @@
 package external_svc
 
 import (
-	github2 "alfred/modules/git/v1/internal-svc/github"
+	github "alfred/modules/git/v1/internal-svc/github"
 	"alfred/modules/git/v1/pb"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
@@ -32,7 +32,7 @@ func (s *gitServer) ListRepository(ctx context.Context, in *pb.ListRepositoryReq
 	}
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:
-		client := github2.NewGithubService(ctx, accessToken)
+		client := github.NewGithubService(ctx, accessToken)
 		return client.ListRepository(ctx, in)
 	}
 	return nil, nil

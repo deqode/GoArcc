@@ -2,8 +2,7 @@ package rest
 
 import (
 	"alfred.sh/common/logger"
-	"alfred/modules/account/v1/external-svc/pb"
-	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
+	accountPb "alfred/modules/account/v1/pb"
 	authPb "alfred/modules/authentication/v1/pb"
 	gitPb "alfred/modules/git/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
@@ -23,11 +22,6 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 		return err
 	}
 
-	if err := architectureSuggesterPb.RegisterArchitectureSuggesterServiceHandler(ctx, mux, conn); err != nil {
-		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
-		return err
-	}
-
 	if err := authPb.RegisterAuthenticationsHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
@@ -38,7 +32,7 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 		return err
 	}
 
-	if err := pb.RegisterAccountsHandler(ctx, mux, conn); err != nil {
+	if err := accountPb.RegisterAccountsHandler(ctx, mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

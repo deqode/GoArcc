@@ -45,6 +45,7 @@ message GetUserProfileRequest {
 message GetUserProfileBySubRequest{
     string sub = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
 }
+
 message UserProfile {
     string id = 1;
     // external unique_id provided by vcs provider

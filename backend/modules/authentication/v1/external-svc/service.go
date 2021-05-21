@@ -6,6 +6,7 @@ import (
 	accountPb "alfred/modules/account/v1/pb"
 	"alfred/modules/authentication/v1/pb"
 	"alfred/modules/user-profile/v1/external-svc"
+	userProfileInt "alfred/modules/user-profile/v1/internal-svc"
 	usrProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	oidc "github.com/coreos/go-oidc"
@@ -33,7 +34,7 @@ func NewAuthenticationServer(
 
 ) pb.AuthenticationsServer {
 	userProfileSrv := external_svc.NewUserProfilesServer(db, config, grpcClientConn)
-	userProfileInSrv := external_svc.NewUserProfileInServer(db, config, grpcClientConn)
+	userProfileInSrv := userProfileInt.NewUserProfileInServer(db, config, grpcClientConn)
 	accountInSrv := internal_svc.NewAccountsInServer(db, config, grpcClientConn)
 	authenticatorCli, _ := NewAuthenticator(config)
 	return &authenticationServer{

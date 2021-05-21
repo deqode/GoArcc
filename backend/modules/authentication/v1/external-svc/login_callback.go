@@ -1,8 +1,10 @@
 package external_svc
 
 import (
-	accountPb "alfred/modules/account/v1/pb"
+	databaseHelper "alfred.sh/common/database/helper"
+	accountModels "alfred/modules/account/v1/models"
 	"alfred/modules/authentication/v1/pb"
+	userprofileModel "alfred/modules/user-profile/v1/models"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
 	"context"
@@ -11,6 +13,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
+	"time"
 )
 
 const tokenKey = "id_token"
@@ -58,6 +61,7 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 			return nil, err
 		}
 	}
+
 	userId, err = s.CreateUserAndAccount(ctx, profile)
 	if err != nil {
 		return nil, err
@@ -70,31 +74,59 @@ func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCa
 }
 
 func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile map[string]interface{}) (string, error) {
-	//create User Profile
-	user, err := s.userProfileInServer.CreateUserProfile(ctx, &userProfilePb.CreateUserProfileRequest{
-		UserProfile: &userProfilePb.UserProfile{
-			Id:             fmt.Sprintf("%s", profile["sub"]),
-			Sub:            fmt.Sprintf("%s", profile["sub"]),
-			Name:           fmt.Sprintf("%s", profile["name"]),
-			UserName:       fmt.Sprintf("%s", profile["nickname"]),
-			ProfilePicUrl:  fmt.Sprintf("%s", profile["picture"]),
-			ExternalSource: types.VCSProviders_GITHUB,
-			TokenValidTill: nil,
-		},
-	})
-	if err != nil {
-		return "", err
-	}
+	gormDb := s.db
+	userid := ""
+	err := gormDb.Transaction(func(transaction *gorm.DB) error {
+		usr := struct {
+			ID            string
+			Name          string
+			UserName      string
+			Sub           string
+			ProfilePicURL string
+			Source        types.VCSProviders
+		}{
+			ID:            fmt.Sprintf("%s", profile["sub"]),
+			Name:          fmt.Sprintf("%s", profile["name"]),
+			UserName:      fmt.Sprintf("%s", profile["nickname"]),
+			Sub:           fmt.Sprintf("%s", profile["sub"]),
+			ProfilePicURL: fmt.Sprintf("%s", profile["picture"]),
+			Source:        types.VCSProviders_GITHUB,
+		}
+		// TODO - Source must be dynamic
 
-	//create User Account
-	_, err = s.accountInServer.CreateAccount(ctx, &accountPb.CreateAccountRequest{
-		Account: &accountPb.Account{
-			Slug:   user.Name + "_" + user.ExternalSource.String(),
-			UserId: user.Id,
-		},
+		userProfileModel := userprofileModel.UserProfile{
+			ID:            usr.ID,
+			Name:          usr.Name,
+			UserName:      usr.UserName,
+			Sub:           usr.Sub,
+			ProfilePicURL: usr.ProfilePicURL,
+			Source:        usr.Source,
+			CreatedAt:     time.Time{},
+			UpdatedAt:     time.Time{},
+			DeletedAt:     gorm.DeletedAt{},
+		}
+		tx := transaction.Create(&userProfileModel)
+		if err := databaseHelper.ValidateResult(tx); err != nil {
+			return err
+		}
+		accountModel := accountModels.Account{
+			Slug:      userProfileModel.Name + "_" + userProfileModel.Source.String(),
+			UserID:    userProfileModel.ID,
+			CreatedAt: time.Time{},
+			UpdatedAt: time.Time{},
+			DeletedAt: gorm.DeletedAt{},
+		}
+		tx = transaction.Create(&accountModel)
+		if err := databaseHelper.ValidateResult(tx); err != nil {
+			return err
+		}
+		//if everything goes right then the transaction will commit by itself
+		userid = usr.ID
+		return nil
 	})
+	//when transaction does not happen for some internal reason
 	if err != nil {
-		return "", err
+		return "", status.Error(codes.Internal, err.Error())
 	}
-	return user.GetId(), nil
+	return userid, nil
 }

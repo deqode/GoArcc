@@ -37,444 +37,23 @@ var (
 	_ = types.VCSProviders(0)
 )
 
-// Validate checks the field values on CreateUserProfileRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *CreateUserProfileRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CreateUserProfileRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// CreateUserProfileRequestMultiError, or nil if none found.
-func (m *CreateUserProfileRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CreateUserProfileRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetUserProfile()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CreateUserProfileRequestValidationError{
-					field:  "UserProfile",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CreateUserProfileRequestValidationError{
-					field:  "UserProfile",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUserProfile()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return CreateUserProfileRequestValidationError{
-				field:  "UserProfile",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return CreateUserProfileRequestMultiError(errors)
-	}
-	return nil
-}
-
-// CreateUserProfileRequestMultiError is an error wrapping multiple validation
-// errors returned by CreateUserProfileRequest.ValidateAll() if the designated
-// constraints aren't met.
-type CreateUserProfileRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CreateUserProfileRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CreateUserProfileRequestMultiError) AllErrors() []error { return m }
-
-// CreateUserProfileRequestValidationError is the validation error returned by
-// CreateUserProfileRequest.Validate if the designated constraints aren't met.
-type CreateUserProfileRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e CreateUserProfileRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e CreateUserProfileRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e CreateUserProfileRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e CreateUserProfileRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e CreateUserProfileRequestValidationError) ErrorName() string {
-	return "CreateUserProfileRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e CreateUserProfileRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sCreateUserProfileRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = CreateUserProfileRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = CreateUserProfileRequestValidationError{}
-
-// Validate checks the field values on DeleteUserProfileRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *DeleteUserProfileRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on DeleteUserProfileRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// DeleteUserProfileRequestMultiError, or nil if none found.
-func (m *DeleteUserProfileRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *DeleteUserProfileRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if utf8.RuneCountInString(m.GetId()) < 3 {
-		err := DeleteUserProfileRequestValidationError{
-			field:  "Id",
-			reason: "value length must be at least 3 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if len(errors) > 0 {
-		return DeleteUserProfileRequestMultiError(errors)
-	}
-	return nil
-}
-
-// DeleteUserProfileRequestMultiError is an error wrapping multiple validation
-// errors returned by DeleteUserProfileRequest.ValidateAll() if the designated
-// constraints aren't met.
-type DeleteUserProfileRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m DeleteUserProfileRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m DeleteUserProfileRequestMultiError) AllErrors() []error { return m }
-
-// DeleteUserProfileRequestValidationError is the validation error returned by
-// DeleteUserProfileRequest.Validate if the designated constraints aren't met.
-type DeleteUserProfileRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e DeleteUserProfileRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e DeleteUserProfileRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e DeleteUserProfileRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e DeleteUserProfileRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e DeleteUserProfileRequestValidationError) ErrorName() string {
-	return "DeleteUserProfileRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e DeleteUserProfileRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sDeleteUserProfileRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = DeleteUserProfileRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = DeleteUserProfileRequestValidationError{}
-
-// Validate checks the field values on UpdateUserProfileRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *UpdateUserProfileRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on UpdateUserProfileRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// UpdateUserProfileRequestMultiError, or nil if none found.
-func (m *UpdateUserProfileRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *UpdateUserProfileRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if m.GetUserProfile() == nil {
-		err := UpdateUserProfileRequestValidationError{
-			field:  "UserProfile",
-			reason: "value is required",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if all {
-		switch v := interface{}(m.GetUserProfile()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateUserProfileRequestValidationError{
-					field:  "UserProfile",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateUserProfileRequestValidationError{
-					field:  "UserProfile",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetUserProfile()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateUserProfileRequestValidationError{
-				field:  "UserProfile",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
-	if len(errors) > 0 {
-		return UpdateUserProfileRequestMultiError(errors)
-	}
-	return nil
-}
-
-// UpdateUserProfileRequestMultiError is an error wrapping multiple validation
-// errors returned by UpdateUserProfileRequest.ValidateAll() if the designated
-// constraints aren't met.
-type UpdateUserProfileRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UpdateUserProfileRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UpdateUserProfileRequestMultiError) AllErrors() []error { return m }
-
-// UpdateUserProfileRequestValidationError is the validation error returned by
-// UpdateUserProfileRequest.Validate if the designated constraints aren't met.
-type UpdateUserProfileRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e UpdateUserProfileRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e UpdateUserProfileRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e UpdateUserProfileRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e UpdateUserProfileRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e UpdateUserProfileRequestValidationError) ErrorName() string {
-	return "UpdateUserProfileRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e UpdateUserProfileRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sUpdateUserProfileRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = UpdateUserProfileRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = UpdateUserProfileRequestValidationError{}
-
 // Validate checks the field values on GetUserProfileRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *GetUserProfileRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetUserProfileRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetUserProfileRequestMultiError, or nil if none found.
-func (m *GetUserProfileRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetUserProfileRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if utf8.RuneCountInString(m.GetId()) < 3 {
-		err := GetUserProfileRequestValidationError{
+		return GetUserProfileRequestValidationError{
 			field:  "Id",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return GetUserProfileRequestMultiError(errors)
-	}
 	return nil
 }
-
-// GetUserProfileRequestMultiError is an error wrapping multiple validation
-// errors returned by GetUserProfileRequest.ValidateAll() if the designated
-// constraints aren't met.
-type GetUserProfileRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetUserProfileRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetUserProfileRequestMultiError) AllErrors() []error { return m }
 
 // GetUserProfileRequestValidationError is the validation error returned by
 // GetUserProfileRequest.Validate if the designated constraints aren't met.
@@ -534,59 +113,21 @@ var _ interface {
 
 // Validate checks the field values on GetUserProfileBySubRequest with the
 // rules defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *GetUserProfileBySubRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetUserProfileBySubRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetUserProfileBySubRequestMultiError, or nil if none found.
-func (m *GetUserProfileBySubRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetUserProfileBySubRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if utf8.RuneCountInString(m.GetSub()) < 3 {
-		err := GetUserProfileBySubRequestValidationError{
+		return GetUserProfileBySubRequestValidationError{
 			field:  "Sub",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return GetUserProfileBySubRequestMultiError(errors)
-	}
 	return nil
 }
-
-// GetUserProfileBySubRequestMultiError is an error wrapping multiple
-// validation errors returned by GetUserProfileBySubRequest.ValidateAll() if
-// the designated constraints aren't met.
-type GetUserProfileBySubRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetUserProfileBySubRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetUserProfileBySubRequestMultiError) AllErrors() []error { return m }
 
 // GetUserProfileBySubRequestValidationError is the validation error returned
 // by GetUserProfileBySubRequest.Validate if the designated constraints aren't met.
@@ -645,49 +186,27 @@ var _ interface {
 } = GetUserProfileBySubRequestValidationError{}
 
 // Validate checks the field values on UserProfile with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
 func (m *UserProfile) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on UserProfile with the rules defined in
-// the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in UserProfileMultiError, or
-// nil if none found.
-func (m *UserProfile) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *UserProfile) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	// no validation rules for Id
 
 	if l := utf8.RuneCountInString(m.GetSub()); l < 3 || l > 100 {
-		err := UserProfileValidationError{
+		return UserProfileValidationError{
 			field:  "Sub",
 			reason: "value length must be between 3 and 100 runes, inclusive",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
 	if l := utf8.RuneCountInString(m.GetName()); l < 1 || l > 100 {
-		err := UserProfileValidationError{
+		return UserProfileValidationError{
 			field:  "Name",
 			reason: "value length must be between 1 and 100 runes, inclusive",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
 	// no validation rules for UserName
@@ -700,26 +219,7 @@ func (m *UserProfile) validate(all bool) error {
 
 	// no validation rules for ProfilePicUrl
 
-	if all {
-		switch v := interface{}(m.GetTokenValidTill()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UserProfileValidationError{
-					field:  "TokenValidTill",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UserProfileValidationError{
-					field:  "TokenValidTill",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetTokenValidTill()).(interface{ Validate() error }); ok {
+	if v, ok := interface{}(m.GetTokenValidTill()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UserProfileValidationError{
 				field:  "TokenValidTill",
@@ -729,27 +229,8 @@ func (m *UserProfile) validate(all bool) error {
 		}
 	}
 
-	if len(errors) > 0 {
-		return UserProfileMultiError(errors)
-	}
 	return nil
 }
-
-// UserProfileMultiError is an error wrapping multiple validation errors
-// returned by UserProfile.ValidateAll() if the designated constraints aren't met.
-type UserProfileMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UserProfileMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UserProfileMultiError) AllErrors() []error { return m }
 
 // UserProfileValidationError is the validation error returned by
 // UserProfile.Validate if the designated constraints aren't met.

@@ -5,7 +5,6 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	git_service "alfred/modules/git/v1"
 	"alfred/servers/cleanup"
 	"alfred/servers/grpc"
 	"alfred/servers/openTracing/tracer/jaeger"
@@ -18,7 +17,6 @@ func GetProviderOptions() []fx.Option {
 	return []fx.Option{
 		config.ProviderFx,
 		grpc.InitGrpcBeforeServingFx,
-		git_service.Module,
 		db.DatabaseConnectionFx,
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,

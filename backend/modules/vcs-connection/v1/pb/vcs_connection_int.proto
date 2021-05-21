@@ -9,19 +9,14 @@ import "include/graphql.proto";
 import "types/enums.proto";
 import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
+import "vcs_connection.proto";
 
 service VCSConnectionInternal {
     // GetVCSConnection returns information of vcs stored in DB (internal)
-    rpc GetVCSConnection(GetVCSConnectionRequest) returns (VCSConnection);
+    rpc GetVCSConnection(alfred.vcs_connection.v1.GetVCSConnectionRequest) returns (VCSConnection);
 
     //CreateVCSConnection creates vcs entry in DB (internal)
     rpc CreateVCSConnection(CreateVCSConnectionRequest) returns (VCSConnection);
-}
-
-message GetVCSConnectionRequest{
-    string id = 1;
-    string account_id = 2;
-    types.VCSProviders provider = 3;
 }
 
 message VCSConnection {
@@ -46,8 +41,6 @@ message VCSConnection {
     //specific user-name required while fetching the repo
     string user_name = 11;
 }
-
-
 
 message CreateVCSConnectionRequest{
     VCSConnection vcs_connection = 1;
