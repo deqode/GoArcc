@@ -55,12 +55,13 @@ gcloud container node-pools create durable \
 ```
 ```
 gcloud container node-pools create preemptible \
+    --cluster=common \
     --preemptible \
     --node-labels=nodetype=preemptible \
     --image-type=COS \
     --machine-type=e2-medium \
     --node-taints=cloud.google.com/gke-preemptible=true:NoSchedule \
-    --num-nodes=1
+    --num-nodes=1 \
     --enable-autoscaling \
     --max-nodes=3 \
     --min-nodes=0 \

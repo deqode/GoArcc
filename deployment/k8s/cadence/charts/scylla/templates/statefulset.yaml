@@ -37,9 +37,6 @@ spec:
           args:
             - --smp
             - "1"
-          env:
-            - name: MEMORY
-              value: 1G
           ports:
             - containerPort: 7000
               name: intra-node
