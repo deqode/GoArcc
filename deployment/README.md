@@ -39,3 +39,30 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/mast
 ```
 kubectl annotate ingress example-ingress kubernetes.io/ingress.class=ambassador
 ```
+
+```
+gcloud container node-pools create durable \
+    --cluster=common \
+    --node-labels=nodetype=durable \
+    --image-type=UBUNTU \
+    --machine-type=e2-small \
+    --node-taints=durable=true:NoSchedule \
+    --num-nodes=1 \
+    --enable-autoscaling \
+    --max-nodes=1 \
+    --min-nodes=0 \
+    --zone=us-central1-c
+```
+```
+gcloud container node-pools create preemptible \
+    --preemptible \
+    --node-labels=nodetype=preemptible \
+    --image-type=COS \
+    --machine-type=e2-medium \
+    --node-taints=cloud.google.com/gke-preemptible=true:NoSchedule \
+    --num-nodes=1
+    --enable-autoscaling \
+    --max-nodes=3 \
+    --min-nodes=0 \
+    --zone=us-central1-c
+```

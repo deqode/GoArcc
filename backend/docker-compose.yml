@@ -51,7 +51,7 @@ services:
       - ./telementry/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   scylla:
-    image: scylladb/scylla:4.3.1
+    image: scylladb/scylla:4.4.1
     command:
       - "--smp"
       - "1"

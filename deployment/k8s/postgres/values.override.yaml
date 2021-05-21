@@ -2,3 +2,13 @@ nameOverride: postgres
 postgresqlPostgresPassword: postgres
 postgresqlPassword: postgres
 postgresqlDatabase: postgres
+
+primary:
+  tolerations:
+    - key: durable
+      operator: Equal
+      value: "true"
+      effect: NoSchedule
+
+  nodeSelector:
+    nodetype: durable
