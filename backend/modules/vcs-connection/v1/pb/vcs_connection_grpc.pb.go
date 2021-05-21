@@ -26,8 +26,12 @@ type VCSConnectionsClient interface {
 	Callback(ctx context.Context, in *CallbackRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
 	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(ctx context.Context, in *ListVCSConnectionRequest, opts ...grpc.CallOption) (*ListVCSConnectionResponse, error)
-	//GetVCSConnection get a vcs_connection based on id
-	GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
+	//GetAccountVCSConnection return a vcs_connection based on id with limited data
+	GetAccountVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error)
+	// RevokeVCSToken revoke the provided access token
+	RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// RenewVCSToken renew the token
+	RenewVCSToken(ctx context.Context, in *RenewVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type vCSConnectionsClient struct {
@@ -74,9 +78,27 @@ func (c *vCSConnectionsClient) ListVCSConnection(ctx context.Context, in *ListVC
 	return out, nil
 }
 
-func (c *vCSConnectionsClient) GetVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error) {
+func (c *vCSConnectionsClient) GetAccountVCSConnection(ctx context.Context, in *GetVCSConnectionRequest, opts ...grpc.CallOption) (*AccountVCSConnection, error) {
 	out := new(AccountVCSConnection)
-	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnections/GetVCSConnection", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnections/GetAccountVCSConnection", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vCSConnectionsClient) RevokeVCSToken(ctx context.Context, in *RevokeVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnections/RevokeVCSToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *vCSConnectionsClient) RenewVCSToken(ctx context.Context, in *RenewVCSTokenRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/alfred.vcs_connection.v1.VCSConnections/RenewVCSToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,8 +117,12 @@ type VCSConnectionsServer interface {
 	Callback(context.Context, *CallbackRequest) (*AccountVCSConnection, error)
 	//ListVCSConnection list all connected service of user's account
 	ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error)
-	//GetVCSConnection get a vcs_connection based on id
-	GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*AccountVCSConnection, error)
+	//GetAccountVCSConnection return a vcs_connection based on id with limited data
+	GetAccountVCSConnection(context.Context, *GetVCSConnectionRequest) (*AccountVCSConnection, error)
+	// RevokeVCSToken revoke the provided access token
+	RevokeVCSToken(context.Context, *RevokeVCSTokenRequest) (*empty.Empty, error)
+	// RenewVCSToken renew the token
+	RenewVCSToken(context.Context, *RenewVCSTokenRequest) (*empty.Empty, error)
 }
 
 // UnimplementedVCSConnectionsServer should be embedded to have forward compatible implementations.
@@ -115,8 +141,14 @@ func (UnimplementedVCSConnectionsServer) Callback(context.Context, *CallbackRequ
 func (UnimplementedVCSConnectionsServer) ListVCSConnection(context.Context, *ListVCSConnectionRequest) (*ListVCSConnectionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListVCSConnection not implemented")
 }
-func (UnimplementedVCSConnectionsServer) GetVCSConnection(context.Context, *GetVCSConnectionRequest) (*AccountVCSConnection, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetVCSConnection not implemented")
+func (UnimplementedVCSConnectionsServer) GetAccountVCSConnection(context.Context, *GetVCSConnectionRequest) (*AccountVCSConnection, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountVCSConnection not implemented")
+}
+func (UnimplementedVCSConnectionsServer) RevokeVCSToken(context.Context, *RevokeVCSTokenRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeVCSToken not implemented")
+}
+func (UnimplementedVCSConnectionsServer) RenewVCSToken(context.Context, *RenewVCSTokenRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RenewVCSToken not implemented")
 }
 
 // UnsafeVCSConnectionsServer may be embedded to opt out of forward compatibility for this service.
@@ -202,20 +234,56 @@ func _VCSConnections_ListVCSConnection_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _VCSConnections_GetVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VCSConnections_GetAccountVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetVCSConnectionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VCSConnectionsServer).GetVCSConnection(ctx, in)
+		return srv.(VCSConnectionsServer).GetAccountVCSConnection(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.vcs_connection.v1.VCSConnections/GetVCSConnection",
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnections/GetAccountVCSConnection",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VCSConnectionsServer).GetVCSConnection(ctx, req.(*GetVCSConnectionRequest))
+		return srv.(VCSConnectionsServer).GetAccountVCSConnection(ctx, req.(*GetVCSConnectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VCSConnections_RevokeVCSToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeVCSTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VCSConnectionsServer).RevokeVCSToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnections/RevokeVCSToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VCSConnectionsServer).RevokeVCSToken(ctx, req.(*RevokeVCSTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _VCSConnections_RenewVCSToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RenewVCSTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VCSConnectionsServer).RenewVCSToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/alfred.vcs_connection.v1.VCSConnections/RenewVCSToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VCSConnectionsServer).RenewVCSToken(ctx, req.(*RenewVCSTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -241,8 +309,16 @@ var _VCSConnections_serviceDesc = grpc.ServiceDesc{
 			Handler:    _VCSConnections_ListVCSConnection_Handler,
 		},
 		{
-			MethodName: "GetVCSConnection",
-			Handler:    _VCSConnections_GetVCSConnection_Handler,
+			MethodName: "GetAccountVCSConnection",
+			Handler:    _VCSConnections_GetAccountVCSConnection_Handler,
+		},
+		{
+			MethodName: "RevokeVCSToken",
+			Handler:    _VCSConnections_RevokeVCSToken_Handler,
+		},
+		{
+			MethodName: "RenewVCSToken",
+			Handler:    _VCSConnections_RenewVCSToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

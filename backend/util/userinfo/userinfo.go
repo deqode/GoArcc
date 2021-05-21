@@ -2,6 +2,9 @@ package userinfo
 
 import (
 	"context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -42,13 +45,16 @@ func IsGrpcCall(ctx context.Context) bool {
 	return false
 }
 
-// FromContext returns the User value stored in ctx, if any.
-func FromContext(ctx context.Context) UserInfo {
-	if u, ok := ctx.Value(userKey).(UserInfo); ok {
-		return u
-	}
 
-	return UserInfo{}
+func WithClaims(ctx context.Context, c map[string]interface{}) context.Context {
+	return context.WithValue(ctx, userKey, c)
+}
+
+
+// FromContext returns the User value stored in ctx, if any.
+func FromContext(ctx context.Context) (usr UserInfo) {
+	usr = FromClaims(ctx.Value(userKey).(map[string]interface{}))
+	return
 }
 
 func NewContext(ctx context.Context, u UserInfo) context.Context {
@@ -77,3 +83,16 @@ func FromClaims(claims map[string]interface{}) (ui UserInfo) {
 
 	return
 }
+
+
+func ValidateUser(ctx context.Context,table interface{}, db *gorm.DB) error {
+	userInfo := FromContext(ctx)
+	if  userInfo.Sub == "" {
+		return status.Error(codes.PermissionDenied , "unauthenticated user")
+	}
+	if err := db.Where("user_id = ?",userInfo.ID).Find(table).Error ; err != nil {
+		return status.Error(codes.PermissionDenied , "unauthenticated user")
+	}
+	return nil
+}
+

@@ -116,7 +116,7 @@ func RegisterAuthenticationsHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.auth.v1.Authentications/Login")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.authentication.v1.Authentications/Login")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -139,7 +139,7 @@ func RegisterAuthenticationsHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.auth.v1.Authentications/LoginCallback")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.authentication.v1.Authentications/LoginCallback")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -162,7 +162,7 @@ func RegisterAuthenticationsHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.auth.v1.Authentications/Logout")
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/alfred.authentication.v1.Authentications/Logout")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -224,7 +224,7 @@ func RegisterAuthenticationsHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.auth.v1.Authentications/Login")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.authentication.v1.Authentications/Login")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -244,7 +244,7 @@ func RegisterAuthenticationsHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.auth.v1.Authentications/LoginCallback")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.authentication.v1.Authentications/LoginCallback")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -264,7 +264,7 @@ func RegisterAuthenticationsHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.auth.v1.Authentications/Logout")
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/alfred.authentication.v1.Authentications/Logout")
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

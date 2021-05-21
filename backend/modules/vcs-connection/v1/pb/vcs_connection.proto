@@ -8,6 +8,7 @@ import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "types/enums.proto";
 import "validate/validate.proto";
+import "google/protobuf/timestamp.proto";
 
 service VCSConnections {
     //ListAllSupportedVCSProviders returns all external providers list supported by alfred
@@ -46,8 +47,8 @@ service VCSConnections {
         };
     }
 
-    //GetVCSConnection get a vcs_connection based on id
-    rpc GetVCSConnection(GetVCSConnectionRequest) returns (AccountVCSConnection){
+    //GetAccountVCSConnection return a vcs_connection based on id with limited data
+    rpc GetAccountVCSConnection(GetVCSConnectionRequest) returns (AccountVCSConnection){
         option (google.api.http) = {
             get: "/v1/vcs-connection/vcs-connection/{id}"
         };
@@ -56,6 +57,12 @@ service VCSConnections {
             name: "vcsConnection"
         };
     }
+
+    // RevokeVCSToken revoke the provided access token
+    rpc RevokeVCSToken(RevokeVCSTokenRequest) returns (google.protobuf.Empty);
+
+    // RenewVCSToken renew the token
+    rpc RenewVCSToken(RenewVCSTokenRequest) returns (google.protobuf.Empty);
 }
 
 message ListAllSupportedVCSProvidersResponse{
@@ -67,7 +74,6 @@ message AuthorizeRequest{
 }
 message AuthorizeResponse{
     string redirect_url = 1;
-    string temp_jwt_token = 4; // TODO: Add label,AccountId in this
 }
 
 message CallbackRequest{
@@ -82,10 +88,7 @@ message AccountVCSConnection{
     types.VCSProviders provider = 2;
     string account_id = 3;
     string label = 4;
-    string user_name = 5 [(validate.rules).string = {
-        pattern:   "^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$",
-        max_bytes: 256,
-    }];
+    string user_name = 5 ;
 }
 
 message ListVCSConnectionRequest{
@@ -100,4 +103,14 @@ message ListVCSConnectionResponse{
 message GetVCSConnectionRequest{
     string id = 1;
     string account_id = 2;
+    types.VCSProviders provider = 3;
 }
+
+message RevokeVCSTokenRequest{
+    types.VCSProviders provider = 2;
+    string vcs_id = 1;
+}
+message RenewVCSTokenRequest{
+    types.VCSProviders provider = 1;
+}
+

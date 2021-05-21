@@ -1,5 +1,5 @@
 syntax = "proto3";
-package alfred.auth.v1;
+package alfred.authentication.v1;
 
 option go_package = "/pb";
 
@@ -24,7 +24,6 @@ message ValidateUserLoginResponse {
 }
 
 service Authentications {
-
     // Login provide a url of External OAuth login endpoint (Auth0)
     rpc Login (google.protobuf.Empty) returns (LoginResponse) {
         option (google.api.http) = {

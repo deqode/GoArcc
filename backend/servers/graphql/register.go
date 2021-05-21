@@ -2,8 +2,7 @@ package graphql
 
 import (
 	"alfred.sh/common/logger"
-	accPb "alfred/modules/account/v1/pb"
-	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
+	accountPb "alfred/modules/account/v1/pb"
 	gitPb "alfred/modules/git/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
@@ -26,15 +25,11 @@ func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error 
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
-	if err := architectureSuggesterPb.RegisterArchitectureSuggesterServiceGraphqlHandler(mux, conn); err != nil {
-		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
-		return err
-	}
 	if err := vcsPb.RegisterVCSConnectionsGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
-	if err := accPb.RegisterAccountsGraphqlHandler(mux, conn); err != nil {
+	if err := accountPb.RegisterAccountsGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

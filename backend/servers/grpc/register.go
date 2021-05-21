@@ -4,17 +4,15 @@ import (
 	cadenceAdapter "alfred/background/adapters/cadence"
 	background "alfred/background/config"
 	"alfred/config"
-	acc "alfred/modules/account/v1"
-	accPb "alfred/modules/account/v1/pb"
-	"alfred/modules/architecture-suggester"
-	architectureSuggesterPb "alfred/modules/architecture-suggester/pb"
-	auth "alfred/modules/authentication/v1"
+	"alfred/modules/account/v1/external-svc"
+	accountPb "alfred/modules/account/v1/pb"
+	authExt "alfred/modules/authentication/v1/external-svc"
 	authPb "alfred/modules/authentication/v1/pb"
-	git "alfred/modules/git/v1"
+	gitExt "alfred/modules/git/v1/external-svc"
 	gitPb "alfred/modules/git/v1/pb"
-	userProfile "alfred/modules/user-profile/v1"
+	userExt "alfred/modules/user-profile/v1/external-svc"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
-	vcs "alfred/modules/vcs-connection/v1"
+	vcsExt "alfred/modules/vcs-connection/v1/external-svc"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -33,10 +31,9 @@ func RegisterGrpcModules(srv *grpc.Server,
 
 	//todo register new grpc modules here
 	//register user modules
-	userProfilePb.RegisterUserProfilesServer(srv, userProfile.NewUserProfilesServer(db, config, grpcClientConnection))
-	architectureSuggesterPb.RegisterArchitectureSuggesterServiceServer(srv, architecture_suggester.NewArchitectureSuggesterService(cadenceConfig, cadenceAdapter))
-	authPb.RegisterAuthenticationsServer(srv, auth.NewAuthenticationServer(db, config, grpcClientConnection))
-	vcsPb.RegisterVCSConnectionsServer(srv, vcs.NewVCSConnectionServer(db, config, grpcClientConnection))
-	accPb.RegisterAccountsServer(srv, acc.NewAccountsServer(db, config, grpcClientConnection))
-	gitPb.RegisterGitsServer(srv, git.NewGitServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	userProfilePb.RegisterUserProfilesServer(srv, userExt.NewUserProfilesServer(db, config, grpcClientConnection))
+	authPb.RegisterAuthenticationsServer(srv, authExt.NewAuthenticationServer(db, config, grpcClientConnection))
+	vcsPb.RegisterVCSConnectionsServer(srv, vcsExt.NewVCSConnectionServer(db, config, grpcClientConnection))
+	accountPb.RegisterAccountsServer(srv, external_svc.NewAccountExtServer(db, config, grpcClientConnection))
+	gitPb.RegisterGitsServer(srv, gitExt.NewGitServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
 }

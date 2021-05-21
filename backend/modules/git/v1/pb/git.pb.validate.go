@@ -43,44 +43,94 @@ var (
 
 // Validate checks the field values on CloneRepositoryRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *CloneRepositoryRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CloneRepositoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CloneRepositoryRequestMultiError, or nil if none found.
+func (m *CloneRepositoryRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloneRepositoryRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	// no validation rules for Provider
 
 	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
-		return CloneRepositoryRequestValidationError{
+		err := CloneRepositoryRequestValidationError{
 			field:  "AccountId",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetRepositoryUrl()) < 3 {
-		return CloneRepositoryRequestValidationError{
+		err := CloneRepositoryRequestValidationError{
 			field:  "RepositoryUrl",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetBranchName()) < 1 {
-		return CloneRepositoryRequestValidationError{
+		err := CloneRepositoryRequestValidationError{
 			field:  "BranchName",
 			reason: "value length must be at least 1 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetUserName()) < 1 {
-		return CloneRepositoryRequestValidationError{
+		err := CloneRepositoryRequestValidationError{
 			field:  "UserName",
 			reason: "value length must be at least 1 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
+	if len(errors) > 0 {
+		return CloneRepositoryRequestMultiError(errors)
+	}
 	return nil
 }
+
+// CloneRepositoryRequestMultiError is an error wrapping multiple validation
+// errors returned by CloneRepositoryRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CloneRepositoryRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloneRepositoryRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloneRepositoryRequestMultiError) AllErrors() []error { return m }
 
 // CloneRepositoryRequestValidationError is the validation error returned by
 // CloneRepositoryRequest.Validate if the designated constraints aren't met.
@@ -140,28 +190,70 @@ var _ interface {
 
 // Validate checks the field values on CloneRepositoryResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *CloneRepositoryResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CloneRepositoryResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CloneRepositoryResponseMultiError, or nil if none found.
+func (m *CloneRepositoryResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CloneRepositoryResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	if utf8.RuneCountInString(m.GetWorkflowId()) < 3 {
-		return CloneRepositoryResponseValidationError{
+		err := CloneRepositoryResponseValidationError{
 			field:  "WorkflowId",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetRunId()) < 3 {
-		return CloneRepositoryResponseValidationError{
+		err := CloneRepositoryResponseValidationError{
 			field:  "RunId",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
+	if len(errors) > 0 {
+		return CloneRepositoryResponseMultiError(errors)
+	}
 	return nil
 }
+
+// CloneRepositoryResponseMultiError is an error wrapping multiple validation
+// errors returned by CloneRepositoryResponse.ValidateAll() if the designated
+// constraints aren't met.
+type CloneRepositoryResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CloneRepositoryResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CloneRepositoryResponseMultiError) AllErrors() []error { return m }
 
 // CloneRepositoryResponseValidationError is the validation error returned by
 // CloneRepositoryResponse.Validate if the designated constraints aren't met.
@@ -220,32 +312,74 @@ var _ interface {
 } = CloneRepositoryResponseValidationError{}
 
 // Validate checks the field values on Repository with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *Repository) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Repository with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in RepositoryMultiError, or
+// nil if none found.
+func (m *Repository) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Repository) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	// no validation rules for Id
 
 	if l := utf8.RuneCountInString(m.GetName()); l < 1 || l > 100 {
-		return RepositoryValidationError{
+		err := RepositoryValidationError{
 			field:  "Name",
 			reason: "value length must be between 1 and 100 runes, inclusive",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if l := utf8.RuneCountInString(m.GetRepoUrl()); l < 1 || l > 100 {
-		return RepositoryValidationError{
+		err := RepositoryValidationError{
 			field:  "RepoUrl",
 			reason: "value length must be between 1 and 100 runes, inclusive",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	// no validation rules for Private
 
+	if len(errors) > 0 {
+		return RepositoryMultiError(errors)
+	}
 	return nil
 }
+
+// RepositoryMultiError is an error wrapping multiple validation errors
+// returned by Repository.ValidateAll() if the designated constraints aren't met.
+type RepositoryMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RepositoryMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RepositoryMultiError) AllErrors() []error { return m }
 
 // RepositoryValidationError is the validation error returned by
 // Repository.Validate if the designated constraints aren't met.
@@ -303,32 +437,74 @@ var _ interface {
 
 // Validate checks the field values on ListRepositoryRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *ListRepositoryRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListRepositoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListRepositoryRequestMultiError, or nil if none found.
+func (m *ListRepositoryRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListRepositoryRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	// no validation rules for Provider
 
 	if utf8.RuneCountInString(m.GetUserId()) < 3 {
-		return ListRepositoryRequestValidationError{
+		err := ListRepositoryRequestValidationError{
 			field:  "UserId",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
-		return ListRepositoryRequestValidationError{
+		err := ListRepositoryRequestValidationError{
 			field:  "AccountId",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	// no validation rules for Label
 
+	if len(errors) > 0 {
+		return ListRepositoryRequestMultiError(errors)
+	}
 	return nil
 }
+
+// ListRepositoryRequestMultiError is an error wrapping multiple validation
+// errors returned by ListRepositoryRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListRepositoryRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListRepositoryRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListRepositoryRequestMultiError) AllErrors() []error { return m }
 
 // ListRepositoryRequestValidationError is the validation error returned by
 // ListRepositoryRequest.Validate if the designated constraints aren't met.
@@ -388,16 +564,49 @@ var _ interface {
 
 // Validate checks the field values on ListRepositoryResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *ListRepositoryResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListRepositoryResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListRepositoryResponseMultiError, or nil if none found.
+func (m *ListRepositoryResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListRepositoryResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	for idx, item := range m.GetRepositories() {
 		_, _ = idx, item
 
-		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListRepositoryResponseValidationError{
+						field:  fmt.Sprintf("Repositories[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListRepositoryResponseValidationError{
+						field:  fmt.Sprintf("Repositories[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return ListRepositoryResponseValidationError{
 					field:  fmt.Sprintf("Repositories[%v]", idx),
@@ -409,8 +618,28 @@ func (m *ListRepositoryResponse) Validate() error {
 
 	}
 
+	if len(errors) > 0 {
+		return ListRepositoryResponseMultiError(errors)
+	}
 	return nil
 }
+
+// ListRepositoryResponseMultiError is an error wrapping multiple validation
+// errors returned by ListRepositoryResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ListRepositoryResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListRepositoryResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListRepositoryResponseMultiError) AllErrors() []error { return m }
 
 // ListRepositoryResponseValidationError is the validation error returned by
 // ListRepositoryResponse.Validate if the designated constraints aren't met.
@@ -470,37 +699,83 @@ var _ interface {
 
 // Validate checks the field values on GetRepositoryRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *GetRepositoryRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetRepositoryRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetRepositoryRequestMultiError, or nil if none found.
+func (m *GetRepositoryRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetRepositoryRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	// no validation rules for Provider
 
 	if utf8.RuneCountInString(m.GetRepoName()) < 1 {
-		return GetRepositoryRequestValidationError{
+		err := GetRepositoryRequestValidationError{
 			field:  "RepoName",
 			reason: "value length must be at least 1 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
-		return GetRepositoryRequestValidationError{
+		err := GetRepositoryRequestValidationError{
 			field:  "AccountId",
 			reason: "value length must be at least 3 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetOwnerName()) < 1 {
-		return GetRepositoryRequestValidationError{
+		err := GetRepositoryRequestValidationError{
 			field:  "OwnerName",
 			reason: "value length must be at least 1 runes",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
+	if len(errors) > 0 {
+		return GetRepositoryRequestMultiError(errors)
+	}
 	return nil
 }
+
+// GetRepositoryRequestMultiError is an error wrapping multiple validation
+// errors returned by GetRepositoryRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetRepositoryRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetRepositoryRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetRepositoryRequestMultiError) AllErrors() []error { return m }
 
 // GetRepositoryRequestValidationError is the validation error returned by
 // GetRepositoryRequest.Validate if the designated constraints aren't met.
@@ -560,18 +835,52 @@ var _ interface {
 
 // Validate checks the field values on GetCloningStatusRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *GetCloningStatusRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCloningStatusRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetCloningStatusRequestMultiError, or nil if none found.
+func (m *GetCloningStatusRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCloningStatusRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for WorkflowId
 
 	// no validation rules for RunId
 
+	if len(errors) > 0 {
+		return GetCloningStatusRequestMultiError(errors)
+	}
 	return nil
 }
+
+// GetCloningStatusRequestMultiError is an error wrapping multiple validation
+// errors returned by GetCloningStatusRequest.ValidateAll() if the designated
+// constraints aren't met.
+type GetCloningStatusRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCloningStatusRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCloningStatusRequestMultiError) AllErrors() []error { return m }
 
 // GetCloningStatusRequestValidationError is the validation error returned by
 // GetCloningStatusRequest.Validate if the designated constraints aren't met.
@@ -631,16 +940,50 @@ var _ interface {
 
 // Validate checks the field values on GetCloningStatusResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *GetCloningStatusResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on GetCloningStatusResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// GetCloningStatusResponseMultiError, or nil if none found.
+func (m *GetCloningStatusResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *GetCloningStatusResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	// no validation rules for Status
 
+	if len(errors) > 0 {
+		return GetCloningStatusResponseMultiError(errors)
+	}
 	return nil
 }
+
+// GetCloningStatusResponseMultiError is an error wrapping multiple validation
+// errors returned by GetCloningStatusResponse.ValidateAll() if the designated
+// constraints aren't met.
+type GetCloningStatusResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m GetCloningStatusResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m GetCloningStatusResponseMultiError) AllErrors() []error { return m }
 
 // GetCloningStatusResponseValidationError is the validation error returned by
 // GetCloningStatusResponse.Validate if the designated constraints aren't met.

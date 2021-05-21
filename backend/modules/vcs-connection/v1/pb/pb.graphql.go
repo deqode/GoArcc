@@ -14,6 +14,8 @@ import (
 )
 
 var (
+	gql__type_RevokeVCSTokenRequest                 *graphql.Object      // message RevokeVCSTokenRequest in pb/vcs_connection.proto
+	gql__type_RenewVCSTokenRequest                  *graphql.Object      // message RenewVCSTokenRequest in pb/vcs_connection.proto
 	gql__type_ListVCSConnectionResponse             *graphql.Object      // message ListVCSConnectionResponse in pb/vcs_connection.proto
 	gql__type_ListVCSConnectionRequest              *graphql.Object      // message ListVCSConnectionRequest in pb/vcs_connection.proto
 	gql__type_ListAllSupportedVCSProvidersResponse  *graphql.Object      // message ListAllSupportedVCSProvidersResponse in pb/vcs_connection.proto
@@ -22,6 +24,8 @@ var (
 	gql__type_AuthorizeResponse                     *graphql.Object      // message AuthorizeResponse in pb/vcs_connection.proto
 	gql__type_AuthorizeRequest                      *graphql.Object      // message AuthorizeRequest in pb/vcs_connection.proto
 	gql__type_AccountVCSConnection                  *graphql.Object      // message AccountVCSConnection in pb/vcs_connection.proto
+	gql__input_RevokeVCSTokenRequest                *graphql.InputObject // message RevokeVCSTokenRequest in pb/vcs_connection.proto
+	gql__input_RenewVCSTokenRequest                 *graphql.InputObject // message RenewVCSTokenRequest in pb/vcs_connection.proto
 	gql__input_ListVCSConnectionResponse            *graphql.InputObject // message ListVCSConnectionResponse in pb/vcs_connection.proto
 	gql__input_ListVCSConnectionRequest             *graphql.InputObject // message ListVCSConnectionRequest in pb/vcs_connection.proto
 	gql__input_ListAllSupportedVCSProvidersResponse *graphql.InputObject // message ListAllSupportedVCSProvidersResponse in pb/vcs_connection.proto
@@ -31,6 +35,37 @@ var (
 	gql__input_AuthorizeRequest                     *graphql.InputObject // message AuthorizeRequest in pb/vcs_connection.proto
 	gql__input_AccountVCSConnection                 *graphql.InputObject // message AccountVCSConnection in pb/vcs_connection.proto
 )
+
+func Gql__type_RevokeVCSTokenRequest() *graphql.Object {
+	if gql__type_RevokeVCSTokenRequest == nil {
+		gql__type_RevokeVCSTokenRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_RevokeVCSTokenRequest",
+			Fields: graphql.Fields{
+				"provider": &graphql.Field{
+					Type: types.Gql__enum_VCSProviders(),
+				},
+				"vcs_id": &graphql.Field{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__type_RevokeVCSTokenRequest
+}
+
+func Gql__type_RenewVCSTokenRequest() *graphql.Object {
+	if gql__type_RenewVCSTokenRequest == nil {
+		gql__type_RenewVCSTokenRequest = graphql.NewObject(graphql.ObjectConfig{
+			Name: "Pb_Type_RenewVCSTokenRequest",
+			Fields: graphql.Fields{
+				"provider": &graphql.Field{
+					Type: types.Gql__enum_VCSProviders(),
+				},
+			},
+		})
+	}
+	return gql__type_RenewVCSTokenRequest
+}
 
 func Gql__type_ListVCSConnectionResponse() *graphql.Object {
 	if gql__type_ListVCSConnectionResponse == nil {
@@ -88,6 +123,9 @@ func Gql__type_GetVCSConnectionRequest() *graphql.Object {
 				"account_id": &graphql.Field{
 					Type: graphql.String,
 				},
+				"provider": &graphql.Field{
+					Type: types.Gql__enum_VCSProviders(),
+				},
 			},
 		})
 	}
@@ -123,9 +161,6 @@ func Gql__type_AuthorizeResponse() *graphql.Object {
 			Name: "Pb_Type_AuthorizeResponse",
 			Fields: graphql.Fields{
 				"redirect_url": &graphql.Field{
-					Type: graphql.String,
-				},
-				"temp_jwt_token": &graphql.Field{
 					Type: graphql.String,
 				},
 			},
@@ -175,6 +210,37 @@ func Gql__type_AccountVCSConnection() *graphql.Object {
 		})
 	}
 	return gql__type_AccountVCSConnection
+}
+
+func Gql__input_RevokeVCSTokenRequest() *graphql.InputObject {
+	if gql__input_RevokeVCSTokenRequest == nil {
+		gql__input_RevokeVCSTokenRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_RevokeVCSTokenRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"provider": &graphql.InputObjectFieldConfig{
+					Type: types.Gql__enum_VCSProviders(),
+				},
+				"vcs_id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+			},
+		})
+	}
+	return gql__input_RevokeVCSTokenRequest
+}
+
+func Gql__input_RenewVCSTokenRequest() *graphql.InputObject {
+	if gql__input_RenewVCSTokenRequest == nil {
+		gql__input_RenewVCSTokenRequest = graphql.NewInputObject(graphql.InputObjectConfig{
+			Name: "Pb_Input_RenewVCSTokenRequest",
+			Fields: graphql.InputObjectConfigFieldMap{
+				"provider": &graphql.InputObjectFieldConfig{
+					Type: types.Gql__enum_VCSProviders(),
+				},
+			},
+		})
+	}
+	return gql__input_RenewVCSTokenRequest
 }
 
 func Gql__input_ListVCSConnectionResponse() *graphql.InputObject {
@@ -233,6 +299,9 @@ func Gql__input_GetVCSConnectionRequest() *graphql.InputObject {
 				"account_id": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
+				"provider": &graphql.InputObjectFieldConfig{
+					Type: types.Gql__enum_VCSProviders(),
+				},
 			},
 		})
 	}
@@ -268,9 +337,6 @@ func Gql__input_AuthorizeResponse() *graphql.InputObject {
 			Name: "Pb_Input_AuthorizeResponse",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"redirect_url": &graphql.InputObjectFieldConfig{
-					Type: graphql.String,
-				},
-				"temp_jwt_token": &graphql.InputObjectFieldConfig{
 					Type: graphql.String,
 				},
 			},
@@ -412,6 +478,9 @@ func (x *graphql__resolver_VCSConnections) GetQueries(conn *grpc.ClientConn) gra
 				"account_id": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
+				"provider": &graphql.ArgumentConfig{
+					Type: types.Gql__enum_VCSProviders(),
+				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				var req GetVCSConnectionRequest
@@ -419,9 +488,9 @@ func (x *graphql__resolver_VCSConnections) GetQueries(conn *grpc.ClientConn) gra
 					return nil, errors.Wrap(err, "Failed to marshal request for vcsConnection")
 				}
 				client := NewVCSConnectionsClient(conn)
-				resp, err := client.GetVCSConnection(p.Context, &req)
+				resp, err := client.GetAccountVCSConnection(p.Context, &req)
 				if err != nil {
-					return nil, errors.Wrap(err, "Failed to call RPC GetVCSConnection")
+					return nil, errors.Wrap(err, "Failed to call RPC GetAccountVCSConnection")
 				}
 				return resp, nil
 			},
