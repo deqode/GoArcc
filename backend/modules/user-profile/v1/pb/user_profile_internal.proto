@@ -19,3 +19,16 @@ service UserProfileInternal {
 
     rpc GetUserMe (google.protobuf.Empty) returns (alfred.user_profile.v1.UserProfile);
 }
+
+
+message CreateUserProfileRequest {
+    UserProfile user_profile = 1;
+}
+
+message DeleteUserProfileRequest {
+    string id = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
+}
+
+message UpdateUserProfileRequest {
+    UserProfile user_profile = 1 [(validate.rules).message.required = true];
+}
