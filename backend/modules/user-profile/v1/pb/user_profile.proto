@@ -1,5 +1,5 @@
 syntax = "proto3";
-package alfred.user_profile.v1;
+package  alfred.user_profile.v1;
 
 option go_package = "/pb";
 
@@ -36,23 +36,9 @@ service UserProfiles {
     }
 }
 
-// TODO -  internal proto seperate defined
-// TODO - public exposed endpoint and authenticated endpoint at service root
-// TODO - Separate folder for implementing internal services
-// TODO -
-//Private Service - Requires Authentication
-service UserProfileInternal {
-    rpc CreateUserProfile(CreateUserProfileRequest) returns (UserProfile);
-
-    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UserProfile);
-
-    rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
-
-    rpc GetUserMe (google.protobuf.Empty) returns (UserProfile);
-}
 
 message CreateUserProfileRequest {
-    UserProfile user_profile = 1;
+   UserProfile user_profile = 1;
 }
 
 message DeleteUserProfileRequest {
@@ -60,7 +46,7 @@ message DeleteUserProfileRequest {
 }
 
 message UpdateUserProfileRequest {
-    UserProfile user_profile = 1 [(validate.rules).message.required = true];
+   UserProfile user_profile = 1 [(validate.rules).message.required = true];
 }
 
 message GetUserProfileRequest {

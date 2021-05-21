@@ -1,0 +1,21 @@
+syntax = "proto3";
+package alfred.user_profile_internal.v1;
+
+option go_package = "/pb";
+
+import "google/protobuf/empty.proto";
+import "user_profile.proto";
+import "google/api/annotation.proto";
+import "validate/validate.proto";
+
+
+//Private Service - Requires Authentication
+service UserProfileInternal {
+    rpc CreateUserProfile(alfred.user_profile.v1.CreateUserProfileRequest) returns (alfred.user_profile.v1.UserProfile);
+
+    rpc UpdateUserProfile(alfred.user_profile.v1.UpdateUserProfileRequest) returns (alfred.user_profile.v1.UserProfile);
+
+    rpc DeleteUserProfile(alfred.user_profile.v1.DeleteUserProfileRequest) returns (google.protobuf.Empty);
+
+    rpc GetUserMe (google.protobuf.Empty) returns (alfred.user_profile.v1.UserProfile);
+}

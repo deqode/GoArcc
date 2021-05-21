@@ -12,6 +12,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // ValidateLoginServiceClient is the client API for ValidateLoginService service.
@@ -60,8 +61,8 @@ type UnsafeValidateLoginServiceServer interface {
 	mustEmbedUnimplementedValidateLoginServiceServer()
 }
 
-func RegisterValidateLoginServiceServer(s *grpc.Server, srv ValidateLoginServiceServer) {
-	s.RegisterService(&_ValidateLoginService_serviceDesc, srv)
+func RegisterValidateLoginServiceServer(s grpc.ServiceRegistrar, srv ValidateLoginServiceServer) {
+	s.RegisterService(&ValidateLoginService_ServiceDesc, srv)
 }
 
 func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -82,7 +83,10 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-var _ValidateLoginService_serviceDesc = grpc.ServiceDesc{
+// ValidateLoginService_ServiceDesc is the grpc.ServiceDesc for ValidateLoginService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ValidateLoginService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.auth.v1.ValidateLoginService",
 	HandlerType: (*ValidateLoginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -173,8 +177,8 @@ type UnsafeAuthenticationsServer interface {
 	mustEmbedUnimplementedAuthenticationsServer()
 }
 
-func RegisterAuthenticationsServer(s *grpc.Server, srv AuthenticationsServer) {
-	s.RegisterService(&_Authentications_serviceDesc, srv)
+func RegisterAuthenticationsServer(s grpc.ServiceRegistrar, srv AuthenticationsServer) {
+	s.RegisterService(&Authentications_ServiceDesc, srv)
 }
 
 func _Authentications_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -231,7 +235,10 @@ func _Authentications_Logout_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Authentications_serviceDesc = grpc.ServiceDesc{
+// Authentications_ServiceDesc is the grpc.ServiceDesc for Authentications service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Authentications_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.auth.v1.Authentications",
 	HandlerType: (*AuthenticationsServer)(nil),
 	Methods: []grpc.MethodDesc{

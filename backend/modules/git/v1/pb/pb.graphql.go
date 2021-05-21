@@ -416,7 +416,7 @@ func (x *graphql__resolver_Gits) GetQueries(conn *grpc.ClientConn) graphql.Field
 					return nil, errors.Wrap(err, "Failed to marshal request for repositories")
 				}
 				client := NewGitsClient(conn)
-				resp, err := client.ListRepository(p.Context, &req)
+				resp, err := client.listRepository(p.Context, &req)
 				if err != nil {
 					return nil, errors.Wrap(err, "Failed to call RPC listRepository")
 				}
