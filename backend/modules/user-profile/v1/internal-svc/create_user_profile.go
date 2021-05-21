@@ -5,6 +5,8 @@ import (
 	model "alfred/modules/user-profile/v1/models"
 	"alfred/modules/user-profile/v1/pb"
 	"context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 	"time"
 )
@@ -13,6 +15,9 @@ func (s *userProfileInServer) CreateUserProfile(ctx context.Context, in *pb.Crea
 	//request validation
 	if err := in.Validate(); err != nil {
 		return nil, err
+	}
+	if in.UserProfile == nil {
+		return nil, status.Error(codes.FailedPrecondition, "UserProfile not provided")
 	}
 	//prepare insert object
 	UserProfileModel := &model.UserProfile{

@@ -21,7 +21,7 @@ var _ = Describe("Describe:Delete account test", func() {
 	)
 	BeforeEach(func() {
 		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../")
+		cfgFile, err := config.LoadConfig("config", "./../../../../")
 		if err != nil {
 			log.Fatal(err)
 		}

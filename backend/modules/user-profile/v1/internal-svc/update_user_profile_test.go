@@ -4,9 +4,11 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/account/v1/external-svc"
-	accountpb "alfred/modules/account/v1/pb"
+	"alfred/modules/user-profile/v1/internal-svc"
+	UserProfilepb "alfred/modules/user-profile/v1/pb"
+	"context"
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"log"
@@ -14,12 +16,12 @@ import (
 
 var _ = Describe("UpdateUserProfile", func() {
 	var (
-		accountServer accountpb.AccountsServer
-		cfg           *config.Config
+		UserProfileServer UserProfilepb.UserProfileInternalServer
+		cfg               *config.Config
 	)
 	BeforeEach(func() {
 		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../")
+		cfgFile, err := config.LoadConfig("config", "./../../../../")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -39,7 +41,7 @@ var _ = Describe("UpdateUserProfile", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		accountServer = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
+		UserProfileServer = internal_svc.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 	})
 
 	Describe("Update a user profile", func() {
@@ -47,6 +49,8 @@ var _ = Describe("UpdateUserProfile", func() {
 		By("By a internal RPC Call")
 		Context("Get an error when request object is nil", func() {
 			It("should return nil exception", func() {
+				_, err := UserProfileServer.UpdateUserProfile(context.Background(), &UserProfilepb.UpdateUserProfileRequest{UserProfile: nil})
+				Expect(err.(UserProfilepb.UpdateUserProfileRequestValidationError).Reason()).Should(Equal("value is required"))
 			})
 		})
 

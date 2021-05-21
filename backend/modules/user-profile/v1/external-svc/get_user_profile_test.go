@@ -4,8 +4,8 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/account/v1/external-svc"
-	pb2 "alfred/modules/account/v1/external-svc/pb"
+	"alfred/modules/user-profile/v1/external-svc"
+	pb "alfred/modules/user-profile/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -16,12 +16,12 @@ import (
 
 var _ = Describe("GetUserProfile", func() {
 	var (
-		accountServer pb2.AccountsServer
-		cfg           *config.Config
+		UserProfileServer pb.UserProfilesServer
+		cfg               *config.Config
 	)
 	BeforeEach(func() {
 		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../")
+		cfgFile, err := config.LoadConfig("config", "./../../../../")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -41,26 +41,27 @@ var _ = Describe("GetUserProfile", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		accountServer = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
+		UserProfileServer = external_svc.NewUserProfilesServer(fields.db, fields.config, fields.grpcClient)
 	})
 
 	Describe("Get a user-profile", func() {
 		By("internal or external call")
 		Context("Get an error when id is empty", func() {
 			It("it should return validation error", func() {
-				_, err := accountServer.GetAccount(context.Background(), &pb2.GetAccountRequest{Id: ""})
-				Expect(err.(pb2.GetAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
+				_, err := UserProfileServer.GetUserProfile(context.Background(), &pb.GetUserProfileRequest{Id: ""})
+				Expect(err.(pb.GetUserProfileRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 			})
 		})
 		Context("Get an error when id is wrong", func() {
 			It("should return not found error", func() {
-				_, err := accountServer.GetAccount(context.Background(), &pb2.GetAccountRequest{Id: "wrongID"})
-				Expect(gorm.ErrRecordNotFound).Should(Equal(err))
+				return
 			})
 		})
 
 		Context("Get a record when id is provided", func() {
-			It("should return requested field in the object", func() {})
+			It("should return requested field in the object", func() {
+				return
+			})
 		})
 	})
 })

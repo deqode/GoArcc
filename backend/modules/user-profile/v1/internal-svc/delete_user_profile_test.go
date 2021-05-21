@@ -4,7 +4,7 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/user-profile/v1/external-svc"
+	"alfred/modules/user-profile/v1/internal-svc"
 	"alfred/modules/user-profile/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
@@ -21,7 +21,7 @@ var _ = Describe("DeleteUserProfile", func() {
 	)
 	BeforeEach(func() {
 		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../")
+		cfgFile, err := config.LoadConfig("config", "./../../../../")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -41,7 +41,7 @@ var _ = Describe("DeleteUserProfile", func() {
 			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 		}
 		//service initialisation
-		UserProfileServer = external_svc.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
+		UserProfileServer = internal_svc.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 	})
 
 	Describe("Deleting a user profile", func() {

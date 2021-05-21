@@ -5,8 +5,10 @@ import (
 	"alfred/config"
 	"alfred/db"
 	"alfred/modules/account/v1/external-svc"
-	pb2 "alfred/modules/account/v1/pb"
+	pb "alfred/modules/account/v1/pb"
+	"context"
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"log"
@@ -14,12 +16,12 @@ import (
 
 var _ = Describe("Describe:GetAccount", func() {
 	var (
-		accountServer pb2.AccountsServer
+		accountServer pb.AccountsServer
 		cfg           *config.Config
 	)
 	BeforeEach(func() {
 		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../")
+		cfgFile, err := config.LoadConfig("config", "./../../../../")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -46,7 +48,8 @@ var _ = Describe("Describe:GetAccount", func() {
 		By("internal or external call")
 		Context("Get an error when id is empty", func() {
 			It("it should return validation error", func() {
-
+				_, err := accountServer.GetAccount(context.Background(), &pb.GetAccountRequest{Id: ""})
+				Expect(err.(pb.GetAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
 			})
 		})
 		Context("Get an error when id is wrong", func() {
