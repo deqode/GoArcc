@@ -35,20 +35,57 @@ var (
 
 // Validate checks the field values on CreateAccountRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *CreateAccountRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateAccountRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateAccountRequestMultiError, or nil if none found.
+func (m *CreateAccountRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateAccountRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
+	var errors []error
+
 	if m.GetAccount() == nil {
-		return CreateAccountRequestValidationError{
+		err := CreateAccountRequestValidationError{
 			field:  "Account",
 			reason: "value is required",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
-	if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
+	if all {
+		switch v := interface{}(m.GetAccount()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateAccountRequestValidationError{
+					field:  "Account",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateAccountRequestValidationError{
+					field:  "Account",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateAccountRequestValidationError{
 				field:  "Account",
@@ -58,8 +95,28 @@ func (m *CreateAccountRequest) Validate() error {
 		}
 	}
 
+	if len(errors) > 0 {
+		return CreateAccountRequestMultiError(errors)
+	}
 	return nil
 }
+
+// CreateAccountRequestMultiError is an error wrapping multiple validation
+// errors returned by CreateAccountRequest.ValidateAll() if the designated
+// constraints aren't met.
+type CreateAccountRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateAccountRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateAccountRequestMultiError) AllErrors() []error { return m }
 
 // CreateAccountRequestValidationError is the validation error returned by
 // CreateAccountRequest.Validate if the designated constraints aren't met.
@@ -116,78 +173,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateAccountRequestValidationError{}
-
-// Validate checks the field values on Account with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Account) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Id
-
-	// no validation rules for Slug
-
-	if utf8.RuneCountInString(m.GetUserId()) < 3 {
-		return AccountValidationError{
-			field:  "UserId",
-			reason: "value length must be at least 3 runes",
-		}
-	}
-
-	return nil
-}
-
-// AccountValidationError is the validation error returned by Account.Validate
-// if the designated constraints aren't met.
-type AccountValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e AccountValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e AccountValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e AccountValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e AccountValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e AccountValidationError) ErrorName() string { return "AccountValidationError" }
-
-// Error satisfies the builtin error interface
-func (e AccountValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sAccount.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = AccountValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = AccountValidationError{}

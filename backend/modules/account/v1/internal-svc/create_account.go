@@ -1,19 +1,20 @@
 package internal_svc
 
 import (
-	"alfred/modules/account/v1/internal-svc/pb"
+	databaseHelper "alfred.sh/common/database/helper"
 	model "alfred/modules/account/v1/models"
+	"alfred/modules/account/v1/pb"
 	"context"
 	"gorm.io/gorm"
 	"time"
 )
 
 func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccountRequest) (*pb.Account, error) {
+	//request validation
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-
-	var accounts []*model.Account
+	//prepare insert object
 	accountModel := &model.Account{
 		Slug:      in.Account.Slug,
 		UserID:    in.Account.UserId,
@@ -21,12 +22,16 @@ func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccou
 		UpdatedAt: time.Time{},
 		DeletedAt: gorm.DeletedAt{},
 	}
-	accounts = append(accounts, accountModel)
-	res, err := s.store.CreateAccount(ctx, accounts)
-	if err != nil {
-		return nil, err
+	//insert into db
+	gormDb := s.db
+	tx := gormDb.Create(accountModel)
+	if err := databaseHelper.ValidateResult(tx); err != nil {
+		return nil , err
 	}
 	return &pb.Account{
-		Id: res[0],
+		Id: accountModel.ID,
+		UserId: accountModel.UserID,
+		Slug: accountModel.Slug,
 	}, nil
 }
+

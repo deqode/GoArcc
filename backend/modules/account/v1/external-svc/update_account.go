@@ -1,7 +1,7 @@
 package external_svc
 
 import (
-	pb "alfred/modules/account/v1/external-svc/pb"
+	pb "alfred/modules/account/v1/pb"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

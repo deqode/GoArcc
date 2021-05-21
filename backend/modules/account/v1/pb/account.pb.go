@@ -76,7 +76,7 @@ type UpdateAccountRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Account *Account `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"` //    google.protobuf.FieldMask update_mask = 2 [(validate.rules).message.required = true];
+	Account *Account `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"` // google.protobuf.FieldMask update_mask = 2 [(validate.rules).message.required = true, (graphql.field) = {required: true}];
 }
 
 func (x *UpdateAccountRequest) Reset() {

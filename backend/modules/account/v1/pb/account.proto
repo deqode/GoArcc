@@ -8,6 +8,7 @@ import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "validate/validate.proto";
 
+
 // mockgen -source=account_grpc.pb.go -destination=account_mock.go -package=pb
 
 // Users can have multiple Accounts
@@ -65,7 +66,7 @@ message DeleteAccountRequest {
 
 message UpdateAccountRequest {
     Account account = 1;
-    //    google.protobuf.FieldMask update_mask = 2 [(validate.rules).message.required = true];
+   // google.protobuf.FieldMask update_mask = 2 [(validate.rules).message.required = true, (graphql.field) = {required: true}];
 }
 
 message GetAccountRequest {
