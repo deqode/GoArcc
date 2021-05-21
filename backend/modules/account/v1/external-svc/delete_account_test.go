@@ -5,7 +5,7 @@ import (
 	"alfred/config"
 	"alfred/db"
 	"alfred/modules/account/v1/external-svc"
-	 "alfred/modules/account/v1/pb"
+	"alfred/modules/account/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

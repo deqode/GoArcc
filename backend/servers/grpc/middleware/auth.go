@@ -21,12 +21,8 @@ import (
 const (
 	id                       = "id"
 	email                    = "email"
-	claimsKeyValue claimsKey = 0
 )
 
-type (
-	claimsKey int
-)
 
 type Config struct {
 	Issuer   string
@@ -48,7 +44,7 @@ func NewConfig() (Config, error) {
 	return newConfig, nil
 }
 
-//TODO - User Related Validation
+// AuthMiddleware TODO - User Related Validation
 func AuthMiddleware(ctx context.Context) (context.Context, error) {
 	authRequired := true
 	//getting authentication from the context . ie bearer
@@ -160,7 +156,7 @@ func NewJWTUnaryInterceptor(ctx context.Context, ks *jose.JSONWebKeySet, token s
 	if ui.ID != "" {
 		ctx = metadata.AppendToOutgoingContext(ctx, id, ui.ID, email, ui.Email)
 	}
-	return WithClaims(ctx, claims), nil
+	return userinfo.WithClaims(ctx, claims), nil
 }
 
 func VerifyToken(t, iss string, aud []string, ks *jose.JSONWebKeySet) (map[string]interface{}, error) {
@@ -184,8 +180,4 @@ func VerifyToken(t, iss string, aud []string, ks *jose.JSONWebKeySet) (map[strin
 	}
 
 	return claimMap, nil
-}
-
-func WithClaims(ctx context.Context, c map[string]interface{}) context.Context {
-	return context.WithValue(ctx, claimsKeyValue, c)
 }

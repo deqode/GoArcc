@@ -26,12 +26,11 @@ func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccou
 	gormDb := s.db
 	tx := gormDb.Create(accountModel)
 	if err := databaseHelper.ValidateResult(tx); err != nil {
-		return nil , err
+		return nil, err
 	}
 	return &pb.Account{
-		Id: accountModel.ID,
+		Id:     accountModel.ID,
 		UserId: accountModel.UserID,
-		Slug: accountModel.Slug,
+		Slug:   accountModel.Slug,
 	}, nil
 }
-

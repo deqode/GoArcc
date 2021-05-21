@@ -16,9 +16,9 @@ func (s accountExtServer) GetUserAccounts(ctx context.Context, in *pb.GetUserAcc
 	//ie: select * from user where user_id = in.userId
 	var accountModel []*model.Account
 	gormDb := s.db
-	tx := gormDb.Where("user_id = ?",in.UserId).Find(&accountModel)
+	tx := gormDb.Find(&accountModel).Where("user_id = ?", in.UserId)
 	if err := databaseHelper.ValidateResult(tx); err != nil {
-		return nil , err
+		return nil, err
 	}
 	//prepare response
 	var accounts []*pb.Account
