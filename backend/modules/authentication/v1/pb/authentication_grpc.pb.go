@@ -12,7 +12,6 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // ValidateLoginServiceClient is the client API for ValidateLoginService service.
@@ -32,7 +31,7 @@ func NewValidateLoginServiceClient(cc grpc.ClientConnInterface) ValidateLoginSer
 
 func (c *validateLoginServiceClient) ValidateUserLogin(ctx context.Context, in *ValidateUserLoginRequest, opts ...grpc.CallOption) (*ValidateUserLoginResponse, error) {
 	out := new(ValidateUserLoginResponse)
-	err := c.cc.Invoke(ctx, "/alfred.auth.v1.ValidateLoginService/ValidateUserLogin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.ValidateLoginService/ValidateUserLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +60,8 @@ type UnsafeValidateLoginServiceServer interface {
 	mustEmbedUnimplementedValidateLoginServiceServer()
 }
 
-func RegisterValidateLoginServiceServer(s grpc.ServiceRegistrar, srv ValidateLoginServiceServer) {
-	s.RegisterService(&ValidateLoginService_ServiceDesc, srv)
+func RegisterValidateLoginServiceServer(s *grpc.Server, srv ValidateLoginServiceServer) {
+	s.RegisterService(&_ValidateLoginService_serviceDesc, srv)
 }
 
 func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -75,7 +74,7 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.auth.v1.ValidateLoginService/ValidateUserLogin",
+		FullMethod: "/alfred.authentication.v1.ValidateLoginService/ValidateUserLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ValidateLoginServiceServer).ValidateUserLogin(ctx, req.(*ValidateUserLoginRequest))
@@ -83,11 +82,8 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-// ValidateLoginService_ServiceDesc is the grpc.ServiceDesc for ValidateLoginService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var ValidateLoginService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.auth.v1.ValidateLoginService",
+var _ValidateLoginService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "alfred.authentication.v1.ValidateLoginService",
 	HandlerType: (*ValidateLoginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -120,7 +116,7 @@ func NewAuthenticationsClient(cc grpc.ClientConnInterface) AuthenticationsClient
 
 func (c *authenticationsClient) Login(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*LoginResponse, error) {
 	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, "/alfred.auth.v1.Authentications/Login", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.Authentications/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +125,7 @@ func (c *authenticationsClient) Login(ctx context.Context, in *empty.Empty, opts
 
 func (c *authenticationsClient) LoginCallback(ctx context.Context, in *LoginCallbackRequest, opts ...grpc.CallOption) (*LoginCallbackResponse, error) {
 	out := new(LoginCallbackResponse)
-	err := c.cc.Invoke(ctx, "/alfred.auth.v1.Authentications/LoginCallback", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.Authentications/LoginCallback", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +134,7 @@ func (c *authenticationsClient) LoginCallback(ctx context.Context, in *LoginCall
 
 func (c *authenticationsClient) Logout(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.auth.v1.Authentications/Logout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.Authentications/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -177,8 +173,8 @@ type UnsafeAuthenticationsServer interface {
 	mustEmbedUnimplementedAuthenticationsServer()
 }
 
-func RegisterAuthenticationsServer(s grpc.ServiceRegistrar, srv AuthenticationsServer) {
-	s.RegisterService(&Authentications_ServiceDesc, srv)
+func RegisterAuthenticationsServer(s *grpc.Server, srv AuthenticationsServer) {
+	s.RegisterService(&_Authentications_serviceDesc, srv)
 }
 
 func _Authentications_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -191,7 +187,7 @@ func _Authentications_Login_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.auth.v1.Authentications/Login",
+		FullMethod: "/alfred.authentication.v1.Authentications/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationsServer).Login(ctx, req.(*empty.Empty))
@@ -209,7 +205,7 @@ func _Authentications_LoginCallback_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.auth.v1.Authentications/LoginCallback",
+		FullMethod: "/alfred.authentication.v1.Authentications/LoginCallback",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationsServer).LoginCallback(ctx, req.(*LoginCallbackRequest))
@@ -227,7 +223,7 @@ func _Authentications_Logout_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.auth.v1.Authentications/Logout",
+		FullMethod: "/alfred.authentication.v1.Authentications/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationsServer).Logout(ctx, req.(*empty.Empty))
@@ -235,11 +231,8 @@ func _Authentications_Logout_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-// Authentications_ServiceDesc is the grpc.ServiceDesc for Authentications service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var Authentications_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.auth.v1.Authentications",
+var _Authentications_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "alfred.authentication.v1.Authentications",
 	HandlerType: (*AuthenticationsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
