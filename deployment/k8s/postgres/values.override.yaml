@@ -1,7 +1,11 @@
 nameOverride: postgres
+fullnameOverride: postgres
 postgresqlPostgresPassword: postgres
 postgresqlPassword: postgres
 postgresqlDatabase: postgres
+
+persistence:
+  storageClass: gcp-pd-ssd-xfs
 
 primary:
   tolerations:
