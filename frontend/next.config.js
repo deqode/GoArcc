@@ -4,9 +4,10 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 const { withSentryConfig } = require('@sentry/nextjs');
+const nextTranslate = require('next-translate')
 
 const moduleExports = {
-  // Your existing module.exports
+  ...nextTranslate()
 };
 
 const SentryWebpackPluginOptions = {

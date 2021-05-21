@@ -16,13 +16,13 @@ exports[`dashboard/index page tests should match the snapshot 1`] = `
         <h1
           className="MuiTypography-root MuiTypography-h3 MuiTypography-colorPrimary"
         >
-          Let us make your cloud work for you
+          dashboard-index:Let us make your cloud work for you
         </h1>
         <br />
         <h5
           className="MuiTypography-root MuiTypography-h5 MuiTypography-colorSecondary"
         >
-          Connect with Github 
+          dashboard-index:Connect with Github
         </h5>
       </div>
     </div>

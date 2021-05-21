@@ -1,0 +1,10 @@
+{
+    "locales": ["en", "hi"],
+    "defaultLocale": "en",
+    "pages": {
+      "*": ["common"],
+      "/":["landing"],
+      "/dashboard":["dashboard-index"]
+
+    }
+  }

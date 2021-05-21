@@ -16,7 +16,7 @@ const Callback = (): ReactElement => {
         const res = await getAuth0Callback(query.code as string, query.state as string)
         if (!res.error) {
           const sessionRes = await setUserSession(res)
-          if (!sessionRes.error) {
+          if (sessionRes.error) {
             router.push('/')
             return
           }

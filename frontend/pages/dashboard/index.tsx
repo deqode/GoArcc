@@ -1,5 +1,6 @@
 import { Button, CircularProgress, Paper } from '@material-ui/core'
 import { withSentry } from '@sentry/nextjs'
+import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 
@@ -13,6 +14,8 @@ import { validateUser, sessionPropsWrapper } from '../../utils/user'
 export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
   const [url, setUrl] = useState<string>('')
   const router = useRouter()
+  const { t } = useTranslation()
+
   useEffect(() => {
     if (user.idToken !== '') {
       ;(async () => {
@@ -32,14 +35,14 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
     <Paper elevation={0}>
       <PageHead title={Titles.DASHBOARD} />
       <BasicLayout
-        heading={'Let us make your cloud work for you'}
-        subHeading={'Connect with Github '}
+        heading={t('dashboard-index:Let us make your cloud work for you')}
+        subHeading={t('dashboard-index:Connect with Github')}
         component={
           !url.length ? (
             <CircularProgress />
           ) : (
             <Button variant="contained" color="primary" href={url}>
-              Connect with github
+              {t('dashboard-index:Connect with Github')}
             </Button>
           )
         }

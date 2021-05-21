@@ -21,6 +21,7 @@ export const get = async <Type>(link: string, header?: Header): Promise<Response
       message: '',
     }
   } catch (err) {
+    // TODO: check error type
     return {
       error: true,
       message: 'Network Error',

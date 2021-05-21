@@ -16,13 +16,13 @@ exports[`Landing page tests should match the snapshot 1`] = `
         <h1
           className="MuiTypography-root MuiTypography-h3 MuiTypography-colorPrimary"
         >
-          Welcome to Alfred
+          landing:Welcome to Alfred
         </h1>
         <br />
         <h5
           className="MuiTypography-root MuiTypography-h5 MuiTypography-colorSecondary"
         >
-          Provide your repo, Select your cloud, and let Alfred do the heavy lifting 
+          landing:Provide your repo, Select your cloud, and let Alfred do the heavy lifting
         </h5>
       </div>
     </div>
@@ -55,7 +55,7 @@ exports[`Landing page tests should match the snapshot 1`] = `
             <span
               className="MuiButton-label"
             >
-              SignUP
+              landing:Sign UP
             </span>
           </a>
         </p>

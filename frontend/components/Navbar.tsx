@@ -1,5 +1,6 @@
 import { AppBar, Button, Grid, Toolbar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -18,6 +19,7 @@ const Navbar = (): ReactElement => {
   const { user } = useContext(UserContext)
   const router = useRouter()
   const classes = useStyles()
+  const { t } = useTranslation()
 
   const logout = async (): Promise<void> => {
     const res = await destroyUserSession()
@@ -39,7 +41,7 @@ const Navbar = (): ReactElement => {
           <Grid item>
             {user.loggedIn ? (
               <Button color="secondary" variant="contained" onClick={logout}>
-                Logout
+                {t('common:Logout')}
               </Button>
             ) : (
               ''
