@@ -5,8 +5,8 @@ import (
 	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
 	"context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"errors"
+	"gorm.io/gorm"
 )
 
 func (s *vcsConnectionServer) ListVCSConnection(ctx context.Context, in *pb.ListVCSConnectionRequest) (*pb.ListVCSConnectionResponse, error) {
@@ -16,12 +16,11 @@ func (s *vcsConnectionServer) ListVCSConnection(ctx context.Context, in *pb.List
 	if in.Provider != types.VCSProviders_UNKNOWN {
 		chain = chain.Where("provider = ?", in.Provider)
 	}
-	result := chain.Find(&record)
-	if result.Error != nil {
-		return nil, status.Error(codes.Internal, result.Error.Error())
-	}
-	if result.RowsAffected == 0 {
-		return nil, status.Error(codes.NotFound, "No Record Found")
+	if err := chain.Find(&record).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, err
+		}
+		return nil, err
 	}
 	var accountVcsConnection []*pb.AccountVCSConnection
 	for _, v := range record {

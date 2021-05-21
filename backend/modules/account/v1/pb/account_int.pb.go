@@ -126,7 +126,6 @@ func file_pb_account_int_proto_init() {
 	if File_pb_account_int_proto != nil {
 		return
 	}
-	file_pb_account_int_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_pb_account_int_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateAccountRequest); i {

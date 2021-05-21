@@ -10,6 +10,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/coreos/go-oidc"
+	"github.com/hashicorp/go-uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -109,9 +110,14 @@ func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile
 		if err := databaseHelper.ValidateResult(tx); err != nil {
 			return err
 		}
+		id, err := uuid.GenerateUUID()
+		if err != nil {
+			return err
+		}
 		accountModel := accountModels.Account{
 			Slug:      userProfileModel.Name + "_" + userProfileModel.Source.String(),
 			UserID:    userProfileModel.ID,
+			ID:        id,
 			CreatedAt: time.Time{},
 			UpdatedAt: time.Time{},
 			DeletedAt: gorm.DeletedAt{},

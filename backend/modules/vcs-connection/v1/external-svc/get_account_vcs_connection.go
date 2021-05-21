@@ -4,22 +4,21 @@ import (
 	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"errors"
+	"gorm.io/gorm"
 )
 
 func (s *vcsConnectionServer) GetAccountVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.AccountVCSConnection, error) {
-
 	var record models.VCSConnection
 	//todo : by default why there is  and condition
 	chain := s.db.Where("account_id = ?", in.AccountId).Where("id = ?", in.Id)
-	result := chain.Find(&record)
-	if result.Error != nil {
-		return nil, status.Error(codes.Internal, result.Error.Error())
+	if err := chain.Find(&record).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, err
+		}
+		return nil, err
 	}
-	if result.RowsAffected == 0 {
-		return nil, status.Error(codes.NotFound, "No Record Found")
-	}
+
 	accountVCSConnection := &pb.AccountVCSConnection{
 		Id:        record.ID,
 		Provider:  record.Provider,

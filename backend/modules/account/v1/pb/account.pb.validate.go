@@ -35,59 +35,21 @@ var (
 
 // Validate checks the field values on DeleteAccountRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *DeleteAccountRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on DeleteAccountRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// DeleteAccountRequestMultiError, or nil if none found.
-func (m *DeleteAccountRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *DeleteAccountRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if utf8.RuneCountInString(m.GetId()) < 3 {
-		err := DeleteAccountRequestValidationError{
+		return DeleteAccountRequestValidationError{
 			field:  "Id",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return DeleteAccountRequestMultiError(errors)
-	}
 	return nil
 }
-
-// DeleteAccountRequestMultiError is an error wrapping multiple validation
-// errors returned by DeleteAccountRequest.ValidateAll() if the designated
-// constraints aren't met.
-type DeleteAccountRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m DeleteAccountRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m DeleteAccountRequestMultiError) AllErrors() []error { return m }
 
 // DeleteAccountRequestValidationError is the validation error returned by
 // DeleteAccountRequest.Validate if the designated constraints aren't met.
@@ -147,46 +109,13 @@ var _ interface {
 
 // Validate checks the field values on UpdateAccountRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *UpdateAccountRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on UpdateAccountRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// UpdateAccountRequestMultiError, or nil if none found.
-func (m *UpdateAccountRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *UpdateAccountRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
-	if all {
-		switch v := interface{}(m.GetAccount()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, UpdateAccountRequestValidationError{
-					field:  "Account",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, UpdateAccountRequestValidationError{
-					field:  "Account",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
+	if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UpdateAccountRequestValidationError{
 				field:  "Account",
@@ -196,28 +125,8 @@ func (m *UpdateAccountRequest) validate(all bool) error {
 		}
 	}
 
-	if len(errors) > 0 {
-		return UpdateAccountRequestMultiError(errors)
-	}
 	return nil
 }
-
-// UpdateAccountRequestMultiError is an error wrapping multiple validation
-// errors returned by UpdateAccountRequest.ValidateAll() if the designated
-// constraints aren't met.
-type UpdateAccountRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m UpdateAccountRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m UpdateAccountRequestMultiError) AllErrors() []error { return m }
 
 // UpdateAccountRequestValidationError is the validation error returned by
 // UpdateAccountRequest.Validate if the designated constraints aren't met.
@@ -276,60 +185,22 @@ var _ interface {
 } = UpdateAccountRequestValidationError{}
 
 // Validate checks the field values on GetAccountRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
 func (m *GetAccountRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetAccountRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetAccountRequestMultiError, or nil if none found.
-func (m *GetAccountRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetAccountRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if utf8.RuneCountInString(m.GetId()) < 3 {
-		err := GetAccountRequestValidationError{
+		return GetAccountRequestValidationError{
 			field:  "Id",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return GetAccountRequestMultiError(errors)
-	}
 	return nil
 }
-
-// GetAccountRequestMultiError is an error wrapping multiple validation errors
-// returned by GetAccountRequest.ValidateAll() if the designated constraints
-// aren't met.
-type GetAccountRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetAccountRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetAccountRequestMultiError) AllErrors() []error { return m }
 
 // GetAccountRequestValidationError is the validation error returned by
 // GetAccountRequest.Validate if the designated constraints aren't met.
@@ -389,59 +260,21 @@ var _ interface {
 
 // Validate checks the field values on GetUserAccountsRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *GetUserAccountsRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetUserAccountsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetUserAccountsRequestMultiError, or nil if none found.
-func (m *GetUserAccountsRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetUserAccountsRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if utf8.RuneCountInString(m.GetUserId()) < 3 {
-		err := GetUserAccountsRequestValidationError{
+		return GetUserAccountsRequestValidationError{
 			field:  "UserId",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return GetUserAccountsRequestMultiError(errors)
-	}
 	return nil
 }
-
-// GetUserAccountsRequestMultiError is an error wrapping multiple validation
-// errors returned by GetUserAccountsRequest.ValidateAll() if the designated
-// constraints aren't met.
-type GetUserAccountsRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetUserAccountsRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetUserAccountsRequestMultiError) AllErrors() []error { return m }
 
 // GetUserAccountsRequestValidationError is the validation error returned by
 // GetUserAccountsRequest.Validate if the designated constraints aren't met.
@@ -501,49 +334,16 @@ var _ interface {
 
 // Validate checks the field values on GetUserAccountsResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *GetUserAccountsResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetUserAccountsResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetUserAccountsResponseMultiError, or nil if none found.
-func (m *GetUserAccountsResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetUserAccountsResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	for idx, item := range m.GetAccounts() {
 		_, _ = idx, item
 
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetUserAccountsResponseValidationError{
-						field:  fmt.Sprintf("Accounts[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, GetUserAccountsResponseValidationError{
-						field:  fmt.Sprintf("Accounts[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return GetUserAccountsResponseValidationError{
 					field:  fmt.Sprintf("Accounts[%v]", idx),
@@ -555,28 +355,8 @@ func (m *GetUserAccountsResponse) validate(all bool) error {
 
 	}
 
-	if len(errors) > 0 {
-		return GetUserAccountsResponseMultiError(errors)
-	}
 	return nil
 }
-
-// GetUserAccountsResponseMultiError is an error wrapping multiple validation
-// errors returned by GetUserAccountsResponse.ValidateAll() if the designated
-// constraints aren't met.
-type GetUserAccountsResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetUserAccountsResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetUserAccountsResponseMultiError) AllErrors() []error { return m }
 
 // GetUserAccountsResponseValidationError is the validation error returned by
 // GetUserAccountsResponse.Validate if the designated constraints aren't met.
@@ -635,62 +415,25 @@ var _ interface {
 } = GetUserAccountsResponseValidationError{}
 
 // Validate checks the field values on Account with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
+// proto definition for this message. If any rules are violated, an error is returned.
 func (m *Account) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on Account with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in AccountMultiError, or nil if none found.
-func (m *Account) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *Account) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
-
-	var errors []error
 
 	// no validation rules for Id
 
 	// no validation rules for Slug
 
 	if utf8.RuneCountInString(m.GetUserId()) < 3 {
-		err := AccountValidationError{
+		return AccountValidationError{
 			field:  "UserId",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return AccountMultiError(errors)
-	}
 	return nil
 }
-
-// AccountMultiError is an error wrapping multiple validation errors returned
-// by Account.ValidateAll() if the designated constraints aren't met.
-type AccountMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m AccountMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m AccountMultiError) AllErrors() []error { return m }
 
 // AccountValidationError is the validation error returned by Account.Validate
 // if the designated constraints aren't met.

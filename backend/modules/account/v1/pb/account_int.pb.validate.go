@@ -35,57 +35,20 @@ var (
 
 // Validate checks the field values on CreateAccountRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *CreateAccountRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CreateAccountRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// CreateAccountRequestMultiError, or nil if none found.
-func (m *CreateAccountRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CreateAccountRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if m.GetAccount() == nil {
-		err := CreateAccountRequestValidationError{
+		return CreateAccountRequestValidationError{
 			field:  "Account",
 			reason: "value is required",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if all {
-		switch v := interface{}(m.GetAccount()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, CreateAccountRequestValidationError{
-					field:  "Account",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, CreateAccountRequestValidationError{
-					field:  "Account",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
+	if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateAccountRequestValidationError{
 				field:  "Account",
@@ -95,28 +58,8 @@ func (m *CreateAccountRequest) validate(all bool) error {
 		}
 	}
 
-	if len(errors) > 0 {
-		return CreateAccountRequestMultiError(errors)
-	}
 	return nil
 }
-
-// CreateAccountRequestMultiError is an error wrapping multiple validation
-// errors returned by CreateAccountRequest.ValidateAll() if the designated
-// constraints aren't met.
-type CreateAccountRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CreateAccountRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CreateAccountRequestMultiError) AllErrors() []error { return m }
 
 // CreateAccountRequestValidationError is the validation error returned by
 // CreateAccountRequest.Validate if the designated constraints aren't met.

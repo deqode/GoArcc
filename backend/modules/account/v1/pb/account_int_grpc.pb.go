@@ -11,7 +11,6 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // AccountInternalClient is the client API for AccountInternal service.
@@ -62,8 +61,8 @@ type UnsafeAccountInternalServer interface {
 	mustEmbedUnimplementedAccountInternalServer()
 }
 
-func RegisterAccountInternalServer(s grpc.ServiceRegistrar, srv AccountInternalServer) {
-	s.RegisterService(&AccountInternal_ServiceDesc, srv)
+func RegisterAccountInternalServer(s *grpc.Server, srv AccountInternalServer) {
+	s.RegisterService(&_AccountInternal_serviceDesc, srv)
 }
 
 func _AccountInternal_CreateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -84,10 +83,7 @@ func _AccountInternal_CreateAccount_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-// AccountInternal_ServiceDesc is the grpc.ServiceDesc for AccountInternal service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var AccountInternal_ServiceDesc = grpc.ServiceDesc{
+var _AccountInternal_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.account_internal.v1.AccountInternal",
 	HandlerType: (*AccountInternalServer)(nil),
 	Methods: []grpc.MethodDesc{

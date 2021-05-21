@@ -12,7 +12,6 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // AccountsClient is the client API for Accounts service.
@@ -113,8 +112,8 @@ type UnsafeAccountsServer interface {
 	mustEmbedUnimplementedAccountsServer()
 }
 
-func RegisterAccountsServer(s grpc.ServiceRegistrar, srv AccountsServer) {
-	s.RegisterService(&Accounts_ServiceDesc, srv)
+func RegisterAccountsServer(s *grpc.Server, srv AccountsServer) {
+	s.RegisterService(&_Accounts_serviceDesc, srv)
 }
 
 func _Accounts_UpdateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -189,10 +188,7 @@ func _Accounts_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-// Accounts_ServiceDesc is the grpc.ServiceDesc for Accounts service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var Accounts_ServiceDesc = grpc.ServiceDesc{
+var _Accounts_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.account.v1.Accounts",
 	HandlerType: (*AccountsServer)(nil),
 	Methods: []grpc.MethodDesc{

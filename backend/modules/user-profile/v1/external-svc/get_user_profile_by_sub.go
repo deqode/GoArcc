@@ -1,10 +1,11 @@
 package external_svc
 
 import (
-	databaseHelper "alfred.sh/common/database/helper"
 	model "alfred/modules/user-profile/v1/models"
 	"alfred/modules/user-profile/v1/pb"
 	"context"
+	"errors"
+	"gorm.io/gorm"
 )
 
 func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.GetUserProfileBySubRequest) (*pb.UserProfile, error) {
@@ -16,8 +17,10 @@ func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.Get
 	usrProfile := model.UserProfile{}
 	gormDb := s.db
 	//ie: Select * from account where id = in.id
-	tx := gormDb.Where(&usrProfile, in.Sub)
-	if err := databaseHelper.ValidateResult(tx); err != nil {
+	if err := gormDb.First(&usrProfile, "id= ?", in.Sub).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, err
+		}
 		return nil, err
 	}
 	return &pb.UserProfile{

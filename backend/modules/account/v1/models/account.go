@@ -9,7 +9,7 @@ import (
 
 // Account - A user can have multiple accounts
 type Account struct {
-	ID        string `sql:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	ID        string `sql:"type:uuid;primary_key;"`
 	Slug      string
 	UserID    string
 	CreatedAt time.Time
