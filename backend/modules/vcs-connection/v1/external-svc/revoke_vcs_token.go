@@ -7,8 +7,5 @@ import (
 )
 
 func (s *vcsConnectionServer) RevokeVCSToken(ctx context.Context, req *pb.RevokeVCSTokenRequest) (*empty.Empty, error) {
-	if err := s.ValidateUser(ctx); err != nil {
-		return nil, err
-	}
 	return nil, nil
 }

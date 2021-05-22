@@ -9,7 +9,10 @@ import (
 )
 
 func (s *vcsConnectionServer) GetAccountVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.AccountVCSConnection, error) {
-	if err := s.ValidateUser(ctx); err != nil {
+	if err := in.Validate(); err != nil {
+		return nil, err
+	}
+	if err := s.ValidateUser(ctx, in.GetAccountId()); err != nil {
 		return nil, err
 	}
 	var record models.VCSConnection

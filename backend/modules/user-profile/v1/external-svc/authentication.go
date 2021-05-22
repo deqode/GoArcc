@@ -4,22 +4,26 @@ import (
 	userModel "alfred/modules/user-profile/v1/models"
 	"alfred/util/userinfo"
 	"context"
+	"errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
-func (s *userProfilesServer) ValidateUser(ctx context.Context) error {
+func (s *userProfilesServer) ValidateUser(ctx context.Context, userId string) error {
 	//Authentication check
-	//it will check that context user id is present in user table or not
-	info := userinfo.ValidateUserInfo{
-		Ctx:                ctx,
-		RootTable:          &userModel.UserProfile{},
-		RootTableTag:       "id",
-		Args:               nil,
-		SkipRootValidation: false,
-		SkipArgsValidation: true,
-		Db:                 s.db,
-	}
-	if err := info.ValidateUser(); err != nil {
+	usr := userinfo.FromContext(ctx)
+	usermodel := userModel.UserProfile{}
+	// select * from account where id  = account id
+	if err := s.db.First(&usermodel, "id = ?", userId).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
 		return err
+	}
+	//check whether context user id matches with the  user id
+	if usermodel.ID != usr.ID {
+		return status.Error(codes.PermissionDenied, "unauthenticated user")
 	}
 	return nil
 }

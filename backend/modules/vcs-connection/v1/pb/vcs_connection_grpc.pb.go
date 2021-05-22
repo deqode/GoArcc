@@ -12,6 +12,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // VCSConnectionsClient is the client API for VCSConnections service.
@@ -158,8 +159,8 @@ type UnsafeVCSConnectionsServer interface {
 	mustEmbedUnimplementedVCSConnectionsServer()
 }
 
-func RegisterVCSConnectionsServer(s *grpc.Server, srv VCSConnectionsServer) {
-	s.RegisterService(&_VCSConnections_serviceDesc, srv)
+func RegisterVCSConnectionsServer(s grpc.ServiceRegistrar, srv VCSConnectionsServer) {
+	s.RegisterService(&VCSConnections_ServiceDesc, srv)
 }
 
 func _VCSConnections_ListAllSupportedVCSProviders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -288,7 +289,10 @@ func _VCSConnections_RenewVCSToken_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-var _VCSConnections_serviceDesc = grpc.ServiceDesc{
+// VCSConnections_ServiceDesc is the grpc.ServiceDesc for VCSConnections service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var VCSConnections_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.vcs_connection.v1.VCSConnections",
 	HandlerType: (*VCSConnectionsServer)(nil),
 	Methods: []grpc.MethodDesc{

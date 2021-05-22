@@ -326,7 +326,6 @@ func file_pb_vcs_connection_int_proto_init() {
 	if File_pb_vcs_connection_int_proto != nil {
 		return
 	}
-	file_pb_vcs_connection_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_pb_vcs_connection_int_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*VCSConnection); i {

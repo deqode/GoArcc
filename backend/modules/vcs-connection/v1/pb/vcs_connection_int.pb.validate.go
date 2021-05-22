@@ -38,12 +38,26 @@ var (
 )
 
 // Validate checks the field values on VCSConnection with the rules defined in
-// the proto definition for this message. If any rules are violated, an error
-// is returned.
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
 func (m *VCSConnection) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on VCSConnection with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in VCSConnectionMultiError, or
+// nil if none found.
+func (m *VCSConnection) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *VCSConnection) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
+
+	var errors []error
 
 	// no validation rules for Id
 
@@ -57,7 +71,26 @@ func (m *VCSConnection) Validate() error {
 
 	// no validation rules for RefreshToken
 
-	if v, ok := interface{}(m.GetAccessTokenExpiry()).(interface{ Validate() error }); ok {
+	if all {
+		switch v := interface{}(m.GetAccessTokenExpiry()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, VCSConnectionValidationError{
+					field:  "AccessTokenExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, VCSConnectionValidationError{
+					field:  "AccessTokenExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAccessTokenExpiry()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return VCSConnectionValidationError{
 				field:  "AccessTokenExpiry",
@@ -67,7 +100,26 @@ func (m *VCSConnection) Validate() error {
 		}
 	}
 
-	if v, ok := interface{}(m.GetRefreshTokenExpiry()).(interface{ Validate() error }); ok {
+	if all {
+		switch v := interface{}(m.GetRefreshTokenExpiry()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, VCSConnectionValidationError{
+					field:  "RefreshTokenExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, VCSConnectionValidationError{
+					field:  "RefreshTokenExpiry",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetRefreshTokenExpiry()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return VCSConnectionValidationError{
 				field:  "RefreshTokenExpiry",
@@ -83,8 +135,28 @@ func (m *VCSConnection) Validate() error {
 
 	// no validation rules for UserName
 
+	if len(errors) > 0 {
+		return VCSConnectionMultiError(errors)
+	}
 	return nil
 }
+
+// VCSConnectionMultiError is an error wrapping multiple validation errors
+// returned by VCSConnection.ValidateAll() if the designated constraints
+// aren't met.
+type VCSConnectionMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m VCSConnectionMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m VCSConnectionMultiError) AllErrors() []error { return m }
 
 // VCSConnectionValidationError is the validation error returned by
 // VCSConnection.Validate if the designated constraints aren't met.
@@ -142,13 +214,46 @@ var _ interface {
 
 // Validate checks the field values on CreateVCSConnectionRequest with the
 // rules defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
+// violated, the first error encountered is returned, or nil if there are no violations.
 func (m *CreateVCSConnectionRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreateVCSConnectionRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreateVCSConnectionRequestMultiError, or nil if none found.
+func (m *CreateVCSConnectionRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreateVCSConnectionRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	if v, ok := interface{}(m.GetVcsConnection()).(interface{ Validate() error }); ok {
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetVcsConnection()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, CreateVCSConnectionRequestValidationError{
+					field:  "VcsConnection",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, CreateVCSConnectionRequestValidationError{
+					field:  "VcsConnection",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetVcsConnection()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateVCSConnectionRequestValidationError{
 				field:  "VcsConnection",
@@ -158,8 +263,28 @@ func (m *CreateVCSConnectionRequest) Validate() error {
 		}
 	}
 
+	if len(errors) > 0 {
+		return CreateVCSConnectionRequestMultiError(errors)
+	}
 	return nil
 }
+
+// CreateVCSConnectionRequestMultiError is an error wrapping multiple
+// validation errors returned by CreateVCSConnectionRequest.ValidateAll() if
+// the designated constraints aren't met.
+type CreateVCSConnectionRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreateVCSConnectionRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreateVCSConnectionRequestMultiError) AllErrors() []error { return m }
 
 // CreateVCSConnectionRequestValidationError is the validation error returned
 // by CreateVCSConnectionRequest.Validate if the designated constraints aren't met.

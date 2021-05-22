@@ -84,9 +84,9 @@ message CallbackRequest{
 }
 
 message AccountVCSConnection{
-    string id = 1;
+    string id = 1[(validate.rules).string.min_len = 3];
     types.VCSProviders provider = 2;
-    string account_id = 3;
+    string account_id = 3[(validate.rules).string.min_len = 3];
     string label = 4;
     string user_name = 5 ;
 }
@@ -101,8 +101,8 @@ message ListVCSConnectionResponse{
 }
 
 message GetVCSConnectionRequest{
-    string id = 1;
-    string account_id = 2;
+    string id = 1[(validate.rules).string.min_len = 3];
+    string account_id = 2[(validate.rules).string.min_len = 3];
     types.VCSProviders provider = 3;
 }
 

@@ -145,6 +145,7 @@ func (validateUserInfo *ValidateUserInfo) ValidateUser() error {
 			return status.Error(codes.PermissionDenied, "unauthenticated user")
 		}
 	}
+
 	if !validateUserInfo.SkipArgsValidation {
 		for tag, argTable := range validateUserInfo.Args {
 			tx := validateUserInfo.Db.Where(tag+" = ?", userInfo.ID).First(argTable)

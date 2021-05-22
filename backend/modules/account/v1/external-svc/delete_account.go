@@ -10,12 +10,13 @@ import (
 
 // DeleteAccount : Will Delete account  with the given id. if record not found it will give error
 func (s accountExtServer) DeleteAccount(ctx context.Context, in *pb.DeleteAccountRequest) (*empty.Empty, error) {
-	if err := s.ValidateUser(ctx); err != nil {
-		return nil, err
-	}
 	//request validation
 	err := in.Validate()
 	if err != nil {
+		return nil, err
+	}
+	//Authentication check
+	if err := s.ValidateUser(ctx, in.Id); err != nil {
 		return nil, err
 	}
 	tx := s.db.Where("id = ?", in.Id).Delete(&model.Account{})

@@ -9,11 +9,11 @@ import (
 )
 
 func (s *userProfilesServer) GetUserProfile(ctx context.Context, in *pb.GetUserProfileRequest) (*pb.UserProfile, error) {
-	//check user
-	if err := s.ValidateUser(ctx); err != nil {
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	if err := in.Validate(); err != nil {
+	//check user
+	if err := s.ValidateUser(ctx, in.GetId()); err != nil {
 		return nil, err
 	}
 	//user profile model

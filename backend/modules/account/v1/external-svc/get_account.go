@@ -11,13 +11,13 @@ import (
 
 // GetAccount Information with id
 func (s accountExtServer) GetAccount(ctx context.Context, in *pb.GetAccountRequest) (*pb.Account, error) {
-	//validate user
-	if err := s.ValidateUser(ctx); err != nil {
-		return nil, err
-	}
 	//request validation
 	err := in.Validate()
 	if err != nil {
+		return nil, err
+	}
+	//Authentication check
+	if err := s.ValidateUser(ctx, in.Id); err != nil {
 		return nil, err
 	}
 	//account model

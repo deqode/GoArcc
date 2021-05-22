@@ -11,6 +11,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // VCSConnectionInternalClient is the client API for VCSConnectionInternal service.
@@ -77,8 +78,8 @@ type UnsafeVCSConnectionInternalServer interface {
 	mustEmbedUnimplementedVCSConnectionInternalServer()
 }
 
-func RegisterVCSConnectionInternalServer(s *grpc.Server, srv VCSConnectionInternalServer) {
-	s.RegisterService(&_VCSConnectionInternal_serviceDesc, srv)
+func RegisterVCSConnectionInternalServer(s grpc.ServiceRegistrar, srv VCSConnectionInternalServer) {
+	s.RegisterService(&VCSConnectionInternal_ServiceDesc, srv)
 }
 
 func _VCSConnectionInternal_GetVCSConnection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -117,7 +118,10 @@ func _VCSConnectionInternal_CreateVCSConnection_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
-var _VCSConnectionInternal_serviceDesc = grpc.ServiceDesc{
+// VCSConnectionInternal_ServiceDesc is the grpc.ServiceDesc for VCSConnectionInternal service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var VCSConnectionInternal_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.vcs_connection.internal.v1.VCSConnectionInternal",
 	HandlerType: (*VCSConnectionInternalServer)(nil),
 	Methods: []grpc.MethodDesc{

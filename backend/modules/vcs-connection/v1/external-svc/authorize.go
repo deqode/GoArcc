@@ -15,9 +15,6 @@ import (
 )
 
 func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
-	if err := s.ValidateUser(ctx); err != nil {
-		return nil, err
-	}
 	var redirectURL string
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:

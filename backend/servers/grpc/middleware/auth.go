@@ -92,7 +92,6 @@ type DiscoveryResponse struct {
 	JSONWebKeySet      *jose.JSONWebKeySet
 }
 
-
 // NewJwk NewJwk() get certificate from openIdConnect
 func NewJwk() (DiscoveryResponse, error) {
 	c, _ := NewConfig()
@@ -133,7 +132,6 @@ func NewJwk() (DiscoveryResponse, error) {
 		JSONWebKeySet:      &keySet,
 	}, nil
 }
-
 
 // NewJWtMiddleware verify the user's token
 func NewJWtMiddleware(ks *jose.JSONWebKeySet, token string) (alice.Constructor, error) {
