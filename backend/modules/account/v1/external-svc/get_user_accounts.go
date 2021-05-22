@@ -8,6 +8,10 @@ import (
 )
 
 func (s accountExtServer) GetUserAccounts(ctx context.Context, in *pb.GetUserAccountsRequest) (*pb.GetUserAccountsResponse, error) {
+	//validate user
+	if err := s.ValidateUser(ctx); err != nil {
+		return nil, err
+	}
 	//Request Validation
 	err := in.Validate()
 	if err != nil {
@@ -16,7 +20,7 @@ func (s accountExtServer) GetUserAccounts(ctx context.Context, in *pb.GetUserAcc
 	//ie: select * from user where user_id = in.userId
 	var accountModel []*model.Account
 	gormDb := s.db
-	tx := gormDb.Find(&accountModel).Where("user_id = ?", in.UserId)
+	tx := gormDb.Where("user_id = ?", in.UserId).Find(&accountModel)
 	if err := databaseHelper.ValidateResult(tx); err != nil {
 		return nil, err
 	}

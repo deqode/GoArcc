@@ -10,7 +10,9 @@ import (
 )
 
 func (s *vcsConnectionServer) ListVCSConnection(ctx context.Context, in *pb.ListVCSConnectionRequest) (*pb.ListVCSConnectionResponse, error) {
-
+	if err := s.ValidateUser(ctx); err != nil {
+		return nil, err
+	}
 	var record []models.VCSConnection
 	chain := s.db.Where("account_id = ?", in.AccountId)
 	if in.Provider != types.VCSProviders_UNKNOWN {

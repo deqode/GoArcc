@@ -9,6 +9,9 @@ import (
 )
 
 func (s *vcsConnectionServer) GetAccountVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.AccountVCSConnection, error) {
+	if err := s.ValidateUser(ctx); err != nil {
+		return nil, err
+	}
 	var record models.VCSConnection
 	//todo : by default why there is  and condition
 	chain := s.db.Where("account_id = ?", in.AccountId).Where("id = ?", in.Id)

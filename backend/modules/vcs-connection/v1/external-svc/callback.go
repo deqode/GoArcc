@@ -18,6 +18,9 @@ var (
 )
 
 func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackRequest) (*pb.AccountVCSConnection, error) {
+	if err := s.ValidateUser(ctx); err != nil {
+		return nil, err
+	}
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}

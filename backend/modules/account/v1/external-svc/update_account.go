@@ -8,6 +8,10 @@ import (
 )
 
 func (s accountExtServer) UpdateAccount(ctx context.Context, in *pb.UpdateAccountRequest) (*pb.Account, error) {
+	//validate user
+	if err := s.ValidateUser(ctx); err != nil {
+		return nil, err
+	}
 	if in.Account == nil {
 		return nil, status.Error(codes.FailedPrecondition, "Account to update is not provided")
 	}
