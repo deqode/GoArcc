@@ -20,7 +20,7 @@ func (s *userProfileInServer) DeleteUserProfile(ctx context.Context, in *pb.Dele
 	}
 	//by default it will delete with primary key.
 	// ie: Delete From Account where id = in.id
-	tx := s.db.Delete(&model.UserProfile{}, in.Id)
+	tx := s.db.Where("id = ?", in.Id).Delete(&model.UserProfile{})
 	if err := databaseHelper.ValidateResult(tx); err != nil {
 		return nil, err
 	}

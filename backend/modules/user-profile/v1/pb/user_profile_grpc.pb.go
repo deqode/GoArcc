@@ -4,6 +4,7 @@ package pb
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -18,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserProfilesClient interface {
 	// GetUserProfile return a profile of a user
-	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
+	GetUserProfile(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error)
 	//GetUserProfileBySub return a user profile by its unique sub provided by vcs
 	GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error)
 }
@@ -31,7 +32,7 @@ func NewUserProfilesClient(cc grpc.ClientConnInterface) UserProfilesClient {
 	return &userProfilesClient{cc}
 }
 
-func (c *userProfilesClient) GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
+func (c *userProfilesClient) GetUserProfile(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
 	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfiles/GetUserProfile", in, out, opts...)
 	if err != nil {
@@ -54,7 +55,7 @@ func (c *userProfilesClient) GetUserProfileBySub(ctx context.Context, in *GetUse
 // for forward compatibility
 type UserProfilesServer interface {
 	// GetUserProfile return a profile of a user
-	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
+	GetUserProfile(context.Context, *empty.Empty) (*UserProfile, error)
 	//GetUserProfileBySub return a user profile by its unique sub provided by vcs
 	GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error)
 }
@@ -63,7 +64,7 @@ type UserProfilesServer interface {
 type UnimplementedUserProfilesServer struct {
 }
 
-func (UnimplementedUserProfilesServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error) {
+func (UnimplementedUserProfilesServer) GetUserProfile(context.Context, *empty.Empty) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
 }
 func (UnimplementedUserProfilesServer) GetUserProfileBySub(context.Context, *GetUserProfileBySubRequest) (*UserProfile, error) {
@@ -82,7 +83,7 @@ func RegisterUserProfilesServer(s *grpc.Server, srv UserProfilesServer) {
 }
 
 func _UserProfiles_GetUserProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserProfileRequest)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -94,7 +95,7 @@ func _UserProfiles_GetUserProfile_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/alfred.user_profile.v1.UserProfiles/GetUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfilesServer).GetUserProfile(ctx, req.(*GetUserProfileRequest))
+		return srv.(UserProfilesServer).GetUserProfile(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

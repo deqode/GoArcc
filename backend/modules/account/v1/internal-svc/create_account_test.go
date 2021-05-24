@@ -1,55 +1,59 @@
 package internal_svc_test
 
 import (
-	"alfred/client/grpcClient"
-	"alfred/config"
-	"alfred/db"
-	"alfred/modules/account/v1/internal-svc"
 	"alfred/modules/account/v1/pb"
+	usrPb "alfred/modules/user-profile/v1/pb"
+	"alfred/protos/types"
+	"alfred/util/userinfo"
 	"context"
+	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"google.golang.org/grpc"
-	"gorm.io/gorm"
-	"log"
+	"time"
 )
 
 var _ = Describe("CreateAccount", func() {
 	var (
-		accountServer pb.AccountInternalServer
-		cfg           *config.Config
+		accountServer        pb.AccountInternalServer
+		ctx                  context.Context
+		userProfileIntServer usrPb.UserProfileInternalServer
+		usrProfile           *usrPb.UserProfile
 	)
 	BeforeEach(func() {
-		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../../")
+		accountServer = AccountServerTest
+		ctx = CtxTest
+		userProfileIntServer = UserProfileIntServerTest
+
+		id := "github_" + faker.Username()
+		// Create a UserProfile before getting
+		res, err := userProfileIntServer.CreateUserProfile(ctx, &usrPb.CreateUserProfileRequest{UserProfile: &usrPb.UserProfile{
+			Id:             id,
+			Sub:            id,
+			Name:           faker.Name(),
+			UserName:       faker.Username(),
+			Email:          faker.Email(),
+			PhoneNumber:    faker.Phonenumber(),
+			ExternalSource: types.VCSProviders_GITHUB,
+			ProfilePicUrl:  faker.URL(),
+			TokenValidTill: nil,
+		}})
 		if err != nil {
-			log.Fatal(err)
+			return
 		}
-		cfg, err = config.ParseConfig(cfgFile)
-		if err != nil {
-			log.Fatal(err)
+		ui := userinfo.UserInfo{
+			ID:          res.Id,
+			Email:       res.Email,
+			Sub:         res.Sub,
+			TokenExpiry: time.Time{},
 		}
-	})
-	JustBeforeEach(func() {
-		fields := struct {
-			db         *gorm.DB
-			config     *config.Config
-			grpcClient *grpc.ClientConn
-		}{
-			db:         db.NewConnection(cfg),
-			config:     cfg,
-			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
-		}
-		//service initialisation
-		accountServer = internal_svc.NewAccountsInServer(fields.db, fields.config, fields.grpcClient)
+		ctx = userinfo.NewContext(context.Background(), ui)
+		usrProfile = res
 	})
 
 	Describe("Describe:Creating Account Correspond to user", func() {
 		Context("Context:When user_id is empty", func() {
 			It("It:Error must be returned", func() {
 				_, err := accountServer.CreateAccount(context.Background(), &pb.CreateAccountRequest{Account: &pb.Account{
-					Id:     "",
-					Slug:   "",
 					UserId: "",
 				}})
 				Expect(err.(pb.CreateAccountRequestValidationError).Cause().(pb.AccountValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
@@ -64,12 +68,11 @@ var _ = Describe("CreateAccount", func() {
 
 		Context("Context:Happy Path", func() {
 			It("It: should create the account", func() {
-				//_, err := accountServer.CreateAccount(context.Background(), &pb.CreateAccountRequest{Account: &pb.Account{
-				//	Id:     "",
-				//	Slug:   "",
-				//	UserId: "",
-				//}})
-				//Expect(err.(pb.CreateAccountRequestValidationError).Reason()).Should(Equal("value is required"))
+				_, err := accountServer.CreateAccount(ctx, &pb.CreateAccountRequest{Account: &pb.Account{
+					Slug:   usrProfile.Sub + "_" + usrProfile.UserName,
+					UserId: usrProfile.Id,
+				}})
+				Expect(err).Should(BeNil())
 			})
 		})
 	})

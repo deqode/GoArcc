@@ -1,49 +1,24 @@
 package internal_svc_test
 
 import (
-	"alfred/client/grpcClient"
-	"alfred/config"
-	"alfred/db"
-	internal_svc "alfred/modules/user-profile/v1/internal-svc"
-	UserProfilepb "alfred/modules/user-profile/v1/pb"
+	"alfred/modules/user-profile/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"gorm.io/gorm"
-	"log"
 )
 
 var _ = Describe("UpdateUserProfile", func() {
 	var (
-		UserProfileServer UserProfilepb.UserProfileInternalServer
-		cfg               *config.Config
+		userProfileServer pb.UserProfileInternalServer
+		//ctx               context.Context
+		//profile        *pb.UserProfile
 	)
 	BeforeEach(func() {
-		//getting config
-		cfgFile, err := config.LoadConfig("config", "./../../../../")
-		if err != nil {
-			log.Fatal(err)
-		}
-		cfg, err = config.ParseConfig(cfgFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-	})
-	JustBeforeEach(func() {
-		fields := struct {
-			db         *gorm.DB
-			config     *config.Config
-			grpcClient *grpc.ClientConn
-		}{
-			db:         db.NewConnection(cfg),
-			config:     cfg,
-			grpcClient: grpcClient.GetGrpcClientConnection(cfg),
-		}
-		//service initialisation
-		UserProfileServer = internal_svc.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
+		//profile = UsrProfile
+		userProfileServer = UserProfileServerIntTest
+		//ctx = CtxTest
 	})
 
 	Describe("Update a user profile", func() {
@@ -51,7 +26,7 @@ var _ = Describe("UpdateUserProfile", func() {
 		By("By a internal RPC Call")
 		Context("Get an error when request object is nil", func() {
 			It("should return nil exception", func() {
-				_, err := UserProfileServer.UpdateUserProfile(context.Background(), &UserProfilepb.UpdateUserProfileRequest{UserProfile: nil})
+				_, err := userProfileServer.UpdateUserProfile(context.Background(), &pb.UpdateUserProfileRequest{UserProfile: nil})
 				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "UserProfile to update is not provided")))
 			})
 		})

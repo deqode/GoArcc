@@ -5,6 +5,7 @@ import (
 	model "alfred/modules/account/v1/models"
 	"alfred/modules/account/v1/pb"
 	"context"
+	"github.com/hashicorp/go-uuid"
 	"gorm.io/gorm"
 	"time"
 )
@@ -14,8 +15,13 @@ func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccou
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
+	id, err := uuid.GenerateUUID()
+	if err != nil {
+		return nil, err
+	}
 	//prepare insert object
 	accountModel := &model.Account{
+		ID:        id,
 		Slug:      in.Account.Slug,
 		UserID:    in.Account.UserId,
 		CreatedAt: time.Time{},

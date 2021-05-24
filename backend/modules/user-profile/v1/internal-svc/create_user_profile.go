@@ -40,7 +40,5 @@ func (s *userProfileInServer) CreateUserProfile(ctx context.Context, in *pb.Crea
 	if err := databaseHelper.ValidateResult(tx); err != nil {
 		return nil, err
 	}
-	return &pb.UserProfile{
-		Id: UserProfileModel.ID,
-	}, nil
+	return in.UserProfile, nil
 }

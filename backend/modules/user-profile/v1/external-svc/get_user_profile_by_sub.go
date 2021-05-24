@@ -9,7 +9,6 @@ import (
 )
 
 func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.GetUserProfileBySubRequest) (*pb.UserProfile, error) {
-	// TODO - add ctx validation
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}

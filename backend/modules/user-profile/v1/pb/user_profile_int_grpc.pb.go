@@ -24,8 +24,6 @@ type UserProfileInternalClient interface {
 	UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
 	// DeleteUserProfile delete the user
 	DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	// GetUserMe will get current logged in user by ctx
-	GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error)
 }
 
 type userProfileInternalClient struct {
@@ -63,15 +61,6 @@ func (c *userProfileInternalClient) DeleteUserProfile(ctx context.Context, in *D
 	return out, nil
 }
 
-func (c *userProfileInternalClient) GetUserMe(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error) {
-	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile_internal.v1.UserProfileInternal/GetUserMe", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UserProfileInternalServer is the server API for UserProfileInternal service.
 // All implementations should embed UnimplementedUserProfileInternalServer
 // for forward compatibility
@@ -82,8 +71,6 @@ type UserProfileInternalServer interface {
 	UpdateUserProfile(context.Context, *UpdateUserProfileRequest) (*UserProfile, error)
 	// DeleteUserProfile delete the user
 	DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error)
-	// GetUserMe will get current logged in user by ctx
-	GetUserMe(context.Context, *empty.Empty) (*UserProfile, error)
 }
 
 // UnimplementedUserProfileInternalServer should be embedded to have forward compatible implementations.
@@ -98,9 +85,6 @@ func (UnimplementedUserProfileInternalServer) UpdateUserProfile(context.Context,
 }
 func (UnimplementedUserProfileInternalServer) DeleteUserProfile(context.Context, *DeleteUserProfileRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserProfile not implemented")
-}
-func (UnimplementedUserProfileInternalServer) GetUserMe(context.Context, *empty.Empty) (*UserProfile, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserMe not implemented")
 }
 
 // UnsafeUserProfileInternalServer may be embedded to opt out of forward compatibility for this service.
@@ -168,24 +152,6 @@ func _UserProfileInternal_DeleteUserProfile_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserProfileInternal_GetUserMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserProfileInternalServer).GetUserMe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/alfred.user_profile_internal.v1.UserProfileInternal/GetUserMe",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserProfileInternalServer).GetUserMe(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _UserProfileInternal_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "alfred.user_profile_internal.v1.UserProfileInternal",
 	HandlerType: (*UserProfileInternalServer)(nil),
@@ -201,10 +167,6 @@ var _UserProfileInternal_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUserProfile",
 			Handler:    _UserProfileInternal_DeleteUserProfile_Handler,
-		},
-		{
-			MethodName: "GetUserMe",
-			Handler:    _UserProfileInternal_GetUserMe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

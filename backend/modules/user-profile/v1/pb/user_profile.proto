@@ -4,6 +4,7 @@ package  alfred.user_profile.v1;
 option go_package = "/pb";
 
 import "google/api/annotation.proto";
+import "google/protobuf/empty.proto";
 import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
 import "types/enums.proto";
@@ -13,9 +14,9 @@ import "validate/validate.proto";
 service UserProfiles {
 
     // GetUserProfile return a profile of a user
-    rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile){
+    rpc GetUserProfile(google.protobuf.Empty) returns (UserProfile){
         option (google.api.http) = {
-            get: "/v1/user-profile/get-user-profile/{id}"
+            get: "/v1/user-profile/get-user-profile"
         };
         option (graphql.schema) = {
             type: QUERY
@@ -35,11 +36,6 @@ service UserProfiles {
     }
 }
 
-
-
-message GetUserProfileRequest {
-    string id = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
-}
 
 message GetUserProfileBySubRequest{
     string sub = 1 [(validate.rules).string.min_len = 3, (graphql.field) = {required: true}];
