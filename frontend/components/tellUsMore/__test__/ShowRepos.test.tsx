@@ -15,20 +15,7 @@ const mocks = [
         accountId: 'accountId',
       },
     },
-    result: {
-      data: {
-        repositories: {
-          repositories: [
-            {
-              name: 'REPO1',
-            },
-            {
-              name: 'REPO2',
-            },
-          ],
-        },
-      },
-    },
+    error: new Error('An error occurred'),
   },
 ]
 
@@ -40,7 +27,10 @@ const props = {
 }
 // TODO need to wait for load
 
-it('should render repo list and match the snapshot', async () => {
+it('should show circular progress and match snapshot if repo list is not available yet', async () =>
+  null)
+
+it('should render repo list and match the snapshot if repo list is available', async () => {
   let component: any
   const { act } = TestRenderer
 
@@ -58,3 +48,5 @@ it('should render repo list and match the snapshot', async () => {
     expect(component.toJSON()).toMatchSnapshot()
   })
 })
+
+it('should set current repo on select', async () => null)
