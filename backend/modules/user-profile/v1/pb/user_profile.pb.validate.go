@@ -211,11 +211,29 @@ func (m *UserProfile) Validate() error {
 
 	// no validation rules for UserName
 
-	// no validation rules for Email
+	if utf8.RuneCountInString(m.GetEmail()) < 0 {
+		return UserProfileValidationError{
+			field:  "Email",
+			reason: "value length must be at least 0 runes",
+		}
+	}
+
+	if err := m._validateEmail(m.GetEmail()); err != nil {
+		return UserProfileValidationError{
+			field:  "Email",
+			reason: "value must be a valid email address",
+			cause:  err,
+		}
+	}
 
 	// no validation rules for PhoneNumber
 
-	// no validation rules for ExternalSource
+	if _, ok := _UserProfile_ExternalSource_NotInLookup[m.GetExternalSource()]; ok {
+		return UserProfileValidationError{
+			field:  "ExternalSource",
+			reason: "value must not be in list [0]",
+		}
+	}
 
 	// no validation rules for ProfilePicUrl
 
@@ -230,6 +248,56 @@ func (m *UserProfile) Validate() error {
 	}
 
 	return nil
+}
+
+func (m *UserProfile) _validateHostname(host string) error {
+	s := strings.ToLower(strings.TrimSuffix(host, "."))
+
+	if len(host) > 253 {
+		return errors.New("hostname cannot exceed 253 characters")
+	}
+
+	for _, part := range strings.Split(s, ".") {
+		if l := len(part); l == 0 || l > 63 {
+			return errors.New("hostname part must be non-empty and cannot exceed 63 characters")
+		}
+
+		if part[0] == '-' {
+			return errors.New("hostname parts cannot begin with hyphens")
+		}
+
+		if part[len(part)-1] == '-' {
+			return errors.New("hostname parts cannot end with hyphens")
+		}
+
+		for _, r := range part {
+			if (r < 'a' || r > 'z') && (r < '0' || r > '9') && r != '-' {
+				return fmt.Errorf("hostname parts can only contain alphanumeric characters or hyphens, got %q", string(r))
+			}
+		}
+	}
+
+	return nil
+}
+
+func (m *UserProfile) _validateEmail(addr string) error {
+	a, err := mail.ParseAddress(addr)
+	if err != nil {
+		return err
+	}
+	addr = a.Address
+
+	if len(addr) > 254 {
+		return errors.New("email addresses cannot exceed 254 characters")
+	}
+
+	parts := strings.SplitN(addr, "@", 2)
+
+	if len(parts[0]) > 64 {
+		return errors.New("email address local phrase cannot exceed 64 characters")
+	}
+
+	return m._validateHostname(parts[1])
 }
 
 // UserProfileValidationError is the validation error returned by
@@ -285,3 +353,7 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserProfileValidationError{}
+
+var _UserProfile_ExternalSource_NotInLookup = map[types.VCSProviders]struct{}{
+	0: {},
+}

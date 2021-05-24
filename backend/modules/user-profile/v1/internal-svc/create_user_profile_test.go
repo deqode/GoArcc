@@ -4,8 +4,9 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/user-profile/v1/internal-svc"
+	internal_svc "alfred/modules/user-profile/v1/internal-svc"
 	"alfred/modules/user-profile/v1/pb"
+	"alfred/protos/types"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -18,22 +19,22 @@ import (
 
 var _ = Describe("CreateUserProfile", func() {
 	var (
-		//Profile           *pb.UserProfile
+		Profile           *pb.UserProfile
 		UserProfileServer pb.UserProfileInternalServer
 		cfg               *config.Config
 	)
 	BeforeEach(func() {
-		//Profile = &pb.UserProfile{
-		//	Id:             "",
-		//	Sub:            "github_09292",
-		//	Name:           "Shivang Saxena",
-		//	UserName:       "shivang-saxena",
-		//	Email:          "ssaxena@deqode.com",
-		//	PhoneNumber:    "9838392392",
-		//	ExternalSource: types.VCSProviders_GITHUB,
-		//	ProfilePicUrl:  "https://images.google.com",
-		//	TokenValidTill: nil,
-		//}
+		Profile = &pb.UserProfile{
+			Id:             "github_1234",
+			Sub:            "github_1234",
+			Name:           "Shivang Saxena",
+			UserName:       "shivang-saxena",
+			Email:          "ssaxena@deqode.com",
+			PhoneNumber:    "9838392392",
+			ExternalSource: types.VCSProviders_GITHUB,
+			ProfilePicUrl:  "https://images.google.com",
+			TokenValidTill: nil,
+		}
 		//getting config
 		cfgFile, err := config.LoadConfig("config", "./../../../../")
 		if err != nil {
@@ -74,7 +75,7 @@ var _ = Describe("CreateUserProfile", func() {
 				//request := Profile
 				//request.Sub = ""
 				//_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
-				//Expect(err.(pb.CreateUserProfileRequestValidationError).Cause().(pb.UserProfileValidationError).Field()).Should(Equal("Sub"))
+				//Expect(err.(pb.CreateUserProfileRequestValidationError).Cause().(pb.UserProfileValidationError).Field()).Should(Equal(pb.UserProfileValidationError{}))
 			})
 		})
 
@@ -99,20 +100,34 @@ var _ = Describe("CreateUserProfile", func() {
 		})
 
 		Context("Return proper error when user is creating from unknown source", func() {
-			It("should return error if user is from unknown source", func() {})
+			It("should return error if user is from unknown source", func() {
+				request := Profile
+				request.ExternalSource = types.VCSProviders_UNKNOWN
+				_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
+				Expect(err.(pb.CreateUserProfileRequestValidationError).Cause().(pb.UserProfileValidationError).Reason()).Should(Equal("value must not be in list [0]"))
+			})
 		})
 
 		Context("Get an error when wrong profile-address provided", func() {
 			It("if not a valid url return error", func() {})
 
 		})
-		Context("Get an error when user create with already existing sub", func() {
-			It("should return already exists error", func() {})
-		})
 
 		//Positive Test Cases
 		Context("Create a user profile", func() {
 			It("should return user_id as uuid", func() {
+				request := Profile
+				user, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
+				Expect(err).To(BeNil(), "Error")
+				Expect(user).To(Not(BeNil()), "User Object Must present")
+			})
+		})
+
+		Context("Get an error when user create with already existing sub", func() {
+			It("should return already exists error", func() {
+				request := Profile
+				_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
+				Expect(err).To(Not(BeNil()), "Error")
 			})
 		})
 

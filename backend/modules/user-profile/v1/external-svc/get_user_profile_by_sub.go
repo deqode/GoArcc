@@ -17,7 +17,7 @@ func (s *userProfilesServer) GetUserProfileBySub(ctx context.Context, in *pb.Get
 	usrProfile := model.UserProfile{}
 	gormDb := s.db
 	//ie: Select * from account where id = in.id
-	if err := gormDb.First(&usrProfile, "id= ?", in.Sub).Error; err != nil {
+	if err := gormDb.First(&usrProfile, "sub= ?", in.Sub).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, err
 		}

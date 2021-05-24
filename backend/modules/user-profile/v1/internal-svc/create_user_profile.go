@@ -12,13 +12,14 @@ import (
 )
 
 func (s *userProfileInServer) CreateUserProfile(ctx context.Context, in *pb.CreateUserProfileRequest) (*pb.UserProfile, error) {
+	if in.UserProfile == nil || in == nil {
+		return nil, status.Error(codes.FailedPrecondition, "UserProfile not provided")
+	}
 	//request validation
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	if in.UserProfile == nil {
-		return nil, status.Error(codes.FailedPrecondition, "UserProfile not provided")
-	}
+
 	//prepare insert object
 	UserProfileModel := &model.UserProfile{
 		ID:            in.GetUserProfile().GetId(),

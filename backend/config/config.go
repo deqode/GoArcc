@@ -169,8 +169,8 @@ func GetConfigDirectory() string {
 	}
 
 	// TODO: Remove default
-	//return "./../../"
-	return "./"
+	return "./../../"
+	//return "./"
 }
 
 // GetConfig : will get the config

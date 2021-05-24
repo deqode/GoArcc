@@ -70,7 +70,9 @@ func FromContext(ctx context.Context) (usr UserInfo) {
 }
 
 func NewContext(ctx context.Context, u UserInfo) context.Context {
-	return context.WithValue(ctx, userKey, u)
+	m := make(map[string]interface{})
+	m["sub"] = u.Sub
+	return context.WithValue(ctx, userKey, m)
 }
 
 func FromClaims(claims map[string]interface{}) (ui UserInfo) {

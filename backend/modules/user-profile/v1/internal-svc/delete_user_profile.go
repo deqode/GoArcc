@@ -6,10 +6,15 @@ import (
 	"alfred/modules/user-profile/v1/pb"
 	"context"
 	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func (s *userProfileInServer) DeleteUserProfile(ctx context.Context, in *pb.DeleteUserProfileRequest) (*empty.Empty, error) {
 	//request validation
+	if in == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Request can't be nil")
+	}
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}

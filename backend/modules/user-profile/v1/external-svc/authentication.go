@@ -13,16 +13,16 @@ import (
 func (s *userProfilesServer) ValidateUser(ctx context.Context, userId string) error {
 	//Authentication check
 	usr := userinfo.FromContext(ctx)
-	usermodel := userModel.UserProfile{}
+	userModel := userModel.UserProfile{}
 	// select * from account where id  = account id
-	if err := s.db.First(&usermodel, "id = ?", userId).Error; err != nil {
+	if err := s.db.First(&userModel, "id = ?", userId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
 		}
 		return err
 	}
 	//check whether context user id matches with the  user id
-	if usermodel.ID != usr.ID {
+	if userModel.ID != usr.ID {
 		return status.Error(codes.PermissionDenied, "unauthenticated user")
 	}
 	return nil

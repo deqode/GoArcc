@@ -4,12 +4,14 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/user-profile/v1/internal-svc"
+	internal_svc "alfred/modules/user-profile/v1/internal-svc"
 	UserProfilepb "alfred/modules/user-profile/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 	"log"
 )
@@ -50,7 +52,7 @@ var _ = Describe("UpdateUserProfile", func() {
 		Context("Get an error when request object is nil", func() {
 			It("should return nil exception", func() {
 				_, err := UserProfileServer.UpdateUserProfile(context.Background(), &UserProfilepb.UpdateUserProfileRequest{UserProfile: nil})
-				Expect(err.(UserProfilepb.UpdateUserProfileRequestValidationError).Reason()).Should(Equal("value is required"))
+				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "UserProfile to update is not provided")))
 			})
 		})
 

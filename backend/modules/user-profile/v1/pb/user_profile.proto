@@ -3,7 +3,6 @@ package  alfred.user_profile.v1;
 
 option go_package = "/pb";
 
-import "google/protobuf/empty.proto";
 import "google/api/annotation.proto";
 import "include/graphql.proto";
 import "google/protobuf/timestamp.proto";
@@ -55,10 +54,10 @@ message UserProfile {
     // a username provided by vcs provider
     string user_name = 4;
     //email of user
-    string email = 5;
+    string email = 5 [(validate.rules).string.min_len = 0, (validate.rules).string.email= true];
     // phone of user
     string phone_number = 6 ;
-    types.VCSProviders external_source = 7;
+    types.VCSProviders external_source = 7 [(validate.rules).enum = {not_in: [0]}];
     string profile_pic_url = 8 ;
     google.protobuf.Timestamp token_valid_till = 9;
 }

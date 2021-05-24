@@ -10,6 +10,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 	"log"
 )
@@ -55,16 +57,25 @@ var _ = Describe("DeleteUserProfile", func() {
 		})
 
 		Context("Get an error when request is nil", func() {
-			It("should return error ", func() {})
+			It("should return error ", func() {
+				_, err := UserProfileServer.DeleteUserProfile(context.Background(), nil)
+				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Request can't be nil")))
+			})
 		})
 
 		Context("Return nil when wrong user_id provided", func() {
-			It("should not perform any action in DB and return nil", func() {})
+			It("should not perform any action in DB and return nil", func() {
+				_, err := UserProfileServer.DeleteUserProfile(context.Background(), &pb.DeleteUserProfileRequest{Id: "fejfoeiw0r8290r420"})
+				Expect(err).To(Not(BeNil()), "Error")
+			})
 		})
 
 		//Positive Test Cases
 		Context("Return confirmation when record soft deleted in DB", func() {
-			It("should return a boolean value", func() {})
+			It("should return a boolean value", func() {
+				//_, err := UserProfileServer.DeleteUserProfile(context.Background(), &pb.DeleteUserProfileRequest{Id: "github_09292"})
+				//Expect(err).To(BeNil(), "Error")
+			})
 		})
 	})
 
