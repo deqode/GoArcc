@@ -13,7 +13,11 @@ import ShowRepos from '../../components/tellUsMore/ShowRepos'
 import useGetTellUsMoreState from '../../components/tellUsMore/useGetTellUsMoreState'
 import { UserResponse } from '../../intefaces/interface'
 import { sessionCongfig } from '../../utils/constants'
-import { redirectToErrorPage, redirectToLandingPage } from '../../utils/redirects'
+import {
+  redirectToDashboard,
+  redirectToErrorPage,
+  redirectToLandingPage,
+} from '../../utils/redirects'
 import { validateUser } from '../../utils/user'
 
 const TellUsMore = ({
@@ -87,7 +91,7 @@ export const getServerSideProps = withSentry(
         accountId: responseGetAllUserAccounts.accounts[0].id,
       })
 
-      if (responseGetOwnerName.error) return redirectToLandingPage()
+      if (responseGetOwnerName.error) return redirectToDashboard()
       return {
         props: {
           userID: user.userId,

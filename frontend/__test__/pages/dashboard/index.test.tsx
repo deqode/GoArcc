@@ -33,4 +33,11 @@ describe('dashboard/index page tests', () => {
     const response = await handler({ req })
     expect(response).toStrictEqual({ props: { user: 'MockUser' } })
   })
+
+  it('should show circular progress if url not set yet', async () => null)
+
+  it('should show "Connect with github" button if url set', async () => null)
+
+  it('should redirect to github connect page on "Connect with github" button click', async () =>
+    null)
 })
