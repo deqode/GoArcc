@@ -15,10 +15,16 @@ import (
 )
 
 func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
+	if in == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Request is nil")
+	}
 	var redirectURL string
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:
 		githubConfig := s.config.GithubVCSConfig
+		if githubConfig.Scope == "" || githubConfig.ClientID == "" || githubConfig.RedirectURI == "" || githubConfig.ResponseType == "" {
+			return nil, status.Error(codes.FailedPrecondition, "github config not found")
+		}
 		// Format required field in url
 		mp := map[string]string{
 			"scope":         githubConfig.Scope,
@@ -37,6 +43,9 @@ func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeReq
 			}
 		}
 		redirectURL = strings.Join(fields, "")
+
+	case types.VCSProviders_UNKNOWN:
+		redirectURL = ""
 	}
 
 	// todo - find account id to identify user account

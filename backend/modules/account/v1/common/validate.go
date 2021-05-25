@@ -1,4 +1,4 @@
-package external_svc
+package common
 
 import (
 	model "alfred/modules/account/v1/models"
@@ -10,20 +10,21 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *accountExtServer) ValidateUser(ctx context.Context, accountId string) error {
+func ValidateUser(ctx context.Context, accountId string, db *gorm.DB) error {
 	//Authentication check
 	usr := userinfo.FromContext(ctx)
 	account := model.Account{}
 	// select * from account where id  = account id
-	if err := s.db.First(&account, "id = ?", accountId).Error; err != nil {
+	if err := db.First(&account, "id = ?", accountId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
 		}
 		return err
 	}
+
 	//check whether context user id matches with the context user id
 	if account.UserID != usr.ID {
-		return status.Error(codes.PermissionDenied, "unauthenticated user")
+		return status.Error(codes.PermissionDenied, "Permission Denied")
 	}
 	return nil
 }

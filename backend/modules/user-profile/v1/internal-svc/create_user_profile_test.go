@@ -22,13 +22,8 @@ var _ = Describe("CreateUserProfile", func() {
 		profile = UsrProfile
 	})
 
-	// this block will run after Before Suite
-	AfterSuite(func() {})
-
 	Describe("Creating an user profile", func() {
-
 		//Negative Test Cases
-		By("By a internal RPC Call")
 		Context("Get an error when nil User provided", func() {
 			It("should return nil exception", func() {
 				_, err := userProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: nil})
@@ -38,10 +33,7 @@ var _ = Describe("CreateUserProfile", func() {
 
 		Context("Create a user when subject is empty", func() {
 			It("It should return validation error", func() {
-				//request := Profile
-				//request.Sub = ""
-				//_, err := UserProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
-				//Expect(err.(pb.CreateUserProfileRequestValidationError).Cause().(pb.UserProfileValidationError).Field()).Should(Equal(pb.UserProfileValidationError{}))
+
 			})
 		})
 
@@ -67,9 +59,17 @@ var _ = Describe("CreateUserProfile", func() {
 
 		Context("Return proper error when user is creating from unknown source", func() {
 			It("should return error if user is from unknown source", func() {
-				request := profile
-				request.ExternalSource = types.VCSProviders_UNKNOWN
-				_, err := userProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
+				_, err := userProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: &pb.UserProfile{
+					Id:             profile.Id,
+					Sub:            profile.Sub,
+					Name:           profile.Name,
+					UserName:       profile.UserName,
+					Email:          profile.Email,
+					PhoneNumber:    profile.PhoneNumber,
+					ExternalSource: types.VCSProviders_UNKNOWN,
+					ProfilePicUrl:  profile.ProfilePicUrl,
+					TokenValidTill: profile.TokenValidTill,
+				}})
 				Expect(err.(pb.CreateUserProfileRequestValidationError).Cause().(pb.UserProfileValidationError).Reason()).Should(Equal("value must not be in list [0]"))
 			})
 		})
@@ -82,10 +82,18 @@ var _ = Describe("CreateUserProfile", func() {
 		//Positive Test Cases
 		Context("Create a user profile", func() {
 			It("should return user_id as uuid", func() {
-				//request := profile
-				//user, err := userProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: request})
-				//Expect(err).To(BeNil(), "Error")
-				//Expect(user).To(Not(BeNil()), "User Object Must present")
+				_, err := userProfileServer.CreateUserProfile(context.Background(), &pb.CreateUserProfileRequest{UserProfile: &pb.UserProfile{
+					Id:             profile.Id + "test",
+					Sub:            profile.Sub + "test",
+					Name:           profile.Name,
+					UserName:       profile.UserName,
+					Email:          profile.Email,
+					PhoneNumber:    profile.PhoneNumber,
+					ExternalSource: profile.ExternalSource,
+					ProfilePicUrl:  profile.ProfilePicUrl,
+					TokenValidTill: profile.TokenValidTill,
+				}})
+				Expect(err).To(BeNil(), "Error")
 			})
 		})
 

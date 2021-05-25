@@ -7,6 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 var _ = Describe("UpdateUserAccounts", func() {
@@ -42,10 +43,12 @@ var _ = Describe("UpdateUserAccounts", func() {
 		})
 		Context("Get an error when id is incorrect", func() {
 			It("should return failed precondition error", func() {
-				acc := account
-				acc.Id = "wrongId"
-				_, err := accountServer.UpdateAccount(ctx, &pb.UpdateAccountRequest{Account: acc})
-				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Account Id is not provided")))
+				_, err := accountServer.UpdateAccount(ctx, &pb.UpdateAccountRequest{Account: &pb.Account{
+					Id:     "7328-dshj-328-shds",
+					Slug:   account.Slug,
+					UserId: account.UserId,
+				}})
+				Expect(err).Should(Equal(gorm.ErrRecordNotFound))
 			})
 		})
 		Context("Get an error when account does not exist", func() {

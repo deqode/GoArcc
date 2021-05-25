@@ -69,3 +69,10 @@ var _ = BeforeSuite(func() {
 	AccountServerTest = actInServer
 	UserProfileIntServerTest = userProfileIntServer
 })
+
+// must initialize nil to global variable after suit is complete
+var _ = AfterSuite(func() {
+	AccountServerTest = nil
+	CtxTest = nil
+	UserProfileIntServerTest = nil
+})

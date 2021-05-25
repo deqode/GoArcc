@@ -51,50 +51,14 @@ var (
 
 // Validate checks the field values on ListAllSupportedVCSProvidersResponse
 // with the rules defined in the proto definition for this message. If any
-// rules are violated, the first error encountered is returned, or nil if
-// there are no violations.
+// rules are violated, an error is returned.
 func (m *ListAllSupportedVCSProvidersResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ListAllSupportedVCSProvidersResponse
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the result is a list of violation errors wrapped in
-// ListAllSupportedVCSProvidersResponseMultiError, or nil if none found.
-func (m *ListAllSupportedVCSProvidersResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ListAllSupportedVCSProvidersResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
-	if len(errors) > 0 {
-		return ListAllSupportedVCSProvidersResponseMultiError(errors)
-	}
 	return nil
 }
-
-// ListAllSupportedVCSProvidersResponseMultiError is an error wrapping multiple
-// validation errors returned by
-// ListAllSupportedVCSProvidersResponse.ValidateAll() if the designated
-// constraints aren't met.
-type ListAllSupportedVCSProvidersResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ListAllSupportedVCSProvidersResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ListAllSupportedVCSProvidersResponseMultiError) AllErrors() []error { return m }
 
 // ListAllSupportedVCSProvidersResponseValidationError is the validation error
 // returned by ListAllSupportedVCSProvidersResponse.Validate if the designated
@@ -154,53 +118,19 @@ var _ interface {
 } = ListAllSupportedVCSProvidersResponseValidationError{}
 
 // Validate checks the field values on AuthorizeRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
 func (m *AuthorizeRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on AuthorizeRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// AuthorizeRequestMultiError, or nil if none found.
-func (m *AuthorizeRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *AuthorizeRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
-
-	var errors []error
 
 	// no validation rules for Provider
 
 	// no validation rules for Label
 
-	if len(errors) > 0 {
-		return AuthorizeRequestMultiError(errors)
-	}
 	return nil
 }
-
-// AuthorizeRequestMultiError is an error wrapping multiple validation errors
-// returned by AuthorizeRequest.ValidateAll() if the designated constraints
-// aren't met.
-type AuthorizeRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m AuthorizeRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m AuthorizeRequestMultiError) AllErrors() []error { return m }
 
 // AuthorizeRequestValidationError is the validation error returned by
 // AuthorizeRequest.Validate if the designated constraints aren't met.
@@ -257,51 +187,17 @@ var _ interface {
 } = AuthorizeRequestValidationError{}
 
 // Validate checks the field values on AuthorizeResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
 func (m *AuthorizeResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on AuthorizeResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// AuthorizeResponseMultiError, or nil if none found.
-func (m *AuthorizeResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *AuthorizeResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	// no validation rules for RedirectUrl
 
-	if len(errors) > 0 {
-		return AuthorizeResponseMultiError(errors)
-	}
 	return nil
 }
-
-// AuthorizeResponseMultiError is an error wrapping multiple validation errors
-// returned by AuthorizeResponse.ValidateAll() if the designated constraints
-// aren't met.
-type AuthorizeResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m AuthorizeResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m AuthorizeResponseMultiError) AllErrors() []error { return m }
 
 // AuthorizeResponseValidationError is the validation error returned by
 // AuthorizeResponse.Validate if the designated constraints aren't met.
@@ -360,75 +256,38 @@ var _ interface {
 } = AuthorizeResponseValidationError{}
 
 // Validate checks the field values on CallbackRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
 func (m *CallbackRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on CallbackRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// CallbackRequestMultiError, or nil if none found.
-func (m *CallbackRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *CallbackRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
-	// no validation rules for Provider
+	if _, ok := _CallbackRequest_Provider_NotInLookup[m.GetProvider()]; ok {
+		return CallbackRequestValidationError{
+			field:  "Provider",
+			reason: "value must not be in list [0]",
+		}
+	}
 
 	// no validation rules for State
 
 	if utf8.RuneCountInString(m.GetCode()) < 3 {
-		err := CallbackRequestValidationError{
+		return CallbackRequestValidationError{
 			field:  "Code",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
-		err := CallbackRequestValidationError{
+		return CallbackRequestValidationError{
 			field:  "AccountId",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
-	if len(errors) > 0 {
-		return CallbackRequestMultiError(errors)
-	}
 	return nil
 }
-
-// CallbackRequestMultiError is an error wrapping multiple validation errors
-// returned by CallbackRequest.ValidateAll() if the designated constraints
-// aren't met.
-type CallbackRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m CallbackRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m CallbackRequestMultiError) AllErrors() []error { return m }
 
 // CallbackRequestValidationError is the validation error returned by
 // CallbackRequest.Validate if the designated constraints aren't met.
@@ -484,78 +343,40 @@ var _ interface {
 	ErrorName() string
 } = CallbackRequestValidationError{}
 
+var _CallbackRequest_Provider_NotInLookup = map[types.VCSProviders]struct{}{
+	0: {},
+}
+
 // Validate checks the field values on AccountVCSConnection with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *AccountVCSConnection) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on AccountVCSConnection with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// AccountVCSConnectionMultiError, or nil if none found.
-func (m *AccountVCSConnection) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *AccountVCSConnection) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	if utf8.RuneCountInString(m.GetId()) < 3 {
-		err := AccountVCSConnectionValidationError{
+		return AccountVCSConnectionValidationError{
 			field:  "Id",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
 	// no validation rules for Provider
 
 	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
-		err := AccountVCSConnectionValidationError{
+		return AccountVCSConnectionValidationError{
 			field:  "AccountId",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
 	// no validation rules for Label
 
 	// no validation rules for UserName
 
-	if len(errors) > 0 {
-		return AccountVCSConnectionMultiError(errors)
-	}
 	return nil
 }
-
-// AccountVCSConnectionMultiError is an error wrapping multiple validation
-// errors returned by AccountVCSConnection.ValidateAll() if the designated
-// constraints aren't met.
-type AccountVCSConnectionMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m AccountVCSConnectionMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m AccountVCSConnectionMultiError) AllErrors() []error { return m }
 
 // AccountVCSConnectionValidationError is the validation error returned by
 // AccountVCSConnection.Validate if the designated constraints aren't met.
@@ -615,52 +436,18 @@ var _ interface {
 
 // Validate checks the field values on ListVCSConnectionRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *ListVCSConnectionRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ListVCSConnectionRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ListVCSConnectionRequestMultiError, or nil if none found.
-func (m *ListVCSConnectionRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ListVCSConnectionRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
-
-	var errors []error
 
 	// no validation rules for AccountId
 
 	// no validation rules for Provider
 
-	if len(errors) > 0 {
-		return ListVCSConnectionRequestMultiError(errors)
-	}
 	return nil
 }
-
-// ListVCSConnectionRequestMultiError is an error wrapping multiple validation
-// errors returned by ListVCSConnectionRequest.ValidateAll() if the designated
-// constraints aren't met.
-type ListVCSConnectionRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ListVCSConnectionRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ListVCSConnectionRequestMultiError) AllErrors() []error { return m }
 
 // ListVCSConnectionRequestValidationError is the validation error returned by
 // ListVCSConnectionRequest.Validate if the designated constraints aren't met.
@@ -720,49 +507,16 @@ var _ interface {
 
 // Validate checks the field values on ListVCSConnectionResponse with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *ListVCSConnectionResponse) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ListVCSConnectionResponse with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ListVCSConnectionResponseMultiError, or nil if none found.
-func (m *ListVCSConnectionResponse) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ListVCSConnectionResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	for idx, item := range m.GetVcsConnection() {
 		_, _ = idx, item
 
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ListVCSConnectionResponseValidationError{
-						field:  fmt.Sprintf("VcsConnection[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ListVCSConnectionResponseValidationError{
-						field:  fmt.Sprintf("VcsConnection[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return ListVCSConnectionResponseValidationError{
 					field:  fmt.Sprintf("VcsConnection[%v]", idx),
@@ -774,28 +528,8 @@ func (m *ListVCSConnectionResponse) validate(all bool) error {
 
 	}
 
-	if len(errors) > 0 {
-		return ListVCSConnectionResponseMultiError(errors)
-	}
 	return nil
 }
-
-// ListVCSConnectionResponseMultiError is an error wrapping multiple validation
-// errors returned by ListVCSConnectionResponse.ValidateAll() if the
-// designated constraints aren't met.
-type ListVCSConnectionResponseMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ListVCSConnectionResponseMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ListVCSConnectionResponseMultiError) AllErrors() []error { return m }
 
 // ListVCSConnectionResponseValidationError is the validation error returned by
 // ListVCSConnectionResponse.Validate if the designated constraints aren't met.
@@ -855,72 +589,25 @@ var _ interface {
 
 // Validate checks the field values on GetVCSConnectionRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *GetVCSConnectionRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetVCSConnectionRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetVCSConnectionRequestMultiError, or nil if none found.
-func (m *GetVCSConnectionRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetVCSConnectionRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
-	if utf8.RuneCountInString(m.GetId()) < 3 {
-		err := GetVCSConnectionRequestValidationError{
-			field:  "Id",
-			reason: "value length must be at least 3 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for Id
 
 	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
-		err := GetVCSConnectionRequestValidationError{
+		return GetVCSConnectionRequestValidationError{
 			field:  "AccountId",
 			reason: "value length must be at least 3 runes",
 		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
 	}
 
 	// no validation rules for Provider
 
-	if len(errors) > 0 {
-		return GetVCSConnectionRequestMultiError(errors)
-	}
 	return nil
 }
-
-// GetVCSConnectionRequestMultiError is an error wrapping multiple validation
-// errors returned by GetVCSConnectionRequest.ValidateAll() if the designated
-// constraints aren't met.
-type GetVCSConnectionRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetVCSConnectionRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetVCSConnectionRequestMultiError) AllErrors() []error { return m }
 
 // GetVCSConnectionRequestValidationError is the validation error returned by
 // GetVCSConnectionRequest.Validate if the designated constraints aren't met.
@@ -980,52 +667,18 @@ var _ interface {
 
 // Validate checks the field values on RevokeVCSTokenRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *RevokeVCSTokenRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on RevokeVCSTokenRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// RevokeVCSTokenRequestMultiError, or nil if none found.
-func (m *RevokeVCSTokenRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *RevokeVCSTokenRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
-
-	var errors []error
 
 	// no validation rules for Provider
 
 	// no validation rules for VcsId
 
-	if len(errors) > 0 {
-		return RevokeVCSTokenRequestMultiError(errors)
-	}
 	return nil
 }
-
-// RevokeVCSTokenRequestMultiError is an error wrapping multiple validation
-// errors returned by RevokeVCSTokenRequest.ValidateAll() if the designated
-// constraints aren't met.
-type RevokeVCSTokenRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m RevokeVCSTokenRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m RevokeVCSTokenRequestMultiError) AllErrors() []error { return m }
 
 // RevokeVCSTokenRequestValidationError is the validation error returned by
 // RevokeVCSTokenRequest.Validate if the designated constraints aren't met.
@@ -1085,50 +738,16 @@ var _ interface {
 
 // Validate checks the field values on RenewVCSTokenRequest with the rules
 // defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
+// violated, an error is returned.
 func (m *RenewVCSTokenRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on RenewVCSTokenRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// RenewVCSTokenRequestMultiError, or nil if none found.
-func (m *RenewVCSTokenRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *RenewVCSTokenRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
-	var errors []error
-
 	// no validation rules for Provider
 
-	if len(errors) > 0 {
-		return RenewVCSTokenRequestMultiError(errors)
-	}
 	return nil
 }
-
-// RenewVCSTokenRequestMultiError is an error wrapping multiple validation
-// errors returned by RenewVCSTokenRequest.ValidateAll() if the designated
-// constraints aren't met.
-type RenewVCSTokenRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m RenewVCSTokenRequestMultiError) Error() string {
-	var msgs []string
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m RenewVCSTokenRequestMultiError) AllErrors() []error { return m }
 
 // RenewVCSTokenRequestValidationError is the validation error returned by
 // RenewVCSTokenRequest.Validate if the designated constraints aren't met.

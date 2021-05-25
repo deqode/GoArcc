@@ -60,8 +60,8 @@ github_vcs_config:
   itype: 1
   provider: GITHUB
   url_Template: https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type={response_type}&scope={scope}
-  client_id: 34c9188e9de51cfd07aa
+  client_id: 02df1fc118aaaa8259f9
   redirect_uri: http://localhost:3000/authentication/github/callback
   scope: user%20gist%20repo%20repo_deployment%20repo_hook
   response_type: code
-  client_secret: 1069dcdbae399023baf4fa7eacf6ec4bbd652e2a
+  client_secret: b78db52d7b32793889ddc0a8a5cb16ea30425567

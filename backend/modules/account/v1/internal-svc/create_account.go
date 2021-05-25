@@ -19,6 +19,7 @@ func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccou
 	if err != nil {
 		return nil, err
 	}
+
 	//prepare insert object
 	accountModel := &model.Account{
 		ID:        id,

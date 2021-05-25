@@ -6,10 +6,14 @@ import (
 	"context"
 	"github.com/golang/protobuf/ptypes"
 	"github.com/hashicorp/go-uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func (s *vcsConnectionIntServer) CreateVCSConnection(ctx context.Context, in *pb.CreateVCSConnectionRequest) (*pb.VCSConnection, error) {
-	// TODO - validate user belongs to that user account
+	if in == nil || in.VcsConnection == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Request is nil")
+	}
 	id, err := uuid.GenerateUUID()
 	if err != nil {
 		return nil, err

@@ -5,7 +5,8 @@ import (
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"gorm.io/gorm"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 var _ = Describe("GetUserAccounts", func() {
@@ -29,14 +30,14 @@ var _ = Describe("GetUserAccounts", func() {
 		})
 		Context("Context:When user_id is wrong", func() {
 			It("It:Error must be returned", func() {
-				_, err := accountServer.GetUserAccounts(ctx, &pb.GetUserAccountsRequest{UserId: "wrongID"})
-				Expect(gorm.ErrRecordNotFound).Should(Equal(err))
+				_, err := accountServer.GetUserAccounts(ctx, &pb.GetUserAccountsRequest{UserId: "7820-kwiwi-3939"})
+				Expect(err).Should(Equal(status.Error(codes.PermissionDenied, "unauthenticated user")))
 			})
 		})
 
 		Context("Get a record when id is provided", func() {
 			It("should return requested field in the object", func() {
-				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: account.GetUserId()})
+				_, err := accountServer.GetUserAccounts(ctx, &pb.GetUserAccountsRequest{UserId: account.UserId})
 				Expect(err).Should(BeNil())
 			})
 		})

@@ -2,6 +2,7 @@ package external_svc
 
 import (
 	_ "alfred.sh/common/database/helper"
+	"alfred/modules/account/v1/common"
 	model "alfred/modules/account/v1/models"
 	"alfred/modules/account/v1/pb"
 	"context"
@@ -17,7 +18,7 @@ func (s accountExtServer) GetAccount(ctx context.Context, in *pb.GetAccountReque
 		return nil, err
 	}
 	//Authentication check
-	if err := s.ValidateUser(ctx, in.Id); err != nil {
+	if err := common.ValidateUser(ctx, in.Id, s.db); err != nil {
 		return nil, err
 	}
 	//account model

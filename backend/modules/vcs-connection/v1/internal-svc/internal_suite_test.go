@@ -1,19 +1,21 @@
-package external_svc_test
+package internal_svc_test
 
 import (
 	"alfred.sh/common/logger"
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
-	"alfred/modules/account/v1/external-svc"
-	"alfred/modules/account/v1/internal-svc"
-	"alfred/modules/account/v1/pb"
+	accInt "alfred/modules/account/v1/internal-svc"
+	accPb "alfred/modules/account/v1/pb"
 	usrInt "alfred/modules/user-profile/v1/internal-svc"
 	usrPb "alfred/modules/user-profile/v1/pb"
+	internal_svc "alfred/modules/vcs-connection/v1/internal-svc"
+	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
 	"alfred/util/userinfo"
 	"context"
 	"github.com/bxcodec/faker/v3"
+	"github.com/golang/protobuf/ptypes"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -25,23 +27,22 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var (
-	AccountServerTest      pb.AccountsServer
-	AccountServerInTest    pb.AccountInternalServer
-	CtxTest                context.Context
-	Account                *pb.Account
-	UsrProfileInServerTest usrPb.UserProfileInternalServer
-)
-
-func TestAccountExternalSvc(t *testing.T) {
+func TestVCSConnectionInt(t *testing.T) {
 	//now init logger
 	logger.Init(logger.Config{
 		LogLevel:    zap.DebugLevel,
 		Development: false,
 	})
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "TestAccountExternal Service Suite")
+	RunSpecs(t, "TestVCSConnectionInt Service Suite")
 }
+
+var (
+	CtxTest          context.Context
+	VcsIntServerTest pb.VCSConnectionInternalServer
+	//Account          *accPb.Account
+	VCSTest *pb.VCSConnection
+)
 
 // This block will run only once
 var _ = BeforeSuite(func() {
@@ -68,13 +69,13 @@ var _ = BeforeSuite(func() {
 	userProfileIntServer := usrInt.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 
 	// Int Account Service initialisation
-	actInServer := internal_svc.NewAccountsInServer(fields.db, fields.config, fields.grpcClient)
+	actInServer := accInt.NewAccountsInServer(fields.db, fields.config, fields.grpcClient)
 
-	// Ext Account Service initialisation
-	actExtServer := external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
+	// Int VCS Server initialisation
+	vcsIntServer := internal_svc.NewVCSConnectionIntServer(fields.db, fields.config, fields.grpcClient)
 
-	id := "github_" + faker.Username()
 	ctx := context.Background()
+	id := "github_" + faker.Username()
 	// Create a UserProfile before getting
 	res, err := userProfileIntServer.CreateUserProfile(ctx, &usrPb.CreateUserProfileRequest{UserProfile: &usrPb.UserProfile{
 		Id:             id,
@@ -88,7 +89,7 @@ var _ = BeforeSuite(func() {
 		TokenValidTill: nil,
 	}})
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 	ui := userinfo.UserInfo{
 		ID:          res.Id,
@@ -98,27 +99,51 @@ var _ = BeforeSuite(func() {
 	}
 	ctx = userinfo.NewContext(ctx, ui)
 	// Create A Account
-	acc, err := actInServer.CreateAccount(ctx, &pb.CreateAccountRequest{Account: &pb.Account{
+	acc, err := actInServer.CreateAccount(ctx, &accPb.CreateAccountRequest{Account: &accPb.Account{
 		Slug:   res.Sub + "_" + res.UserName,
 		UserId: res.Id,
 	}})
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 
+	time, err := ptypes.TimestampProto(time.Now().UTC().AddDate(1, 11, 0))
+	if err != nil {
+		log.Fatal(err)
+	}
+	//generate VCS from faker data
+	vcs := &pb.VCSConnection{
+		Id:                 faker.UUIDHyphenated(),
+		Label:              faker.FirstName(),
+		Provider:           types.VCSProviders_GITHUB,
+		ConnectionId:       faker.UUIDDigit(),
+		AccessToken:        faker.Password(),
+		RefreshToken:       "",
+		AccessTokenExpiry:  time,
+		RefreshTokenExpiry: time,
+		Revoked:            false,
+		AccountId:          acc.Id,
+		UserName:           faker.Username(),
+	}
+
+	// create A VCS Connection as well
+	_, err = vcsIntServer.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
+		VcsConnection: vcs,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 	//initialize to global variable here
 	CtxTest = ctx
-	AccountServerTest = actExtServer
-	AccountServerInTest = actInServer
-	UsrProfileInServerTest = userProfileIntServer
-	Account = acc
+	VcsIntServerTest = vcsIntServer
+	//Account = acc
+	VCSTest = vcs
 })
 
 // must initialize nil to global variable after suit is complete
 var _ = AfterSuite(func() {
 	CtxTest = nil
-	AccountServerTest = nil
-	AccountServerInTest = nil
-	UsrProfileInServerTest = nil
-	Account = nil
+	VcsIntServerTest = nil
+	//Account = nil
+	VCSTest = nil
 })

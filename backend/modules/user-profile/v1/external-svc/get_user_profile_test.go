@@ -21,9 +21,6 @@ var _ = Describe("GetUserProfile", func() {
 		ctx = external_svc.CtxTest
 	})
 
-	// this block will run after Before Suite
-	AfterSuite(func() {})
-
 	By("internal or external call")
 	// positive
 	Context("Get a record when id is provided", func() {

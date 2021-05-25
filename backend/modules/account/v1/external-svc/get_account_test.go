@@ -22,6 +22,11 @@ var _ = Describe("Describe:GetAccount", func() {
 
 	Describe("Get an account", func() {
 		By("internal or external call")
+		Context("Get an error when ctx is wrong", func() {
+			It("Should get an error of permission denied", func() {
+
+			})
+		})
 		Context("Get an error when id is empty", func() {
 			It("it should return validation error", func() {
 				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: ""})
@@ -30,7 +35,7 @@ var _ = Describe("Describe:GetAccount", func() {
 		})
 		Context("Get an error when id is wrong", func() {
 			It("should return not found error", func() {
-				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: "ffekfjw8549"})
+				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: "4389-jdk-8549"})
 				Expect(err).Should(Equal(gorm.ErrRecordNotFound))
 			})
 		})

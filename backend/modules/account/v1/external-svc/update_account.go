@@ -1,6 +1,7 @@
 package external_svc
 
 import (
+	"alfred/modules/account/v1/common"
 	pb "alfred/modules/account/v1/pb"
 	"context"
 	"google.golang.org/grpc/codes"
@@ -15,9 +16,10 @@ func (s accountExtServer) UpdateAccount(ctx context.Context, in *pb.UpdateAccoun
 		return nil, status.Error(codes.FailedPrecondition, "Account Id is not provided")
 	}
 	//Authentication check
-	if err := s.ValidateUser(ctx, in.Account.Id); err != nil {
+	if err := common.ValidateUser(ctx, in.Account.Id, s.db); err != nil {
 		return nil, err
 	}
+
 	return &pb.Account{
 		Id:     "",
 		Slug:   "",
