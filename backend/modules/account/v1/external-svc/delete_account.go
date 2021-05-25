@@ -2,7 +2,6 @@ package external_svc
 
 import (
 	databaseHelper "alfred.sh/common/database/helper"
-	"alfred/modules/account/v1/common"
 	model "alfred/modules/account/v1/models"
 	"alfred/modules/account/v1/pb"
 	"context"
@@ -16,11 +15,6 @@ func (s accountExtServer) DeleteAccount(ctx context.Context, in *pb.DeleteAccoun
 	if err != nil {
 		return nil, err
 	}
-	//Authentication check
-	if err := common.ValidateUser(ctx, in.Id, s.db); err != nil {
-		return nil, err
-	}
-
 	tx := s.db.Where("id = ?", in.Id).Delete(&model.Account{})
 	if err := databaseHelper.ValidateResult(tx); err != nil {
 		return nil, err

@@ -1,7 +1,7 @@
 package internal_svc
 
 import (
-	"alfred/modules/account/v1/common"
+	"alfred/modules/vcs-connection/v1/common"
 	model "alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
