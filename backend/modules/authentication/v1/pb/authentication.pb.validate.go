@@ -248,9 +248,19 @@ func (m *LoginCallbackRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for State
+	if utf8.RuneCountInString(m.GetState()) < 3 {
+		return LoginCallbackRequestValidationError{
+			field:  "State",
+			reason: "value length must be at least 3 runes",
+		}
+	}
 
-	// no validation rules for Code
+	if utf8.RuneCountInString(m.GetCode()) < 3 {
+		return LoginCallbackRequestValidationError{
+			field:  "Code",
+			reason: "value length must be at least 3 runes",
+		}
+	}
 
 	return nil
 }

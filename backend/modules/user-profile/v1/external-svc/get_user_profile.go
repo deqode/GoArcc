@@ -3,21 +3,20 @@ package external_svc
 import (
 	model "alfred/modules/user-profile/v1/models"
 	"alfred/modules/user-profile/v1/pb"
+	"alfred/util/userinfo"
 	"context"
 	"errors"
+	"github.com/golang/protobuf/ptypes/empty"
 	"gorm.io/gorm"
 )
 
-func (s *userProfilesServer) GetUserProfile(ctx context.Context, in *pb.GetUserProfileRequest) (*pb.UserProfile, error) {
-	// TODO - add ctx validation
-	if err := in.Validate(); err != nil {
-		return nil, err
-	}
+func (s *userProfilesServer) GetUserProfile(ctx context.Context, empty *empty.Empty) (*pb.UserProfile, error) {
 	//user profile model
 	var usrProfile model.UserProfile
+	usrId := userinfo.FromContext(ctx).ID
 	gormDb := s.db
 	//ie: Select * from account where id = in.id
-	if err := gormDb.First(&usrProfile, "id= ?", in.Id).Error; err != nil {
+	if err := gormDb.First(&usrProfile, "id= ?", usrId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, err
 		}

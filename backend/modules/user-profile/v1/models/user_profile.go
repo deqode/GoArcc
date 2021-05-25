@@ -9,12 +9,12 @@ import (
 )
 
 type UserProfile struct {
-	ID            string
+	ID            string `gorm:"primarykey"`
 	Name          string
 	UserName      string
 	Email         string
 	PhoneNumber   string
-	Sub           string
+	Sub           string `gorm:"uniqueIndex"`
 	ProfilePicURL string
 	Source        types.VCSProviders
 	CreatedAt     time.Time

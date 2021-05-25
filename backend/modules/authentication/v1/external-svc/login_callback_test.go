@@ -1,30 +1,42 @@
-package external_svc
+package external_svc_test
 
 import (
+	"alfred/modules/authentication/v1/pb"
+	"context"
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
-var _ = Describe("Login Callback Test", func() {
+var _ = Describe("Login Callback", func() {
+	var (
+		authServer pb.AuthenticationsServer
+		//authenticator *external_svc.Authenticator
+	)
+	BeforeEach(func() {
+		authServer = AuthServerTest
+		//authenticator = AuthenticatorTest
+	})
+
 	Describe("Login Callback Test", func() {
 		By("By Rpc Calls")
-
 		Context("Get an error when request object is nil", func() {
 			It("Failed precondition err must be responded", func() {
-
+				_, err := authServer.LoginCallback(context.Background(), nil)
+				Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Request is Nil")))
 			})
 		})
 		Context("Get an error if state or code is empty", func() {
 			It("Failed precondition err must be responded", func() {
-			})
-		})
-
-		Context("Get an error if  code is invalid", func() {
-			It("Unauthenticated error must be thrown", func() {
+				_, err := authServer.LoginCallback(context.Background(), &pb.LoginCallbackRequest{Code: "", State: ""})
+				Expect(err).ShouldNot(BeNil())
 			})
 		})
 
 		Context("Get an error if user profile is not present", func() {
 			It("gorm error must be thrown", func() {
+
 			})
 		})
 

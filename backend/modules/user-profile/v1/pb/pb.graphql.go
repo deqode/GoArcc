@@ -11,14 +11,14 @@ import (
 	"google.golang.org/grpc"
 
 	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"
+
+	gql_ptypes_empty "github.com/ysugimoto/grpc-graphql-gateway/ptypes/empty"
 )
 
 var (
 	gql__type_UserProfile                 *graphql.Object      // message UserProfile in pb/user_profile.proto
-	gql__type_GetUserProfileRequest       *graphql.Object      // message GetUserProfileRequest in pb/user_profile.proto
 	gql__type_GetUserProfileBySubRequest  *graphql.Object      // message GetUserProfileBySubRequest in pb/user_profile.proto
 	gql__input_UserProfile                *graphql.InputObject // message UserProfile in pb/user_profile.proto
-	gql__input_GetUserProfileRequest      *graphql.InputObject // message GetUserProfileRequest in pb/user_profile.proto
 	gql__input_GetUserProfileBySubRequest *graphql.InputObject // message GetUserProfileBySubRequest in pb/user_profile.proto
 )
 
@@ -63,20 +63,6 @@ func Gql__type_UserProfile() *graphql.Object {
 		})
 	}
 	return gql__type_UserProfile
-}
-
-func Gql__type_GetUserProfileRequest() *graphql.Object {
-	if gql__type_GetUserProfileRequest == nil {
-		gql__type_GetUserProfileRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetUserProfileRequest",
-			Fields: graphql.Fields{
-				"id": &graphql.Field{
-					Type: graphql.NewNonNull(graphql.String),
-				},
-			},
-		})
-	}
-	return gql__type_GetUserProfileRequest
 }
 
 func Gql__type_GetUserProfileBySubRequest() *graphql.Object {
@@ -134,20 +120,6 @@ func Gql__input_UserProfile() *graphql.InputObject {
 		})
 	}
 	return gql__input_UserProfile
-}
-
-func Gql__input_GetUserProfileRequest() *graphql.InputObject {
-	if gql__input_GetUserProfileRequest == nil {
-		gql__input_GetUserProfileRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetUserProfileRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewNonNull(graphql.String),
-				},
-			},
-		})
-	}
-	return gql__input_GetUserProfileRequest
 }
 
 func Gql__input_GetUserProfileBySubRequest() *graphql.InputObject {
@@ -208,14 +180,9 @@ func (x *graphql__resolver_UserProfiles) GetQueries(conn *grpc.ClientConn) graph
 	return graphql.Fields{
 		"user": &graphql.Field{
 			Type: Gql__type_UserProfile(),
-			Args: graphql.FieldConfigArgument{
-				"id": &graphql.ArgumentConfig{
-					Type:         graphql.NewNonNull(graphql.String),
-					DefaultValue: "",
-				},
-			},
+			Args: graphql.FieldConfigArgument{},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req GetUserProfileRequest
+				var req gql_ptypes_empty.Empty
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for user")
 				}

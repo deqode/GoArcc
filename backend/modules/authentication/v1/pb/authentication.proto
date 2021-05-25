@@ -5,6 +5,7 @@ option go_package = "/pb";
 
 import "google/api/annotation.proto";
 import "google/protobuf/empty.proto";
+import "validate/validate.proto";
 
 service ValidateLoginService {
     rpc ValidateUserLogin (ValidateUserLoginRequest) returns (ValidateUserLoginResponse);
@@ -64,8 +65,8 @@ message LoginResponse{
 }
 
 message LoginCallbackRequest{
-    string state = 1;
-    string code = 2;
+    string state = 1 [(validate.rules).string.min_len = 3];
+    string code = 2  [(validate.rules).string.min_len = 3];
 }
 
 message LoginCallbackResponse{

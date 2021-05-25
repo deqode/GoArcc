@@ -19,9 +19,6 @@ service UserProfileInternal {
 
     // DeleteUserProfile delete the user
     rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
-
-    // GetUserMe will get current logged in user by ctx
-    rpc GetUserMe (google.protobuf.Empty) returns (alfred.user_profile.v1.UserProfile);
 }
 
 
