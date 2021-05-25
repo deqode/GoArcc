@@ -41,7 +41,7 @@ const Navbar = (): ReactElement => {
           <Grid item>
             {user.loggedIn && (
               <Button color="secondary" variant="contained" onClick={logout}>
-                {t('common:Logout')}
+                {t('common:LOGOUT')}
               </Button>
             )}
           </Grid>

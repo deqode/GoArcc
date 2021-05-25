@@ -38,14 +38,14 @@ export const Dashboard = ({ user }: DashboardProps): ReactElement => {
     <Paper elevation={0}>
       <PageHead title={Titles.DASHBOARD} />
       <BasicLayout
-        heading={t('dashboard-index:Let us make your cloud work for you')}
-        subHeading={t('dashboard-index:Connect with Github')}
+        heading={t('dashboard-index:GREETING')}
+        subHeading={t('dashboard-index:CONNECT_GITHUB')}
         component={
           !url.length ? (
             <CircularProgress />
           ) : (
             <Button variant="contained" color="primary" href={url}>
-              {t('dashboard-index:Connect with Github')}
+              {t('dashboard-index:CONNECT_GITHUB')}
             </Button>
           )
         }

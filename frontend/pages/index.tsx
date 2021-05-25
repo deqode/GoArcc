@@ -21,13 +21,11 @@ const Landing = ({ url }: LandingProps): ReactElement => {
     <Paper elevation={0}>
       <PageHead title={Titles.WELCOME} />
       <BasicLayout
-        heading={t('landing:Welcome to Alfred')}
-        subHeading={t(
-          'landing:Provide your repo, Select your cloud, and let Alfred do the heavy lifting'
-        )}
+        heading={t('landing:GREETING')}
+        subHeading={t('landing:MESSAGE')}
         component={
           <Button variant="contained" color="primary" href={url}>
-            {t('landing:Sign UP')}
+            {t('landing:SIGN_UP')}
           </Button>
         }
       />
