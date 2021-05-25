@@ -1,7 +1,7 @@
-import { Grid, makeStyles, Paper, Typography } from '@material-ui/core'
+import { Grid, makeStyles, Paper, Typography, Theme } from '@material-ui/core'
 import React, { ReactElement } from 'react'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     paddingTop: 100,
     paddingBottom: 30,

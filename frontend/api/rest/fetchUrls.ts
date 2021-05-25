@@ -1,5 +1,5 @@
 import { ResponseError } from '../../intefaces/interface'
-import { get } from '../../services/rest/get'
+import { get } from '../../services/rest'
 import { SERVER } from '../../utils/constants'
 
 interface GithubVCSConnection extends ResponseError<GithubVCSConnection> {

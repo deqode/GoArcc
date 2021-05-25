@@ -8,9 +8,9 @@ import { getAllUserAccounts } from '../../api/rest/user'
 import BasicLayout from '../../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../../components/PageHead'
 import CloneRepository from '../../components/tellUsMore/CloneRepository'
+import useGetTellUsMoreState from '../../components/tellUsMore/hooks/useGetTellUsMoreState'
 import ShowBranches from '../../components/tellUsMore/ShowBranches'
 import ShowRepos from '../../components/tellUsMore/ShowRepos'
-import useGetTellUsMoreState from '../../components/tellUsMore/useGetTellUsMoreState'
 import { UserResponse } from '../../intefaces/interface'
 import { sessionCongfig } from '../../utils/constants'
 import {
@@ -20,26 +20,15 @@ import {
 } from '../../utils/redirects'
 import { validateUser } from '../../utils/user'
 
-const TellUsMore = ({
-  user,
-  accountId,
-  ownerName,
-}: {
+interface TellUsMoreProps {
   user: UserResponse
   accountId: string
   ownerName: string
-}): ReactElement => {
+}
+const TellUsMore = ({ user, accountId, ownerName }: TellUsMoreProps): ReactElement => {
   const provider = 'GITHUB'
-  const {
-    currentRepo,
-    setCurrentRepo,
-    branchName,
-    setBranchName,
-    cloneUrl,
-    setCloneUrl,
-    setCloneData,
-  } = useGetTellUsMoreState()
-
+  const { state, dispatch, setCloneData } = useGetTellUsMoreState()
+  const { branchName, cloneUrl, currentRepo } = state
   return (
     <Paper elevation={0}>
       <PageHead title={Titles.DASHBOARD} />
@@ -52,7 +41,7 @@ const TellUsMore = ({
             <ShowRepos
               userId={user.userId}
               accountId={accountId}
-              setCurrentRepo={setCurrentRepo}
+              setCurrentRepo={dispatch}
               provider={provider}
             />
             <ShowBranches
@@ -60,8 +49,7 @@ const TellUsMore = ({
               repoName={currentRepo}
               accountId={accountId}
               provider={provider}
-              setBranchName={setBranchName}
-              setCloneUrl={setCloneUrl}
+              set={dispatch}
             />
             <CloneRepository
               ownerName={ownerName}
@@ -82,7 +70,6 @@ export const getServerSideProps = withSentry(
     if (validateUser(req)) {
       const user = req.session.get('user')
       const responseGetAllUserAccounts = await getAllUserAccounts(user.userId, user.idToken)
-
       if (responseGetAllUserAccounts.error && !responseGetAllUserAccounts.accounts.length) {
         return redirectToErrorPage('Network Error')
       }

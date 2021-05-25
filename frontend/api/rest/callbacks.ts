@@ -1,11 +1,11 @@
 import { ResponseError, UserResponse } from '../../intefaces/interface'
-import { get } from '../../services/rest/get'
+import { get } from '../../services/rest'
 import { SERVER } from '../../utils/constants'
 
 interface UserAuthResponse extends ResponseError<UserAuthResponse>, UserResponse {}
 
 export const getAuth0Callback = async (code: string, state: string): Promise<UserAuthResponse> => {
-  if (code !== '' && state !== '') {
+  if (code && state) {
     const response = await get<UserAuthResponse>(
       `${SERVER}/authentication/callback?code=${code}&state=${state}`
     )
@@ -49,7 +49,7 @@ export const getVCSConnectionGitHubCallback = async (
   idToken: string
 ): Promise<ResponseError<AccounID>> => {
   //TODO:any?
-  if (code !== '' && accountId !== '') {
+  if (code && accountId) {
     const response = await get<AccounID>(
       `${SERVER}/vcs-connection/GITHUB/callback?code=${code}&account_id=${accountId}`,
       { Authorization: `Bearer ${idToken}` }

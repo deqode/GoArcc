@@ -8,7 +8,7 @@ export const getOwnerName = async ({
   idToken: string
   accountId: string
 }): Promise<{ error: boolean; ownerName: string }> => {
-  if (idToken !== '') {
+  if (idToken) {
     const response = await client({ idToken, loggedIn: false }).query({
       query: GET_OWNER_NAME,
       variables: {

@@ -39,12 +39,10 @@ const Navbar = (): ReactElement => {
             </Link>
           </Grid>
           <Grid item>
-            {user.loggedIn ? (
+            {user.loggedIn && (
               <Button color="secondary" variant="contained" onClick={logout}>
                 {t('common:Logout')}
               </Button>
-            ) : (
-              ''
             )}
           </Grid>
         </Grid>

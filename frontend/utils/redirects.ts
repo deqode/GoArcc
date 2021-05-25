@@ -1,4 +1,4 @@
-interface RedirectReturn {
+export interface RedirectReturn {
   redirect: {
     permanent: boolean
     destination: string

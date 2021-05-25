@@ -42,6 +42,35 @@ exports[`dashboard/tell-us-more page tests should match the snapshot 1`] = `
               className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-12"
             >
               <div
+                className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                role="progressbar"
+                style={
+                  Object {
+                    "height": 40,
+                    "width": 40,
+                  }
+                }
+              >
+                <svg
+                  className="MuiCircularProgress-svg"
+                  viewBox="22 22 44 44"
+                >
+                  <circle
+                    className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                    cx={44}
+                    cy={44}
+                    fill="none"
+                    r={20.2}
+                    strokeWidth={3.6}
+                    style={Object {}}
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-12"
+            >
+              <div
                 className="MuiFormControl-root"
               >
                 <label
@@ -49,7 +78,7 @@ exports[`dashboard/tell-us-more page tests should match the snapshot 1`] = `
                   data-shrink={false}
                   id="demo-simple-select-outlined-label"
                 >
-                  Repo Name
+                  Branch Name
                 </label>
                 <div
                   className="MuiInputBase-root MuiOutlinedInput-root makeStyles-root-4 Mui-disabled Mui-disabled MuiInputBase-formControl"
@@ -107,35 +136,6 @@ exports[`dashboard/tell-us-more page tests should match the snapshot 1`] = `
                     </legend>
                   </fieldset>
                 </div>
-              </div>
-            </div>
-            <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-12"
-            >
-              <div
-                className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
-                role="progressbar"
-                style={
-                  Object {
-                    "height": 40,
-                    "width": 40,
-                  }
-                }
-              >
-                <svg
-                  className="MuiCircularProgress-svg"
-                  viewBox="22 22 44 44"
-                >
-                  <circle
-                    className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
-                    cx={44}
-                    cy={44}
-                    fill="none"
-                    r={20.2}
-                    strokeWidth={3.6}
-                    style={Object {}}
-                  />
-                </svg>
               </div>
             </div>
             <div

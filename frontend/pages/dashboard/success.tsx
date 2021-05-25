@@ -4,8 +4,8 @@ import { ReactElement } from 'react'
 
 import BasicLayout from '../../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../../components/PageHead'
-import { IronSessionRequest } from '../../intefaces/interface'
-import { redirectToLandingPage } from '../../utils/redirects'
+import { IronSessionRequest, UserResponse } from '../../intefaces/interface'
+import { RedirectReturn, redirectToLandingPage } from '../../utils/redirects'
 import { sessionPropsWrapper, validateUser } from '../../utils/user'
 
 const Success = (): ReactElement => {
@@ -22,7 +22,11 @@ const Success = (): ReactElement => {
   )
 }
 
-export const handler = async ({ req }: { req: IronSessionRequest }) => {
+export const handler = async ({
+  req,
+}: {
+  req: IronSessionRequest
+}): Promise<RedirectReturn | { props: { user: UserResponse } }> => {
   if (validateUser(req)) {
     return { props: { user: req.session.get('user') } }
   }

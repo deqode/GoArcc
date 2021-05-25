@@ -1,5 +1,5 @@
 import { ResponseError, UserAccount } from '../../intefaces/interface'
-import { get } from '../../services/rest/get'
+import { get } from '../../services/rest'
 import { SERVER } from '../../utils/constants'
 
 export interface AllUserAccounts extends ResponseError<AllUserAccounts> {

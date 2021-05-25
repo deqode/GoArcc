@@ -1,5 +1,5 @@
 import { ResponseError, UserResponse } from '../../intefaces/interface'
-import { post } from '../../services/rest/post'
+import { post } from '../../services/rest'
 
 interface Session {
   success: boolean

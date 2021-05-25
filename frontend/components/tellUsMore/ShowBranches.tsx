@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import {
   CircularProgress,
   FormControl,
@@ -7,18 +6,19 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core'
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, ReactElement } from 'react'
 
-import { GET_BRANCHES } from '../../GraphQL/Query'
 import { useSelectStyles } from '../../styles/commonStyles'
+
+import useBranchList from './hooks/useBranchList'
+import { Action } from './hooks/useGetTellUsMoreState'
 
 interface ShowBranchesInput {
   ownerName: string
   repoName: string
   accountId: string
   provider: string
-  setBranchName: Dispatch<SetStateAction<string>>
-  setCloneUrl: Dispatch<SetStateAction<string>>
+  set: Dispatch<Action>
 }
 
 const ShowBranches = ({
@@ -26,29 +26,15 @@ const ShowBranches = ({
   repoName,
   accountId,
   provider,
-  setBranchName,
-  setCloneUrl,
+  set,
 }: ShowBranchesInput): ReactElement => {
-  const [branches, setbranches] = useState<Array<string>>([])
+  const { loading, branches, cloneUrl /*error*/ } = useBranchList(
+    ownerName,
+    repoName,
+    accountId,
+    provider
+  )
   const classes = useSelectStyles()
-
-  const { loading, error, data } = useQuery(GET_BRANCHES, {
-    variables: {
-      ownerName,
-      repoName,
-      accountId,
-      provider,
-    },
-  })
-
-  useEffect(() => {
-    // if(error)
-    // TODO:pop error
-    if (data && data.repository) {
-      setbranches(data.repository.branches || [])
-      setCloneUrl(data.repository.repo_url)
-    }
-  }, [data, error])
 
   const selectBranch = (
     e: React.ChangeEvent<{
@@ -56,7 +42,14 @@ const ShowBranches = ({
       value: unknown
     }>
   ): void => {
-    setBranchName(e.target.value as string)
+    set({
+      type: 'branchName',
+      value: e.target.value as string,
+    })
+    set({
+      type: 'cloneUrl',
+      value: cloneUrl,
+    })
   }
 
   return (

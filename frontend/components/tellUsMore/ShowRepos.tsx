@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/client'
 import {
   CircularProgress,
   FormControl,
@@ -7,11 +6,16 @@ import {
   MenuItem,
   Select,
 } from '@material-ui/core'
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, ReactElement } from 'react'
 
-import { GET_REPOSITORIES } from '../../GraphQL/Query'
 import { useSelectStyles } from '../../styles/commonStyles'
 
+import { Action } from './hooks/useGetTellUsMoreState'
+import useRepoList from './hooks/useRepoList'
+
+export interface Repos {
+  name: string
+}
 const ShowRepos = ({
   userId,
   accountId,
@@ -20,27 +24,12 @@ const ShowRepos = ({
 }: {
   userId: string
   accountId: string
-  setCurrentRepo: Dispatch<SetStateAction<string>>
+  setCurrentRepo: Dispatch<Action>
   provider: string
 }): ReactElement => {
-  const { loading, error, data } = useQuery(GET_REPOSITORIES, {
-    variables: {
-      provider: provider,
-      userId,
-      accountId,
-    },
-  })
-  interface Repos {
-    name: string
-  }
-  const [repos, setRepos] = useState<Array<Repos>>([])
-  const classes = useSelectStyles()
+  const { loading, repos } = useRepoList(provider, userId, accountId)
 
-  useEffect(() => {
-    // if(error)
-    // TODO:pop error
-    if (data && data.repositories) setRepos(data.repositories.repositories || [])
-  }, [data, error])
+  const classes = useSelectStyles()
 
   const selectRepo = (
     e: React.ChangeEvent<{
@@ -48,32 +37,39 @@ const ShowRepos = ({
       value: unknown
     }>
   ): void => {
-    setCurrentRepo(e.target.value as string)
+    setCurrentRepo({
+      type: 'currentRepo',
+      value: e.target.value as string,
+    })
   }
 
   return (
     <Grid item xs={12} md={12}>
-      <FormControl variant="outlined">
-        <InputLabel id="demo-simple-select-outlined-label">Repo Name</InputLabel>
-        <Select
-          className={classes.root}
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          label="Repo Name"
-          disabled={!(repos.length > 0)}
-          onChange={selectRepo}>
-          {loading && (
-            <MenuItem value="">
-              <CircularProgress color="secondary" />
-            </MenuItem>
-          )}
-          {repos.map((repo: Repos) => (
-            <MenuItem key={repo.name} value={repo.name}>
-              {repo.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <FormControl variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Repo Name</InputLabel>
+          <Select
+            className={classes.root}
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            label="Repo Name"
+            disabled={!(repos.length > 0)}
+            onChange={selectRepo}>
+            {loading && (
+              <MenuItem value="">
+                <CircularProgress color="secondary" />
+              </MenuItem>
+            )}
+            {repos.map((repo: Repos) => (
+              <MenuItem key={repo.name} value={repo.name}>
+                {repo.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
     </Grid>
   )
 }

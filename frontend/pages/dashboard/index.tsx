@@ -8,16 +8,19 @@ import { getGithubVCSConnection } from '../../api/rest/fetchUrls'
 import BasicLayout from '../../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../../components/PageHead'
 import { IronSessionRequest, UserResponse } from '../../intefaces/interface'
-import { redirectToLandingPage } from '../../utils/redirects'
+import { RedirectReturn, redirectToLandingPage } from '../../utils/redirects'
 import { validateUser, sessionPropsWrapper } from '../../utils/user'
 
-export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
+interface DashboardProps {
+  user: UserResponse
+}
+export const Dashboard = ({ user }: DashboardProps): ReactElement => {
   const [url, setUrl] = useState<string>('')
   const router = useRouter()
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (user.idToken !== '') {
+    if (user.idToken) {
       ;(async () => {
         const res = await getGithubVCSConnection(user.idToken)
         if (res.error) {
@@ -51,7 +54,11 @@ export const Dashboard = ({ user }: { user: UserResponse }): ReactElement => {
   )
 }
 
-export const handler = async ({ req }: { req: IronSessionRequest }) => {
+export const handler = async ({
+  req,
+}: {
+  req: IronSessionRequest
+}): Promise<RedirectReturn | { props: DashboardProps }> => {
   if (validateUser(req)) {
     return { props: { user: req.session.get('user') } }
   }

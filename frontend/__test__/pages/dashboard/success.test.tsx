@@ -1,7 +1,13 @@
 import renderer from 'react-test-renderer'
 
+import { UserResponse } from '../../../intefaces/interface'
 import Success, { handler } from '../../../pages/dashboard/success'
 
+const mockUser: UserResponse = {
+  accessToken: 'mockAccessToken',
+  idToken: 'mockidToken',
+  userId: 'mockuserId',
+}
 describe('dashboard/success page tests', () => {
   it('should match the snapshot', () => {
     const tree = renderer.create(<Success />).toJSON()
@@ -21,9 +27,9 @@ describe('dashboard/success page tests', () => {
   })
   it('should return user if session is available', async () => {
     const req = {
-      session: { get: jest.fn(() => 'MockUser'), save: jest.fn() },
+      session: { get: jest.fn(() => mockUser), save: jest.fn() },
     }
     const response = await handler({ req })
-    expect(response).toStrictEqual({ props: { user: 'MockUser' } })
+    expect(response).toStrictEqual({ props: { user: mockUser } })
   })
 })

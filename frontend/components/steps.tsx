@@ -58,7 +58,7 @@ export default function VerticalLinearStepper(props: any) {
   const steps = getSteps()
 
   useEffect(() => {
-    if (workflowID !== '' && runID !== '') {
+    if (workflowID && runID) {
       setclonningState(0)
       checkClonningStatus()
     }

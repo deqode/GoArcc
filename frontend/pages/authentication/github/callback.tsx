@@ -12,14 +12,17 @@ import { UserResponse } from '../../../intefaces/interface'
 import { sessionCongfig } from '../../../utils/constants'
 import { validateUser } from '../../../utils/user'
 
-const Callback = ({ user }: { user: UserResponse }): ReactElement => {
-  const router = useRouter()
+interface CallbackProps {
+  user: UserResponse
+}
 
+const Callback = ({ user }: CallbackProps): ReactElement => {
+  const router = useRouter()
   const { query } = router
   useEffect(() => {
     if (query.code && query.code.length > 0) {
       ;(async () => {
-        if (query.code && query.code && user.userId !== '') {
+        if (query.code && query.code && user.userId) {
           const res = await getAllUserAccounts(user.userId, user.idToken)
           if (res.error) {
             router.push('/error?message=user not found')

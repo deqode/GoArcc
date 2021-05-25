@@ -59,10 +59,10 @@ exports[`should render branches list and match snapshot if repo name is set 1`] 
       </svg>
       <fieldset
         aria-hidden={true}
-        className="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
+        className="PrivateNotchedOutline-root-6 MuiOutlinedInput-notchedOutline"
       >
         <legend
-          className="PrivateNotchedOutline-legendLabelled-4"
+          className="PrivateNotchedOutline-legendLabelled-8"
         >
           <span>
             Repo Name

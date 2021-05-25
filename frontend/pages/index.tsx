@@ -7,10 +7,14 @@ import { ReactElement } from 'react'
 import { getLoginURL } from '../api/rest/fetchUrls'
 import BasicLayout from '../components/layouts/BasicLayout'
 import PageHead, { Titles } from '../components/PageHead'
-import { redirectToErrorPage, redirectToDashboard } from '../utils/redirects'
+import { redirectToErrorPage, redirectToDashboard, RedirectReturn } from '../utils/redirects'
 import { sessionPropsWrapper, validateUser } from '../utils/user'
 
-const Landing = ({ url }: { url: string }): ReactElement => {
+interface LandingProps {
+  url: string
+}
+
+const Landing = ({ url }: LandingProps): ReactElement => {
   const { t } = useTranslation()
 
   return (
@@ -31,7 +35,11 @@ const Landing = ({ url }: { url: string }): ReactElement => {
   )
 }
 
-export const handler = async ({ req }: { req: NextApiRequest }) => {
+export const handler = async ({
+  req,
+}: {
+  req: NextApiRequest
+}): Promise<RedirectReturn | { props: LandingProps }> => {
   if (!validateUser(req)) {
     const res = await getLoginURL()
     if (!res.error) return { props: { url: res.url } }
