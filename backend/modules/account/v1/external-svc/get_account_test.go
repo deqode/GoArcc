@@ -27,15 +27,10 @@ var _ = Describe("Describe:GetAccount", func() {
 
 			})
 		})
-		Context("Get an error when id is empty", func() {
-			It("it should return validation error", func() {
-				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: ""})
-				Expect(err.(pb.GetAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
-			})
-		})
+
 		Context("Get an error when id is wrong", func() {
 			It("should return not found error", func() {
-				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: "4389-jdk-8549"})
+				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: "2e8a45a2-d29b-4764-b548-459db10e6a46"})
 				Expect(err).Should(Equal(gorm.ErrRecordNotFound))
 			})
 		})

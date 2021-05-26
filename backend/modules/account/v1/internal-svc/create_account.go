@@ -1,13 +1,11 @@
 package internal_svc
 
 import (
-	databaseHelper "alfred.sh/common/database/helper"
 	model "alfred/modules/account/v1/models"
 	"alfred/modules/account/v1/pb"
 	"context"
-	"github.com/hashicorp/go-uuid"
-	"gorm.io/gorm"
-	"time"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccountRequest) (*pb.Account, error) {
@@ -15,25 +13,15 @@ func (s accountsIntServer) CreateAccount(ctx context.Context, in *pb.CreateAccou
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	id, err := uuid.GenerateUUID()
-	if err != nil {
-		return nil, err
-	}
 
 	//prepare insert object
 	accountModel := &model.Account{
-		ID:        id,
-		Slug:      in.Account.Slug,
-		UserID:    in.Account.UserId,
-		CreatedAt: time.Time{},
-		UpdatedAt: time.Time{},
-		DeletedAt: gorm.DeletedAt{},
+		Slug:   in.Account.Slug,
+		UserID: in.Account.UserId,
 	}
 	//insert into db
-	gormDb := s.db
-	tx := gormDb.Create(accountModel)
-	if err := databaseHelper.ValidateResult(tx); err != nil {
-		return nil, err
+	if s.db.Create(accountModel).Error != nil {
+		return nil, status.Error(codes.Internal, "Record not inserted in Account")
 	}
 	return &pb.Account{
 		Id:     accountModel.ID,

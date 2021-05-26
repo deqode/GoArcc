@@ -23,7 +23,7 @@ type AccountsClient interface {
 	//GetAccount get account details by its unique id
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*Account, error)
 	//GetUserAccounts will list all the accounts of user
-	GetUserAccounts(ctx context.Context, in *GetUserAccountsRequest, opts ...grpc.CallOption) (*GetUserAccountsResponse, error)
+	GetUserAccounts(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetUserAccountsResponse, error)
 	//DeleteAccount delete the existing account from DB
 	//This will be soft delete in DB
 	DeleteAccount(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -55,7 +55,7 @@ func (c *accountsClient) GetAccount(ctx context.Context, in *GetAccountRequest, 
 	return out, nil
 }
 
-func (c *accountsClient) GetUserAccounts(ctx context.Context, in *GetUserAccountsRequest, opts ...grpc.CallOption) (*GetUserAccountsResponse, error) {
+func (c *accountsClient) GetUserAccounts(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetUserAccountsResponse, error) {
 	out := new(GetUserAccountsResponse)
 	err := c.cc.Invoke(ctx, "/alfred.account.v1.Accounts/GetUserAccounts", in, out, opts...)
 	if err != nil {
@@ -82,7 +82,7 @@ type AccountsServer interface {
 	//GetAccount get account details by its unique id
 	GetAccount(context.Context, *GetAccountRequest) (*Account, error)
 	//GetUserAccounts will list all the accounts of user
-	GetUserAccounts(context.Context, *GetUserAccountsRequest) (*GetUserAccountsResponse, error)
+	GetUserAccounts(context.Context, *empty.Empty) (*GetUserAccountsResponse, error)
 	//DeleteAccount delete the existing account from DB
 	//This will be soft delete in DB
 	DeleteAccount(context.Context, *DeleteAccountRequest) (*empty.Empty, error)
@@ -98,7 +98,7 @@ func (UnimplementedAccountsServer) UpdateAccount(context.Context, *UpdateAccount
 func (UnimplementedAccountsServer) GetAccount(context.Context, *GetAccountRequest) (*Account, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
-func (UnimplementedAccountsServer) GetUserAccounts(context.Context, *GetUserAccountsRequest) (*GetUserAccountsResponse, error) {
+func (UnimplementedAccountsServer) GetUserAccounts(context.Context, *empty.Empty) (*GetUserAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserAccounts not implemented")
 }
 func (UnimplementedAccountsServer) DeleteAccount(context.Context, *DeleteAccountRequest) (*empty.Empty, error) {
@@ -153,7 +153,7 @@ func _Accounts_GetAccount_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _Accounts_GetUserAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserAccountsRequest)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func _Accounts_GetUserAccounts_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/alfred.account.v1.Accounts/GetUserAccounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).GetUserAccounts(ctx, req.(*GetUserAccountsRequest))
+		return srv.(AccountsServer).GetUserAccounts(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

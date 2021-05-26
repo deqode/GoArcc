@@ -28,15 +28,6 @@ var _ = Describe("Delete A Account", func() {
 		usrProfileInServer = UsrProfileInServerTest
 	})
 
-	Describe("Get an error if wrong id is provided", func() {
-		Context("Context:When id is empty", func() {
-			It("It:Error must be returned", func() {
-				_, err := accountServer.DeleteAccount(CtxTest, &pb.DeleteAccountRequest{Id: ""})
-				Expect(err.(pb.DeleteAccountRequestValidationError).Reason()).Should(Equal("value length must be at least 3 runes"))
-			})
-		})
-	})
-
 	Describe("Get a non nil error if valid id is provided", func() {
 		// BeforeEach will run after each It Block in this Describe
 		BeforeEach(func() {
