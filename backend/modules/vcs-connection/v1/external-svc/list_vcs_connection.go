@@ -1,6 +1,7 @@
 package external_svc
 
 import (
+	internal_svc "alfred/modules/vcs-connection/v1/internal-svc"
 	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
@@ -13,7 +14,8 @@ func (s *vcsConnectionServer) ListVCSConnection(ctx context.Context, in *pb.List
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	if err := s.ValidateUser(ctx, in.GetAccountId()); err != nil {
+	// validate account belongs to logged in user
+	if err := internal_svc.ValidateUserFromContext(ctx, in.GetAccountId(), s.db); err != nil {
 		return nil, err
 	}
 	var record []models.VCSConnection

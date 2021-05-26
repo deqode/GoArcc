@@ -127,7 +127,7 @@ var _ = BeforeSuite(func() {
 	}
 
 	// create A VCS Connection as well
-	_, err = vcsIntServer.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
+	vcs, err = vcsIntServer.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
 		VcsConnection: vcs,
 	})
 	if err != nil {

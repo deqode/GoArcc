@@ -33,6 +33,9 @@ var (
 	_ = anypb.Any{}
 )
 
+// define the regex for a UUID once up-front
+var _account_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
 // Validate checks the field values on DeleteAccountRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -41,11 +44,20 @@ func (m *DeleteAccountRequest) Validate() error {
 		return nil
 	}
 
-	if utf8.RuneCountInString(m.GetId()) < 3 {
+	if err := m._validateUuid(m.GetId()); err != nil {
 		return DeleteAccountRequestValidationError{
 			field:  "Id",
-			reason: "value length must be at least 3 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
+	}
+
+	return nil
+}
+
+func (m *DeleteAccountRequest) _validateUuid(uuid string) error {
+	if matched := _account_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -115,14 +127,22 @@ func (m *UpdateAccountRequest) Validate() error {
 		return nil
 	}
 
-	if v, ok := interface{}(m.GetAccount()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return UpdateAccountRequestValidationError{
-				field:  "Account",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
+	if err := m._validateUuid(m.GetId()); err != nil {
+		return UpdateAccountRequestValidationError{
+			field:  "Id",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
+	}
+
+	// no validation rules for Slug
+
+	return nil
+}
+
+func (m *UpdateAccountRequest) _validateUuid(uuid string) error {
+	if matched := _account_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -192,11 +212,20 @@ func (m *GetAccountRequest) Validate() error {
 		return nil
 	}
 
-	if utf8.RuneCountInString(m.GetId()) < 3 {
+	if err := m._validateUuid(m.GetId()); err != nil {
 		return GetAccountRequestValidationError{
 			field:  "Id",
-			reason: "value length must be at least 3 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
+	}
+
+	return nil
+}
+
+func (m *GetAccountRequest) _validateUuid(uuid string) error {
+	if matched := _account_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -257,80 +286,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetAccountRequestValidationError{}
-
-// Validate checks the field values on GetUserAccountsRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
-func (m *GetUserAccountsRequest) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	if utf8.RuneCountInString(m.GetUserId()) < 3 {
-		return GetUserAccountsRequestValidationError{
-			field:  "UserId",
-			reason: "value length must be at least 3 runes",
-		}
-	}
-
-	return nil
-}
-
-// GetUserAccountsRequestValidationError is the validation error returned by
-// GetUserAccountsRequest.Validate if the designated constraints aren't met.
-type GetUserAccountsRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e GetUserAccountsRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e GetUserAccountsRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e GetUserAccountsRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e GetUserAccountsRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e GetUserAccountsRequestValidationError) ErrorName() string {
-	return "GetUserAccountsRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e GetUserAccountsRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sGetUserAccountsRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = GetUserAccountsRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = GetUserAccountsRequestValidationError{}
 
 // Validate checks the field values on GetUserAccountsResponse with the rules
 // defined in the proto definition for this message. If any rules are

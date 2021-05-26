@@ -39,10 +39,9 @@ func TestVCSConnectionExt(t *testing.T) {
 }
 
 var (
-	CtxTest          context.Context
-	VcsIntServerTest pb.VCSConnectionInternalServer
-	VcsServerTest    pb.VCSConnectionsServer
-	VCSTest          *pb.VCSConnection
+	CtxTest       context.Context
+	VcsServerTest pb.VCSConnectionsServer
+	VCSTest       *pb.VCSConnection
 )
 
 // This block will run only once
@@ -129,7 +128,7 @@ var _ = BeforeSuite(func() {
 	}
 
 	// create A VCS Connection as well
-	_, err = vcsIntServer.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
+	vcs, err = vcsIntServer.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
 		VcsConnection: vcs,
 	})
 	if err != nil {
@@ -137,7 +136,6 @@ var _ = BeforeSuite(func() {
 	}
 	//initialize to global variable here
 	CtxTest = ctx
-	VcsIntServerTest = vcsIntServer
 	VcsServerTest = vcsExtServer
 	VCSTest = vcs
 })
@@ -145,7 +143,6 @@ var _ = BeforeSuite(func() {
 // must initialize nil to global variable after suit is complete
 var _ = AfterSuite(func() {
 	CtxTest = nil
-	VcsIntServerTest = nil
+	VcsServerTest = nil
 	VCSTest = nil
-	VcsIntServerTest = nil
 })

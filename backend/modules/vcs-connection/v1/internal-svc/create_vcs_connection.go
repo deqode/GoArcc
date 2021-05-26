@@ -5,17 +5,11 @@ import (
 	"alfred/modules/vcs-connection/v1/pb"
 	"context"
 	"github.com/golang/protobuf/ptypes"
-	"github.com/hashicorp/go-uuid"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func (s *vcsConnectionIntServer) CreateVCSConnection(ctx context.Context, in *pb.CreateVCSConnectionRequest) (*pb.VCSConnection, error) {
-	if in == nil || in.VcsConnection == nil {
-		return nil, status.Error(codes.FailedPrecondition, "Request is nil")
-	}
-	id, err := uuid.GenerateUUID()
-	if err != nil {
+	//validate a request
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
 	aTEP, err := ptypes.Timestamp(in.VcsConnection.AccessTokenExpiry)
@@ -27,7 +21,6 @@ func (s *vcsConnectionIntServer) CreateVCSConnection(ctx context.Context, in *pb
 		return nil, err
 	}
 	VCSModel := &models.VCSConnection{
-		ID:                 id,
 		Provider:           in.VcsConnection.Provider,
 		ConnectionID:       in.VcsConnection.ConnectionId,
 		AccessToken:        in.VcsConnection.AccessToken,
@@ -44,6 +37,6 @@ func (s *vcsConnectionIntServer) CreateVCSConnection(ctx context.Context, in *pb
 	if t.Error != nil {
 		return nil, t.Error
 	}
-	//todo Get from DB
+	in.VcsConnection.Id = VCSModel.ID
 	return in.VcsConnection, nil
 }

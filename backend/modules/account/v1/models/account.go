@@ -2,6 +2,7 @@ package models
 
 import (
 	"alfred.sh/common/logger"
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"time"
@@ -9,7 +10,7 @@ import (
 
 // Account - A user can have multiple accounts
 type Account struct {
-	ID        string `sql:"type:uuid;primary_key;"`
+	ID        string `gorm:"primary_key;unique;type:uuid"`
 	Slug      string
 	UserID    string
 	CreatedAt time.Time
@@ -29,4 +30,9 @@ func InitialMigrationAccount(db *gorm.DB) {
 			logger.Log.Debug("unable to account table")
 		}
 	}
+}
+
+func (o *Account) BeforeCreate(tx *gorm.DB) (err error) {
+	o.ID = uuid.New().String()
+	return
 }

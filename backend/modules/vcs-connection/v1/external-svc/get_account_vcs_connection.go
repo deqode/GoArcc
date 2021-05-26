@@ -1,6 +1,7 @@
 package external_svc
 
 import (
+	"alfred/modules/vcs-connection/v1/internal-svc"
 	"alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"context"
@@ -12,9 +13,12 @@ func (s *vcsConnectionServer) GetAccountVCSConnection(ctx context.Context, in *p
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	if err := s.ValidateUser(ctx, in.GetAccountId()); err != nil {
+
+	// validate account belongs to logged in user
+	if err := internal_svc.ValidateUserFromContext(ctx, in.GetAccountId(), s.db); err != nil {
 		return nil, err
 	}
+
 	var record models.VCSConnection
 	//todo : by default why there is  and condition
 	chain := s.db.Where("account_id = ?", in.AccountId).Where("id = ?", in.Id)

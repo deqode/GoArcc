@@ -9,7 +9,10 @@ import (
 	"alfred/modules/account/v1/pb"
 	usrInt "alfred/modules/user-profile/v1/internal-svc"
 	usrPb "alfred/modules/user-profile/v1/pb"
+	"alfred/protos/types"
+	"alfred/util/userinfo"
 	"context"
+	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"go.uber.org/zap"
@@ -17,12 +20,13 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"testing"
+	"time"
 )
 
 var (
-	AccountServerTest        pb.AccountInternalServer
-	CtxTest                  context.Context
-	UserProfileIntServerTest usrPb.UserProfileInternalServer
+	AccountServerTest pb.AccountInternalServer
+	CtxTest           context.Context
+	UsrProfile        *usrPb.UserProfile
 )
 
 func TestAccountInternalSvc(t *testing.T) {
@@ -64,15 +68,39 @@ var _ = BeforeSuite(func() {
 
 	ctx := context.Background()
 
+	//create UserProfile
+	id := "github_" + faker.Username()
+	// Create a UserProfile before getting
+	res, err := userProfileIntServer.CreateUserProfile(ctx, &usrPb.CreateUserProfileRequest{UserProfile: &usrPb.UserProfile{
+		Id:             id,
+		Sub:            id,
+		Name:           faker.Name(),
+		UserName:       faker.Username(),
+		Email:          faker.Email(),
+		PhoneNumber:    faker.Phonenumber(),
+		ExternalSource: types.VCSProviders_GITHUB,
+		ProfilePicUrl:  faker.URL(),
+		TokenValidTill: nil,
+	}})
+	if err != nil {
+		log.Fatal(err)
+	}
+	ui := userinfo.UserInfo{
+		ID:          res.Id,
+		Email:       res.Email,
+		Sub:         res.Sub,
+		TokenExpiry: time.Time{},
+	}
+	ctx = userinfo.NewContext(context.Background(), ui)
 	//initialize to global variable here
 	CtxTest = ctx
 	AccountServerTest = actInServer
-	UserProfileIntServerTest = userProfileIntServer
+	UsrProfile = res
 })
 
 // must initialize nil to global variable after suit is complete
 var _ = AfterSuite(func() {
 	AccountServerTest = nil
 	CtxTest = nil
-	UserProfileIntServerTest = nil
+	UsrProfile = nil
 })

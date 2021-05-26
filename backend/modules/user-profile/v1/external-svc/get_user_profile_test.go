@@ -1,12 +1,14 @@
 package external_svc_test
 
 import (
-	"alfred/modules/user-profile/v1/external-svc"
 	"alfred/modules/user-profile/v1/pb"
+	"alfred/util/userinfo"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"gorm.io/gorm"
 	_ "log"
+	"time"
 )
 
 var _ = Describe("GetUserProfile", func() {
@@ -17,11 +19,25 @@ var _ = Describe("GetUserProfile", func() {
 
 	// this block will run after each it block
 	BeforeEach(func() {
-		userProfileServer = external_svc.UserProfileServerTest
-		ctx = external_svc.CtxTest
+		userProfileServer = UserProfileServerTest
+		ctx = CtxTest
 	})
 
+	// negative
 	By("internal or external call")
+	Context("Get an error when id is wrong", func() {
+		It("Return record not found error", func() {
+			ui := userinfo.UserInfo{
+				ID:          "Id",
+				Email:       "Email",
+				Sub:         "Sub",
+				TokenExpiry: time.Time{},
+			}
+			newCtx := userinfo.NewContext(context.Background(), ui)
+			_, err := userProfileServer.GetUserProfile(newCtx, nil)
+			Expect(err).Should(Equal(gorm.ErrRecordNotFound))
+		})
+	})
 	// positive
 	Context("Get a record when id is provided", func() {
 		It("should return requested field in the object", func() {

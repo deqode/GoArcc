@@ -80,19 +80,19 @@ message CallbackRequest{
     types.VCSProviders provider = 1 [(validate.rules).enum = {not_in: [0]}];
     string state = 2;
     string code = 3  [(validate.rules).string.min_len = 3];
-    string account_id = 4 [(validate.rules).string.min_len = 3];
+    string account_id = 4 [(validate.rules).string.uuid = true];
 }
 
 message AccountVCSConnection{
-    string id = 1[(validate.rules).string.min_len = 3];
+    string id = 1[(validate.rules).string.uuid = true];
     types.VCSProviders provider = 2;
-    string account_id = 3[(validate.rules).string.min_len = 3];
+    string account_id = 3 [(validate.rules).string.uuid = true];
     string label = 4;
     string user_name = 5 ;
 }
 
 message ListVCSConnectionRequest{
-    string account_id = 1;
+    string account_id = 1 [(validate.rules).string.uuid = true];
     types.VCSProviders provider = 2;
 }
 
@@ -102,13 +102,13 @@ message ListVCSConnectionResponse{
 
 message GetVCSConnectionRequest{
     string id = 1;
-    string account_id = 2[(validate.rules).string.min_len = 3];
+    string account_id = 2 [(validate.rules).string.uuid = true];
     types.VCSProviders provider = 3;
 }
 
 message RevokeVCSTokenRequest{
     types.VCSProviders provider = 2;
-    string vcs_id = 1;
+    string vcs_id = 1 [(validate.rules).string.uuid = true];
 }
 message RenewVCSTokenRequest{
     types.VCSProviders provider = 1;

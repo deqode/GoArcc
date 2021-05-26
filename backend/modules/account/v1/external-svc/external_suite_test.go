@@ -88,7 +88,7 @@ var _ = BeforeSuite(func() {
 		TokenValidTill: nil,
 	}})
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 	ui := userinfo.UserInfo{
 		ID:          res.Id,
@@ -103,7 +103,7 @@ var _ = BeforeSuite(func() {
 		UserId: res.Id,
 	}})
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 
 	//initialize to global variable here

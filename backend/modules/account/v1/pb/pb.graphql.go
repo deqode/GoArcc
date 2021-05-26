@@ -14,13 +14,11 @@ import (
 var (
 	gql__type_UpdateAccountRequest     *graphql.Object      // message UpdateAccountRequest in pb/account.proto
 	gql__type_GetUserAccountsResponse  *graphql.Object      // message GetUserAccountsResponse in pb/account.proto
-	gql__type_GetUserAccountsRequest   *graphql.Object      // message GetUserAccountsRequest in pb/account.proto
 	gql__type_GetAccountRequest        *graphql.Object      // message GetAccountRequest in pb/account.proto
 	gql__type_DeleteAccountRequest     *graphql.Object      // message DeleteAccountRequest in pb/account.proto
 	gql__type_Account                  *graphql.Object      // message Account in pb/account.proto
 	gql__input_UpdateAccountRequest    *graphql.InputObject // message UpdateAccountRequest in pb/account.proto
 	gql__input_GetUserAccountsResponse *graphql.InputObject // message GetUserAccountsResponse in pb/account.proto
-	gql__input_GetUserAccountsRequest  *graphql.InputObject // message GetUserAccountsRequest in pb/account.proto
 	gql__input_GetAccountRequest       *graphql.InputObject // message GetAccountRequest in pb/account.proto
 	gql__input_DeleteAccountRequest    *graphql.InputObject // message DeleteAccountRequest in pb/account.proto
 	gql__input_Account                 *graphql.InputObject // message Account in pb/account.proto
@@ -31,8 +29,11 @@ func Gql__type_UpdateAccountRequest() *graphql.Object {
 		gql__type_UpdateAccountRequest = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Pb_Type_UpdateAccountRequest",
 			Fields: graphql.Fields{
-				"account": &graphql.Field{
-					Type: Gql__type_Account(),
+				"id": &graphql.Field{
+					Type: graphql.String,
+				},
+				"slug": &graphql.Field{
+					Type: graphql.String,
 				},
 			},
 		})
@@ -54,27 +55,13 @@ func Gql__type_GetUserAccountsResponse() *graphql.Object {
 	return gql__type_GetUserAccountsResponse
 }
 
-func Gql__type_GetUserAccountsRequest() *graphql.Object {
-	if gql__type_GetUserAccountsRequest == nil {
-		gql__type_GetUserAccountsRequest = graphql.NewObject(graphql.ObjectConfig{
-			Name: "Pb_Type_GetUserAccountsRequest",
-			Fields: graphql.Fields{
-				"user_id": &graphql.Field{
-					Type: graphql.NewNonNull(graphql.String),
-				},
-			},
-		})
-	}
-	return gql__type_GetUserAccountsRequest
-}
-
 func Gql__type_GetAccountRequest() *graphql.Object {
 	if gql__type_GetAccountRequest == nil {
 		gql__type_GetAccountRequest = graphql.NewObject(graphql.ObjectConfig{
 			Name: "Pb_Type_GetAccountRequest",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
-					Type: graphql.NewNonNull(graphql.String),
+					Type: graphql.String,
 				},
 			},
 		})
@@ -88,7 +75,7 @@ func Gql__type_DeleteAccountRequest() *graphql.Object {
 			Name: "Pb_Type_DeleteAccountRequest",
 			Fields: graphql.Fields{
 				"id": &graphql.Field{
-					Type: graphql.NewNonNull(graphql.String),
+					Type: graphql.String,
 				},
 			},
 		})
@@ -124,8 +111,11 @@ func Gql__input_UpdateAccountRequest() *graphql.InputObject {
 		gql__input_UpdateAccountRequest = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Pb_Input_UpdateAccountRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
-				"account": &graphql.InputObjectFieldConfig{
-					Type: Gql__input_Account(),
+				"id": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
+				},
+				"slug": &graphql.InputObjectFieldConfig{
+					Type: graphql.String,
 				},
 			},
 		})
@@ -147,27 +137,13 @@ func Gql__input_GetUserAccountsResponse() *graphql.InputObject {
 	return gql__input_GetUserAccountsResponse
 }
 
-func Gql__input_GetUserAccountsRequest() *graphql.InputObject {
-	if gql__input_GetUserAccountsRequest == nil {
-		gql__input_GetUserAccountsRequest = graphql.NewInputObject(graphql.InputObjectConfig{
-			Name: "Pb_Input_GetUserAccountsRequest",
-			Fields: graphql.InputObjectConfigFieldMap{
-				"user_id": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewNonNull(graphql.String),
-				},
-			},
-		})
-	}
-	return gql__input_GetUserAccountsRequest
-}
-
 func Gql__input_GetAccountRequest() *graphql.InputObject {
 	if gql__input_GetAccountRequest == nil {
 		gql__input_GetAccountRequest = graphql.NewInputObject(graphql.InputObjectConfig{
 			Name: "Pb_Input_GetAccountRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewNonNull(graphql.String),
+					Type: graphql.String,
 				},
 			},
 		})
@@ -181,7 +157,7 @@ func Gql__input_DeleteAccountRequest() *graphql.InputObject {
 			Name: "Pb_Input_DeleteAccountRequest",
 			Fields: graphql.InputObjectConfigFieldMap{
 				"id": &graphql.InputObjectFieldConfig{
-					Type: graphql.NewNonNull(graphql.String),
+					Type: graphql.String,
 				},
 			},
 		})
@@ -258,8 +234,7 @@ func (x *graphql__resolver_Accounts) GetQueries(conn *grpc.ClientConn) graphql.F
 			Type: Gql__type_Account(),
 			Args: graphql.FieldConfigArgument{
 				"id": &graphql.ArgumentConfig{
-					Type:         graphql.NewNonNull(graphql.String),
-					DefaultValue: "",
+					Type: graphql.String,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -277,14 +252,9 @@ func (x *graphql__resolver_Accounts) GetQueries(conn *grpc.ClientConn) graphql.F
 		},
 		"userAccounts": &graphql.Field{
 			Type: Gql__type_GetUserAccountsResponse(),
-			Args: graphql.FieldConfigArgument{
-				"user_id": &graphql.ArgumentConfig{
-					Type:         graphql.NewNonNull(graphql.String),
-					DefaultValue: "",
-				},
-			},
+			Args: graphql.FieldConfigArgument{},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				var req GetUserAccountsRequest
+				var req gql_ptypes_empty.Empty
 				if err := runtime.MarshalRequest(p.Args, &req, false); err != nil {
 					return nil, errors.Wrap(err, "Failed to marshal request for userAccounts")
 				}
@@ -300,8 +270,7 @@ func (x *graphql__resolver_Accounts) GetQueries(conn *grpc.ClientConn) graphql.F
 			Type: gql_ptypes_empty.Gql__type_Empty(),
 			Args: graphql.FieldConfigArgument{
 				"id": &graphql.ArgumentConfig{
-					Type:         graphql.NewNonNull(graphql.String),
-					DefaultValue: "",
+					Type: graphql.String,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
@@ -326,8 +295,11 @@ func (x *graphql__resolver_Accounts) GetMutations(conn *grpc.ClientConn) graphql
 		"updateAccount": &graphql.Field{
 			Type: Gql__type_Account(),
 			Args: graphql.FieldConfigArgument{
-				"account": &graphql.ArgumentConfig{
-					Type: Gql__input_Account(),
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.String,
+				},
+				"slug": &graphql.ArgumentConfig{
+					Type: graphql.String,
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {

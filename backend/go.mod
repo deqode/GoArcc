@@ -14,6 +14,7 @@ require (
 	github.com/golang/protobuf v1.4.3
 	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-github/v34 v34.0.0
+	github.com/google/uuid v1.1.2
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/graphql-go/graphql v0.7.8
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2

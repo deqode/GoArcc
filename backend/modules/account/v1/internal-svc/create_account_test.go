@@ -3,26 +3,21 @@ package internal_svc_test
 import (
 	"alfred/modules/account/v1/pb"
 	usrPb "alfred/modules/user-profile/v1/pb"
-	"alfred/protos/types"
-	"alfred/util/userinfo"
 	"context"
-	"github.com/bxcodec/faker/v3"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"time"
 )
 
 var _ = Describe("CreateAccount", func() {
 	var (
-		accountServer        pb.AccountInternalServer
-		ctx                  context.Context
-		userProfileIntServer usrPb.UserProfileInternalServer
-		usrProfile           *usrPb.UserProfile
+		accountServer pb.AccountInternalServer
+		ctx           context.Context
+		usrProfile    *usrPb.UserProfile
 	)
 	BeforeEach(func() {
 		accountServer = AccountServerTest
 		ctx = CtxTest
-		userProfileIntServer = UserProfileIntServerTest
+		usrProfile = UsrProfile
 	})
 
 	Describe("Describe:Creating Account Correspond to user", func() {
@@ -43,39 +38,13 @@ var _ = Describe("CreateAccount", func() {
 
 		// Positive Test Case
 		Context("Context:Happy Path", func() {
-			BeforeEach(func() {
-				id := "github_" + faker.Username()
-				// Create a UserProfile before getting
-				res, err := userProfileIntServer.CreateUserProfile(ctx, &usrPb.CreateUserProfileRequest{UserProfile: &usrPb.UserProfile{
-					Id:             id,
-					Sub:            id,
-					Name:           faker.Name(),
-					UserName:       faker.Username(),
-					Email:          faker.Email(),
-					PhoneNumber:    faker.Phonenumber(),
-					ExternalSource: types.VCSProviders_GITHUB,
-					ProfilePicUrl:  faker.URL(),
-					TokenValidTill: nil,
-				}})
-				if err != nil {
-					return
-				}
-				ui := userinfo.UserInfo{
-					ID:          res.Id,
-					Email:       res.Email,
-					Sub:         res.Sub,
-					TokenExpiry: time.Time{},
-				}
-				ctx = userinfo.NewContext(context.Background(), ui)
-				usrProfile = res
-			})
-
 			It("It: should create the account", func() {
-				_, err := accountServer.CreateAccount(ctx, &pb.CreateAccountRequest{Account: &pb.Account{
+				res, err := accountServer.CreateAccount(ctx, &pb.CreateAccountRequest{Account: &pb.Account{
 					Slug:   usrProfile.Sub + "_" + usrProfile.UserName,
 					UserId: usrProfile.Id,
 				}})
 				Expect(err).Should(BeNil())
+				Expect(res.UserId).ShouldNot(BeEmpty())
 			})
 		})
 	})
