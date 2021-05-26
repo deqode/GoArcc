@@ -5,8 +5,10 @@ import (
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
+	"alfred/modules/account/v1/external-svc"
 	"alfred/modules/account/v1/internal-svc"
 	"alfred/modules/account/v1/pb"
+	usrExt "alfred/modules/user-profile/v1/external-svc"
 	usrInt "alfred/modules/user-profile/v1/internal-svc"
 	usrPb "alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
@@ -63,8 +65,14 @@ var _ = BeforeSuite(func() {
 	//Int userProfile service initialisation
 	userProfileIntServer := usrInt.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 
+	//Ext userProfile service initialisation (used only for Creation Tables in DB)
+	_ = usrExt.NewUserProfilesServer(fields.db, fields.config, fields.grpcClient)
+
 	// Int Account Service initialisation
 	actInServer := internal_svc.NewAccountsInServer(fields.db, fields.config, fields.grpcClient)
+
+	// Ext Account Service initialisation (used only for Creation Tables in DB)
+	_ = external_svc.NewAccountExtServer(fields.db, fields.config, fields.grpcClient)
 
 	ctx := context.Background()
 
@@ -83,7 +91,7 @@ var _ = BeforeSuite(func() {
 		TokenValidTill: nil,
 	}})
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 	ui := userinfo.UserInfo{
 		ID:          res.Id,
@@ -96,7 +104,6 @@ var _ = BeforeSuite(func() {
 	CtxTest = ctx
 	AccountServerTest = actInServer
 	UsrProfile = res
-
 })
 
 // must initialize nil to global variable after suit is complete

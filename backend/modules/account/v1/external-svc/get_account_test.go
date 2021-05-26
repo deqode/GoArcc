@@ -42,8 +42,10 @@ var _ = Describe("Describe:GetAccount", func() {
 
 		Context("Get a record when id is provided", func() {
 			It("should return requested field in the object", func() {
-				_, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: account.GetId()})
+				res, err := accountServer.GetAccount(ctx, &pb.GetAccountRequest{Id: account.GetId()})
 				Expect(err).Should(BeNil())
+				Expect(res.Id).ShouldNot(BeEmpty())
+				Expect(res.UserId).ShouldNot(BeEmpty())
 			})
 		})
 	})

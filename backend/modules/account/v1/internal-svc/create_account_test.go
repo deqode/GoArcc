@@ -38,13 +38,13 @@ var _ = Describe("CreateAccount", func() {
 
 		// Positive Test Case
 		Context("Context:Happy Path", func() {
-
 			It("It: should create the account", func() {
-				_, err := accountServer.CreateAccount(ctx, &pb.CreateAccountRequest{Account: &pb.Account{
+				res, err := accountServer.CreateAccount(ctx, &pb.CreateAccountRequest{Account: &pb.Account{
 					Slug:   usrProfile.Sub + "_" + usrProfile.UserName,
 					UserId: usrProfile.Id,
 				}})
 				Expect(err).Should(BeNil())
+				Expect(res.UserId).ShouldNot(BeEmpty())
 			})
 		})
 	})
