@@ -3,6 +3,7 @@ package internal_svc
 import (
 	"alfred/config"
 	accountPb "alfred/modules/account/v1/pb"
+	model "alfred/modules/user-profile/v1/models"
 	"alfred/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -21,7 +22,8 @@ func NewUserProfileInServer(
 	config *config.Config,
 	grpcClientConn *grpc.ClientConn,
 ) pb.UserProfileInternalServer {
-
+	//initial migration of databases: schema migration
+	model.InitialMigrationUserProfile(db)
 	return &userProfileInServer{
 		db:         db,
 		config:     config,
