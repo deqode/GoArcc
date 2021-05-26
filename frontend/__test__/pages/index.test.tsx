@@ -1,17 +1,19 @@
 import renderer from 'react-test-renderer'
 
+import * as api from '../../api/rest/fetchUrls'
 import Landing, { handler } from '../../pages'
+import { redirectToErrorPage } from '../../utils/redirects'
 
-jest.mock('../../api/rest/fetchUrls', () => {
-  return {
-    getLoginURL: jest.fn().mockImplementation(() =>
-      Promise.resolve({
-        url: 'mockUrl',
-        error: false,
-      })
-    ),
-  }
-})
+// jest.mock('../../api/rest/fetchUrls', () => {
+//   return {
+// getLoginURL: jest.fn().mockImplementation(() =>
+//   Promise.resolve({
+//     url: 'mockUrl',
+//     error: false,
+//   })
+//     ),
+//   }
+// })
 
 describe('Landing page tests', () => {
   it('should match the snapshot', () => {
@@ -22,6 +24,12 @@ describe('Landing page tests', () => {
     const req = {
       session: { get: jest.fn(() => undefined), save: jest.fn() },
     }
+    api.getLoginURL = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        url: 'mockUrl',
+        error: false,
+      })
+    )
     const response = await handler({ req })
     expect(response).toStrictEqual({ props: { url: 'mockUrl' } })
   })
@@ -33,7 +41,19 @@ describe('Landing page tests', () => {
     expect(response).toStrictEqual({ redirect: { permanent: false, destination: '/dashboard' } })
   })
 
-  it('should redirect to error page if network error', async () => null)
+  it('should redirect to error page if network error', async () => {
+    const req = {
+      session: { get: jest.fn(() => undefined), save: jest.fn() },
+    }
+    api.getLoginURL = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        url: '',
+        error: true,
+      })
+    )
+    const response = await handler({ req })
+    expect(response).toStrictEqual(redirectToErrorPage('Network Error'))
+  })
 
   it('should redirect to github sign up page on Sing Up button click', async () => null)
 })
