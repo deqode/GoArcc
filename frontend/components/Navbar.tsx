@@ -4,19 +4,20 @@ import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement } from 'react'
 
 import { destroyUserSession } from '../api/rest/session'
-import UserContext from '../contexts/UserContext'
+import { User } from '../contexts/UserContext'
 
 const useStyles = makeStyles({
   logo: {
     width: '60px',
   },
 })
-
-const Navbar = (): ReactElement => {
-  const { user } = useContext(UserContext)
+interface NavbarProps {
+  user: User
+}
+const Navbar = ({ user }: NavbarProps): ReactElement => {
   const router = useRouter()
   const classes = useStyles()
   const { t } = useTranslation()
@@ -25,7 +26,6 @@ const Navbar = (): ReactElement => {
     const res = await destroyUserSession()
     if (!res.error) {
       router.reload()
-      return
     }
     router.push('/error', { query: { message: 'Network Error' } })
   }

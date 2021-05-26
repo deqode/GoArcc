@@ -33,7 +33,7 @@ const MyApp = ({ Component, pageProps }: AppProps): ReactElement => {
     <UserContext.Provider value={{ user, setUser, removeUser }}>
       <ApolloProvider client={client(user)}>
         <ThemeProvider theme={theme}>
-          <Navbar />
+          <Navbar user={user} />
           <Component {...pageProps} />
         </ThemeProvider>
       </ApolloProvider>
