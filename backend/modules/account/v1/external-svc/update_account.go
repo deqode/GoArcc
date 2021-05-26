@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+//todo -
 func (s accountExtServer) UpdateAccount(ctx context.Context, in *pb.UpdateAccountRequest) (*pb.Account, error) {
 	if in.Account == nil {
 		return nil, status.Error(codes.FailedPrecondition, "Account to update is not provided")

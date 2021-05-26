@@ -1,10 +1,11 @@
-package external_svc
+package external_svc_test
 
 import (
 	"alfred.sh/common/logger"
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
+	external_svc "alfred/modules/user-profile/v1/external-svc"
 	"alfred/modules/user-profile/v1/internal-svc"
 	"alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
@@ -58,7 +59,7 @@ var _ = BeforeSuite(func() {
 		grpcClient: grpcClient.GetGrpcClientConnection(cfg),
 	}
 	//Ext service initialisation
-	userProfileServer := NewUserProfilesServer(fields.db, fields.config, fields.grpcClient)
+	userProfileServer := external_svc.NewUserProfilesServer(fields.db, fields.config, fields.grpcClient)
 	//Int service initialisation
 	userProfileIntServer := internal_svc.NewUserProfileInServer(fields.db, fields.config, fields.grpcClient)
 

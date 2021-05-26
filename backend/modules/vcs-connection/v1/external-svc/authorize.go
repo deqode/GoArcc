@@ -5,13 +5,11 @@ import (
 
 	"alfred/protos/types"
 	"context"
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"regexp"
 	"strings"
-	"time"
 )
 
 func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeRequest) (*pb.AuthorizeResponse, error) {
@@ -62,45 +60,45 @@ type UserClaims struct {
 
 //TODO- use this to send temporary jwt token
 // Create the JWT key used to create the signature
-var jwtKey = []byte("my_secret_key")
+//var jwtKey = []byte("my_secret_key")
 
-func Generate(userid, accountid string) (string, error) {
-	expirationTime := time.Now().Add(5 * time.Minute)
-
-	claims := UserClaims{
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-		AccountID: accountid,
-		UserID:    userid,
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
-}
-
-func Verify(accessToken string) (*UserClaims, error) {
-	token, err := jwt.ParseWithClaims(
-		accessToken,
-		&UserClaims{},
-		func(token *jwt.Token) (interface{}, error) {
-			_, ok := token.Method.(*jwt.SigningMethodHMAC)
-			if !ok {
-				return nil, fmt.Errorf("unexpected token signing method")
-			}
-
-			return jwtKey, nil
-		},
-	)
-
-	if err != nil {
-		return nil, fmt.Errorf("invalid token: %w", err)
-	}
-
-	claims, ok := token.Claims.(*UserClaims)
-	if !ok {
-		return nil, fmt.Errorf("invalid token claims")
-	}
-
-	return claims, nil
-}
+//func Generate(userid, accountid string) (string, error) {
+//	expirationTime := time.Now().Add(5 * time.Minute)
+//
+//	claims := UserClaims{
+//		StandardClaims: jwt.StandardClaims{
+//			ExpiresAt: expirationTime.Unix(),
+//		},
+//		AccountID: accountid,
+//		UserID:    userid,
+//	}
+//
+//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+//	return token.SignedString(jwtKey)
+//}
+//
+//func Verify(accessToken string) (*UserClaims, error) {
+//	token, err := jwt.ParseWithClaims(
+//		accessToken,
+//		&UserClaims{},
+//		func(token *jwt.Token) (interface{}, error) {
+//			_, ok := token.Method.(*jwt.SigningMethodHMAC)
+//			if !ok {
+//				return nil, fmt.Errorf("unexpected token signing method")
+//			}
+//
+//			return jwtKey, nil
+//		},
+//	)
+//
+//	if err != nil {
+//		return nil, fmt.Errorf("invalid token: %w", err)
+//	}
+//
+//	claims, ok := token.Claims.(*UserClaims)
+//	if !ok {
+//		return nil, fmt.Errorf("invalid token claims")
+//	}
+//
+//	return claims, nil
+//}

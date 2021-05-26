@@ -1,7 +1,6 @@
 package external_svc_test
 
 import (
-	external_svc "alfred/modules/user-profile/v1/external-svc"
 	pb "alfred/modules/user-profile/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
@@ -18,9 +17,9 @@ var _ = Describe("GetUserProfile By unique External Sub", func() {
 
 	// this block will run after each it block
 	BeforeEach(func() {
-		userProfileServer = external_svc.UserProfileServerTest
-		ctx = external_svc.CtxTest
-		usrProfile = external_svc.UsrProfile
+		userProfileServer = UserProfileServerTest
+		ctx = CtxTest
+		usrProfile = UsrProfile
 	})
 
 	Describe("Get a user-profile", func() {

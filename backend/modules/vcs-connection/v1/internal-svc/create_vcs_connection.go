@@ -44,6 +44,7 @@ func (s *vcsConnectionIntServer) CreateVCSConnection(ctx context.Context, in *pb
 	if t.Error != nil {
 		return nil, t.Error
 	}
+	in.VcsConnection.Id = id
 	//todo Get from DB
 	return in.VcsConnection, nil
 }
