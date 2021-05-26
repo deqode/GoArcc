@@ -16,6 +16,9 @@ func (s *vcsConnectionServer) Authorize(ctx context.Context, in *pb.AuthorizeReq
 	if in == nil {
 		return nil, status.Error(codes.FailedPrecondition, "Request is nil")
 	}
+	if err := in.Validate(); err != nil {
+		return nil, err
+	}
 	var redirectURL string
 	switch in.Provider {
 	case types.VCSProviders_GITHUB:

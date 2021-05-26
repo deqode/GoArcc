@@ -148,6 +148,13 @@ func (m *CreateVCSConnectionRequest) Validate() error {
 		return nil
 	}
 
+	if m.GetVcsConnection() == nil {
+		return CreateVCSConnectionRequestValidationError{
+			field:  "VcsConnection",
+			reason: "value is required",
+		}
+	}
+
 	if v, ok := interface{}(m.GetVcsConnection()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateVCSConnectionRequestValidationError{

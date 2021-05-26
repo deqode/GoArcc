@@ -10,7 +10,7 @@ import (
 
 // Account - A user can have multiple accounts
 type Account struct {
-	ID        string `gorm:"primary_key;unique;type:uuid;default:uuid_generate_v4()"`
+	ID        string `gorm:"primary_key;unique;type:uuid"`
 	Slug      string
 	UserID    string
 	CreatedAt time.Time

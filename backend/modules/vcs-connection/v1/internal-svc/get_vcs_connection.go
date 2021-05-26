@@ -1,7 +1,6 @@
 package internal_svc
 
 import (
-	"alfred/modules/vcs-connection/v1/common"
 	model "alfred/modules/vcs-connection/v1/models"
 	"alfred/modules/vcs-connection/v1/pb"
 	"alfred/protos/types"
@@ -21,7 +20,7 @@ func (s *vcsConnectionIntServer) GetVCSConnection(ctx context.Context, in *pb.Ge
 	}
 
 	// User Validation
-	if err := common.ValidateUser(ctx, in.AccountId, s.db); err != nil {
+	if err := ValidateUserFromContext(ctx, in.AccountId, s.db); err != nil {
 		return nil, err
 	}
 	var record model.VCSConnection

@@ -49,6 +49,9 @@ var (
 	_ = types.VCSProviders(0)
 )
 
+// define the regex for a UUID once up-front
+var _vcs_connection_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
 // Validate checks the field values on ListAllSupportedVCSProvidersResponse
 // with the rules defined in the proto definition for this message. If any
 // rules are violated, an error is returned.
@@ -279,11 +282,20 @@ func (m *CallbackRequest) Validate() error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
+	if err := m._validateUuid(m.GetAccountId()); err != nil {
 		return CallbackRequestValidationError{
 			field:  "AccountId",
-			reason: "value length must be at least 3 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
+	}
+
+	return nil
+}
+
+func (m *CallbackRequest) _validateUuid(uuid string) error {
+	if matched := _vcs_connection_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -355,25 +367,35 @@ func (m *AccountVCSConnection) Validate() error {
 		return nil
 	}
 
-	if utf8.RuneCountInString(m.GetId()) < 3 {
+	if err := m._validateUuid(m.GetId()); err != nil {
 		return AccountVCSConnectionValidationError{
 			field:  "Id",
-			reason: "value length must be at least 3 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 	}
 
 	// no validation rules for Provider
 
-	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
+	if err := m._validateUuid(m.GetAccountId()); err != nil {
 		return AccountVCSConnectionValidationError{
 			field:  "AccountId",
-			reason: "value length must be at least 3 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 	}
 
 	// no validation rules for Label
 
 	// no validation rules for UserName
+
+	return nil
+}
+
+func (m *AccountVCSConnection) _validateUuid(uuid string) error {
+	if matched := _vcs_connection_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -442,9 +464,23 @@ func (m *ListVCSConnectionRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for AccountId
+	if err := m._validateUuid(m.GetAccountId()); err != nil {
+		return ListVCSConnectionRequestValidationError{
+			field:  "AccountId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
 
 	// no validation rules for Provider
+
+	return nil
+}
+
+func (m *ListVCSConnectionRequest) _validateUuid(uuid string) error {
+	if matched := _vcs_connection_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -597,14 +633,23 @@ func (m *GetVCSConnectionRequest) Validate() error {
 
 	// no validation rules for Id
 
-	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
+	if err := m._validateUuid(m.GetAccountId()); err != nil {
 		return GetVCSConnectionRequestValidationError{
 			field:  "AccountId",
-			reason: "value length must be at least 3 runes",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
 	}
 
 	// no validation rules for Provider
+
+	return nil
+}
+
+func (m *GetVCSConnectionRequest) _validateUuid(uuid string) error {
+	if matched := _vcs_connection_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -675,7 +720,21 @@ func (m *RevokeVCSTokenRequest) Validate() error {
 
 	// no validation rules for Provider
 
-	// no validation rules for VcsId
+	if err := m._validateUuid(m.GetVcsId()); err != nil {
+		return RevokeVCSTokenRequestValidationError{
+			field:  "VcsId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	return nil
+}
+
+func (m *RevokeVCSTokenRequest) _validateUuid(uuid string) error {
+	if matched := _vcs_connection_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }

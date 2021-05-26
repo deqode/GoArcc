@@ -3,13 +3,14 @@ package models
 import (
 	"alfred.sh/common/logger"
 	"alfred/protos/types"
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"time"
 )
 
 type VCSConnection struct {
-	ID                 string
+	ID                 string `gorm:"primary_key;unique;type:uuid"`
 	Provider           types.VCSProviders
 	ConnectionID       string
 	AccessToken        string
@@ -36,4 +37,9 @@ func InitialMigrationVCSConnection(db *gorm.DB) {
 			logger.Log.Debug("unable to create vcs-connection table")
 		}
 	}
+}
+
+func (o *VCSConnection) BeforeCreate(tx *gorm.DB) (err error) {
+	o.ID = uuid.New().String()
+	return
 }

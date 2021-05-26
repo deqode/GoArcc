@@ -1,7 +1,7 @@
-package common
+package internal_svc
 
 import (
-	model "alfred/modules/account/v1/models"
+	accModel "alfred/modules/account/v1/models"
 	"alfred/util/userinfo"
 	"context"
 	"errors"
@@ -10,10 +10,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func ValidateUser(ctx context.Context, accountId string, db *gorm.DB) error {
+func ValidateUserFromContext(ctx context.Context, accountId string, db *gorm.DB) error {
 	//Authentication check
 	usr := userinfo.FromContext(ctx)
-	account := model.Account{}
+	account := accModel.Account{}
 	// select * from account where id  = account id
 	if err := db.First(&account, "id = ?", accountId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {

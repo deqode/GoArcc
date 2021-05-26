@@ -3,9 +3,6 @@ package internal_svc_test
 import (
 	"alfred/modules/vcs-connection/v1/pb"
 	"context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -28,16 +25,8 @@ var _ = Describe("Create Vcs Connection Test", func() {
 	By("By a internal RPC Call")
 	Context("Get an error when request object is nil", func() {
 		It("should return nil exception", func() {
-			_, err := vcsIntServerTest.CreateVCSConnection(ctx, nil)
-			Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Request is nil")))
-		})
-	})
-	Context("Get an error when vcs connection in request object is nil", func() {
-		It("should return nil exception", func() {
-			_, err := vcsIntServerTest.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{
-				VcsConnection: nil,
-			})
-			Expect(err).Should(Equal(status.Error(codes.FailedPrecondition, "Request is nil")))
+			_, err := vcsIntServerTest.CreateVCSConnection(ctx, &pb.CreateVCSConnectionRequest{VcsConnection: nil})
+			Expect(err).ShouldNot(BeNil())
 		})
 	})
 	Context("Get an error when vcs object is invalid", func() {
