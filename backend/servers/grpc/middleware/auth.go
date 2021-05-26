@@ -19,10 +19,9 @@ import (
 )
 
 const (
-	id                       = "id"
-	email                    = "email"
+	id    = "id"
+	email = "email"
 )
-
 
 type Config struct {
 	Issuer   string

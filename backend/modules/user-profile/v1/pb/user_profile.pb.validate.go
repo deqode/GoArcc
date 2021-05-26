@@ -37,80 +37,6 @@ var (
 	_ = types.VCSProviders(0)
 )
 
-// Validate checks the field values on GetUserProfileRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
-func (m *GetUserProfileRequest) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	if utf8.RuneCountInString(m.GetId()) < 3 {
-		return GetUserProfileRequestValidationError{
-			field:  "Id",
-			reason: "value length must be at least 3 runes",
-		}
-	}
-
-	return nil
-}
-
-// GetUserProfileRequestValidationError is the validation error returned by
-// GetUserProfileRequest.Validate if the designated constraints aren't met.
-type GetUserProfileRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e GetUserProfileRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e GetUserProfileRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e GetUserProfileRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e GetUserProfileRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e GetUserProfileRequestValidationError) ErrorName() string {
-	return "GetUserProfileRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e GetUserProfileRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sGetUserProfileRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = GetUserProfileRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = GetUserProfileRequestValidationError{}
-
 // Validate checks the field values on GetUserProfileBySubRequest with the
 // rules defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -211,11 +137,29 @@ func (m *UserProfile) Validate() error {
 
 	// no validation rules for UserName
 
-	// no validation rules for Email
+	if utf8.RuneCountInString(m.GetEmail()) < 0 {
+		return UserProfileValidationError{
+			field:  "Email",
+			reason: "value length must be at least 0 runes",
+		}
+	}
+
+	if err := m._validateEmail(m.GetEmail()); err != nil {
+		return UserProfileValidationError{
+			field:  "Email",
+			reason: "value must be a valid email address",
+			cause:  err,
+		}
+	}
 
 	// no validation rules for PhoneNumber
 
-	// no validation rules for ExternalSource
+	if _, ok := _UserProfile_ExternalSource_NotInLookup[m.GetExternalSource()]; ok {
+		return UserProfileValidationError{
+			field:  "ExternalSource",
+			reason: "value must not be in list [0]",
+		}
+	}
 
 	// no validation rules for ProfilePicUrl
 
@@ -230,6 +174,56 @@ func (m *UserProfile) Validate() error {
 	}
 
 	return nil
+}
+
+func (m *UserProfile) _validateHostname(host string) error {
+	s := strings.ToLower(strings.TrimSuffix(host, "."))
+
+	if len(host) > 253 {
+		return errors.New("hostname cannot exceed 253 characters")
+	}
+
+	for _, part := range strings.Split(s, ".") {
+		if l := len(part); l == 0 || l > 63 {
+			return errors.New("hostname part must be non-empty and cannot exceed 63 characters")
+		}
+
+		if part[0] == '-' {
+			return errors.New("hostname parts cannot begin with hyphens")
+		}
+
+		if part[len(part)-1] == '-' {
+			return errors.New("hostname parts cannot end with hyphens")
+		}
+
+		for _, r := range part {
+			if (r < 'a' || r > 'z') && (r < '0' || r > '9') && r != '-' {
+				return fmt.Errorf("hostname parts can only contain alphanumeric characters or hyphens, got %q", string(r))
+			}
+		}
+	}
+
+	return nil
+}
+
+func (m *UserProfile) _validateEmail(addr string) error {
+	a, err := mail.ParseAddress(addr)
+	if err != nil {
+		return err
+	}
+	addr = a.Address
+
+	if len(addr) > 254 {
+		return errors.New("email addresses cannot exceed 254 characters")
+	}
+
+	parts := strings.SplitN(addr, "@", 2)
+
+	if len(parts[0]) > 64 {
+		return errors.New("email address local phrase cannot exceed 64 characters")
+	}
+
+	return m._validateHostname(parts[1])
 }
 
 // UserProfileValidationError is the validation error returned by
@@ -285,3 +279,7 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserProfileValidationError{}
+
+var _UserProfile_ExternalSource_NotInLookup = map[types.VCSProviders]struct{}{
+	0: {},
+}

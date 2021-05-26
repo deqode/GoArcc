@@ -8,12 +8,11 @@ import (
 )
 
 func (s *userProfileInServer) UpdateUserProfile(ctx context.Context, in *pb.UpdateUserProfileRequest) (*pb.UserProfile, error) {
-	err := in.Validate()
-	if err != nil {
-		return nil, err
-	}
 	if in.GetUserProfile() == nil {
 		return nil, status.Error(codes.FailedPrecondition, "UserProfile to update is not provided")
+	}
+	if err := in.Validate(); err != nil {
+		return nil, err
 	}
 	return &pb.UserProfile{
 		Id:             "",

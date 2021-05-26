@@ -18,6 +18,9 @@ var (
 )
 
 func (s *vcsConnectionServer) Callback(ctx context.Context, in *pb.CallbackRequest) (*pb.AccountVCSConnection, error) {
+	if in == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Request is nil")
+	}
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}

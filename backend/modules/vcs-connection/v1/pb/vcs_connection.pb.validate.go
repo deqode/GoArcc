@@ -263,7 +263,12 @@ func (m *CallbackRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Provider
+	if _, ok := _CallbackRequest_Provider_NotInLookup[m.GetProvider()]; ok {
+		return CallbackRequestValidationError{
+			field:  "Provider",
+			reason: "value must not be in list [0]",
+		}
+	}
 
 	// no validation rules for State
 
@@ -338,6 +343,10 @@ var _ interface {
 	ErrorName() string
 } = CallbackRequestValidationError{}
 
+var _CallbackRequest_Provider_NotInLookup = map[types.VCSProviders]struct{}{
+	0: {},
+}
+
 // Validate checks the field values on AccountVCSConnection with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -346,11 +355,21 @@ func (m *AccountVCSConnection) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Id
+	if utf8.RuneCountInString(m.GetId()) < 3 {
+		return AccountVCSConnectionValidationError{
+			field:  "Id",
+			reason: "value length must be at least 3 runes",
+		}
+	}
 
 	// no validation rules for Provider
 
-	// no validation rules for AccountId
+	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
+		return AccountVCSConnectionValidationError{
+			field:  "AccountId",
+			reason: "value length must be at least 3 runes",
+		}
+	}
 
 	// no validation rules for Label
 
@@ -578,7 +597,12 @@ func (m *GetVCSConnectionRequest) Validate() error {
 
 	// no validation rules for Id
 
-	// no validation rules for AccountId
+	if utf8.RuneCountInString(m.GetAccountId()) < 3 {
+		return GetVCSConnectionRequestValidationError{
+			field:  "AccountId",
+			reason: "value length must be at least 3 runes",
+		}
+	}
 
 	// no validation rules for Provider
 

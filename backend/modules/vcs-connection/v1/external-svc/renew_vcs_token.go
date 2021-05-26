@@ -6,6 +6,6 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 )
 
-func (s *vcsConnectionServer) RenewVCSToken(context.Context, *pb.RenewVCSTokenRequest) (*empty.Empty, error) {
+func (s *vcsConnectionServer) RenewVCSToken(ctx context.Context, req *pb.RenewVCSTokenRequest) (*empty.Empty, error) {
 	return nil, nil
 }

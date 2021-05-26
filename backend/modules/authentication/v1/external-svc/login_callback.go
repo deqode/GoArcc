@@ -20,6 +20,12 @@ import (
 const tokenKey = "id_token"
 
 func (s *authenticationServer) LoginCallback(ctx context.Context, in *pb.LoginCallbackRequest) (*pb.LoginCallbackResponse, error) {
+	if in == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Request is Nil")
+	}
+	if err := in.Validate(); err != nil {
+		return nil, err
+	}
 	token, err := s.authenticator.Config.Exchange(ctx, in.Code)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, err.Error())

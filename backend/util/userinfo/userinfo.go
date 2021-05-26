@@ -1,6 +1,8 @@
 package userinfo
 
 import (
+	databaseHelper "alfred.sh/common/database/helper"
+	"alfred/modules/user-profile/v1/models"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -13,6 +15,18 @@ type UserInfo struct {
 	Email       string
 	Sub         string
 	TokenExpiry time.Time
+}
+
+type ValidateUserInfo struct {
+	Ctx          context.Context
+	RootTable    interface{}
+	RootTableTag string
+	//Key Will be tag name
+	Args               map[string]interface{}
+	SkipRootValidation bool
+	SkipArgsValidation bool
+	Db                 *gorm.DB
+	skipValidation     bool
 }
 
 const (
@@ -45,11 +59,9 @@ func IsGrpcCall(ctx context.Context) bool {
 	return false
 }
 
-
 func WithClaims(ctx context.Context, c map[string]interface{}) context.Context {
 	return context.WithValue(ctx, userKey, c)
 }
-
 
 // FromContext returns the User value stored in ctx, if any.
 func FromContext(ctx context.Context) (usr UserInfo) {
@@ -58,7 +70,9 @@ func FromContext(ctx context.Context) (usr UserInfo) {
 }
 
 func NewContext(ctx context.Context, u UserInfo) context.Context {
-	return context.WithValue(ctx, userKey, u)
+	m := make(map[string]interface{})
+	m["sub"] = u.Sub
+	return context.WithValue(ctx, userKey, m)
 }
 
 func FromClaims(claims map[string]interface{}) (ui UserInfo) {
@@ -84,15 +98,63 @@ func FromClaims(claims map[string]interface{}) (ui UserInfo) {
 	return
 }
 
-
-func ValidateUser(ctx context.Context,table interface{}, db *gorm.DB) error {
-	userInfo := FromContext(ctx)
-	if  userInfo.Sub == "" {
-		return status.Error(codes.PermissionDenied , "unauthenticated user")
+func (validateUserInfo *ValidateUserInfo) validate() error {
+	if validateUserInfo == nil {
+		return status.Error(codes.FailedPrecondition, "authentication validation failed")
 	}
-	if err := db.Where("user_id = ?",userInfo.ID).Find(table).Error ; err != nil {
-		return status.Error(codes.PermissionDenied , "unauthenticated user")
+	if !validateUserInfo.SkipRootValidation && (validateUserInfo.RootTableTag == "" || validateUserInfo.RootTable == nil) {
+		return status.Error(codes.FailedPrecondition, "authentication validation failed")
+	}
+	if !validateUserInfo.SkipArgsValidation && validateUserInfo.Args == nil {
+		return status.Error(codes.FailedPrecondition, "authentication validation failed")
 	}
 	return nil
 }
 
+// BasicAuthValidation It will check the user id present in context is valid or not
+func BasicAuthValidation(ctx context.Context, db *gorm.DB) error {
+	v := &ValidateUserInfo{
+		Ctx:                ctx,
+		RootTable:          &models.UserProfile{},
+		RootTableTag:       "id",
+		Args:               nil,
+		SkipRootValidation: false,
+		SkipArgsValidation: true,
+		Db:                 db,
+		skipValidation:     true,
+	}
+	if err := v.ValidateUser(); err != nil {
+		return err
+	}
+	return nil
+}
+
+// ValidateUser Validate User : Will validate user id is present in the given table or not
+func (validateUserInfo *ValidateUserInfo) ValidateUser() error {
+	if !validateUserInfo.skipValidation {
+		if err := validateUserInfo.validate(); err != nil {
+			return err
+		}
+	}
+	//Extract user id from context
+	userInfo := FromContext(validateUserInfo.Ctx)
+	if userInfo.Sub == "" {
+		return status.Error(codes.PermissionDenied, "unauthenticated user")
+	}
+	if !validateUserInfo.SkipRootValidation {
+		tx := validateUserInfo.Db.Where(validateUserInfo.RootTableTag+" = ?", userInfo.ID).First(validateUserInfo.RootTable)
+		if err := databaseHelper.ValidateResult(tx); err != nil {
+			return status.Error(codes.PermissionDenied, "unauthenticated user")
+		}
+	}
+
+	if !validateUserInfo.SkipArgsValidation {
+		for tag, argTable := range validateUserInfo.Args {
+			tx := validateUserInfo.Db.Where(tag+" = ?", userInfo.ID).First(argTable)
+			if err := databaseHelper.ValidateResult(tx); err != nil {
+				return status.Error(codes.PermissionDenied, "unauthenticated user")
+			}
+		}
+	}
+	return nil
+}
