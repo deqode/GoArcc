@@ -11,7 +11,7 @@ export const getAllUserAccounts = async (
   idToken: string
 ): Promise<AllUserAccounts> => {
   // TODO:valide inputs
-  const response = await get<AllUserAccounts>(`${SERVER}/account/get-user-accounts/${userId}`, {
+  const response = await get<AllUserAccounts>(`${SERVER}/account/get-user-accounts`, {
     Authorization: `Bearer ${idToken}`,
   })
   if (response.error) {

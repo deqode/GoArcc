@@ -26,6 +26,7 @@ require (
 	github.com/kyoh86/xdg v1.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.1
 	github.com/lib/pq v1.9.0 // indirect
+	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/onsi/ginkgo v1.15.0
 	github.com/onsi/gomega v1.10.5

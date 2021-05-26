@@ -8,6 +8,7 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"gorm.io/gorm"
 )
 
 func (s *vcsConnectionIntServer) GetVCSConnection(ctx context.Context, in *pb.GetVCSConnectionRequest) (*pb.VCSConnection, error) {
@@ -28,8 +29,12 @@ func (s *vcsConnectionIntServer) GetVCSConnection(ctx context.Context, in *pb.Ge
 	if in.Provider != types.VCSProviders_UNKNOWN {
 		chain = chain.Where("provider= ?", in.GetProvider())
 	}
-	if err := chain.Find(&record).Error; err != nil {
-		return nil, err
+	tx := chain.Find(&record)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if tx.RowsAffected == 0{
+		return nil,gorm.ErrRecordNotFound
 	}
 	aTokenExpiry, err := ptypes.TimestampProto(*record.AccessTokenExpiry)
 	if err != nil {
