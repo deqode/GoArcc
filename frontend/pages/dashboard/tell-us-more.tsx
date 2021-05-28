@@ -1,6 +1,5 @@
 import { Grid, Paper } from '@material-ui/core'
 import { withSentry } from '@sentry/nextjs'
-import { withIronSession } from 'next-iron-session'
 import { ReactElement } from 'react'
 
 import { getOwnerName } from '../../api/gql/vcs'
@@ -11,14 +10,13 @@ import CloneRepository from '../../components/tellUsMore/CloneRepository'
 import useGetTellUsMoreState from '../../components/tellUsMore/hooks/useGetTellUsMoreState'
 import ShowBranches from '../../components/tellUsMore/ShowBranches'
 import ShowRepos from '../../components/tellUsMore/ShowRepos'
-import { UserResponse } from '../../intefaces/interface'
-import { sessionCongfig } from '../../utils/constants'
+import { IronSessionRequest, UserResponse } from '../../intefaces/interface'
 import {
   redirectToDashboard,
   redirectToErrorPage,
   redirectToLandingPage,
 } from '../../utils/redirects'
-import { validateUser } from '../../utils/user'
+import { sessionPropsWrapper, validateUser } from '../../utils/user'
 
 interface TellUsMoreProps {
   user: UserResponse
@@ -65,31 +63,30 @@ const TellUsMore = ({ user, accountId, ownerName }: TellUsMoreProps): ReactEleme
     </Paper>
   )
 }
-export const getServerSideProps = withSentry(
-  withIronSession(async ({ req }) => {
-    if (validateUser(req)) {
-      const user = req.session.get('user')
-      const responseGetAllUserAccounts = await getAllUserAccounts(user.userId, user.idToken)
-      if (responseGetAllUserAccounts.error && !responseGetAllUserAccounts.accounts.length) {
-        return redirectToErrorPage('Network Error')
-      }
-      const responseGetOwnerName = await getOwnerName({
-        idToken: user.idToken,
-        accountId: responseGetAllUserAccounts.accounts[0].id,
-      })
-
-      if (responseGetOwnerName.error) return redirectToDashboard()
-      return {
-        props: {
-          userID: user.userId,
-          accountId: responseGetAllUserAccounts.accounts[0].id,
-          user,
-          ownerName: responseGetOwnerName.ownerName,
-        },
-      }
+export const handler = async ({ req }: { req: IronSessionRequest }) => {
+  if (validateUser(req)) {
+    const user = req.session.get('user')
+    const responseGetAllUserAccounts = await getAllUserAccounts(user.userId, user.idToken)
+    if (responseGetAllUserAccounts.error && !responseGetAllUserAccounts.accounts.length) {
+      return redirectToErrorPage('Network Error')
     }
-    return redirectToLandingPage()
-  }, sessionCongfig)
-)
+    const responseGetOwnerName = await getOwnerName({
+      idToken: user.idToken,
+      accountId: responseGetAllUserAccounts.accounts[0].id,
+    })
+
+    if (responseGetOwnerName.error) return redirectToDashboard()
+    return {
+      props: {
+        userID: user.userId,
+        accountId: responseGetAllUserAccounts.accounts[0].id,
+        user,
+        ownerName: responseGetOwnerName.ownerName,
+      },
+    }
+  }
+  return redirectToLandingPage()
+}
+export const getServerSideProps = withSentry(sessionPropsWrapper(handler))
 
 export default TellUsMore

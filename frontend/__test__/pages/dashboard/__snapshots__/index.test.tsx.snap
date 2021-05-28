@@ -16,13 +16,13 @@ exports[`dashboard/index page tests should match the snapshot 1`] = `
         <h1
           className="MuiTypography-root MuiTypography-h3 MuiTypography-colorPrimary"
         >
-          dashboard-index:Let us make your cloud work for you
+          dashboard-index:GREETING
         </h1>
         <br />
         <h5
           className="MuiTypography-root MuiTypography-h5 MuiTypography-colorSecondary"
         >
-          dashboard-index:Connect with Github
+          dashboard-index:CONNECT_GITHUB
         </h5>
       </div>
     </div>
@@ -66,3 +66,9 @@ exports[`dashboard/index page tests should match the snapshot 1`] = `
   </div>
 </div>
 `;
+
+exports[`dashboard/index page tests should match the snapshot with token error 1`] = `null`;
+
+exports[`dashboard/index page tests should match the snapshot with user 1`] = `null`;
+
+exports[`dashboard/index page tests should match the snapshot with user vcs network error 1`] = `null`;
