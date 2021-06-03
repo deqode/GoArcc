@@ -1,0 +1,87 @@
+syntax = "proto3";
+package alfred.stack.v1;
+
+option go_package = "/pb";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotation.proto";
+import "include/graphql.proto";
+import "types/enums.proto";
+import "validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+service StackBuilds{
+    rpc CreateStackBuild(CreateStackBuildRequest) returns (StackBuild){
+        option (google.api.http) = {
+            post: "/v1/stack-build/create-stack-build"
+            body: "*"
+        };
+        option (graphql.schema) = {
+            type: MUTATION
+            name: "createStackBuild"
+        };
+    };
+    rpc GetStackBuild(GetStackBuildRequest) returns (StackBuild){
+        option (google.api.http) = {
+            get: "/v1/stack-build/get-stack-build/{id}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "stackBuild"
+        };
+    }
+    rpc DeleteStackBuild(DeleteStackBuildRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/v1/stack-build/delete-stack-build/{id}"
+        };
+        option (graphql.schema) = {
+            type: MUTATION
+            name: "deleteStackBuild"
+        };
+    }
+    rpc ListStackBuild(ListStackBuildRequest) returns (ListStackBuildResponse){
+        option (google.api.http) = {
+            get: "/v1/stack-build/list-stack-builds"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "stacksBuilds"
+        };
+    }
+}
+
+message StackBuild{
+    // auto generated
+    string id = 1[(validate.rules).string.uuid = true];
+    // every build belong to an stack
+    string stack_id = 2[(validate.rules).string.uuid = true];
+    // failed , pending, succeeded
+    string status = 3;
+    // slug of the stack_build
+    string slug = 4 [(validate.rules).string.max_len = 100];
+    // account id of stack_build
+    string account_id = 5 [(validate.rules).string.uuid = true];
+    // output centrifugo url, used by frontend to show live logs to user
+    string logs_stream_url = 6 ;
+}
+
+message CreateStackBuildRequest {
+    StackBuild stack_build = 2;
+}
+
+message DeleteStackBuildRequest {
+    string id = 1;
+    bool delete_physical = 2;
+}
+
+message GetStackBuildRequest {
+    string id = 1;
+}
+
+message ListStackBuildRequest {
+    string stack_id = 1;
+}
+message ListStackBuildResponse {
+    repeated StackBuild stack_builds = 1;
+}
+

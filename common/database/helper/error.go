@@ -7,16 +7,15 @@ import (
 	"gorm.io/gorm"
 )
 
-
-func ValidateResult(tx *gorm.DB )  error {
+func ValidateResult(tx *gorm.DB) error {
 	if tx == nil {
-		return  status.Error(codes.Internal, "something went wrong")
+		return status.Error(codes.Internal, "something went wrong")
 	}
 	if tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-			return gorm.ErrRecordNotFound
+			return tx.Error
 		}
-		return  status.Error(codes.Internal, tx.Error.Error())
+		return status.Error(codes.Internal, tx.Error.Error())
 	}
 	return nil
 }

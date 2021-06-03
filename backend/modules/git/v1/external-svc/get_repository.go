@@ -13,8 +13,10 @@ import (
 //GetRepository get a repository
 func (s *gitServer) GetRepository(ctx context.Context, in *pb.GetRepositoryRequest) (*pb.Repository, error) {
 	//Validate request
-	err := in.Validate()
-	if err != nil {
+	if in == nil {
+		return nil, status.Error(codes.FailedPrecondition, "Request is nil")
+	}
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
 
