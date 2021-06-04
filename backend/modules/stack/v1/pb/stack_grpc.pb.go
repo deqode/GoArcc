@@ -18,15 +18,24 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StacksClient interface {
+	//CreateStack create a new stack correspond to an account
 	CreateStack(ctx context.Context, in *CreateStackRequest, opts ...grpc.CallOption) (*Stack, error)
+	// UpdateStack update existing fields in stack
 	UpdateStack(ctx context.Context, in *UpdateStackRequest, opts ...grpc.CallOption) (*Stack, error)
+	// GetStack get a existing stack
 	GetStack(ctx context.Context, in *GetStackRequest, opts ...grpc.CallOption) (*Stack, error)
+	// DeleteStack delete an existing stack
 	DeleteStack(ctx context.Context, in *DeleteStackRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// ListStack list existing stacks
 	ListStack(ctx context.Context, in *ListStackRequest, opts ...grpc.CallOption) (*ListStackResponse, error)
 	// Stack Builds
+	//CreateStackBuild create new stack build
 	CreateStackBuild(ctx context.Context, in *CreateStackBuildRequest, opts ...grpc.CallOption) (*StackBuild, error)
+	//GetStackBuild get information of existing stack build
 	GetStackBuild(ctx context.Context, in *GetStackBuildRequest, opts ...grpc.CallOption) (*StackBuild, error)
+	//DeleteStackBuild deletes existing stack build
 	DeleteStackBuild(ctx context.Context, in *DeleteStackBuildRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	// ListStackBuild list all the existing builds of a stack
 	ListStackBuild(ctx context.Context, in *ListStackBuildRequest, opts ...grpc.CallOption) (*ListStackBuildResponse, error)
 }
 
@@ -123,15 +132,24 @@ func (c *stacksClient) ListStackBuild(ctx context.Context, in *ListStackBuildReq
 // All implementations should embed UnimplementedStacksServer
 // for forward compatibility
 type StacksServer interface {
+	//CreateStack create a new stack correspond to an account
 	CreateStack(context.Context, *CreateStackRequest) (*Stack, error)
+	// UpdateStack update existing fields in stack
 	UpdateStack(context.Context, *UpdateStackRequest) (*Stack, error)
+	// GetStack get a existing stack
 	GetStack(context.Context, *GetStackRequest) (*Stack, error)
+	// DeleteStack delete an existing stack
 	DeleteStack(context.Context, *DeleteStackRequest) (*empty.Empty, error)
+	// ListStack list existing stacks
 	ListStack(context.Context, *ListStackRequest) (*ListStackResponse, error)
 	// Stack Builds
+	//CreateStackBuild create new stack build
 	CreateStackBuild(context.Context, *CreateStackBuildRequest) (*StackBuild, error)
+	//GetStackBuild get information of existing stack build
 	GetStackBuild(context.Context, *GetStackBuildRequest) (*StackBuild, error)
+	//DeleteStackBuild deletes existing stack build
 	DeleteStackBuild(context.Context, *DeleteStackBuildRequest) (*empty.Empty, error)
+	// ListStackBuild list all the existing builds of a stack
 	ListStackBuild(context.Context, *ListStackBuildRequest) (*ListStackBuildResponse, error)
 }
 

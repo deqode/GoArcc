@@ -22,7 +22,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
 	github.com/hashicorp/go-uuid v1.0.1
 	github.com/justinas/alice v1.2.0
-	github.com/kyoh86/richgo v0.3.6 // indirect
+	github.com/kyoh86/richgo v0.3.7 // indirect
 	github.com/kyoh86/xdg v1.2.0 // indirect
 	github.com/labstack/echo/v4 v4.2.1
 	github.com/lib/pq v1.9.0 // indirect
@@ -47,7 +47,7 @@ require (
 	go.uber.org/yarpc v1.53.2
 	go.uber.org/zap v1.16.0
 	golang.org/x/oauth2 v0.0.0-20210201163806-010130855d6c
-	golang.org/x/sys v0.0.0-20210525143221-35b2ab0089ea // indirect
+	golang.org/x/sys v0.0.0-20210603125802-9665404d3644 // indirect
 	golang.org/x/tools v0.1.0 // indirect
 	google.golang.org/genproto v0.0.0-20210224155714-063164c882e6
 	google.golang.org/grpc v1.38.0

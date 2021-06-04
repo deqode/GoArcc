@@ -58,10 +58,24 @@ func (m *Stack) Validate() error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetSlug()) > 100 {
+	if !_Stack_Name_Pattern.MatchString(m.GetName()) {
+		return StackValidationError{
+			field:  "Name",
+			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
+		}
+	}
+
+	if l := utf8.RuneCountInString(m.GetSlug()); l < 1 || l > 100 {
 		return StackValidationError{
 			field:  "Slug",
-			reason: "value length must be at most 100 runes",
+			reason: "value length must be between 1 and 100 runes, inclusive",
+		}
+	}
+
+	if !_Stack_Slug_Pattern.MatchString(m.GetSlug()) {
+		return StackValidationError{
+			field:  "Slug",
+			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
 		}
 	}
 
@@ -73,10 +87,32 @@ func (m *Stack) Validate() error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetGitUrl()) < 10 {
+	if err := m._validateUuid(m.GetCloudConnectionId()); err != nil {
+		return StackValidationError{
+			field:  "CloudConnectionId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	if err := m._validateUuid(m.GetVcsConnectionId()); err != nil {
+		return StackValidationError{
+			field:  "VcsConnectionId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	if uri, err := url.Parse(m.GetGitUrl()); err != nil {
 		return StackValidationError{
 			field:  "GitUrl",
-			reason: "value length must be at least 10 runes",
+			reason: "value must be a valid URI",
+			cause:  err,
+		}
+	} else if !uri.IsAbs() {
+		return StackValidationError{
+			field:  "GitUrl",
+			reason: "value must be absolute",
 		}
 	}
 
@@ -86,8 +122,6 @@ func (m *Stack) Validate() error {
 			reason: "value length must be at least 1 runes",
 		}
 	}
-
-	// no validation rules for UserName
 
 	// no validation rules for Environment
 
@@ -115,7 +149,18 @@ func (m *Stack) Validate() error {
 
 	// no validation rules for Status
 
-	// no validation rules for WebUrl
+	if uri, err := url.Parse(m.GetWebUrl()); err != nil {
+		return StackValidationError{
+			field:  "WebUrl",
+			reason: "value must be a valid URI",
+			cause:  err,
+		}
+	} else if !uri.IsAbs() {
+		return StackValidationError{
+			field:  "WebUrl",
+			reason: "value must be absolute",
+		}
+	}
 
 	return nil
 }
@@ -181,6 +226,10 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = StackValidationError{}
+
+var _Stack_Name_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
+
+var _Stack_Slug_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
 
 // Validate checks the field values on CreateStackRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -646,10 +695,17 @@ func (m *StackBuild) Validate() error {
 
 	// no validation rules for Status
 
-	if utf8.RuneCountInString(m.GetSlug()) > 100 {
+	if l := utf8.RuneCountInString(m.GetSlug()); l < 1 || l > 100 {
 		return StackBuildValidationError{
 			field:  "Slug",
-			reason: "value length must be at most 100 runes",
+			reason: "value length must be between 1 and 100 runes, inclusive",
+		}
+	}
+
+	if !_StackBuild_Slug_Pattern.MatchString(m.GetSlug()) {
+		return StackBuildValidationError{
+			field:  "Slug",
+			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
 		}
 	}
 
@@ -661,7 +717,17 @@ func (m *StackBuild) Validate() error {
 		}
 	}
 
-	// no validation rules for LogsStreamUrl
+	// no validation rules for LogStreamChannel
+
+	if v, ok := interface{}(m.GetCompletedAt()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return StackBuildValidationError{
+				field:  "CompletedAt",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	return nil
 }
@@ -727,6 +793,8 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = StackBuildValidationError{}
+
+var _StackBuild_Slug_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
 
 // Validate checks the field values on CreateStackBuildRequest with the rules
 // defined in the proto definition for this message. If any rules are

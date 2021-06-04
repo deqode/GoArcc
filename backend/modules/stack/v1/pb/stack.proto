@@ -9,7 +9,11 @@ import "include/graphql.proto";
 import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
+// A Stack represent a program that you would like to deploy and run on your cloud provider
+// A StackBuild represent a ongoing process of stack deployment
 service Stacks{
+
+    //CreateStack create a new stack correspond to an account
     rpc CreateStack(CreateStackRequest) returns (Stack){
         option (google.api.http) = {
             post: "/v1/stack/create-stack"
@@ -20,6 +24,8 @@ service Stacks{
             name: "createStack"
         };
     };
+
+    // UpdateStack update existing fields in stack
     rpc UpdateStack(UpdateStackRequest) returns (Stack){
         option (google.api.http) = {
             put: "/v1/stack/update-stack"
@@ -30,6 +36,8 @@ service Stacks{
             name: "updateStack"
         };
     }
+
+    // GetStack get a existing stack
     rpc GetStack(GetStackRequest) returns (Stack){
         option (google.api.http) = {
             get: "/v1/stack/get-stack/{id}"
@@ -39,6 +47,8 @@ service Stacks{
             name: "stack"
         };
     }
+
+    // DeleteStack delete an existing stack
     rpc DeleteStack(DeleteStackRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             delete: "/v1/stack/delete-stack/{id}"
@@ -48,6 +58,8 @@ service Stacks{
             name: "deleteStack"
         };
     }
+
+    // ListStack list existing stacks
     rpc ListStack(ListStackRequest) returns (ListStackResponse){
         option (google.api.http) = {
             get: "/v1/stack/list-stack"
@@ -59,6 +71,7 @@ service Stacks{
     }
 
     // Stack Builds
+    //CreateStackBuild create new stack build
     rpc CreateStackBuild(CreateStackBuildRequest) returns (StackBuild){
         option (google.api.http) = {
             post: "/v1/stack-build/create-stack-build"
@@ -69,6 +82,8 @@ service Stacks{
             name: "createStackBuild"
         };
     };
+
+    //GetStackBuild get information of existing stack build
     rpc GetStackBuild(GetStackBuildRequest) returns (StackBuild){
         option (google.api.http) = {
             get: "/v1/stack-build/get-stack-build/{id}"
@@ -78,6 +93,8 @@ service Stacks{
             name: "stackBuild"
         };
     }
+
+    //DeleteStackBuild deletes existing stack build
     rpc DeleteStackBuild(DeleteStackBuildRequest) returns (google.protobuf.Empty) {
         option (google.api.http) = {
             delete: "/v1/stack-build/delete-stack-build/{id}"
@@ -87,6 +104,8 @@ service Stacks{
             name: "deleteStackBuild"
         };
     }
+
+    // ListStackBuild list all the existing builds of a stack
     rpc ListStackBuild(ListStackBuildRequest) returns (ListStackBuildResponse){
         option (google.api.http) = {
             get: "/v1/stack-build/list-stack-builds"
@@ -97,38 +116,42 @@ service Stacks{
         };
     }
 }
+
 message Stack{
     // auto generated
     string id = 1[(validate.rules).string.uuid = true];
     // name of the stack
-    string name = 2 [(validate.rules).string = {min_len: 1 max_len: 100}];
+    string name = 2 [(validate.rules).string = {
+        min_len: 1 max_len: 100,
+        pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$"
+    }];
     // slug of the stack
-    string slug = 3 [(validate.rules).string.max_len = 100];
+    string slug = 3 [(validate.rules).string = {
+        min_len: 1 max_len: 100,
+        pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$"
+    }];
     // account id of stack
     string account_id = 4 [(validate.rules).string.uuid = true];
+    // cloud_connection_id required to identify cloud provider
+    string cloud_connection_id = 5 [(validate.rules).string.uuid = true];
+    // vcs_connection_id of user vcs
+    string vcs_connection_id = 6 [(validate.rules).string.uuid = true];
     // git url
-    string git_url = 5 [(validate.rules).string.min_len = 10];
+    string git_url = 7 [(validate.rules).string.uri = true];
     // git branch
-    string git_branch = 6 [(validate.rules).string.min_len = 1];
-    // username of user vcs
-    string user_name = 7;
+    string git_branch = 8 [(validate.rules).string.min_len = 1];
     // dev or production
-    StackEnvironment environment = 8;
+    StackEnvironment environment = 9;
     // stack type will be go, ruby, node etc
-    string stack_type = 9;
+    StackType stack_type = 10;
     // archived date
-    google.protobuf.Timestamp archived_at = 10;
+    google.protobuf.Timestamp archived_at = 11;
     // stack released date
-    google.protobuf.Timestamp released_at = 11;
+    google.protobuf.Timestamp released_at = 12;
     // status of stack deployed, failed,
-    string status = 12;
+    StackStatus status = 13;
     // url where stack is deployed
-    string web_url = 13;
-}
-
-enum StackEnvironment{
-    development = 0;
-    production = 1;
+    string web_url = 14 [(validate.rules).string.uri = true];
 }
 
 message CreateStackRequest {
@@ -136,19 +159,19 @@ message CreateStackRequest {
 }
 
 message DeleteStackRequest {
-    string id = 1;
+    string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message UpdateStackRequest {
-    Stack stack = 1;
+    Stack stack = 1 [(validate.rules).message.required = true];
 }
 
 message GetStackRequest {
-    string id = 1;
+    string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message ListStackRequest {
-    string account_id = 1;
+    string account_id = 1 [(validate.rules).string.uuid = true];
 }
 message ListStackResponse {
     repeated Stack stacks = 1;
@@ -157,17 +180,22 @@ message ListStackResponse {
 // service stack_builds
 message StackBuild{
     // auto generated
-    string id = 1[(validate.rules).string.uuid = true];
+    string id = 1 [(validate.rules).string.uuid = true];
     // every build belong to an stack
     string stack_id = 2[(validate.rules).string.uuid = true];
     // failed , pending, succeeded
-    string status = 3;
+    StackBuildStatus status = 3;
     // slug of the stack_build
-    string slug = 4 [(validate.rules).string.max_len = 100];
+    string slug = 4 [(validate.rules).string = {
+        min_len: 1 max_len: 100,
+        pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$"
+    }];
     // account id of stack_build
     string account_id = 5 [(validate.rules).string.uuid = true];
     // output centrifugo url, used by frontend to show live logs to user
-    string logs_stream_url = 6 ;
+    string log_stream_channel = 6 ;
+    // stack_build completed date
+    google.protobuf.Timestamp completed_at = 7;
 }
 
 message CreateStackBuildRequest {
@@ -175,17 +203,42 @@ message CreateStackBuildRequest {
 }
 
 message DeleteStackBuildRequest {
-    string id = 1;
+    string id = 1 [(validate.rules).string.uuid = true];
     bool delete_physical = 2;
 }
 
 message GetStackBuildRequest {
-    string id = 1;
+    string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message ListStackBuildRequest {
-    string stack_id = 1;
+    string stack_id = 1 [(validate.rules).string.uuid = true];
 }
 message ListStackBuildResponse {
     repeated StackBuild stack_builds = 1;
+}
+
+// ENUMS
+enum StackEnvironment{
+    development = 0;
+    production = 1;
+}
+
+enum StackType{
+    go = 0;
+    ruby = 1;
+    node = 2;
+    python = 3;
+}
+
+enum StackStatus{
+    ReadyForDeployment = 0;
+    deployed = 1;
+    error = 2;
+}
+
+enum StackBuildStatus{
+    failed = 0;
+    pending = 1;
+    succeeded = 2;
 }

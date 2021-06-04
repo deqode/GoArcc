@@ -14,7 +14,10 @@ import (
 )
 
 var (
+	gql__enum_StackType                *graphql.Enum        // enum StackType in pb/stack.proto
+	gql__enum_StackStatus              *graphql.Enum        // enum StackStatus in pb/stack.proto
 	gql__enum_StackEnvironment         *graphql.Enum        // enum StackEnvironment in pb/stack.proto
+	gql__enum_StackBuildStatus         *graphql.Enum        // enum StackBuildStatus in pb/stack.proto
 	gql__type_UpdateStackRequest       *graphql.Object      // message UpdateStackRequest in pb/stack.proto
 	gql__type_StackBuild               *graphql.Object      // message StackBuild in pb/stack.proto
 	gql__type_Stack                    *graphql.Object      // message Stack in pb/stack.proto
@@ -43,6 +46,49 @@ var (
 	gql__input_CreateStackBuildRequest *graphql.InputObject // message CreateStackBuildRequest in pb/stack.proto
 )
 
+func Gql__enum_StackType() *graphql.Enum {
+	if gql__enum_StackType == nil {
+		gql__enum_StackType = graphql.NewEnum(graphql.EnumConfig{
+			Name: "Pb_Enum_StackType",
+			Values: graphql.EnumValueConfigMap{
+				"go": &graphql.EnumValueConfig{
+					Value: StackType(0),
+				},
+				"ruby": &graphql.EnumValueConfig{
+					Value: StackType(1),
+				},
+				"node": &graphql.EnumValueConfig{
+					Value: StackType(2),
+				},
+				"python": &graphql.EnumValueConfig{
+					Value: StackType(3),
+				},
+			},
+		})
+	}
+	return gql__enum_StackType
+}
+
+func Gql__enum_StackStatus() *graphql.Enum {
+	if gql__enum_StackStatus == nil {
+		gql__enum_StackStatus = graphql.NewEnum(graphql.EnumConfig{
+			Name: "Pb_Enum_StackStatus",
+			Values: graphql.EnumValueConfigMap{
+				"ReadyForDeployment": &graphql.EnumValueConfig{
+					Value: StackStatus(0),
+				},
+				"deployed": &graphql.EnumValueConfig{
+					Value: StackStatus(1),
+				},
+				"error": &graphql.EnumValueConfig{
+					Value: StackStatus(2),
+				},
+			},
+		})
+	}
+	return gql__enum_StackStatus
+}
+
 func Gql__enum_StackEnvironment() *graphql.Enum {
 	if gql__enum_StackEnvironment == nil {
 		gql__enum_StackEnvironment = graphql.NewEnum(graphql.EnumConfig{
@@ -58,6 +104,26 @@ func Gql__enum_StackEnvironment() *graphql.Enum {
 		})
 	}
 	return gql__enum_StackEnvironment
+}
+
+func Gql__enum_StackBuildStatus() *graphql.Enum {
+	if gql__enum_StackBuildStatus == nil {
+		gql__enum_StackBuildStatus = graphql.NewEnum(graphql.EnumConfig{
+			Name: "Pb_Enum_StackBuildStatus",
+			Values: graphql.EnumValueConfigMap{
+				"failed": &graphql.EnumValueConfig{
+					Value: StackBuildStatus(0),
+				},
+				"pending": &graphql.EnumValueConfig{
+					Value: StackBuildStatus(1),
+				},
+				"succeeded": &graphql.EnumValueConfig{
+					Value: StackBuildStatus(2),
+				},
+			},
+		})
+	}
+	return gql__enum_StackBuildStatus
 }
 
 func Gql__type_UpdateStackRequest() *graphql.Object {
@@ -89,7 +155,7 @@ func Gql__type_StackBuild() *graphql.Object {
 					Description: `every build belong to an stack`,
 				},
 				"status": &graphql.Field{
-					Type:        graphql.String,
+					Type:        Gql__enum_StackBuildStatus(),
 					Description: `failed , pending, succeeded`,
 				},
 				"slug": &graphql.Field{
@@ -100,9 +166,13 @@ func Gql__type_StackBuild() *graphql.Object {
 					Type:        graphql.String,
 					Description: `account id of stack_build`,
 				},
-				"logs_stream_url": &graphql.Field{
+				"log_stream_channel": &graphql.Field{
 					Type:        graphql.String,
 					Description: `output centrifugo url, used by frontend to show live logs to user`,
+				},
+				"completed_at": &graphql.Field{
+					Type:        gql_ptypes_timestamp.Gql__type_Timestamp(),
+					Description: `stack_build completed date`,
 				},
 			},
 		})
@@ -131,6 +201,14 @@ func Gql__type_Stack() *graphql.Object {
 					Type:        graphql.String,
 					Description: `account id of stack`,
 				},
+				"cloud_connection_id": &graphql.Field{
+					Type:        graphql.String,
+					Description: `cloud_connection_id required to identify cloud provider`,
+				},
+				"vcs_connection_id": &graphql.Field{
+					Type:        graphql.String,
+					Description: `vcs_connection_id of user vcs`,
+				},
 				"git_url": &graphql.Field{
 					Type:        graphql.String,
 					Description: `git url`,
@@ -139,16 +217,12 @@ func Gql__type_Stack() *graphql.Object {
 					Type:        graphql.String,
 					Description: `git branch`,
 				},
-				"user_name": &graphql.Field{
-					Type:        graphql.String,
-					Description: `username of user vcs`,
-				},
 				"environment": &graphql.Field{
 					Type:        Gql__enum_StackEnvironment(),
 					Description: `dev or production`,
 				},
 				"stack_type": &graphql.Field{
-					Type:        graphql.String,
+					Type:        Gql__enum_StackType(),
 					Description: `stack type will be go, ruby, node etc`,
 				},
 				"archived_at": &graphql.Field{
@@ -160,7 +234,7 @@ func Gql__type_Stack() *graphql.Object {
 					Description: `stack released date`,
 				},
 				"status": &graphql.Field{
-					Type:        graphql.String,
+					Type:        Gql__enum_StackStatus(),
 					Description: `status of stack deployed, failed,`,
 				},
 				"web_url": &graphql.Field{
@@ -345,7 +419,7 @@ func Gql__input_StackBuild() *graphql.InputObject {
 				},
 				"status": &graphql.InputObjectFieldConfig{
 					Description: `failed , pending, succeeded`,
-					Type:        graphql.String,
+					Type:        Gql__enum_StackBuildStatus(),
 				},
 				"slug": &graphql.InputObjectFieldConfig{
 					Description: `slug of the stack_build`,
@@ -355,9 +429,13 @@ func Gql__input_StackBuild() *graphql.InputObject {
 					Description: `account id of stack_build`,
 					Type:        graphql.String,
 				},
-				"logs_stream_url": &graphql.InputObjectFieldConfig{
+				"log_stream_channel": &graphql.InputObjectFieldConfig{
 					Description: `output centrifugo url, used by frontend to show live logs to user`,
 					Type:        graphql.String,
+				},
+				"completed_at": &graphql.InputObjectFieldConfig{
+					Description: `stack_build completed date`,
+					Type:        gql_ptypes_timestamp.Gql__input_Timestamp(),
 				},
 			},
 		})
@@ -386,6 +464,14 @@ func Gql__input_Stack() *graphql.InputObject {
 					Description: `account id of stack`,
 					Type:        graphql.String,
 				},
+				"cloud_connection_id": &graphql.InputObjectFieldConfig{
+					Description: `cloud_connection_id required to identify cloud provider`,
+					Type:        graphql.String,
+				},
+				"vcs_connection_id": &graphql.InputObjectFieldConfig{
+					Description: `vcs_connection_id of user vcs`,
+					Type:        graphql.String,
+				},
 				"git_url": &graphql.InputObjectFieldConfig{
 					Description: `git url`,
 					Type:        graphql.String,
@@ -394,17 +480,13 @@ func Gql__input_Stack() *graphql.InputObject {
 					Description: `git branch`,
 					Type:        graphql.String,
 				},
-				"user_name": &graphql.InputObjectFieldConfig{
-					Description: `username of user vcs`,
-					Type:        graphql.String,
-				},
 				"environment": &graphql.InputObjectFieldConfig{
 					Description: `dev or production`,
 					Type:        Gql__enum_StackEnvironment(),
 				},
 				"stack_type": &graphql.InputObjectFieldConfig{
 					Description: `stack type will be go, ruby, node etc`,
-					Type:        graphql.String,
+					Type:        Gql__enum_StackType(),
 				},
 				"archived_at": &graphql.InputObjectFieldConfig{
 					Description: `archived date`,
@@ -416,7 +498,7 @@ func Gql__input_Stack() *graphql.InputObject {
 				},
 				"status": &graphql.InputObjectFieldConfig{
 					Description: `status of stack deployed, failed,`,
-					Type:        graphql.String,
+					Type:        Gql__enum_StackStatus(),
 				},
 				"web_url": &graphql.InputObjectFieldConfig{
 					Description: `url where stack is deployed`,
@@ -742,7 +824,7 @@ func (x *graphql__resolver_Stacks) GetMutations(conn *grpc.ClientConn) graphql.F
 		},
 
 		"deleteStack": &graphql.Field{
-			Type: github.com / golang / protobuf / ptypes / empty.Gql__type_Empty(),
+			Type: gql_ptypes_empty.Gql__type_Empty(),
 			Args: graphql.FieldConfigArgument{
 				"id": &graphql.ArgumentConfig{
 					Type: graphql.String,
@@ -784,7 +866,7 @@ func (x *graphql__resolver_Stacks) GetMutations(conn *grpc.ClientConn) graphql.F
 		},
 
 		"deleteStackBuild": &graphql.Field{
-			Type: github.com / golang / protobuf / ptypes / empty.Gql__type_Empty(),
+			Type: gql_ptypes_empty.Gql__type_Empty(),
 			Args: graphql.FieldConfigArgument{
 				"id": &graphql.ArgumentConfig{
 					Type: graphql.String,
