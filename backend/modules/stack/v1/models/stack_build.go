@@ -10,12 +10,12 @@ import (
 )
 
 type StackBuild struct {
-	ID      string `gorm:"primarykey"`
-	StackID string
+	ID      string `gorm:"type:uuid;primarykey"`
+	StackID string `gorm:"type:uuid"`
 	// slug of the stack
 	Slug string
 	// account id of stack
-	AccountID string
+	AccountID string `gorm:"type:uuid"`
 	// status of stack deployed, failed,
 	StackBuildStatus pb.StackBuildStatus
 	// url where stack is deployed
@@ -28,13 +28,13 @@ type StackBuild struct {
 }
 
 func InitialMigrationStackBuild(db *gorm.DB) {
-	if err := db.AutoMigrate(&Stack{}); err != nil {
+	if err := db.AutoMigrate(&StackBuild{}); err != nil {
 		logger.Log.Debug("unable to migrate stack service", zap.Error(err))
 	}
 	//Check if table exist or not
-	if !db.Migrator().HasTable(&Stack{}) {
+	if !db.Migrator().HasTable(&StackBuild{}) {
 		// if table not exist then create table
-		if err := db.Migrator().CreateTable(&Stack{}); err != nil {
+		if err := db.Migrator().CreateTable(&StackBuild{}); err != nil {
 			logger.Log.Debug("unable to create Stack table")
 		}
 	}

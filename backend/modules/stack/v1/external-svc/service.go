@@ -20,6 +20,7 @@ func NewStacksServer(
 
 	//initial migration of databases: schema migration
 	model.InitialMigrationStack(db)
+	model.InitialMigrationStackBuild(db)
 	return &stacksServer{
 		db:     db,
 		config: config,

@@ -21,7 +21,7 @@ func (s *stacksServer) CreateStackBuild(ctx context.Context, in *pb.CreateStackB
 	stackBuildModel := model.PrepareStackBuildModel(in.StackBuild)
 	//insert into db
 	if s.db.Create(stackBuildModel).Error != nil {
-		return nil, status.Error(codes.Internal, "Record not inserted in Stack")
+		return nil, status.Error(codes.Internal, "Record not inserted in StackBuild")
 	}
 	resStack := model.PrepareStackBuildObj(stackBuildModel)
 	return resStack, nil

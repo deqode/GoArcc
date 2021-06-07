@@ -10,6 +10,8 @@ import (
 	authPb "alfred/modules/authentication/v1/pb"
 	gitExt "alfred/modules/git/v1/external-svc"
 	gitPb "alfred/modules/git/v1/pb"
+	stackExt "alfred/modules/stack/v1/external-svc"
+	stackPb "alfred/modules/stack/v1/pb"
 	userExt "alfred/modules/user-profile/v1/external-svc"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	vcsExt "alfred/modules/vcs-connection/v1/external-svc"
@@ -36,4 +38,5 @@ func RegisterGrpcModules(srv *grpc.Server,
 	vcsPb.RegisterVCSConnectionsServer(srv, vcsExt.NewVCSConnectionServer(db, config, grpcClientConnection))
 	accountPb.RegisterAccountsServer(srv, external_svc.NewAccountExtServer(db, config, grpcClientConnection))
 	gitPb.RegisterGitsServer(srv, gitExt.NewGitServer(db, config, grpcClientConnection, cadenceConfig, cadenceAdapter))
+	stackPb.RegisterStacksServer(srv, stackExt.NewStacksServer(db, config))
 }

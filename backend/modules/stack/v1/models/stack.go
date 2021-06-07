@@ -10,17 +10,17 @@ import (
 )
 
 type Stack struct {
-	ID string `gorm:"primarykey"`
+	ID string `gorm:"type:uuid;primarykey"`
 	// name of the stack
 	Name string
 	// slug of the stack
 	Slug string
 	// account id of stack
-	AccountID string
+	AccountID string `gorm:"type:uuid"`
 	// cloud_connection_id required to identify cloud provider
-	CloudConnectionID string
+	CloudConnectionID string `gorm:"type:uuid"`
 	// vcs_connection_id of user vcs
-	VCSConnectionID string
+	VCSConnectionID string `gorm:"type:uuid"`
 	// git url
 	GitURL string
 	// git branch

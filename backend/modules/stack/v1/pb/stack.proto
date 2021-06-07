@@ -119,16 +119,16 @@ service Stacks{
 
 message Stack{
     // auto generated
-    string id = 1[(validate.rules).string.uuid = true];
+    string id = 1;
     // name of the stack
     string name = 2 [(validate.rules).string = {
         min_len: 1 max_len: 100,
-        pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$"
+//        pattern:"^[A-Za-z]\\w{5, 29}$"
     }];
     // slug of the stack
     string slug = 3 [(validate.rules).string = {
         min_len: 1 max_len: 100,
-        pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$"
+//        pattern:"^[a-z](-?[a-z])*$"
     }];
     // account id of stack
     string account_id = 4 [(validate.rules).string.uuid = true];
@@ -151,7 +151,7 @@ message Stack{
     // status of stack deployed, failed,
     StackStatus status = 13;
     // url where stack is deployed
-    string web_url = 14 [(validate.rules).string.uri = true];
+    string web_url = 14;
 }
 
 message CreateStackRequest {
@@ -180,7 +180,7 @@ message ListStackResponse {
 // service stack_builds
 message StackBuild{
     // auto generated
-    string id = 1 [(validate.rules).string.uuid = true];
+    string id = 1 ;
     // every build belong to an stack
     string stack_id = 2[(validate.rules).string.uuid = true];
     // failed , pending, succeeded
@@ -188,7 +188,7 @@ message StackBuild{
     // slug of the stack_build
     string slug = 4 [(validate.rules).string = {
         min_len: 1 max_len: 100,
-        pattern:"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$"
+//        pattern:"^[a-z](-?[a-z])*$"
     }];
     // account id of stack_build
     string account_id = 5 [(validate.rules).string.uuid = true];

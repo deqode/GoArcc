@@ -43,13 +43,7 @@ func (m *Stack) Validate() error {
 		return nil
 	}
 
-	if err := m._validateUuid(m.GetId()); err != nil {
-		return StackValidationError{
-			field:  "Id",
-			reason: "value must be a valid UUID",
-			cause:  err,
-		}
-	}
+	// no validation rules for Id
 
 	if l := utf8.RuneCountInString(m.GetName()); l < 1 || l > 100 {
 		return StackValidationError{
@@ -58,24 +52,10 @@ func (m *Stack) Validate() error {
 		}
 	}
 
-	if !_Stack_Name_Pattern.MatchString(m.GetName()) {
-		return StackValidationError{
-			field:  "Name",
-			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
-		}
-	}
-
 	if l := utf8.RuneCountInString(m.GetSlug()); l < 1 || l > 100 {
 		return StackValidationError{
 			field:  "Slug",
 			reason: "value length must be between 1 and 100 runes, inclusive",
-		}
-	}
-
-	if !_Stack_Slug_Pattern.MatchString(m.GetSlug()) {
-		return StackValidationError{
-			field:  "Slug",
-			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
 		}
 	}
 
@@ -149,18 +129,7 @@ func (m *Stack) Validate() error {
 
 	// no validation rules for Status
 
-	if uri, err := url.Parse(m.GetWebUrl()); err != nil {
-		return StackValidationError{
-			field:  "WebUrl",
-			reason: "value must be a valid URI",
-			cause:  err,
-		}
-	} else if !uri.IsAbs() {
-		return StackValidationError{
-			field:  "WebUrl",
-			reason: "value must be absolute",
-		}
-	}
+	// no validation rules for WebUrl
 
 	return nil
 }
@@ -226,10 +195,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = StackValidationError{}
-
-var _Stack_Name_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
-
-var _Stack_Slug_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
 
 // Validate checks the field values on CreateStackRequest with the rules
 // defined in the proto definition for this message. If any rules are
@@ -316,7 +281,21 @@ func (m *DeleteStackRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Id
+	if err := m._validateUuid(m.GetId()); err != nil {
+		return DeleteStackRequestValidationError{
+			field:  "Id",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	return nil
+}
+
+func (m *DeleteStackRequest) _validateUuid(uuid string) error {
+	if matched := _stack_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -383,6 +362,13 @@ var _ interface {
 func (m *UpdateStackRequest) Validate() error {
 	if m == nil {
 		return nil
+	}
+
+	if m.GetStack() == nil {
+		return UpdateStackRequestValidationError{
+			field:  "Stack",
+			reason: "value is required",
+		}
 	}
 
 	if v, ok := interface{}(m.GetStack()).(interface{ Validate() error }); ok {
@@ -462,7 +448,21 @@ func (m *GetStackRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Id
+	if err := m._validateUuid(m.GetId()); err != nil {
+		return GetStackRequestValidationError{
+			field:  "Id",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	return nil
+}
+
+func (m *GetStackRequest) _validateUuid(uuid string) error {
+	if matched := _stack_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -529,7 +529,21 @@ func (m *ListStackRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for AccountId
+	if err := m._validateUuid(m.GetAccountId()); err != nil {
+		return ListStackRequestValidationError{
+			field:  "AccountId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	return nil
+}
+
+func (m *ListStackRequest) _validateUuid(uuid string) error {
+	if matched := _stack_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -677,13 +691,7 @@ func (m *StackBuild) Validate() error {
 		return nil
 	}
 
-	if err := m._validateUuid(m.GetId()); err != nil {
-		return StackBuildValidationError{
-			field:  "Id",
-			reason: "value must be a valid UUID",
-			cause:  err,
-		}
-	}
+	// no validation rules for Id
 
 	if err := m._validateUuid(m.GetStackId()); err != nil {
 		return StackBuildValidationError{
@@ -699,13 +707,6 @@ func (m *StackBuild) Validate() error {
 		return StackBuildValidationError{
 			field:  "Slug",
 			reason: "value length must be between 1 and 100 runes, inclusive",
-		}
-	}
-
-	if !_StackBuild_Slug_Pattern.MatchString(m.GetSlug()) {
-		return StackBuildValidationError{
-			field:  "Slug",
-			reason: "value does not match regex pattern \"^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$\"",
 		}
 	}
 
@@ -794,8 +795,6 @@ var _ interface {
 	ErrorName() string
 } = StackBuildValidationError{}
 
-var _StackBuild_Slug_Pattern = regexp.MustCompile("^[^[0-9]A-Za-z]+( [^[0-9]A-Za-z]+)*$")
-
 // Validate checks the field values on CreateStackBuildRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -881,9 +880,23 @@ func (m *DeleteStackBuildRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Id
+	if err := m._validateUuid(m.GetId()); err != nil {
+		return DeleteStackBuildRequestValidationError{
+			field:  "Id",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
 
 	// no validation rules for DeletePhysical
+
+	return nil
+}
+
+func (m *DeleteStackBuildRequest) _validateUuid(uuid string) error {
+	if matched := _stack_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -952,7 +965,21 @@ func (m *GetStackBuildRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Id
+	if err := m._validateUuid(m.GetId()); err != nil {
+		return GetStackBuildRequestValidationError{
+			field:  "Id",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	return nil
+}
+
+func (m *GetStackBuildRequest) _validateUuid(uuid string) error {
+	if matched := _stack_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }
@@ -1021,7 +1048,21 @@ func (m *ListStackBuildRequest) Validate() error {
 		return nil
 	}
 
-	// no validation rules for StackId
+	if err := m._validateUuid(m.GetStackId()); err != nil {
+		return ListStackBuildRequestValidationError{
+			field:  "StackId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+	}
+
+	return nil
+}
+
+func (m *ListStackBuildRequest) _validateUuid(uuid string) error {
+	if matched := _stack_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
 
 	return nil
 }

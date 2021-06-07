@@ -4,6 +4,7 @@ import (
 	"alfred.sh/common/logger"
 	accountPb "alfred/modules/account/v1/pb"
 	gitPb "alfred/modules/git/v1/pb"
+	stackPb "alfred/modules/stack/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
@@ -30,6 +31,11 @@ func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error 
 		return err
 	}
 	if err := accountPb.RegisterAccountsGraphqlHandler(mux, conn); err != nil {
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
+		return err
+	}
+
+	if err := stackPb.RegisterStacksGraphqlHandler(mux, conn); err != nil {
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}

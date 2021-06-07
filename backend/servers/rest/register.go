@@ -5,6 +5,7 @@ import (
 	accountPb "alfred/modules/account/v1/pb"
 	authPb "alfred/modules/authentication/v1/pb"
 	gitPb "alfred/modules/git/v1/pb"
+	stackPb "alfred/modules/stack/v1/pb"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
 	vcsPb "alfred/modules/vcs-connection/v1/pb"
 	"context"
@@ -41,6 +42,9 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
 		return err
 	}
-
+	if err := stackPb.RegisterStacksHandler(ctx, mux, conn); err != nil {
+		logger.Log.Fatal("failed to start HTTP gateway", zap.String("reason", err.Error()))
+		return err
+	}
 	return nil
 }
