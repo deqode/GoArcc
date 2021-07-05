@@ -1,9 +1,9 @@
 package grpcClient
 
 import (
-	"alfred.sh/common/logger"
 	"alfred/config"
 	"alfred/servers/openTracing/tracer/jaeger"
+	"alfred/util/logger"
 	"context"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"go.uber.org/zap"

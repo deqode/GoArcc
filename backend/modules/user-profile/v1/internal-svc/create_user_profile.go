@@ -1,7 +1,6 @@
 package internal_svc
 
 import (
-	databaseHelper "alfred.sh/common/database/helper"
 	model "alfred/modules/user-profile/v1/models"
 	"alfred/modules/user-profile/v1/pb"
 	"context"
@@ -37,8 +36,8 @@ func (s *userProfileInServer) CreateUserProfile(ctx context.Context, in *pb.Crea
 	//insert into db
 	gormDb := s.db
 	tx := gormDb.Create(UserProfileModel)
-	if err := databaseHelper.ValidateResult(tx); err != nil {
-		return nil, err
+	if tx.Error != nil {
+		return nil, tx.Error
 	}
 	return in.UserProfile, nil
 }

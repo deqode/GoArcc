@@ -2,7 +2,6 @@ package external_svc
 
 import (
 	"alfred/config"
-	accountPb "alfred/modules/account/v1/pb"
 	model "alfred/modules/user-profile/v1/models"
 	"alfred/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
@@ -10,10 +9,9 @@ import (
 )
 
 type userProfilesServer struct {
-	db            *gorm.DB
-	config        *config.Config
-	grpcClient    *grpc.ClientConn
-	accountServer accountPb.AccountsServer
+	db         *gorm.DB
+	config     *config.Config
+	grpcClient *grpc.ClientConn
 }
 
 // NewUserProfilesServer todo : AlWays add migration code for best practices

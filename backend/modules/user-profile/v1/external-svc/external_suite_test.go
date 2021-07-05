@@ -1,7 +1,6 @@
 package external_svc_test
 
 import (
-	"alfred.sh/common/logger"
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
@@ -9,6 +8,7 @@ import (
 	"alfred/modules/user-profile/v1/internal-svc"
 	"alfred/modules/user-profile/v1/pb"
 	"alfred/protos/types"
+	"alfred/util/logger"
 	"alfred/util/userinfo"
 	"context"
 	"github.com/bxcodec/faker/v3"

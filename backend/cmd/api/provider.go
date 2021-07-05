@@ -1,7 +1,6 @@
 package main
 
 import (
-	"alfred/background/cmd"
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
@@ -21,6 +20,5 @@ func GetProviderOptions() []fx.Option {
 		cleanup.CleanupFx,
 		jaeger.JaegerTracerFx,
 		grpcClient.ConnectionFx,
-		cmd.CadenceSetupFx,
 	}
 }

@@ -1,8 +1,6 @@
 package external_svc
 
 import (
-	databaseHelper "alfred.sh/common/database/helper"
-	accountModels "alfred/modules/account/v1/models"
 	"alfred/modules/authentication/v1/pb"
 	userprofileModel "alfred/modules/user-profile/v1/models"
 	userProfilePb "alfred/modules/user-profile/v1/pb"
@@ -10,7 +8,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/coreos/go-oidc"
-	"github.com/hashicorp/go-uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -113,25 +110,10 @@ func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile
 			DeletedAt:     gorm.DeletedAt{},
 		}
 		tx := transaction.Create(&userProfileModel)
-		if err := databaseHelper.ValidateResult(tx); err != nil {
-			return err
+		if tx.Error != nil {
+			return tx.Error
 		}
-		id, err := uuid.GenerateUUID()
-		if err != nil {
-			return err
-		}
-		accountModel := accountModels.Account{
-			Slug:      userProfileModel.Name + "_" + userProfileModel.Source.String(),
-			UserID:    userProfileModel.ID,
-			ID:        id,
-			CreatedAt: time.Time{},
-			UpdatedAt: time.Time{},
-			DeletedAt: gorm.DeletedAt{},
-		}
-		tx = transaction.Create(&accountModel)
-		if err := databaseHelper.ValidateResult(tx); err != nil {
-			return err
-		}
+
 		//if everything goes right then the transaction will commit by itself
 		userid = usr.ID
 		return nil

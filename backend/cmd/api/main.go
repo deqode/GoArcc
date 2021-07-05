@@ -1,7 +1,7 @@
 package main
 
 import (
-	"alfred.sh/common/logger"
+	"alfred/util/logger"
 	"go.uber.org/zap"
 )
 

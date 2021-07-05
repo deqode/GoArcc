@@ -1,7 +1,6 @@
 package userinfo
 
 import (
-	databaseHelper "alfred.sh/common/database/helper"
 	"alfred/modules/user-profile/v1/models"
 	"context"
 	"google.golang.org/grpc/codes"
@@ -143,7 +142,7 @@ func (validateUserInfo *ValidateUserInfo) ValidateUser() error {
 	}
 	if !validateUserInfo.SkipRootValidation {
 		tx := validateUserInfo.Db.Where(validateUserInfo.RootTableTag+" = ?", userInfo.ID).First(validateUserInfo.RootTable)
-		if err := databaseHelper.ValidateResult(tx); err != nil {
+		if tx.Error != nil {
 			return status.Error(codes.PermissionDenied, "unauthenticated user")
 		}
 	}
@@ -151,7 +150,7 @@ func (validateUserInfo *ValidateUserInfo) ValidateUser() error {
 	if !validateUserInfo.SkipArgsValidation {
 		for tag, argTable := range validateUserInfo.Args {
 			tx := validateUserInfo.Db.Where(tag+" = ?", userInfo.ID).First(argTable)
-			if err := databaseHelper.ValidateResult(tx); err != nil {
+			if tx.Error != nil {
 				return status.Error(codes.PermissionDenied, "unauthenticated user")
 			}
 		}

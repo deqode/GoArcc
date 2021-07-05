@@ -1,9 +1,9 @@
 package grpc
 
 import (
-	"alfred.sh/common/logger"
 	"alfred/config"
 	"alfred/servers/grpc/middleware"
+	"alfred/util/logger"
 	"context"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/opentracing/opentracing-go"

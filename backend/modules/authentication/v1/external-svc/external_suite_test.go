@@ -1,12 +1,12 @@
 package external_svc_test
 
 import (
-	"alfred.sh/common/logger"
 	"alfred/client/grpcClient"
 	"alfred/config"
 	"alfred/db"
 	"alfred/modules/authentication/v1/external-svc"
 	"alfred/modules/authentication/v1/pb"
+	"alfred/util/logger"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"

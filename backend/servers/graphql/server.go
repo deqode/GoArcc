@@ -1,9 +1,9 @@
 package graphql
 
 import (
-	"alfred.sh/common/logger"
 	"alfred/config"
 	"alfred/servers/graphql/middleware"
+	"alfred/util/logger"
 	"context"
 	"net/http"
 	"time"

@@ -3,7 +3,7 @@ package prometheusServer
 /*
 import (
 	"alfred/config"
-	"alfred.sh/common/logger"
+	"alfred/util/logger"
 	"context"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/prometheus/client_golang/prometheus"

@@ -13,7 +13,7 @@ func ValidateResult(tx *gorm.DB) error {
 	}
 	if tx.Error != nil {
 		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-			return tx.Error
+			return gorm.ErrRecordNotFound
 		}
 		return status.Error(codes.Internal, tx.Error.Error())
 	}
