@@ -1,13 +1,13 @@
 package external_svc
 
 import (
-	"alfred/modules/authentication/v1/pb"
-	userprofileModel "alfred/modules/user-profile/v1/models"
-	userProfilePb "alfred/modules/user-profile/v1/pb"
-	"alfred/protos/types"
 	"context"
 	"fmt"
 	"github.com/coreos/go-oidc"
+	"goarcc/modules/authentication/v1/pb"
+	userprofileModel "goarcc/modules/user-profile/v1/models"
+	userProfilePb "goarcc/modules/user-profile/v1/pb"
+	"goarcc/protos/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"

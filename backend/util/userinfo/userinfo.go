@@ -1,7 +1,6 @@
 package userinfo
 
 import (
-	"alfred/modules/user-profile/v1/models"
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -113,8 +112,8 @@ func (validateUserInfo *ValidateUserInfo) validate() error {
 // BasicAuthValidation It will check the user id present in context is valid or not
 func BasicAuthValidation(ctx context.Context, db *gorm.DB) error {
 	v := &ValidateUserInfo{
-		Ctx:                ctx,
-		RootTable:          &models.UserProfile{},
+		Ctx: ctx,
+		//RootTable:          &models.UserProfile{},
 		RootTableTag:       "id",
 		Args:               nil,
 		SkipRootValidation: false,

@@ -1,9 +1,9 @@
 package internal_svc
 
 import (
-	"alfred/config"
-	model "alfred/modules/user-profile/v1/models"
-	"alfred/modules/user-profile/v1/pb"
+	"goarcc/config"
+	model "goarcc/modules/user-profile/v1/models"
+	"goarcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )

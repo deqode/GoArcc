@@ -1,7 +1,7 @@
 
 v3_use_offset: true
 #token_hmac_secret_key: "<YOUR-SECRET-STRING-HERE>"
-token_jwks_public_endpoint: https://alfred-sh.us.auth0.com/.well-known/jwks.json # TODO: Make this configurable for different environments
+token_jwks_public_endpoint: https://goarcc-sh.us.auth0.com/.well-known/jwks.json # TODO: Make this configurable for different environments
 
 api_key: abc # TODO: Make this configurable for different environments, better move it out of file
 engine: memory

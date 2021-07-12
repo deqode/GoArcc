@@ -1,13 +1,13 @@
 package external_svc
 
 import (
-	"alfred/config"
-	"alfred/modules/authentication/v1/pb"
-	"alfred/modules/user-profile/v1/external-svc"
-	userProfileInt "alfred/modules/user-profile/v1/internal-svc"
-	usrProfilePb "alfred/modules/user-profile/v1/pb"
 	"context"
 	oidc "github.com/coreos/go-oidc"
+	"goarcc/config"
+	"goarcc/modules/authentication/v1/pb"
+	"goarcc/modules/user-profile/v1/external-svc"
+	userProfileInt "goarcc/modules/user-profile/v1/internal-svc"
+	usrProfilePb "goarcc/modules/user-profile/v1/pb"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"

@@ -377,22 +377,22 @@ func file_pb_authentication_proto_rawDescGZIP() []byte {
 
 var file_pb_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_pb_authentication_proto_goTypes = []interface{}{
-	(*ValidateUserLoginRequest)(nil),  // 0: alfred.authentication.v1.ValidateUserLoginRequest
-	(*ValidateUserLoginResponse)(nil), // 1: alfred.authentication.v1.ValidateUserLoginResponse
-	(*LoginResponse)(nil),             // 2: alfred.authentication.v1.LoginResponse
-	(*LoginCallbackRequest)(nil),      // 3: alfred.authentication.v1.LoginCallbackRequest
-	(*LoginCallbackResponse)(nil),     // 4: alfred.authentication.v1.LoginCallbackResponse
+	(*ValidateUserLoginRequest)(nil),  // 0: goarcc.authentication.v1.ValidateUserLoginRequest
+	(*ValidateUserLoginResponse)(nil), // 1: goarcc.authentication.v1.ValidateUserLoginResponse
+	(*LoginResponse)(nil),             // 2: goarcc.authentication.v1.LoginResponse
+	(*LoginCallbackRequest)(nil),      // 3: goarcc.authentication.v1.LoginCallbackRequest
+	(*LoginCallbackResponse)(nil),     // 4: goarcc.authentication.v1.LoginCallbackResponse
 	(*empty.Empty)(nil),               // 5: google.protobuf.Empty
 }
 var file_pb_authentication_proto_depIdxs = []int32{
-	0, // 0: alfred.authentication.v1.ValidateLoginService.ValidateUserLogin:input_type -> alfred.authentication.v1.ValidateUserLoginRequest
-	5, // 1: alfred.authentication.v1.Authentications.Login:input_type -> google.protobuf.Empty
-	3, // 2: alfred.authentication.v1.Authentications.LoginCallback:input_type -> alfred.authentication.v1.LoginCallbackRequest
-	5, // 3: alfred.authentication.v1.Authentications.Logout:input_type -> google.protobuf.Empty
-	1, // 4: alfred.authentication.v1.ValidateLoginService.ValidateUserLogin:output_type -> alfred.authentication.v1.ValidateUserLoginResponse
-	2, // 5: alfred.authentication.v1.Authentications.Login:output_type -> alfred.authentication.v1.LoginResponse
-	4, // 6: alfred.authentication.v1.Authentications.LoginCallback:output_type -> alfred.authentication.v1.LoginCallbackResponse
-	5, // 7: alfred.authentication.v1.Authentications.Logout:output_type -> google.protobuf.Empty
+	0, // 0: goarcc.authentication.v1.ValidateLoginService.ValidateUserLogin:input_type -> goarcc.authentication.v1.ValidateUserLoginRequest
+	5, // 1: goarcc.authentication.v1.Authentications.Login:input_type -> google.protobuf.Empty
+	3, // 2: goarcc.authentication.v1.Authentications.LoginCallback:input_type -> goarcc.authentication.v1.LoginCallbackRequest
+	5, // 3: goarcc.authentication.v1.Authentications.Logout:input_type -> google.protobuf.Empty
+	1, // 4: goarcc.authentication.v1.ValidateLoginService.ValidateUserLogin:output_type -> goarcc.authentication.v1.ValidateUserLoginResponse
+	2, // 5: goarcc.authentication.v1.Authentications.Login:output_type -> goarcc.authentication.v1.LoginResponse
+	4, // 6: goarcc.authentication.v1.Authentications.LoginCallback:output_type -> goarcc.authentication.v1.LoginCallbackResponse
+	5, // 7: goarcc.authentication.v1.Authentications.Logout:output_type -> google.protobuf.Empty
 	4, // [4:8] is the sub-list for method output_type
 	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

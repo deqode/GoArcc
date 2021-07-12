@@ -1,12 +1,12 @@
 package rest
 
 import (
-	"alfred/config"
-	"alfred/servers/rest/middleware"
-	"alfred/util/logger"
 	"context"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/fx"
+	"goarcc/config"
+	"goarcc/logger"
+	"goarcc/servers/rest/middleware"
 	"google.golang.org/grpc"
 	"net/http"
 	"time"

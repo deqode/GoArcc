@@ -2,8 +2,8 @@ package middleware
 
 // TODO: Priority zero, validate if these are available are registered, otherwise fail on startup
 var publicEndpoint = []string{
-	"/alfred.vcs_connection.v1.VCSConnections/ListAllSupportedVCSProviders",
-	"/alfred.authentication.v1.Authentications/Login",
-	"/alfred.authentication.v1.Authentications/LoginCallback",
-	"/alfred.user_profile.v1.user-profile/GetUserProfileBySub",
+	"/goarcc.vcs_connection.v1.VCSConnections/ListAllSupportedVCSProviders",
+	"/goarcc.authentication.v1.Authentications/Login",
+	"/goarcc.authentication.v1.Authentications/LoginCallback",
+	"/goarcc.user_profile.v1.user-profile/GetUserProfileBySub",
 }

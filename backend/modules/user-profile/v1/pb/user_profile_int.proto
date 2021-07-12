@@ -1,5 +1,5 @@
 syntax = "proto3";
-package alfred.user_profile_internal.v1;
+package goarcc.user_profile_internal.v1;
 
 option go_package = "/pb";
 
@@ -12,10 +12,10 @@ import "validate/validate.proto";
 //Private Service - Requires Authentication
 service UserProfileInternal {
     //CreateUserProfile creates a user profile by external oAuth
-    rpc CreateUserProfile(CreateUserProfileRequest) returns (alfred.user_profile.v1.UserProfile);
+    rpc CreateUserProfile(CreateUserProfileRequest) returns (goarcc.user_profile.v1.UserProfile);
 
     // CreateUserProfile will update userprofile
-    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (alfred.user_profile.v1.UserProfile);
+    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (goarcc.user_profile.v1.UserProfile);
 
     // DeleteUserProfile delete the user
     rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
@@ -23,7 +23,7 @@ service UserProfileInternal {
 
 
 message CreateUserProfileRequest {
-    alfred.user_profile.v1.UserProfile user_profile = 1;
+    goarcc.user_profile.v1.UserProfile user_profile = 1;
 }
 
 message DeleteUserProfileRequest {
@@ -31,5 +31,5 @@ message DeleteUserProfileRequest {
 }
 
 message UpdateUserProfileRequest {
-    alfred.user_profile.v1.UserProfile user_profile = 1 [(validate.rules).message.required = true];
+    goarcc.user_profile.v1.UserProfile user_profile = 1 [(validate.rules).message.required = true];
 }

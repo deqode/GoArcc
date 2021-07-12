@@ -234,21 +234,21 @@ func file_pb_user_profile_int_proto_rawDescGZIP() []byte {
 
 var file_pb_user_profile_int_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_pb_user_profile_int_proto_goTypes = []interface{}{
-	(*CreateUserProfileRequest)(nil), // 0: alfred.user_profile_internal.v1.CreateUserProfileRequest
-	(*DeleteUserProfileRequest)(nil), // 1: alfred.user_profile_internal.v1.DeleteUserProfileRequest
-	(*UpdateUserProfileRequest)(nil), // 2: alfred.user_profile_internal.v1.UpdateUserProfileRequest
-	(*UserProfile)(nil),              // 3: alfred.user_profile.v1.UserProfile
+	(*CreateUserProfileRequest)(nil), // 0: goarcc.user_profile_internal.v1.CreateUserProfileRequest
+	(*DeleteUserProfileRequest)(nil), // 1: goarcc.user_profile_internal.v1.DeleteUserProfileRequest
+	(*UpdateUserProfileRequest)(nil), // 2: goarcc.user_profile_internal.v1.UpdateUserProfileRequest
+	(*UserProfile)(nil),              // 3: goarcc.user_profile.v1.UserProfile
 	(*empty.Empty)(nil),              // 4: google.protobuf.Empty
 }
 var file_pb_user_profile_int_proto_depIdxs = []int32{
-	3, // 0: alfred.user_profile_internal.v1.CreateUserProfileRequest.user_profile:type_name -> alfred.user_profile.v1.UserProfile
-	3, // 1: alfred.user_profile_internal.v1.UpdateUserProfileRequest.user_profile:type_name -> alfred.user_profile.v1.UserProfile
-	0, // 2: alfred.user_profile_internal.v1.UserProfileInternal.CreateUserProfile:input_type -> alfred.user_profile_internal.v1.CreateUserProfileRequest
-	2, // 3: alfred.user_profile_internal.v1.UserProfileInternal.UpdateUserProfile:input_type -> alfred.user_profile_internal.v1.UpdateUserProfileRequest
-	1, // 4: alfred.user_profile_internal.v1.UserProfileInternal.DeleteUserProfile:input_type -> alfred.user_profile_internal.v1.DeleteUserProfileRequest
-	3, // 5: alfred.user_profile_internal.v1.UserProfileInternal.CreateUserProfile:output_type -> alfred.user_profile.v1.UserProfile
-	3, // 6: alfred.user_profile_internal.v1.UserProfileInternal.UpdateUserProfile:output_type -> alfred.user_profile.v1.UserProfile
-	4, // 7: alfred.user_profile_internal.v1.UserProfileInternal.DeleteUserProfile:output_type -> google.protobuf.Empty
+	3, // 0: goarcc.user_profile_internal.v1.CreateUserProfileRequest.user_profile:type_name -> goarcc.user_profile.v1.UserProfile
+	3, // 1: goarcc.user_profile_internal.v1.UpdateUserProfileRequest.user_profile:type_name -> goarcc.user_profile.v1.UserProfile
+	0, // 2: goarcc.user_profile_internal.v1.UserProfileInternal.CreateUserProfile:input_type -> goarcc.user_profile_internal.v1.CreateUserProfileRequest
+	2, // 3: goarcc.user_profile_internal.v1.UserProfileInternal.UpdateUserProfile:input_type -> goarcc.user_profile_internal.v1.UpdateUserProfileRequest
+	1, // 4: goarcc.user_profile_internal.v1.UserProfileInternal.DeleteUserProfile:input_type -> goarcc.user_profile_internal.v1.DeleteUserProfileRequest
+	3, // 5: goarcc.user_profile_internal.v1.UserProfileInternal.CreateUserProfile:output_type -> goarcc.user_profile.v1.UserProfile
+	3, // 6: goarcc.user_profile_internal.v1.UserProfileInternal.UpdateUserProfile:output_type -> goarcc.user_profile.v1.UserProfile
+	4, // 7: goarcc.user_profile_internal.v1.UserProfileInternal.DeleteUserProfile:output_type -> google.protobuf.Empty
 	5, // [5:8] is the sub-list for method output_type
 	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

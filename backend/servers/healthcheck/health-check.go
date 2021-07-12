@@ -1,9 +1,9 @@
 package healthcheck
 
 import (
-	"alfred/config"
-	postgreshealth "alfred/servers/healthcheck/db"
 	"github.com/dimiro1/health"
+	"goarcc/config"
+	postgreshealth "goarcc/servers/healthcheck/db"
 	"gorm.io/gorm"
 	"net/http"
 )

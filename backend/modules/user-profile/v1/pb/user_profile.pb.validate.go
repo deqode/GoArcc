@@ -17,7 +17,7 @@ import (
 
 	"google.golang.org/protobuf/types/known/anypb"
 
-	types "alfred/protos/types"
+	types "goarcc/protos/types"
 )
 
 // ensure the imports are used

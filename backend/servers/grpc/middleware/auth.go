@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"alfred/util/userinfo"
+	"goarcc/util/userinfo"
 )
 
 const (
@@ -34,9 +34,9 @@ type Config struct {
 // todo: Move these base AUth0 URLs to config
 func NewConfig() (Config, error) {
 	newConfig := Config{
-		Issuer:   "https://alfred-sh.us.auth0.com/",
+		Issuer:   "https://goarcc-sh.us.auth0.com/",
 		Secret:   "secret",
-		Domain:   "https://alfred-sh.us.auth0.com",
+		Domain:   "https://goarcc-sh.us.auth0.com",
 		Audience: []string{"BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ"},
 	}
 

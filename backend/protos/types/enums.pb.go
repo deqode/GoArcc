@@ -99,7 +99,7 @@ func file_enums_proto_rawDescGZIP() []byte {
 
 var file_enums_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_enums_proto_goTypes = []interface{}{
-	(VCSProviders)(0), // 0: alfred.types.VCSProviders
+	(VCSProviders)(0), // 0: goarcc.types.VCSProviders
 }
 var file_enums_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

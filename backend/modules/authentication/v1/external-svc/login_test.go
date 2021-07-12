@@ -1,10 +1,10 @@
 package external_svc_test
 
 import (
-	"alfred/modules/authentication/v1/pb"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"goarcc/modules/authentication/v1/pb"
 )
 
 var _ = Describe("Login", func() {

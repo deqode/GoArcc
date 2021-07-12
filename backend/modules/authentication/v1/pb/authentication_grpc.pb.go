@@ -31,7 +31,7 @@ func NewValidateLoginServiceClient(cc grpc.ClientConnInterface) ValidateLoginSer
 
 func (c *validateLoginServiceClient) ValidateUserLogin(ctx context.Context, in *ValidateUserLoginRequest, opts ...grpc.CallOption) (*ValidateUserLoginResponse, error) {
 	out := new(ValidateUserLoginResponse)
-	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.ValidateLoginService/ValidateUserLogin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.authentication.v1.ValidateLoginService/ValidateUserLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.authentication.v1.ValidateLoginService/ValidateUserLogin",
+		FullMethod: "/goarcc.authentication.v1.ValidateLoginService/ValidateUserLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ValidateLoginServiceServer).ValidateUserLogin(ctx, req.(*ValidateUserLoginRequest))
@@ -83,7 +83,7 @@ func _ValidateLoginService_ValidateUserLogin_Handler(srv interface{}, ctx contex
 }
 
 var _ValidateLoginService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.authentication.v1.ValidateLoginService",
+	ServiceName: "goarcc.authentication.v1.ValidateLoginService",
 	HandlerType: (*ValidateLoginServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -116,7 +116,7 @@ func NewAuthenticationsClient(cc grpc.ClientConnInterface) AuthenticationsClient
 
 func (c *authenticationsClient) Login(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*LoginResponse, error) {
 	out := new(LoginResponse)
-	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.Authentications/Login", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.authentication.v1.Authentications/Login", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +125,7 @@ func (c *authenticationsClient) Login(ctx context.Context, in *empty.Empty, opts
 
 func (c *authenticationsClient) LoginCallback(ctx context.Context, in *LoginCallbackRequest, opts ...grpc.CallOption) (*LoginCallbackResponse, error) {
 	out := new(LoginCallbackResponse)
-	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.Authentications/LoginCallback", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.authentication.v1.Authentications/LoginCallback", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func (c *authenticationsClient) LoginCallback(ctx context.Context, in *LoginCall
 
 func (c *authenticationsClient) Logout(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.authentication.v1.Authentications/Logout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.authentication.v1.Authentications/Logout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -187,7 +187,7 @@ func _Authentications_Login_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.authentication.v1.Authentications/Login",
+		FullMethod: "/goarcc.authentication.v1.Authentications/Login",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationsServer).Login(ctx, req.(*empty.Empty))
@@ -205,7 +205,7 @@ func _Authentications_LoginCallback_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.authentication.v1.Authentications/LoginCallback",
+		FullMethod: "/goarcc.authentication.v1.Authentications/LoginCallback",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationsServer).LoginCallback(ctx, req.(*LoginCallbackRequest))
@@ -223,7 +223,7 @@ func _Authentications_Logout_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.authentication.v1.Authentications/Logout",
+		FullMethod: "/goarcc.authentication.v1.Authentications/Logout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationsServer).Logout(ctx, req.(*empty.Empty))
@@ -232,7 +232,7 @@ func _Authentications_Logout_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 var _Authentications_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.authentication.v1.Authentications",
+	ServiceName: "goarcc.authentication.v1.Authentications",
 	HandlerType: (*AuthenticationsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

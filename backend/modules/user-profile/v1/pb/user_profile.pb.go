@@ -7,11 +7,11 @@
 package pb
 
 import (
-	types "alfred/protos/types"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	_ "github.com/ysugimoto/grpc-graphql-gateway/graphql"
+	types "goarcc/protos/types"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -89,7 +89,7 @@ type UserProfile struct {
 	Email string `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
 	// phone of user
 	PhoneNumber    string               `protobuf:"bytes,6,opt,name=phone_number,json=phoneNumber,proto3" json:"phone_number,omitempty"`
-	ExternalSource types.VCSProviders   `protobuf:"varint,7,opt,name=external_source,json=externalSource,proto3,enum=alfred.types.VCSProviders" json:"external_source,omitempty"`
+	ExternalSource types.VCSProviders   `protobuf:"varint,7,opt,name=external_source,json=externalSource,proto3,enum=goarcc.types.VCSProviders" json:"external_source,omitempty"`
 	ProfilePicUrl  string               `protobuf:"bytes,8,opt,name=profile_pic_url,json=profilePicUrl,proto3" json:"profile_pic_url,omitempty"`
 	TokenValidTill *timestamp.Timestamp `protobuf:"bytes,9,opt,name=token_valid_till,json=tokenValidTill,proto3" json:"token_valid_till,omitempty"`
 }
@@ -271,19 +271,19 @@ func file_pb_user_profile_proto_rawDescGZIP() []byte {
 
 var file_pb_user_profile_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_pb_user_profile_proto_goTypes = []interface{}{
-	(*GetUserProfileBySubRequest)(nil), // 0: alfred.user_profile.v1.GetUserProfileBySubRequest
-	(*UserProfile)(nil),                // 1: alfred.user_profile.v1.UserProfile
-	(types.VCSProviders)(0),            // 2: alfred.types.VCSProviders
+	(*GetUserProfileBySubRequest)(nil), // 0: goarcc.user_profile.v1.GetUserProfileBySubRequest
+	(*UserProfile)(nil),                // 1: goarcc.user_profile.v1.UserProfile
+	(types.VCSProviders)(0),            // 2: goarcc.types.VCSProviders
 	(*timestamp.Timestamp)(nil),        // 3: google.protobuf.Timestamp
 	(*empty.Empty)(nil),                // 4: google.protobuf.Empty
 }
 var file_pb_user_profile_proto_depIdxs = []int32{
-	2, // 0: alfred.user_profile.v1.UserProfile.external_source:type_name -> alfred.types.VCSProviders
-	3, // 1: alfred.user_profile.v1.UserProfile.token_valid_till:type_name -> google.protobuf.Timestamp
-	4, // 2: alfred.user_profile.v1.UserProfiles.GetUserProfile:input_type -> google.protobuf.Empty
-	0, // 3: alfred.user_profile.v1.UserProfiles.GetUserProfileBySub:input_type -> alfred.user_profile.v1.GetUserProfileBySubRequest
-	1, // 4: alfred.user_profile.v1.UserProfiles.GetUserProfile:output_type -> alfred.user_profile.v1.UserProfile
-	1, // 5: alfred.user_profile.v1.UserProfiles.GetUserProfileBySub:output_type -> alfred.user_profile.v1.UserProfile
+	2, // 0: goarcc.user_profile.v1.UserProfile.external_source:type_name -> goarcc.types.VCSProviders
+	3, // 1: goarcc.user_profile.v1.UserProfile.token_valid_till:type_name -> google.protobuf.Timestamp
+	4, // 2: goarcc.user_profile.v1.UserProfiles.GetUserProfile:input_type -> google.protobuf.Empty
+	0, // 3: goarcc.user_profile.v1.UserProfiles.GetUserProfileBySub:input_type -> goarcc.user_profile.v1.GetUserProfileBySubRequest
+	1, // 4: goarcc.user_profile.v1.UserProfiles.GetUserProfile:output_type -> goarcc.user_profile.v1.UserProfile
+	1, // 5: goarcc.user_profile.v1.UserProfiles.GetUserProfileBySub:output_type -> goarcc.user_profile.v1.UserProfile
 	4, // [4:6] is the sub-list for method output_type
 	2, // [2:4] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name

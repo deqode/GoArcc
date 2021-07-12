@@ -1,5 +1,5 @@
 syntax = "proto3";
-package  alfred.user_profile.v1;
+package  goarcc.user_profile.v1;
 
 option go_package = "/pb";
 

@@ -34,7 +34,7 @@ func NewUserProfilesClient(cc grpc.ClientConnInterface) UserProfilesClient {
 
 func (c *userProfilesClient) GetUserProfile(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfiles/GetUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.user_profile.v1.UserProfiles/GetUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (c *userProfilesClient) GetUserProfile(ctx context.Context, in *empty.Empty
 
 func (c *userProfilesClient) GetUserProfileBySub(ctx context.Context, in *GetUserProfileBySubRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile.v1.UserProfiles/GetUserProfileBySub", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.user_profile.v1.UserProfiles/GetUserProfileBySub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func _UserProfiles_GetUserProfile_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfiles/GetUserProfile",
+		FullMethod: "/goarcc.user_profile.v1.UserProfiles/GetUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfilesServer).GetUserProfile(ctx, req.(*empty.Empty))
@@ -110,7 +110,7 @@ func _UserProfiles_GetUserProfileBySub_Handler(srv interface{}, ctx context.Cont
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile.v1.UserProfiles/GetUserProfileBySub",
+		FullMethod: "/goarcc.user_profile.v1.UserProfiles/GetUserProfileBySub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfilesServer).GetUserProfileBySub(ctx, req.(*GetUserProfileBySubRequest))
@@ -119,7 +119,7 @@ func _UserProfiles_GetUserProfileBySub_Handler(srv interface{}, ctx context.Cont
 }
 
 var _UserProfiles_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.user_profile.v1.UserProfiles",
+	ServiceName: "goarcc.user_profile.v1.UserProfiles",
 	HandlerType: (*UserProfilesServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

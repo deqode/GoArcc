@@ -1,10 +1,10 @@
 package db
 
 import (
-	"alfred/config"
-	"alfred/util/logger"
 	"fmt"
 	"go.uber.org/zap"
+	"goarcc/config"
+	"goarcc/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

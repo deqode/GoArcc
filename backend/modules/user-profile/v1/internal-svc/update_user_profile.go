@@ -1,8 +1,8 @@
 package internal_svc
 
 import (
-	"alfred/modules/user-profile/v1/pb"
 	"context"
+	"goarcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

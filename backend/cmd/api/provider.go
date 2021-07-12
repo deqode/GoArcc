@@ -1,13 +1,13 @@
 package main
 
 import (
-	"alfred/client/grpcClient"
-	"alfred/config"
-	"alfred/db"
-	"alfred/servers/cleanup"
-	"alfred/servers/grpc"
-	"alfred/servers/openTracing/tracer/jaeger"
 	"go.uber.org/fx"
+	"goarcc/client/grpcClient"
+	"goarcc/config"
+	"goarcc/db"
+	"goarcc/servers/cleanup"
+	"goarcc/servers/grpc"
+	"goarcc/servers/openTracing/tracer/jaeger"
 )
 
 // GetProviderOptions ProviderOptions: Global Constructor.

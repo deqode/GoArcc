@@ -1,12 +1,12 @@
 package main
 
 import (
-	"alfred/servers/cleanup"
-	"alfred/servers/graphql"
-	"alfred/servers/grpc"
-	"alfred/servers/healthcheck"
-	"alfred/servers/rest"
 	"go.uber.org/fx"
+	"goarcc/servers/cleanup"
+	"goarcc/servers/graphql"
+	"goarcc/servers/grpc"
+	"goarcc/servers/healthcheck"
+	"goarcc/servers/rest"
 )
 
 /*

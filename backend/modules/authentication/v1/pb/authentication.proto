@@ -1,5 +1,5 @@
 syntax = "proto3";
-package alfred.authentication.v1;
+package goarcc.authentication.v1;
 
 option go_package = "/pb";
 

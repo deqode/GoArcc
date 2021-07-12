@@ -1,10 +1,10 @@
 package graphql
 
 import (
-	"alfred/config"
-	"alfred/servers/graphql/middleware"
-	"alfred/util/logger"
 	"context"
+	"goarcc/config"
+	"goarcc/logger"
+	"goarcc/servers/graphql/middleware"
 	"net/http"
 	"time"
 

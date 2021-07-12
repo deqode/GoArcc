@@ -1,10 +1,10 @@
 package external_svc
 
 import (
-	model "alfred/modules/user-profile/v1/models"
-	"alfred/modules/user-profile/v1/pb"
 	"context"
 	"errors"
+	model "goarcc/modules/user-profile/v1/models"
+	"goarcc/modules/user-profile/v1/pb"
 	"gorm.io/gorm"
 )
 

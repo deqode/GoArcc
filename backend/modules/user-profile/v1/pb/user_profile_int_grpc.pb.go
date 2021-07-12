@@ -36,7 +36,7 @@ func NewUserProfileInternalClient(cc grpc.ClientConnInterface) UserProfileIntern
 
 func (c *userProfileInternalClient) CreateUserProfile(ctx context.Context, in *CreateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile_internal.v1.UserProfileInternal/CreateUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.user_profile_internal.v1.UserProfileInternal/CreateUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *userProfileInternalClient) CreateUserProfile(ctx context.Context, in *C
 
 func (c *userProfileInternalClient) UpdateUserProfile(ctx context.Context, in *UpdateUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error) {
 	out := new(UserProfile)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile_internal.v1.UserProfileInternal/UpdateUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.user_profile_internal.v1.UserProfileInternal/UpdateUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +54,7 @@ func (c *userProfileInternalClient) UpdateUserProfile(ctx context.Context, in *U
 
 func (c *userProfileInternalClient) DeleteUserProfile(ctx context.Context, in *DeleteUserProfileRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/alfred.user_profile_internal.v1.UserProfileInternal/DeleteUserProfile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/goarcc.user_profile_internal.v1.UserProfileInternal/DeleteUserProfile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +108,7 @@ func _UserProfileInternal_CreateUserProfile_Handler(srv interface{}, ctx context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile_internal.v1.UserProfileInternal/CreateUserProfile",
+		FullMethod: "/goarcc.user_profile_internal.v1.UserProfileInternal/CreateUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileInternalServer).CreateUserProfile(ctx, req.(*CreateUserProfileRequest))
@@ -126,7 +126,7 @@ func _UserProfileInternal_UpdateUserProfile_Handler(srv interface{}, ctx context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile_internal.v1.UserProfileInternal/UpdateUserProfile",
+		FullMethod: "/goarcc.user_profile_internal.v1.UserProfileInternal/UpdateUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileInternalServer).UpdateUserProfile(ctx, req.(*UpdateUserProfileRequest))
@@ -144,7 +144,7 @@ func _UserProfileInternal_DeleteUserProfile_Handler(srv interface{}, ctx context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/alfred.user_profile_internal.v1.UserProfileInternal/DeleteUserProfile",
+		FullMethod: "/goarcc.user_profile_internal.v1.UserProfileInternal/DeleteUserProfile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserProfileInternalServer).DeleteUserProfile(ctx, req.(*DeleteUserProfileRequest))
@@ -153,7 +153,7 @@ func _UserProfileInternal_DeleteUserProfile_Handler(srv interface{}, ctx context
 }
 
 var _UserProfileInternal_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "alfred.user_profile_internal.v1.UserProfileInternal",
+	ServiceName: "goarcc.user_profile_internal.v1.UserProfileInternal",
 	HandlerType: (*UserProfileInternalServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

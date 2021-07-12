@@ -1,12 +1,12 @@
 package external_svc
 
 import (
-	model "alfred/modules/user-profile/v1/models"
-	"alfred/modules/user-profile/v1/pb"
-	"alfred/util/userinfo"
 	"context"
 	"errors"
 	"github.com/golang/protobuf/ptypes/empty"
+	model "goarcc/modules/user-profile/v1/models"
+	"goarcc/modules/user-profile/v1/pb"
+	"goarcc/util/userinfo"
 	"gorm.io/gorm"
 )
 

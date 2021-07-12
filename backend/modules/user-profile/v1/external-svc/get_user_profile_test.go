@@ -1,11 +1,11 @@
 package external_svc_test
 
 import (
-	"alfred/modules/user-profile/v1/pb"
-	"alfred/util/userinfo"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"goarcc/modules/user-profile/v1/pb"
+	"goarcc/util/userinfo"
 	"gorm.io/gorm"
 	_ "log"
 	"time"

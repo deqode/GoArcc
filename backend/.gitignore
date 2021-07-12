@@ -19,8 +19,8 @@
 .vscode/
 
 #ignore build file
-alfred
-go_build_alfred
+goarcc
+go_build_goarcc
 go_build_platform
 go_build_backend_
 cmd/api/repositories/

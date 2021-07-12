@@ -1,9 +1,9 @@
 package models
 
 import (
-	"alfred/protos/types"
-	"alfred/util/logger"
 	"go.uber.org/zap"
+	"goarcc/logger"
+	"goarcc/protos/types"
 	"gorm.io/gorm"
 	"time"
 )

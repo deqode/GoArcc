@@ -1,11 +1,11 @@
 package internal_svc_test
 
 import (
-	"alfred/modules/user-profile/v1/pb"
-	"alfred/protos/types"
 	"context"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"goarcc/modules/user-profile/v1/pb"
+	"goarcc/protos/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

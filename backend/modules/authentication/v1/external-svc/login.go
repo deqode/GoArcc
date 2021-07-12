@@ -1,11 +1,11 @@
 package external_svc
 
 import (
-	"alfred/modules/authentication/v1/pb"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"github.com/golang/protobuf/ptypes/empty"
+	"goarcc/modules/authentication/v1/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

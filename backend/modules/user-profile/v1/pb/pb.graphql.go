@@ -4,10 +4,10 @@ package pb
 import (
 	"context"
 
-	types "alfred/protos/types"
 	"github.com/graphql-go/graphql"
 	"github.com/pkg/errors"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
+	types "goarcc/protos/types"
 	"google.golang.org/grpc"
 
 	gql_ptypes_timestamp "github.com/ysugimoto/grpc-graphql-gateway/ptypes/timestamp"

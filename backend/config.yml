@@ -51,7 +51,7 @@ jaeger:
 
 auth:
   auth0_client_id: BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ
-  auth0_domain: alfred-sh.us.auth0.com
+  auth0_domain: goarcc-sh.us.auth0.com
   auth0_client_secret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
   auth0_call_back_url: http://localhost:3000/authentication/callback
 

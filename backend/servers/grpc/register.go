@@ -1,16 +1,16 @@
 package grpc
 
 import (
-	"alfred/config"
-	authExt "alfred/modules/authentication/v1/external-svc"
-	authPb "alfred/modules/authentication/v1/pb"
-	userExt "alfred/modules/user-profile/v1/external-svc"
-	userProfilePb "alfred/modules/user-profile/v1/pb"
+	"goarcc/config"
+	authExt "goarcc/modules/authentication/v1/external-svc"
+	authPb "goarcc/modules/authentication/v1/pb"
+	userExt "goarcc/modules/user-profile/v1/external-svc"
+	userProfilePb "goarcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
 
-// RegisterGrpcModules Todo : Whenever any new modules will be in alfred : it must be registered in below method
+// RegisterGrpcModules Todo : Whenever any new modules will be in goarcc : it must be registered in below method
 /*
   RegisterGrpcModules: will register the modules/services to the server.
 */

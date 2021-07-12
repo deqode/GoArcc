@@ -1,14 +1,14 @@
 package jaeger
 
 import (
-	"alfred/config"
-	"alfred/util/logger"
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
 	jaegerconfig "github.com/uber/jaeger-client-go/config"
 	jaegerlog "github.com/uber/jaeger-client-go/log"
 	"github.com/uber/jaeger-lib/metrics"
 	"go.uber.org/zap"
+	"goarcc/config"
+	"goarcc/logger"
 	"io"
 	"strconv"
 )

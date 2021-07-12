@@ -1,14 +1,14 @@
 package graphql
 
 import (
-	userProfilePb "alfred/modules/user-profile/v1/pb"
-	"alfred/util/logger"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/zap"
+	"goarcc/logger"
+	userProfilePb "goarcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 )
 
-// RegisterGraphqlModules Todo : Whenever any new modules will be in alfred : it must be registered in below method
+// RegisterGraphqlModules Todo : Whenever any new modules will be in goarcc : it must be registered in below method
 /*
   RegisterGraphqlModules: Mapping the services with the single graphql endpoint
 */
