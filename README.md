@@ -1,4 +1,5 @@
 # Go monolith with embedded microservices including GRPC,REST, graphQL and The Clean Architecture.
+![build succeeded](https://deqode.github.io/GoArcc/img/logo.svg)
 
 When you start writing a Go project, GoArcc helps to set up all the initial code boilerplate for your project. Initial boilerplate code means how you should organize your codebase and how you can write multiple services. We have support for REST, Graphql as well as gRPC.
 
@@ -28,7 +29,6 @@ In short, GoArcc is a boilerplate setup codebase for any monolithic(Architecture
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Overview
-![build succeeded](https://deqode.github.io/GoArcc/img/logo.svg)
 ### Structure of Go packages
 
 - `client/*` - clients for server dialing
