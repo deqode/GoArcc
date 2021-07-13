@@ -1,0 +1,1 @@
+# How I can remove Graphql Support in GoArcc?

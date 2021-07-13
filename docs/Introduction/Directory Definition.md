@@ -404,7 +404,8 @@ So , In main file you can easily start the application.
 
 <!-- <img src="/img/folderDefinition/servers.jpg" alt="GoArcc Servers Structure" width="70%"/>-->
 
-![GoArcc Servers Structure](/img/folderDefinition/servers.jpg)
+
+![GoArcc Servers Structure](/img/folderDefinition/Servers.jpg)
 
 Servers are the core part of this project. you can see in the above that we have supported multiples of servers.
 lets go into the deep dive of the code base so you can understand easily and change accordingly.
