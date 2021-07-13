@@ -1,5 +1,0 @@
-env: "development"
-cadence:
-  domain: "simple-domain"
-  service: "cadence-frontend"
-  hostPort: "127.0.0.1:7933"
