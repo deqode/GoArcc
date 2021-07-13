@@ -1,1 +1,1 @@
-# How I can add extra configs in GoArcc?
+# How  can I add extra configs in GoArcc?

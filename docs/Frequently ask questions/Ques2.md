@@ -1,1 +1,1 @@
-# How I can remove Graphql Support in GoArcc?
+# How  can I remove Graphql Support in GoArcc?

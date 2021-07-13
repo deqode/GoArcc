@@ -1,1 +1,1 @@
-# How I can remove Rest Support from GoArcc?
+# How  can I remove Rest Support from GoArcc?
