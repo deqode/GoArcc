@@ -13,7 +13,8 @@ require (
 	github.com/graphql-go/graphql v0.7.9
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
-	github.com/labstack/echo/v4 v4.2.1
+	github.com/kyoh86/richgo v0.3.9 // indirect
+	github.com/labstack/echo/v4 v4.4.0
 	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
 	github.com/onsi/ginkgo v1.15.0
@@ -36,7 +37,7 @@ require (
 	goarcc/util/userinfo v0.0.0-00010101000000-000000000000
 	golang.org/x/exp v0.0.0-20200331195152-e8c3332aa8e5 // indirect
 	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
-	golang.org/x/sys v0.0.0-20210603125802-9665404d3644 // indirect
+	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c
 	google.golang.org/grpc v1.39.0
 	google.golang.org/protobuf v1.27.1

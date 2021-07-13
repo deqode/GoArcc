@@ -1,8 +1,0 @@
-cassandra:
-  resources:
-    requests:
-      memory: 1Gi
-      cpu: 0.5
-    limits:
-      memory: 1Gi
-      cpu: 0.7
