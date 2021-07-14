@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package goarcc.types;
+
+option go_package = "goarcc/protos/types";
+
+enum VCSProviders {
+    UNKNOWN = 0;
+    GITHUB = 1;
+    GITLAB = 2;
+    BITBUCKET = 3;
+}
+
+/*
+    protoc -I ./ --go_out=paths=source_relative:. --graphql_out=paths=source_relative:. enums.proto && goimports -w .
+*/

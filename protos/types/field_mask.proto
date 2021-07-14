@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package goarcc.types;
+
+option go_package = "goarcc/protos/types";
+
+message FieldMask {
+    repeated string field_mask = 1;
+}

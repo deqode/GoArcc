@@ -6,8 +6,3 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-.env
-.idea/
-.vscode/
-*.sw*
-alfred

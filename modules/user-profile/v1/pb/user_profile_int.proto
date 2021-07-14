@@ -1,0 +1,35 @@
+syntax = "proto3";
+package goarcc.user_profile_internal.v1;
+
+option go_package = "/pb";
+
+import "google/protobuf/empty.proto";
+import "user_profile.proto";
+import "google/api/annotation.proto";
+import "validate/validate.proto";
+
+
+//Private Service - Requires Authentication
+service UserProfileInternal {
+    //CreateUserProfile creates a user profile by external oAuth
+    rpc CreateUserProfile(CreateUserProfileRequest) returns (goarcc.user_profile.v1.UserProfile);
+
+    // CreateUserProfile will update userprofile
+    rpc UpdateUserProfile(UpdateUserProfileRequest) returns (goarcc.user_profile.v1.UserProfile);
+
+    // DeleteUserProfile delete the user
+    rpc DeleteUserProfile(DeleteUserProfileRequest) returns (google.protobuf.Empty);
+}
+
+
+message CreateUserProfileRequest {
+    goarcc.user_profile.v1.UserProfile user_profile = 1;
+}
+
+message DeleteUserProfileRequest {
+    string id = 1 [(validate.rules).string.min_len = 3];
+}
+
+message UpdateUserProfileRequest {
+    goarcc.user_profile.v1.UserProfile user_profile = 1 [(validate.rules).message.required = true];
+}

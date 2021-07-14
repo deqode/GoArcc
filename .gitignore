@@ -1,0 +1,45 @@
+# The file containing environment variables
+.env
+### Go template
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+
+#ignore build file
+goarcc
+go_build_goarcc
+go_build_platform
+go_build_backend_
+cmd/api/repositories/
+cmd/api/repositories
+vendor
+
+# temporary remove for production
+./tests
+
+config.yml
+
+#test file
+coverage.out
+coverage.html
+.cover
+#cover/
+
+# Build artifacts
+bin/
+
+cache
+.docker/

@@ -1,0 +1,100 @@
+syntax = "proto3";
+package goarcc.authentication.v1;
+
+option go_package = "/pb";
+
+import "google/api/annotation.proto";
+import "google/protobuf/empty.proto";
+import "validate/validate.proto";
+
+service ValidateLoginService {
+    rpc ValidateUserLogin (ValidateUserLoginRequest) returns (ValidateUserLoginResponse);
+}
+
+//ValidateUserLoginRequest contains user login credential.
+message ValidateUserLoginRequest {
+    //Id is the user Unique identifier
+    string id = 1;
+    // Password  is the user password
+    string password = 2;
+}
+
+message ValidateUserLoginResponse {
+    //Id is the user Unique identifier
+    string id = 1;
+}
+
+service Authentications {
+    // Login provide a url of External OAuth login endpoint (Auth0)
+    rpc Login (google.protobuf.Empty) returns (LoginResponse) {
+        option (google.api.http) = {
+            get: "/v1/authentication/login"
+        };
+    };
+
+    // LoginCallback receives a callback  from external OAuth application
+    rpc LoginCallback (LoginCallbackRequest) returns (LoginCallbackResponse) {
+        option (google.api.http) = {
+            get: "/v1/authentication/callback"
+        };
+    };
+
+    rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            get: "/v1/authentication/logout"
+        };
+    };
+
+    // GetUserLogin returns the specified user by its id.
+    // rpc GetUserLogin (GetUserLoginRequest) returns (google.protobuf.Empty);
+
+    // DeleteUserLogin is used to delete a user from the system, this will delete all
+    // rpc DeleteUserLogin (DeleteUserLoginRequest) returns (google.protobuf.Empty);
+
+
+    // rpc UpdateUserPassword (UpdateUserPasswordRequest) returns (google.protobuf.Empty);
+
+    // ResetUserPassword , if a user has forgot the password then
+    // this method can be used to reset the password
+    // rpc ResetUserPassword (ResetUserPasswordRequest) returns (google.protobuf.Empty);
+
+}
+
+message LoginResponse{
+    string url = 1;
+}
+
+message LoginCallbackRequest{
+    string state = 1 [(validate.rules).string.min_len = 3];
+    string code = 2  [(validate.rules).string.min_len = 3];
+}
+
+message LoginCallbackResponse{
+    string id_token = 1;
+    string access_token = 2;
+    string user_id = 3;
+}
+//message GetUserLoginRequest {
+//    // Id is the unique user id
+//    string id = 1;// [(validate.rules).string.min_len = 3];
+//}
+//
+//message DeleteUserLoginRequest {
+//    // Id is the unique user id
+//    string id = 1;// [(validate.rules).string.min_len = 3];
+//}
+//
+//message UpdateUserPasswordRequest {
+//    // Id is the unique user id
+//    string id = 1 ;//[(validate.rules).string.min_len = 3];
+//    // Password to be added against the given user id.
+//    string old_password = 2;// [(validate.rules).string = { min_len:8  max_len:36}];
+//    string new_password = 3;// [(validate.rules).string = { min_len:8  max_len:36}];
+//}
+//
+//message ResetUserPasswordRequest {
+//    // Id is the unique user id
+//    string id = 1;// [(validate.rules).string.min_len = 3];
+//    // Password to be added against the given user id.
+//    string new_password = 3;// [(validate.rules).string = { min_len:8  max_len:36}];
+//}

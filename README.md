@@ -1,3 +1,11 @@
+# GoArcc
+![build succeeded](https://deqode.github.io/GoArcc/img/logo.svg)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/deqode/GoArcc)](https://pkg.go.dev/github.com/github.com/deqode/GoArcc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/deqode/GoArcc)](https://goreportcard.com/report/github.com/deqode/GoArcc)
+![example branch parameter](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=feature-1)
+[![Coverage Status](https://coveralls.io/repos/github/deqode/goarcc/badge.svg?branch=master)](https://coveralls.io/github/deqode/goarcc?branch=boilerplate)
+[![Project Layout](https://img.shields.io/badge/Standard%20Go-Project%20Layout-informational)](https://github.com/golang-standards/project-layout)
+[![Release](https://img.shields.io/github/v/release/deqode/GoArcc)](https://github.com/deqode/GoArcc/releases/latest)
 # Go monolith with embedded microservices including GRPC,REST, graphQL and The Clean Architecture.
 ![build succeeded](https://deqode.github.io/GoArcc/img/logo.svg)
 
@@ -115,4 +123,19 @@ http://localhost:8082
 
 
 ngrok http https://localhost:8443
+
+## License ![Deqode Logo](https://deqode.com/wp-content/uploads/presskit-logo.png)
+
+
+```
+Copyright 2021, DeqodeLabs (https://deqode.com/)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
 ```

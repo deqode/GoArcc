@@ -1,0 +1,108 @@
+version: '3.3'
+
+volumes:
+  postgres:
+  scylla:
+
+services:
+
+  backend_api:
+    image: golang:1.16.4-stretch
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./../common:/common
+      - /tmp/docker_cache/go_mod:/go/pkg/mod
+    env_file:
+      - envs/common.env
+      - envs/backend_api.env
+    command: bin/api
+    depends_on:
+      - postgres
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "6831:6831/udp"
+      - "16686:16686"
+
+  centrifugo:
+    container_name: centrifugo
+    image: centrifugo/centrifugo:latest
+    volumes:
+      - ./config/centrifugo.yaml:/centrifugo/centrifugo.yaml
+    command: centrifugo --config=centrifugo.yaml
+    ports:
+      - 7070:7070
+      - 9000:9000
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./telementry/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  scylla:
+    image: scylladb/scylla:4.4.1
+    command:
+      - "--smp"
+      - "1"
+    ports:
+      - "9042:9042"
+    volumes:
+      - scylla:/var/lib/scylla
+
+  cadence:
+    image: ubercadence/server:master-auto-setup
+    ports:
+      - "7933:7933"
+      - "7934:7934"
+      - "7935:7935"
+      - "7939:7939"
+    environment:
+      DB: scylla
+      CASSANDRA_SEEDS: scylla
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development.yaml
+      LOG_LEVEL: info
+      PROMETHEUS_ENDPOINT: 0.0.0.0:8001
+#      PROMETHEUS_ENDPOINT_0: Frontend
+#      PROMETHEUS_ENDPOINT_1: Matching
+#      PROMETHEUS_ENDPOINT_2: History
+#      PROMETHEUS_ENDPOINT_3: Worker
+    depends_on:
+      - scylla
+
+  cadence-web:
+    image: ubercadence/web:latest
+    environment:
+      - "CADENCE_TCHANNEL_PEERS=cadence:7933"
+    ports:
+      - "8088:8088"
+    depends_on:
+      - cadence
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+
+  nats:
+    image: nats
+    command: --config /etc/nats/nats-server.conf
+    volumes:
+      - ./nats/nats-server.conf:/etc/nats/nats-server.conf
+    ports:
+      - "8222:8222"
