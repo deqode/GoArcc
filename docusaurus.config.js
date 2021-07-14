@@ -54,10 +54,6 @@ module.exports = {
               href: 'https://stackoverflow.com/questions/tagged/docusaurus',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
               label: 'Twitter',
               href: 'https://twitter.com/deqodesolutions',
             },
@@ -77,7 +73,12 @@ module.exports = {
           ],
         },
       ],
-     
+      logo: {
+        alt: 'Deqode logo',
+        src: 'img/deq.svg',
+        href: 'https://deqode.com/',
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} Deqode, Inc.`,
     },
     prism: {
       theme: lightCodeTheme,

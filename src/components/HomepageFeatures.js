@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Rich Support',
-    Svg: require('../../static/img/logo.svg').default,
+    Svg: require('../../static/img/rich_support.svg').default,
     description: (
       <>
         GoArcc supports gRPC, REST, GraphQl. 
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('../../static/img/logo.svg').default,
+    Svg: require('../../static/img/focus.svg').default,
     description: (
       <>
         Start writing the business logic part of your
@@ -25,11 +25,10 @@ const FeatureList = [
   },
   {
     title: 'Powered by Deqode',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('../../static/img/deq.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Constanly updated and maintained by developers at Deqode.
       </>
     ),
   },
