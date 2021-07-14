@@ -15,7 +15,7 @@ We have implemented logging, tracing, health check, Jaeger, etc so that any deve
 
 In short, GoArcc is a boilerplate setup codebase for any monolithic(Architecture) based web/mobile applications which later converted into microservices(Architecture).
 
-[Read more about GoArcc](deqode.github.io/goarcc/)
+[Read more about GoArcc](https://deqode.github.io/GoArcc/)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
