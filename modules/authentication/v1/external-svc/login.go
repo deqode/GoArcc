@@ -4,8 +4,8 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/base64"
+	"github.com/deqode/GoArcc/modules/authentication/v1/pb"
 	"github.com/golang/protobuf/ptypes/empty"
-	"goarcc/modules/authentication/v1/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

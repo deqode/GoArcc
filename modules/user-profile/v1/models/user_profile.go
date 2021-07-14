@@ -1,9 +1,9 @@
 package models
 
 import (
+	"github.com/deqode/GoArcc/logger"
+	"github.com/deqode/GoArcc/protos/types"
 	"go.uber.org/zap"
-	"goarcc/logger"
-	"goarcc/protos/types"
 	"gorm.io/gorm"
 	"time"
 )

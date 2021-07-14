@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/deqode/GoArcc/servers/cleanup"
+	"github.com/deqode/GoArcc/servers/graphql"
+	"github.com/deqode/GoArcc/servers/grpc"
+	"github.com/deqode/GoArcc/servers/healthcheck"
+	"github.com/deqode/GoArcc/servers/rest"
 	"go.uber.org/fx"
-	"goarcc/servers/cleanup"
-	"goarcc/servers/graphql"
-	"goarcc/servers/grpc"
-	"goarcc/servers/healthcheck"
-	"goarcc/servers/rest"
 )
 
 /*

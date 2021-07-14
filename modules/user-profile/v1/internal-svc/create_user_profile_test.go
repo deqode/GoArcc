@@ -2,10 +2,10 @@ package internal_svc_test
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/protos/types"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"goarcc/modules/user-profile/v1/pb"
-	"goarcc/protos/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

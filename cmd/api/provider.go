@@ -1,13 +1,13 @@
 package main
 
 import (
+	"github.com/deqode/GoArcc/client/grpcClient"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/db"
+	"github.com/deqode/GoArcc/servers/cleanup"
+	"github.com/deqode/GoArcc/servers/grpc"
+	"github.com/deqode/GoArcc/servers/openTracing/tracer/jaeger"
 	"go.uber.org/fx"
-	"goarcc/client/grpcClient"
-	"goarcc/config"
-	"goarcc/db"
-	"goarcc/servers/cleanup"
-	"goarcc/servers/grpc"
-	"goarcc/servers/openTracing/tracer/jaeger"
 )
 
 // GetProviderOptions ProviderOptions: Global Constructor.

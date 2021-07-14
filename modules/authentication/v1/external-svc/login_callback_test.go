@@ -2,9 +2,9 @@ package external_svc_test
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/modules/authentication/v1/pb"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"goarcc/modules/authentication/v1/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

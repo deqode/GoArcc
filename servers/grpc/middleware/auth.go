@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"goarcc/util/userinfo"
+	"github.com/deqode/GoArcc/util/userinfo"
 )
 
 const (
@@ -34,16 +34,15 @@ type Config struct {
 // todo: Move these base AUth0 URLs to config
 func NewConfig() (Config, error) {
 	newConfig := Config{
-		Issuer:   "https://goarcc-sh.us.auth0.com/",
+		Issuer:   "https://alfred-sh.us.auth0.com/",
 		Secret:   "secret",
-		Domain:   "https://goarcc-sh.us.auth0.com",
+		Domain:   "https://alfred-sh.us.auth0.com",
 		Audience: []string{"BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ"},
 	}
 
 	return newConfig, nil
 }
 
-// AuthMiddleware TODO - User Related Validation
 func AuthMiddleware(ctx context.Context) (context.Context, error) {
 	authRequired := true
 	//getting authentication from the context . ie bearer

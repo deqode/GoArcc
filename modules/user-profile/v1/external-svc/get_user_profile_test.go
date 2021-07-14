@@ -2,10 +2,10 @@ package external_svc_test
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/util/userinfo"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"goarcc/modules/user-profile/v1/pb"
-	"goarcc/util/userinfo"
 	"gorm.io/gorm"
 	_ "log"
 	"time"

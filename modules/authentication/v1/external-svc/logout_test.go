@@ -13,6 +13,5 @@ var _ = Describe("Logout Test", func() {
 
 			})
 		})
-		//todo more test cases will be added @shivang
 	})
 })

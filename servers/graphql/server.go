@@ -2,9 +2,9 @@ package graphql
 
 import (
 	"context"
-	"goarcc/config"
-	"goarcc/logger"
-	"goarcc/servers/graphql/middleware"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/logger"
+	"github.com/deqode/GoArcc/servers/graphql/middleware"
 	"net/http"
 	"time"
 

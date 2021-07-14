@@ -2,8 +2,8 @@ package internal_svc
 
 import (
 	"context"
-	model "goarcc/modules/user-profile/v1/models"
-	"goarcc/modules/user-profile/v1/pb"
+	model "github.com/deqode/GoArcc/modules/user-profile/v1/models"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"

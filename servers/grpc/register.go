@@ -1,11 +1,11 @@
 package grpc
 
 import (
-	"goarcc/config"
-	authExt "goarcc/modules/authentication/v1/external-svc"
-	authPb "goarcc/modules/authentication/v1/pb"
-	userExt "goarcc/modules/user-profile/v1/external-svc"
-	userProfilePb "goarcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/config"
+	authExt "github.com/deqode/GoArcc/modules/authentication/v1/external-svc"
+	authPb "github.com/deqode/GoArcc/modules/authentication/v1/pb"
+	userExt "github.com/deqode/GoArcc/modules/user-profile/v1/external-svc"
+	userProfilePb "github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )

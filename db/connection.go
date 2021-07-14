@@ -2,9 +2,9 @@ package db
 
 import (
 	"fmt"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/logger"
 	"go.uber.org/zap"
-	"goarcc/config"
-	"goarcc/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

@@ -1,9 +1,9 @@
 package healthcheck
 
 import (
+	"github.com/deqode/GoArcc/config"
+	postgreshealth "github.com/deqode/GoArcc/servers/healthcheck/db"
 	"github.com/dimiro1/health"
-	"goarcc/config"
-	postgreshealth "goarcc/servers/healthcheck/db"
 	"gorm.io/gorm"
 	"net/http"
 )

@@ -2,11 +2,11 @@ package grpcClient
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/logger"
+	"github.com/deqode/GoArcc/servers/openTracing/tracer/jaeger"
 	grpc_opentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	"go.uber.org/zap"
-	"goarcc/config"
-	"goarcc/logger"
-	"goarcc/servers/openTracing/tracer/jaeger"
 	"google.golang.org/grpc"
 	"time"
 )

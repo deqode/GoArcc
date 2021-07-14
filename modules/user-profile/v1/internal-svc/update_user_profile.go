@@ -2,7 +2,7 @@ package internal_svc
 
 import (
 	"context"
-	"goarcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

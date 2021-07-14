@@ -1,13 +1,13 @@
 package external_svc_test
 
 import (
+	"github.com/deqode/GoArcc/client/grpcClient"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/db"
+	"github.com/deqode/GoArcc/logger"
+	"github.com/deqode/GoArcc/modules/authentication/v1/external-svc"
+	"github.com/deqode/GoArcc/modules/authentication/v1/pb"
 	"go.uber.org/zap"
-	"goarcc/client/grpcClient"
-	"goarcc/config"
-	"goarcc/db"
-	"goarcc/logger"
-	"goarcc/modules/authentication/v1/external-svc"
-	"goarcc/modules/authentication/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 	"log"

@@ -1,4 +1,4 @@
-module goarcc/logger
+module github.com/deqode/GoArcc/logger
 
 go 1.16
 

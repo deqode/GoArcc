@@ -6,7 +6,7 @@
 [![CI](https://github.com/deqode/GoArcc/actions/workflows/go.yml/badge.svg)](https://github.com/deqode/GoArcc/actions/workflows/go.yml)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/deqode/GoArcc)](https://pkg.go.dev/github.com/github.com/deqode/GoArcc)
 [![Go Report Card](https://goreportcard.com/badge/github.com/deqode/GoArcc)](https://goreportcard.com/report/github.com/deqode/GoArcc)
-[![Coverage Status](https://coveralls.io/repos/github/deqode/goarcc/badge.svg?branch=master)](https://coveralls.io/github/deqode/goarcc?branch=boilerplate)
+[![Coverage Status](https://coveralls.io/repos/github/deqode/github.com/deqode/GoArcc/badge.svg?branch=master)](https://coveralls.io/github/deqode/goarcc?branch=boilerplate)
 [![Project Layout](https://img.shields.io/badge/Standard%20Go-Project%20Layout-informational)](https://github.com/golang-standards/project-layout)
 [![Release](https://img.shields.io/github/v/release/deqode/GoArcc)](https://github.com/deqode/GoArcc/releases/latest)
 ![GitHub last commit](https://img.shields.io/github/last-commit/deqode/codeanalyser)
