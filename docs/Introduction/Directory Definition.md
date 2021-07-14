@@ -9,7 +9,7 @@ Before you start writing your services you need to understand how GoArcc works
 and what is the definition of its directory. 
 Let's get deep dive into the definition and codebase.
 
-## <u>Directory Structure</u>
+# <u>Directory Structure</u>
 
 
 
@@ -22,7 +22,7 @@ In below diagram we have multiple of directories such as **cmd** , **client** , 
 
 ![GoArcc Directory Structure](/img/folderDefinition/goArcc.jpg)
 
-### <u>Config</u>
+## <u>Config</u>
 
 
 
@@ -56,13 +56,13 @@ rest:
 
 ```
 
-#### <u>How you can add custom config?</u>
+### <u>How you can add custom config?</u>
 
 
 If you want to add some extra configs then you need to make a struct and place inside the main struct.
 
 
-```golang
+```go
 
 type Config struct {
 	Grpc               GrpcServerConfig        `mapstructure:"GRPC"`
@@ -89,7 +89,7 @@ to the default variables which is present in the config.yaml file.
 
 :::
 
-#### <u>How you can pass enviroment variables?</u>
+### <u>How you can pass enviroment variables?</u>
 
 ```
 
@@ -98,7 +98,7 @@ GRPC_PORT = 8085
 ```
 
 
-### <u>Db</u>
+## <u>Db</u>
 
 
 
@@ -108,7 +108,7 @@ Db instance is bind with the fx provider so we don't need to call this method.
 
 See the below code.
 
-```golang
+```go
 
 func NewConnection(config *config.Config) *gorm.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
@@ -147,7 +147,7 @@ We have used GORM as an ORM. If you want to explore GORM then once go through th
 
 
 
-### <u>Logger</u>
+## <u>Logger</u>
 
 
 
@@ -161,7 +161,7 @@ We have implemented log in the whole application so that developers will no need
 In golang, we have multiple logging libraries. So the team has decided to use a zap logger.
 
 
-#### <u>Why we have used zap logger? </u>
+### <u>Why we have used zap logger? </u>
 
 Just see the comparison below 😀
 
@@ -187,10 +187,10 @@ file.
 Apart from that if we need to overide the log level we just set an env variable or you can also change in the 
 config.yaml file.
 
-#### <u>Zap log level reference </u>
+### <u>Zap log level reference </u>
 
 
-```golang
+```go
 // reference taken from https://github.com/uber-go/zap/blob/120b08c8fae5be92bc7323ca78b25cd790e8c37a/level.go#L28
 const (
 	// DebugLevel logs are typically voluminous, and are usually disabled in
@@ -225,7 +225,7 @@ You can also see the different log level of zap
 
 
 
-### <u>Cmd</u>
+## <u>Cmd</u>
 
 
 
@@ -251,10 +251,10 @@ management in golang.
 
 :::
 
-   #### <u>main.go</u>
+   ### <u>main.go</u>
      
 
-```golang
+```go
 
 package main
 
@@ -288,9 +288,9 @@ If you want to see the info or warn level logs then you need to just pass the Za
 :::
 
 
-   #### <u>invokers.go</u>
+   ### <u>invokers.go</u>
     
-```golang
+```go
 
 package main
 
@@ -336,9 +336,9 @@ So, if you have explored the fx library then you can play with invokers and prov
 
 :::
 
-#### <u>providers.go</u>
+### <u>providers.go</u>
 
-```golang
+```go
 
 package main
 
@@ -374,9 +374,9 @@ at runtime.
 
 
 
-#### <u>app.go</u>
+### <u>app.go</u>
 
-```golang
+```go
 
 package main
 
@@ -398,7 +398,7 @@ So , In main file you can easily start the application.
 
 
 
-### <u> Servers </u>
+## <u> Servers </u>
 
 
 

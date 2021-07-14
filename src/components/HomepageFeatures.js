@@ -9,7 +9,7 @@ const FeatureList = [
     description: (
       <>
         GoArcc supports gRPC, REST, GraphQl. 
-        We have covered everything you need to start writing services.
+        We have covered everything you need to start writing your services.
       </>
     ),
   },
