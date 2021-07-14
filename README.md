@@ -6,6 +6,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/deqode/goarcc/badge.svg?branch=master)](https://coveralls.io/github/deqode/goarcc?branch=boilerplate)
 [![Project Layout](https://img.shields.io/badge/Standard%20Go-Project%20Layout-informational)](https://github.com/golang-standards/project-layout)
 [![Release](https://img.shields.io/github/v/release/deqode/GoArcc)](https://github.com/deqode/GoArcc/releases/latest)
+# Go monolith with embedded microservices including GRPC,REST, graphQL and The Clean Architecture.
+![build succeeded](https://deqode.github.io/GoArcc/img/logo.svg)
 
 When you start writing a Go project, GoArcc helps to set up all the initial code boilerplate for your project. Initial boilerplate code means how you should organize your codebase and how you can write multiple services. We have support for REST, Graphql as well as gRPC.
 
@@ -137,4 +139,3 @@ You may obtain a copy of the License at
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 ```
-
