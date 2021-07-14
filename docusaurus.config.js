@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'GoArcc',
-  tagline: 'Golang boilerplate for monolith , microservices including gRPC , Grahql , Rest with all the basic needed.',
+  tagline: 'Go monolith with embedded microservices including GRPC,REST,GraphQL and The Clean Architecture.',
   url: 'https://deqode.github.io',
   baseUrl: '/GoArcc/',
   onBrokenLinks: 'ignore',

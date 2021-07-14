@@ -4,27 +4,27 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Rich Support',
+    Svg: require('../../static/img/logo.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        GoArcc supports gRPC, REST, GraphQl. 
+        We have covered everything you need to start writing services.
       </>
     ),
   },
   {
     title: 'Focus on What Matters',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/logo.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Start writing the business logic part of your
+        services and deploy your code within a minute.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Powered by Deqode',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
