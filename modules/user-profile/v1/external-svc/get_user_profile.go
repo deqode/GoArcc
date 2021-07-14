@@ -3,10 +3,10 @@ package external_svc
 import (
 	"context"
 	"errors"
+	model "github.com/deqode/GoArcc/modules/user-profile/v1/models"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/util/userinfo"
 	"github.com/golang/protobuf/ptypes/empty"
-	model "goarcc/modules/user-profile/v1/models"
-	"goarcc/modules/user-profile/v1/pb"
-	"goarcc/util/userinfo"
 	"gorm.io/gorm"
 )
 

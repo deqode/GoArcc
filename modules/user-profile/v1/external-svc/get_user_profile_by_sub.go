@@ -3,8 +3,8 @@ package external_svc
 import (
 	"context"
 	"errors"
-	model "goarcc/modules/user-profile/v1/models"
-	"goarcc/modules/user-profile/v1/pb"
+	model "github.com/deqode/GoArcc/modules/user-profile/v1/models"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"gorm.io/gorm"
 )
 

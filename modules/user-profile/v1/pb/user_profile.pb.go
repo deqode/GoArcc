@@ -7,11 +7,11 @@
 package pb
 
 import (
+	types "github.com/deqode/GoArcc/protos/types"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	_ "github.com/ysugimoto/grpc-graphql-gateway/graphql"
-	types "goarcc/protos/types"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"

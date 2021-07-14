@@ -1,4 +1,4 @@
-module goarcc/util/userinfo
+module github.com/deqode/GoArcc/util/userinfo
 
 go 1.16
 

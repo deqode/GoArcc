@@ -2,9 +2,9 @@ package external_svc_test
 
 import (
 	"context"
+	pb "github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	pb "goarcc/modules/user-profile/v1/pb"
 	"gorm.io/gorm"
 )
 

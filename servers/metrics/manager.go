@@ -2,7 +2,7 @@ package metrics
 
 import (
 	"context"
-	"goarcc/servers/grpc/grpcErrors"
+	"github.com/deqode/GoArcc/servers/grpc/grpcErrors"
 	"google.golang.org/grpc"
 	"net/http"
 	"time"

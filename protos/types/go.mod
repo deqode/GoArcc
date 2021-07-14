@@ -1,4 +1,4 @@
-module goarcc/protos/types
+module github.com/deqode/GoArcc/protos/types
 
 go 1.16
 

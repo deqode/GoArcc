@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"github.com/coreos/go-oidc"
-	"goarcc/modules/authentication/v1/pb"
-	userprofileModel "goarcc/modules/user-profile/v1/models"
-	userProfilePb "goarcc/modules/user-profile/v1/pb"
-	"goarcc/protos/types"
+	"github.com/deqode/GoArcc/modules/authentication/v1/pb"
+	userprofileModel "github.com/deqode/GoArcc/modules/user-profile/v1/models"
+	userProfilePb "github.com/deqode/GoArcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/protos/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -96,8 +96,6 @@ func (s *authenticationServer) CreateUserAndAccount(ctx context.Context, profile
 			ProfilePicURL: fmt.Sprintf("%s", profile["picture"]),
 			Source:        types.VCSProviders_GITHUB,
 		}
-		// TODO - Source must be dynamic
-
 		userProfileModel := userprofileModel.UserProfile{
 			ID:            usr.ID,
 			Name:          usr.Name,

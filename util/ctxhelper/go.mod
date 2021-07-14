@@ -1,4 +1,4 @@
-module goarcc/util/ctxhelper
+module github.com/deqode/GoArcc/util/ctxhelper
 
 go 1.16
 

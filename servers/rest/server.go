@@ -2,11 +2,11 @@ package rest
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/logger"
+	"github.com/deqode/GoArcc/servers/rest/middleware"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/fx"
-	"goarcc/config"
-	"goarcc/logger"
-	"goarcc/servers/rest/middleware"
 	"google.golang.org/grpc"
 	"net/http"
 	"time"

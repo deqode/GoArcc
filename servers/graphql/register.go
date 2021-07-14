@@ -1,10 +1,10 @@
 package graphql
 
 import (
+	"github.com/deqode/GoArcc/logger"
+	userProfilePb "github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"github.com/ysugimoto/grpc-graphql-gateway/runtime"
 	"go.uber.org/zap"
-	"goarcc/logger"
-	userProfilePb "goarcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 )
 

@@ -2,11 +2,11 @@ package rest
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/logger"
+	authPb "github.com/deqode/GoArcc/modules/authentication/v1/pb"
+	userProfilePb "github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"go.uber.org/zap"
-	"goarcc/logger"
-	authPb "goarcc/modules/authentication/v1/pb"
-	userProfilePb "goarcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 )
 

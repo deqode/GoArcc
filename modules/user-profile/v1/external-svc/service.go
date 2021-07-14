@@ -1,9 +1,9 @@
 package external_svc
 
 import (
-	"goarcc/config"
-	model "goarcc/modules/user-profile/v1/models"
-	"goarcc/modules/user-profile/v1/pb"
+	"github.com/deqode/GoArcc/config"
+	model "github.com/deqode/GoArcc/modules/user-profile/v1/models"
+	"github.com/deqode/GoArcc/modules/user-profile/v1/pb"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,6 @@ type userProfilesServer struct {
 	grpcClient *grpc.ClientConn
 }
 
-// NewUserProfilesServer todo : AlWays add migration code for best practices
 func NewUserProfilesServer(
 	db *gorm.DB,
 	config *config.Config,

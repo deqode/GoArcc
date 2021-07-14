@@ -2,9 +2,9 @@ package external_svc_test
 
 import (
 	"context"
+	"github.com/deqode/GoArcc/modules/authentication/v1/pb"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"goarcc/modules/authentication/v1/pb"
 )
 
 var _ = Describe("Login", func() {

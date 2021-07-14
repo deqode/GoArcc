@@ -2,8 +2,8 @@ package prometheusServer
 
 /*
 import (
-	"goarcc/config"
-	"goarcc/util/logger"
+	"github.com/deqode/GoArcc/config"
+	"github.com/deqode/GoArcc/util/logger"
 	"context"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/prometheus/client_golang/prometheus"

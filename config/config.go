@@ -1,9 +1,9 @@
 package config
 
 import (
+	"github.com/deqode/GoArcc/logger"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
-	"goarcc/logger"
 	"os"
 	"strings"
 )
@@ -158,7 +158,6 @@ func GetConfigName() string {
 	if fileName != "" {
 		return fileName
 	}
-	// TODO: Remove default
 	return "config"
 }
 
@@ -168,9 +167,7 @@ func GetConfigDirectory() string {
 		return filePath
 	}
 
-	// TODO: Remove default
 	return "./../../"
-	//return "./"
 }
 
 // GetConfig : will get the config
@@ -191,12 +188,10 @@ func GetConfig() *Config {
 		panic(parseError)
 	}
 
-	// TODO: Remove this logic from here
 	cfg.SupportedVcsConfig = supportedVcsConfig()
 	return cfg
 }
 
-// SupportedVcsConfig todo
 // SupportedVcsConfig add supported type from here.
 func supportedVcsConfig() []string {
 	return []string{"github"}

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/deqode/GoArcc/logger"
 	"go.uber.org/zap"
-	"goarcc/logger"
 )
 
 //todo : Alarm !!!!!! Do not touch the invocation sequence, either you might go through sleepless nights

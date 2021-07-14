@@ -1,4 +1,4 @@
-module goarcc/util
+module github.com/deqode/GoArcc/util
 
 go 1.16
 

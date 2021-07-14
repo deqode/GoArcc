@@ -7,7 +7,6 @@ import (
 )
 
 func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Empty, error) {
-	//TODO - Implement Token based logout
 	domain := s.config.Auth.Auth0Domain
 
 	logoutURL, err := url.Parse("http://" + domain)
@@ -23,7 +22,6 @@ func (s *authenticationServer) Logout(context.Context, *empty.Empty) (*empty.Emp
 	var scheme string
 	scheme = "http"
 
-	// TODO: Remove this hardcoded URL
 	returnTo, err := url.Parse(scheme + "://" + "http://localhost:8082")
 	if err != nil {
 		//http.Error(w, err.Error(), http.StatusInternalServerError)

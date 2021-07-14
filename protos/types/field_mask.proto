@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package goarcc.types;
 
-option go_package = "goarcc/protos/types";
+option go_package = "github.com/deqode/GoArcc/protos/types";
 
 message FieldMask {
     repeated string field_mask = 1;
