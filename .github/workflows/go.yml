@@ -1,18 +1,29 @@
-name: CI
+name: Go
 
 on:
   push:
-    branches:
-      - main
-      - boilerplate
+    branches: [ main ]
 
 jobs:
-  test:
+
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Building docker
-        run: docker-compose build
-      - name: Start Docker Container
-        shell: bash
-        run: docker-compose run --rm code-analyser bash runTestCases.sh
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Get
+        run: go get
+
+      - name: Build
+        run: make build
+
+      - name: Test
+        run: make test
+
+      - name: Fmt
+        run: cd backend && go fmt ./...
