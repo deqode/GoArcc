@@ -1,0 +1,56 @@
+grpc:
+  port: 8000
+  host: localhost
+  request_timeout: 20
+
+graphql:
+  port: 8081
+  host: localhost
+  request_Timeout: 20
+
+rest:
+  port: 8082
+  host: localhost
+  request_timeout: 20
+
+health_check:
+  port: 8083
+  host: 0.0.0.0
+
+cadence_config:
+  domain: simple-domain
+  port: 7933
+  host: localhost
+  service: cadence-frontend
+
+promthesius:
+  port: 8084
+  host: localhost
+
+logger:
+  log_level: -1
+
+postgres:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: root
+  db_name: alfred
+  ssl_mode: true
+  pg_driver: pgx
+
+metrics:
+  url: 0.0.0.0:7070
+  service_name: AlfredMetrics
+
+jaeger:
+  host: localhost
+  port: 6831
+  service_name: AlfredTracing
+  log_spans: false
+
+auth:
+  auth0_client_id: BFnfdaibKSdqkSAOksr3XuUNJuCW9zbZ
+  auth0_domain: alfred-sh.us.auth0.com
+  auth0_client_secret: e6JJn1cKSEHk8p1FuoBdDbhmWWINevDitFBsWMTkZi8BbL8AVTQlLfgkwSCyyqJX
+  auth0_call_back_url: http://localhost:3000/authentication/callback
