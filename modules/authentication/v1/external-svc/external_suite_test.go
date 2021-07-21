@@ -34,7 +34,7 @@ func TestAuthenticationExt(t *testing.T) {
 // Before Suite Run only once
 var _ = BeforeSuite(func() {
 	//getting config
-	cfgFile, err := config.LoadConfig("config", "./../../../../")
+	cfgFile, err := config.LoadConfig("config", config.GetConfigDirectory())
 	if err != nil {
 		log.Fatal(err)
 	}

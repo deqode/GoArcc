@@ -19,6 +19,7 @@ require (
 	github.com/graphql-go/graphql v0.7.9
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.2.0
+	github.com/kyoh86/richgo v0.3.9 // indirect
 	github.com/labstack/echo/v4 v4.4.0
 	github.com/mattn/go-isatty v0.0.13 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
