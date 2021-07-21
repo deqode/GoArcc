@@ -30,16 +30,16 @@ jobs:
       #        continue-on-error: true
 
       - name: go mod download
-        run:  docker-compose run GoArcc go mod download
+        run:  docker-compose run backend_api go mod download
 
       - name: Lint
-        run: docker-compose run GoArcc make run-linter
+        run: docker-compose run backend_api make run-linter
 
       - name: Test In Docker
-        run: docker-compose run GoArcc make test
+        run: docker-compose run backend_api make test
 
 
       - name: build
-        run: docker-compose run GoArcc make build
+        run: docker-compose run backend_api make build
 
       - run: docker-compose down

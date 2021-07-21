@@ -5,6 +5,9 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"os"
+	"path"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -166,8 +169,12 @@ func GetConfigDirectory() string {
 	if filePath != "" {
 		return filePath
 	}
-
-	return "./../../"
+	return RootDir()
+}
+func RootDir() string {
+	_, b, _, _ := runtime.Caller(0)
+	d := path.Join(path.Dir(b))
+	return filepath.Dir(d)
 }
 
 // GetConfig : will get the config
