@@ -1,29 +1,45 @@
-name: Go
+name: Backend GO CI
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-
   build:
+    name: Test Code
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
-      - name: Set up Go
+    steps:
+      - name: Install Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.15
+          go-version: 1.16.x
+      - uses: actions/checkout@v2
 
-      - name: Get
-        run: go get
+      - uses: actions/cache@v2
+        with:
+          path: /tmp/docker_cache/go_mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}-
+          restore-keys: |
+            ${{ runner.os }}-go-
+      #      # In this step, this action saves a list of existing images,
+      #      # the cache is created without them in the post run.
+      #      # It also restores the cache if it exists.
+      #      - uses: satackey/action-docker-layer-caching@v0.0.11
+      #        # Ignore the failure of a step and avoid terminating the job.
+      #        continue-on-error: true
 
-      - name: Build
-        run: make build
+      - name: go mod download
+        run:  docker-compose run GoArcc go mod download
 
-      - name: Test
-        run: make test
+      - name: Lint
+        run: docker-compose run GoArcc make run-linter
 
-      - name: Fmt
-        run: cd backend && go fmt ./...
+      - name: Test In Docker
+        run: docker-compose run GoArcc make test
+
+
+      - name: build
+        run: docker-compose run GoArcc make build
+
+      - run: docker-compose down

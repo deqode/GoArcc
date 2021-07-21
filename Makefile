@@ -48,4 +48,4 @@ test: get-richgo
 	go tool cover -html=./cover/coverage.out
 
 build:
-	go build -o bin -buildmode pie ./cmd/api
+	go build -o GoArcc -buildmode pie ./cmd/api
