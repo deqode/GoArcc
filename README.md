@@ -13,7 +13,7 @@
 ## Description
 When you start writing a Go project, GoArcc helps to set up all the initial code boilerplate for your project. Initial boilerplate code means how you should organize your codebase and how you can write multiple services. We have support for REST, Graphql as well as gRPC.
 
-We have implemented logging, tracing, health check, Jaeger, etc so that any developer will come and write services within a minute.
+It supports logging, tracing, health check, Jaeger, etc so that any developer will come and write services within a minute.
 
 In short, GoArcc is a boilerplate setup codebase for any monolithic(Architecture) based web/mobile applications which later converted into microservices(Architecture).
 
