@@ -18,7 +18,7 @@ GoArcc provides all the basic functionality before building any embedded service
     
 # Creating a Service
 A service schema will be defined inside a proto file. you can learn how to define a proto [here](https://developers.google.com/protocol-buffers/docs/gotutorial).<br/>
-Also read about proto defining guideline of GoArcc [here](https://)
+Also read about proto defining guideline of GoArcc [here](https://docs.google.com/document/d/1AKSrMFlNgyQ0qFByxElmvyxPLsWLQTxtoBlQQSp0IJU/edit?usp=sharing)
 
 For Example you creating a service which will perform user related crud operation like creating, updating or deleting a User.<br/>
 lets create a file `user.proto`. See the [sample proto](https://github.com/deqode/GoArcc/blob/main/modules/user-profile/v1/pb/user_profile.proto) file.<br/>

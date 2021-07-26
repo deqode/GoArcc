@@ -1,1 +1,2 @@
 # How  can I remove Rest Support from GoArcc?
+GoArcc already support REST over grpc. It's upto you, you want to register your service as rest or grpc or graphql or you don't want to register, just use for internal use case.

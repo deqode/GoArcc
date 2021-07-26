@@ -27,13 +27,13 @@ Below plugins also required to generate code from proto file. see the usages.<br
 - [grpc-graphql-gateway](https://github.com/ysugimoto/grpc-graphql-gateway)
 
 # Running the GoArcc
- Run from docker-compose
-```
-docker-compose up
-```
-OR<br/>
+build the project using ``make build``<br/>
 
-build the project using ``make build`` and run the binary ``./bin/goarcc``
+run the binary ``./bin/goarcc``
+
+OR
+
+Run from docker-compose ``docker-compose up``
 
 # Hosts
 GoArcc running servers hosts on different-2 ports.
