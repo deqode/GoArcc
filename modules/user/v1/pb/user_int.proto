@@ -1,0 +1,19 @@
+syntax = "proto3";
+package  goarcc.user.v1;
+
+option go_package = "/pb";
+
+import "google/api/annotation.proto";
+import "include/graphql.proto";
+import "validate/validate.proto";
+import "user.proto";
+
+service userInternal{
+    //CreateUser creates a user
+    // it will only be invoked by internal call.
+    rpc CreateUser(CreateUserRequest) returns (goarcc.user.v1.User);
+}
+
+message CreateUserRequest{
+    goarcc.user.v1.User user = 1;
+}

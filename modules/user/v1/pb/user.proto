@@ -1,0 +1,71 @@
+syntax = "proto3";
+package  goarcc.user.v1;
+
+option go_package = "/pb";
+
+import "google/api/annotation.proto";
+import "google/protobuf/empty.proto";
+import "include/graphql.proto";
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
+service users{
+    // GetUserProfile return a profile of a user
+    rpc GetUser(GetUserRequest) returns (User){
+        option (google.api.http) = {
+            get: "/v1/user/{id}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "user"
+        };
+    }
+
+    // UpdateUser will update existing user
+    rpc UpdateUser(UpdateUserRequest) returns (User){
+        option (google.api.http) = {
+            put: "/v1/user/{user.id}"
+        };
+        option (graphql.schema) = {
+            type: QUERY
+            name: "updateUser"
+        };
+    }
+
+    // DeleteUser delete the user
+    rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty){
+        option(google.api.http) = {
+            delete: "/v1/user/{id}"
+        };
+        option(graphql.schema) = {
+            type: MUTATION
+            name: "deleteUser"
+        };
+    }
+}
+
+message User {
+    string id = 1;
+    string user_name = 2;
+    string first_name = 3 [(validate.rules).string={min_len: 1 max_len: 100}];
+    string last_name = 4 [(validate.rules).string={min_len: 1 max_len: 100}];
+    string email = 5 [(validate.rules).string.min_len = 0, (validate.rules).string.email= true];
+    string phone_number = 6 ;
+    string profile_pic_url = 7 ;
+    google.protobuf.Timestamp created_on = 8;
+    google.protobuf.Timestamp updated_on = 9;
+}
+
+message GetUserRequest{
+    string id = 1;
+}
+
+message UpdateUserRequest{
+    User user = 1;
+    // we can also use google field_mask but, till now its not supported by graphql-grpc plugin
+    repeated string update_mask = 2;
+}
+
+message DeleteUserRequest{
+   string id = 1;
+}
