@@ -5,18 +5,17 @@ sidebar_position: 3
 
 
 
-Before you start writing your services you need to understand how GoArcc works
-and what is the definition of its directory. 
-Let's get deep dive into the definition and codebase.
+Before you start writing your services, you need to understand how GoArcc works and the definition of its directory.
+
+Let's dive deep into the definition and codebase.
 
 # <u>Directory Structure</u>
 
 
 
-We have followed a standard go directory structure for our codebase so that developers will easily get friendly with it.
-we have multiple directories inside GoArcc. we have used multiples of libraries, we will go through each one by one.
+We follow a standard Go directory structure for our codebase so that the developers can easily adapt it. There are multiple directories and multiple libraries inside GoArcc. We will go through each one by one.
+The diagram below shows multiple directories such as **cmd**, **client**, **logger**, **protoc**, etc.
 
-In below diagram we have multiple of directories such as **cmd** , **client** , **logger** , **protos** **etc**.
 
 <!-- <img src="/img/folderDefinition/goArcc.jpg" alt="GoArcc Directory Structure" width="20%"/> -->
 
@@ -24,18 +23,9 @@ In below diagram we have multiple of directories such as **cmd** , **client** , 
 
 ## <u>Config</u>
 
-
-
-When we start the GoArcc application we need some information so that our application will start smoothly. 
-As we have said earlier, we are supporting gRPC , rest, graphql . So we need a different port
-for all the servers and different settings to start the application.
-
-We have config.yaml file in the root directory. 
-You can change any information from the file like id, password of database, etc according to your use case.
-
-see the below example of config.yaml file.
-
-
+For the GoArcc application to start smoothly, we need some information. As mentioned earlier, we support gRPC, REST, GraphQL. So, we need a different port for all the servers and different settings to start the application.
+We have a config.yaml file in the root directory. You can change any information from the file like id, password of database, etc according to your use case.
+See the below example of the config.yaml file.
 
 ```yaml
 
@@ -56,11 +46,10 @@ rest:
 
 ```
 
-### <u>How you can add custom config?</u>
+### <u>How can you add a custom config?</u>
 
 
-If you want to add some extra configs then you need to make a struct and place inside the main struct.
-
+To add some extra configs, you need to make a struct and place it inside the main struct.
 
 ```go
 
@@ -100,13 +89,10 @@ GRPC_PORT = 8085
 
 ## <u>Db</u>
 
+Inside the connection.go file we have a method called NewConnection(). NewConnection is responsible for opening the database connection.
+Db instance is bound with the fx provider, so we don't need to call this method.
+See the code below.
 
-
-Inside connection.go file we have a method called NewConnection().
-NewConnection is responsible for open the database connection. 
-Db instance is bind with the fx provider so we don't need to call this method.
-
-See the below code.
 
 ```go
 
@@ -151,17 +137,13 @@ We have used GORM as an ORM. If you want to explore GORM then once go through th
 
 
 
-As we know logging is an essential part of the application. 
-Logging helps in troubleshooting the application and you can also see the performance of your infrastructure.
-Logging provides more visibility to your application at the components level. 
-Logs contain important information so that anyone can debug or find the fault if exist.
-
-We have implemented log in the whole application so that developers will no need to worry about logging.
-
-In golang, we have multiple logging libraries. So the team has decided to use a zap logger.
+As we know, logging is an essential part of the application. It helps in troubleshooting the application and, you can also see the performance of your infrastructure. It provides more visibility to the application at the components level. Logs contain important information so that anyone can debug or find the fault if it exists.
+We have implemented log in the whole application so that developers don't have to worry about logging.
+In Golang, we have multiple logging libraries. Here, we will use a zap logger.
 
 
-### <u>Why we have used zap logger? </u>
+
+### <u>Why have we used zap logger? </u>
 
 Just see the comparison below 😀
 
@@ -180,12 +162,9 @@ Log a message and 10 fields:
 
 
 
-In main method there is a method called logger.Init().
-This method will create a global logger for your application and takes log level from config.yaml
-file.
+In the main method, there is a method called logger.Init(). This method will create a global logger for your application and takes log level from config.yaml file.
 
-Apart from that if we need to overide the log level we just set an env variable or you can also change in the 
-config.yaml file.
+Apart from this, if we need to override the log level, we just set an env variable, or you can change the config.yaml file.
 
 ### <u>Zap log level reference </u>
 
@@ -230,14 +209,8 @@ You can also see the different log level of zap
 
 
 
-As we know in golang we have a convention of cmd folder 
-and it has its own significance.
-If you want to read about the go project layout then go through 
-this doc once (https://github.com/golang-standards/project-layout).
-
-lets come to the our code base.
-when we go inside the cmd folder we see there are multiples of files(paste github link here).
- 
+As we know, in Golang, we have a convention of cmd folders, and it has its significance. Go through this doc to read about the Go project layout (https://github.com/golang-standards/project-layout).
+Let’s see our codebase. When we go inside the cmd folder, we see there are multiple files (paste GitHub link here).
  - **main.go**
  - **invokers.go**
  - **providers.go**
@@ -275,9 +248,7 @@ func main() {
 
 
 
-As we know main.go is the entry point for any go application.
-Here logger.Init() will take the config object as a parameter and initialize the whole application with debug level.
-This means in the standard output you will able to see the debug levels of the log only.
+As we know, the main.go is the entry point for any go application. Here logger.Init() will take the config object as a parameter and initialize the whole application with debug level. This means that you will be able to see the debug levels of the log only in the standard output.
 
 
 
@@ -319,14 +290,9 @@ func GetInvokersOptions() fx.Option {
 
 
 
-Let's understand the above code. Here We have a method GetInvokersOptions(). 
-This function is responsible to start multiple servers.
-we have gRPC , rest, graphql server. Apart from that we also have a health check server.
-cleanup code will be executed when we stop our application. 
-Generally, In cleanup code, we gracefully shutdown everything and clears the cache
-if any present.
-
-
+Let's understand the above code.
+Here, we have a method GetInvokersOptions(). This function is responsible for starting multiple servers. We have gRPC, REST, and Graphql servers. Apart from that, we also have a health check server.
+Cleanup code will be executed when we stop our application. Generally, in cleanup code, we gracefully shut down everything and clear the cache, if any.
 
 :::danger Alarm
 
@@ -367,11 +333,8 @@ func GetProviderOptions() []fx.Option {
 
 
 
-Let's understand the above code. Here We have a method GetProvidersOptions(). 
-This function load all the dependency which will need to start the application.
-There are multiples of server and each server have some sort of dependency or need some predefined object
-at runtime.
-
+Let's understand the above code.
+Here We have a method GetProvidersOptions(). This function loads all the dependencies which we will need to start the application. There are multiple servers and each server has some dependency or needs some predefined object at runtime.
 
 
 ### <u>app.go</u>
@@ -393,8 +356,7 @@ func GetApp() *fx.App {
 
 ```
 
-Here GetApp() method will resolve  all the dependency and bind the whole application as an object. 
-So , In main file you can easily start the application.
+Here the GetApp() method will resolve all the dependencies and bind the whole application as an object. So, you can easily start the application in the main file.
 
 
 
@@ -407,15 +369,14 @@ So , In main file you can easily start the application.
 
 ![GoArcc Servers Structure](/img/folderDefinition/Servers.jpg)
 
-Servers are the core part of this project. you can see in the above that we have supported multiples of servers.
-lets go into the deep dive of the code base so you can understand easily and change accordingly.
+Servers are the core part of this project. As we mentioned, we support multiple servers. Let's dive deep into the codebase.
 
 ### GRPC
-GoArcc built upon client server architecture. So GRPC is core server for GoArcc, every request is handled by grpc server and middlewares.
+GoArcc is built upon client-server architecture. So, GRPC is the core server for GoArcc. Every request is handled by the GRPC server and middlewares.
 #### GRPC Middleware
-You just have to setup your middleware into gRPC and it will work for rest and graphQL as well. Auth middleware already implemented here.
+You have to set up your middleware into gRPC, and it will work for both REST and GraphQL. Auth middleware is already implemented here.
 #### how to register your service client?
-you can register your service as grpc at `servers/grpc/register.go`
+you can register your service as gRPC at `servers/grpc/register.go`
 ```go
 
 func RegisterGrpcModules(srv *grpc.Server,
@@ -431,7 +392,7 @@ func RegisterGrpcModules(srv *grpc.Server,
 ```
 
 ### REST
-REST API's over grpc is achieved by [gRPC-gateway](https://github.com/grpc-ecosystem/grpc-gateway). it basically translates a RESTful HTTP API into gRPC.
+REST APIs over gRPC are achieved by [gRPC-gateway](https://github.com/grpc-ecosystem/grpc-gateway). It translates a RESTful HTTP API into gRPC.
 #### how to register your service as REST?
 you can register your service as rest at `servers/rest/register.go`
 ```go
@@ -447,7 +408,7 @@ func RegisterRESTModules(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 ```
 
 ### GraphQL
-We are using [grpc-graphql-gateway](https://github.com/ysugimoto/grpc-graphql-gateway), this plugin basically generate GraphQL Schema from Protocol Buffers.
+We are using [grpc-graphql-gateway](https://github.com/ysugimoto/grpc-graphql-gateway), this plugin generates GraphQL Schema from Protocol Buffers.
 #### how to register your service as graphQL?
 you can register your service as rest at `servers/graphql/register.go`
 ```go
@@ -464,16 +425,15 @@ func RegisterGraphqlModules(mux *runtime.ServeMux, conn *grpc.ClientConn) error 
 
 
 ### HealthCheck
-Any client will be able to check the health of our product. Health Information gives a brief idea to any user that the service of your project is currently down.
-HealthCheck is running on `http://localhost:8083/health/`
+Any client will be able to check the health of our product. Health information provides a brief idea to the user if the service of their project is down.
+HealthCheck runs on `http://localhost:8083/health/`
 
 ### Jaeger
-Jaeger is open source software for tracing transactions between distributed services. It’s used for monitoring and troubleshooting complex microservices environments.
-Open `http://loaclhost:16686`.
-Now you will be able to trace each request easily. [learn more](https://e)
+Jaeger is open-source software for tracing transactions between distributed services. It’s used for monitoring and troubleshooting complex microservices environments.
+Open http://loaclhost:16686 to trace each request easily.
 
 ### Prometheus
-Prometheus is an open-source systems monitoring and alerting.
+Prometheus is an open-source system for monitoring and alerting.
 Open `http://localhost:9090`.
 
 

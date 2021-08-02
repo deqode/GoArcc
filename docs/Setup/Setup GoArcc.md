@@ -4,8 +4,7 @@ sidebar_position: 1
 
 # GoArcc - Download
 
-
-To download GoArcc locally, One can simple clone the repo.
+To download GoArcc locally, you need to clone the repo.
 ```
 git clone https://github.com/deqode/GoArcc.git
 ```
@@ -15,12 +14,12 @@ go get github.com/deqode/GoArcc
 ```
 
 # Requirements
-GoArcc Dependent on several tools and libraries- 
+GoArcc depends on several tools and libraries-
 - Go 1.16
 - [Docker](https://docs.docker.com/install/) 19.03+
 - [Docker Compose](https://docs.docker.com/compose/install/) 1.25+
 
-Below plugins also required to generate code from proto file. see the usages.<br/>
+Below plugins are also required to generate code from a proto file. Check the usages.<br/>
 - [gRPC-gateway](https://github.com/grpc-ecosystem/grpc-gateway)
 - [protoc](https://grpc.io/docs/protoc-installation/)
 - [protoc-gen-validate](https://github.com/envoyproxy/protoc-gen-validate)
@@ -46,4 +45,4 @@ GoArcc running servers hosts on different-2 ports.
 - Graphql Server: `http://localhost:8081`
 - Rest Server: `http://localhost:8082`
 
-Server configuration will be found in `config.yml`
+Server configurations are in config.yml
